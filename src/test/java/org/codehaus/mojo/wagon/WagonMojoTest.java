@@ -1,13 +1,10 @@
 package org.codehaus.mojo.wagon;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
-import org.apache.maven.wagon.repository.Repository;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileWriter;
 import java.net.Socket;
 
 public class WagonMojoTest extends AbstractMojoTestCase {
@@ -45,16 +42,13 @@ public class WagonMojoTest extends AbstractMojoTestCase {
         setVariableValueToObject(mojo, "container", getContainer());
 
         // set up a repository
-        Repository repository = new Repository();
-        repository.setId("test");
-        repository.setUrl(getTestRepositoryUrl());
-        setVariableValueToObject(mojo, "repository", repository);
+        setVariableValueToObject(mojo, "remote", getTestRepositoryUrl());
 
         // set up some tasks
         File localfile = File.createTempFile("temp", "txt");
-        WagonMojo.Task[] tasks = new WagonMojo.Task[]  {
-                new WagonMojo.Task("put", localfile, localfile.getName()),
-                new WagonMojo.Task("get", localfile, localfile.getName())
+        Task[] tasks = new Task[]  {
+                new Task("put", localfile, localfile.getName()),
+                new Task("get", localfile, localfile.getName())
         };
         setVariableValueToObject(mojo, "tasks", tasks);
 

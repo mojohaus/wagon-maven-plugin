@@ -27,11 +27,15 @@ import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.apache.maven.wagon.repository.Repository;
 import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.context.Context;
+import org.codehaus.plexus.context.ContextException;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.List;
+import java.util.Iterator;
 
 /**
    A mojo wrapper for Wagon.  Should autoconfigure in typical Wagon style.  But maybe that doesn't work yet.
@@ -54,11 +58,12 @@ import java.io.IOException;
        </configuration>
    </code>
 
-   @goal touch
-   @phase process-sources
+   @goal run
+   @phase deploy
+   @author Brian Topping <topping atCodehaus.org>
  */
 public class WagonMojo
-        extends AbstractMojo {
+        extends AbstractMojo implements Contextualizable {
 
     private PlexusContainer container;
 
@@ -75,7 +80,7 @@ public class WagonMojo
     /**
      * @parameter
      */
-    private Repository repository;
+    private String remote;
 
     public Wagon getWagon(String protocol)
             throws UnsupportedProtocolException {
@@ -97,8 +102,15 @@ public class WagonMojo
     public void execute()
             throws MojoExecutionException {
 
+        Repository repository = new Repository("local", remote);
+        Wagon wagon = null;
         try {
-            Wagon wagon = getWagon(repository.getProtocol());
+            wagon = getWagon(repository.getProtocol());
+        } catch (UnsupportedProtocolException e) {
+            throw new MojoExecutionException( "Could not load wagon", e );
+        }
+
+        try {
             wagon.connect(repository);
             for (int i = 0; i < tasks.length; i++) {
                 Task task = tasks[i];
@@ -111,56 +123,28 @@ public class WagonMojo
                 }
 
             }
-            wagon.disconnect();
-        } catch (UnsupportedProtocolException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ConnectionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new MojoExecutionException("Couldn't connect to destination", e);
         } catch (AuthenticationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new MojoExecutionException("Bad authentication", e);
         } catch (TransferFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            if (e.getMessage().split(":")[1].trim().charAt(0) != '2') {
+                throw new MojoExecutionException("Transfer Failure", e);
+            }
         } catch (ResourceDoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new MojoExecutionException("Resource does not exist", e);
         } catch (AuthorizationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new MojoExecutionException("Bad authorization", e);
+        } finally {
+            try {
+                wagon.disconnect();
+            } catch (ConnectionException e) {
+                // ignore
+            }
         }
     }
 
-    public static class Task {
-        private String command;
-        private File localfile;
-        private String remotepath;
-
-
-        public Task(String command, File localfile, String remotepath) {
-            this.command = command;
-            this.localfile = localfile;
-            this.remotepath = remotepath;
-        }
-
-        public String getCommand() {
-            return command;
-        }
-
-        public void setCommand(String command) {
-            this.command = command;
-        }
-
-        public File getLocalfile() {
-            return localfile;
-        }
-
-        public void setLocalfile(File localfile) {
-            this.localfile = localfile;
-        }
-
-        public String getRemotepath() {
-            return remotepath;
-        }
-
-        public void setRemotepath(String remotepath) {
-            this.remotepath = remotepath;
-        }
+    public void contextualize(Context context) throws ContextException {
+        container = (PlexusContainer)context.get("plexus");
     }
 }
