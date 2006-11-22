@@ -27,15 +27,10 @@ import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.apache.maven.wagon.repository.Repository;
 import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-
-import java.util.List;
-import java.util.Iterator;
 
 /**
    A mojo wrapper for Wagon.  Should autoconfigure in typical Wagon style.  But maybe that doesn't work yet.
@@ -103,38 +98,25 @@ public class WagonMojo
             throws MojoExecutionException {
 
         Repository repository = new Repository("local", remote);
-        Wagon wagon = null;
+        Wagon wagon;
         try {
             wagon = getWagon(repository.getProtocol());
         } catch (UnsupportedProtocolException e) {
-            throw new MojoExecutionException( "Could not load wagon", e );
+            throw new MojoExecutionException("Could not load wagon", e);
         }
 
         try {
             wagon.connect(repository);
-            for (int i = 0; i < tasks.length; i++) {
-                Task task = tasks[i];
-                if (task.getCommand().equals("get")) {
-                    wagon.get(task.getRemotepath(), task.getLocalfile());
-                } else if (task.getCommand().equals("put")) {
-                    wagon.put(task.getLocalfile(), task.getRemotepath());
-                } else {
-                    throw new MojoExecutionException("Command is unsupported: " + task.getCommand());
-                }
-
-            }
         } catch (ConnectionException e) {
             throw new MojoExecutionException("Couldn't connect to destination", e);
         } catch (AuthenticationException e) {
             throw new MojoExecutionException("Bad authentication", e);
-        } catch (TransferFailedException e) {
-            if (e.getMessage().split(":")[1].trim().charAt(0) != '2') {
-                throw new MojoExecutionException("Transfer Failure", e);
-            }
-        } catch (ResourceDoesNotExistException e) {
-            throw new MojoExecutionException("Resource does not exist", e);
-        } catch (AuthorizationException e) {
-            throw new MojoExecutionException("Bad authorization", e);
+        }
+
+        try {
+            doWagon(wagon);
+        } catch (MojoExecutionException e) {
+            throw e;
         } finally {
             try {
                 wagon.disconnect();
@@ -144,7 +126,31 @@ public class WagonMojo
         }
     }
 
+    private void doWagon(Wagon wagon) throws MojoExecutionException {
+        for (int i = 0; i < tasks.length; i++) {
+            Task task = tasks[i];
+            try {
+                if (task.getCommand().equals("get")) {
+                    wagon.get(task.getRemotepath(), task.getLocalfile());
+                } else if (task.getCommand().equals("put")) {
+                    wagon.put(task.getLocalfile(), task.getRemotepath());
+                } else {
+                    throw new MojoExecutionException("Command is unsupported: " + task.getCommand());
+                }
+
+            } catch (TransferFailedException e) {
+                if (e.getMessage().split(":")[1].trim().charAt(0) != '2') {
+                    throw new MojoExecutionException("Transfer Failure", e);
+                }
+            } catch (ResourceDoesNotExistException e) {
+                throw new MojoExecutionException("Resource does not exist", e);
+            } catch (AuthorizationException e) {
+                throw new MojoExecutionException("Bad authorization", e);
+            }
+        }
+    }
+
     public void contextualize(Context context) throws ContextException {
-        container = (PlexusContainer)context.get("plexus");
+        container = (PlexusContainer) context.get("plexus");
     }
 }
