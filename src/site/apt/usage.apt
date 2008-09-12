@@ -1,0 +1,95 @@
+ ------
+ Usage
+ ------
+ Sherali Karimov, James Dumay
+ ------
+ April 4th, 2008
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/guides/mini/guide-apt-format.html
+
+Introduction
+
+  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a maven wagon. 
+  It allows you to upload resources from your build to a remote location using   wagon.
+  It allows you to download resources from a repository using wagon.
+  It allows to list a content of a repository using wagon.
+
+* Configuration Example for upload. 
+
++-----
+<project>
+    [...]
+    <build>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>maven-wagon-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <executions>
+                <execution>
+                    <id>upload-javadoc</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>upload</goal>
+                    </goals>
+                    <configuration>
+                        <resourceSrc>target/site/apidocs/*</resourceSrc>
+                        <resourceDest>${pom.artifactId}/${pom.version}</resourceDest>
+                        <serverId>atlassian-documentation</serverId>
+                        <url>dav:https://docs.atlassian.com/</url>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </build>
+    [...]
+</project>
++-----
+
+* Configuration Example for download. 
+
++-----
+<project>
+    [...]
+    <build>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>maven-wagon-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <executions>
+                <execution>
+                    <id>download-test-data</id>
+                    <phase>pre-integration-test</phase>
+                    <goals>
+                        <goal>download</goal>
+                    </goals>
+                    <configuration>
+                        <resourceSrc>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}/*</resourceSrc>
+                        <resourceDest>target/test-data/</resourceDest>
+                        <serverId>atlassian-public</serverId>
+                        <url>dav:https://maven.atlassian.com/public/</url>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </build>
+    [...]
+</project>
++-----
