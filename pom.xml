@@ -89,6 +89,10 @@
     </dependency>
   </dependencies>
   
+  <build>
+    <defaultGoal>install</defaultGoal>
+  </build>
+  
   <profiles>
     <profile>
       <id>run-its</id>
