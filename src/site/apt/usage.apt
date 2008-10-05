@@ -36,30 +36,30 @@ Introduction
 
 +-----
 <project>
-    [...]
-    <build>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>maven-wagon-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <executions>
-                <execution>
-                    <id>upload-javadoc</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>upload</goal>
-                    </goals>
-                    <configuration>
-                        <resourceSrc>target/site/apidocs/*</resourceSrc>
-                        <resourceDest>${pom.artifactId}/${pom.version}</resourceDest>
-                        <serverId>atlassian-documentation</serverId>
-                        <url>dav:https://docs.atlassian.com/</url>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </build>
-    [...]
+  [...]
+  <build>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>maven-wagon-plugin</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <executions>
+        <execution>
+          <id>upload-javadoc</id>
+          <phase>deploy</phase>
+          <goals>
+            <goal>upload</goal>
+          </goals>
+          <configuration>
+            <resourceSrc>target/site/apidocs/*</resourceSrc>
+            <resourceDest>${pom.artifactId}/${pom.version}</resourceDest>
+            <serverId>atlassian-documentation</serverId>
+            <url>dav:https://docs.atlassian.com/</url>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </build>
+  [...]
 </project>
 +-----
 
@@ -67,29 +67,29 @@ Introduction
 
 +-----
 <project>
-    [...]
-    <build>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>maven-wagon-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <executions>
-                <execution>
-                    <id>download-test-data</id>
-                    <phase>pre-integration-test</phase>
-                    <goals>
-                        <goal>download</goal>
-                    </goals>
-                    <configuration>
-                        <resourceSrc>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}/*</resourceSrc>
-                        <resourceDest>target/test-data/</resourceDest>
-                        <serverId>atlassian-public</serverId>
-                        <url>dav:https://maven.atlassian.com/public/</url>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </build>
-    [...]
+  [...]
+  <build>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>maven-wagon-plugin</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <executions>
+        <execution>
+          <id>download-test-data</id>
+          <phase>pre-integration-test</phase>
+          <goals>
+            <goal>download</goal>
+          </goals>
+          <configuration>
+            <resourceSrc>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}/*</resourceSrc>
+            <resourceDest>target/test-data/</resourceDest>
+            <serverId>atlassian-public</serverId>
+            <url>dav:https://maven.atlassian.com/public/</url>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </build>
+  [...]
 </project>
 +-----
