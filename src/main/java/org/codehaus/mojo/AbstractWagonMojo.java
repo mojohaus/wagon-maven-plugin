@@ -1,22 +1,18 @@
 package org.codehaus.mojo;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import org.apache.maven.artifact.manager.WagonConfigurationException;
@@ -33,13 +29,13 @@ import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
 
-
 /**
  * Provides base functionality for dealing with I/O using wagon.
  *  
  * @author Sherali Karimov
  */
-public abstract class AbstractWagonMojo extends AbstractMojo
+public abstract class AbstractWagonMojo
+    extends AbstractMojo
 {
     /**
      * Resource(s) to be uploaded or downloaded or listed. Can be a file or directory. Also supports
@@ -110,41 +106,42 @@ public abstract class AbstractWagonMojo extends AbstractMojo
      */
     private boolean isCaseSensitive;
 
-    public void execute() throws MojoExecutionException
+    public void execute()
+        throws MojoExecutionException
     {
-        final ResourceDescriptor descr = new ResourceDescriptor(resourceSrc, isCaseSensitive);
-        if (url == null)
+        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
+        if ( url == null )
         {
-            throw new MojoExecutionException("The URL is missing.");
+            throw new MojoExecutionException( "The URL is missing." );
         }
 
-        final Repository repository = new Repository(serverId, url);
+        final Repository repository = new Repository( serverId, url );
         Debug debug = new Debug();
 
         try
         {
-            final Wagon wagon = wagonManager.getWagon(repository);
+            final Wagon wagon = wagonManager.getWagon( repository );
 
             try
             {
-                wagon.addSessionListener(debug);
-                wagon.addTransferListener(debug);
+                wagon.addSessionListener( debug );
+                wagon.addTransferListener( debug );
 
-                ProxyInfo proxyInfo = getProxyInfo(settings);
-                if (proxyInfo != null)
+                ProxyInfo proxyInfo = getProxyInfo( settings );
+                if ( proxyInfo != null )
                 {
-                    wagon.connect(repository, wagonManager.getAuthenticationInfo(repository.getId()), proxyInfo);
+                    wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ), proxyInfo );
                 }
                 else
                 {
-                    wagon.connect(repository, wagonManager.getAuthenticationInfo(repository.getId()));
+                    wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ) );
                 }
-                
-                execute(wagon, descr);
+
+                execute( wagon, descr );
             }
-            catch (WagonException e)
+            catch ( WagonException e )
             {
-                throw new MojoExecutionException("Error handling resource", e);
+                throw new MojoExecutionException( "Error handling resource", e );
             }
             finally
             {
@@ -152,19 +149,19 @@ public abstract class AbstractWagonMojo extends AbstractMojo
                 {
                     wagon.disconnect();
                 }
-                catch (ConnectionException e)
+                catch ( ConnectionException e )
                 {
-                    getLog().debug("Error disconnecting wagon - ignored", e);
+                    getLog().debug( "Error disconnecting wagon - ignored", e );
                 }
             }
         }
-        catch (UnsupportedProtocolException e)
+        catch ( UnsupportedProtocolException e )
         {
-            throw new MojoExecutionException("Unsupported protocol: '" + repository.getProtocol() + "'", e);
+            throw new MojoExecutionException( "Unsupported protocol: '" + repository.getProtocol() + "'", e );
         }
-        catch (WagonConfigurationException e)
+        catch ( WagonConfigurationException e )
         {
-            throw new MojoExecutionException("Unable to configure Wagon: '" + repository.getProtocol() + "'", e);
+            throw new MojoExecutionException( "Unable to configure Wagon: '" + repository.getProtocol() + "'", e );
         }
     }
 
@@ -176,7 +173,8 @@ public abstract class AbstractWagonMojo extends AbstractMojo
      * @throws MojoExecutionException
      * @throws WagonException
      */
-    protected abstract void execute(Wagon wagon, ResourceDescriptor descr) throws MojoExecutionException, WagonException;
+    protected abstract void execute( Wagon wagon, ResourceDescriptor descr )
+        throws MojoExecutionException, WagonException;
 
     /**
      * Convenience method to map a <code>Proxy</code> object from the user
@@ -185,20 +183,20 @@ public abstract class AbstractWagonMojo extends AbstractMojo
      * @return a proxyInfo object or null if no active proxy is define in the
      *         settings.xml
      */
-    protected static ProxyInfo getProxyInfo(Settings settings)
+    protected static ProxyInfo getProxyInfo( Settings settings )
     {
         ProxyInfo proxyInfo = null;
-        if (settings != null && settings.getActiveProxy() != null)
+        if ( settings != null && settings.getActiveProxy() != null )
         {
             Proxy settingsProxy = settings.getActiveProxy();
 
             proxyInfo = new ProxyInfo();
-            proxyInfo.setHost(settingsProxy.getHost());
-            proxyInfo.setType(settingsProxy.getProtocol());
-            proxyInfo.setPort(settingsProxy.getPort());
-            proxyInfo.setNonProxyHosts(settingsProxy.getNonProxyHosts());
-            proxyInfo.setUserName(settingsProxy.getUsername());
-            proxyInfo.setPassword(settingsProxy.getPassword());
+            proxyInfo.setHost( settingsProxy.getHost() );
+            proxyInfo.setType( settingsProxy.getProtocol() );
+            proxyInfo.setPort( settingsProxy.getPort() );
+            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
+            proxyInfo.setUserName( settingsProxy.getUsername() );
+            proxyInfo.setPassword( settingsProxy.getPassword() );
         }
 
         return proxyInfo;

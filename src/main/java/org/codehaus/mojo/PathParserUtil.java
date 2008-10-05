@@ -1,22 +1,18 @@
 package org.codehaus.mojo;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.io.File;
@@ -53,14 +49,15 @@ public class PathParserUtil
      * @return
      * @throws MojoExecutionException
      */
-    static Set toFiles(String[] paths, boolean isCaseSensitive) throws MojoExecutionException
+    static Set toFiles( String[] paths, boolean isCaseSensitive )
+        throws MojoExecutionException
     {
         Set resources = new HashSet();
-        for (int i = 0; i < paths.length; i++)
+        for ( int i = 0; i < paths.length; i++ )
         {
-            Set nextSet = toFiles(paths[i], isCaseSensitive);
-            if (nextSet != null)
-                resources.addAll(nextSet);
+            Set nextSet = toFiles( paths[i], isCaseSensitive );
+            if ( nextSet != null )
+                resources.addAll( nextSet );
 
         }
         return resources;
@@ -91,15 +88,15 @@ public class PathParserUtil
      * @return
      * @throws MojoExecutionException
      */
-    static Set toFiles(final String pathStr, boolean isCaseSensitive) throws MojoExecutionException
+    static Set toFiles( final String pathStr, boolean isCaseSensitive )
+        throws MojoExecutionException
     {
-        if (pathStr.length() == 0)
+        if ( pathStr.length() == 0 )
             return null;
 
-        ResourceDescriptor descr = new ResourceDescriptor(pathStr, isCaseSensitive);
-        return toFiles(descr);
+        ResourceDescriptor descr = new ResourceDescriptor( pathStr, isCaseSensitive );
+        return toFiles( descr );
     }
-
 
     /**
      * Converts the given descriptor to a set of File objects that match the descriptor.
@@ -107,36 +104,36 @@ public class PathParserUtil
      * @param descr
      * @return
      */
-    public static Set toFiles(ResourceDescriptor descr)
+    public static Set toFiles( ResourceDescriptor descr )
     {
         Set matchedFiles = new HashSet();
 
-        File parent = new File(descr.path);
-        if (parent.exists())
+        File parent = new File( descr.path );
+        if ( parent.exists() )
         {
-            if (descr.wildcard != null)
+            if ( descr.wildcard != null )
             {
-                if (parent.isDirectory())
+                if ( parent.isDirectory() )
                 {
-                    getMatchingChildren(parent, descr.wildcard, descr.isCaseSensitive, matchedFiles);
+                    getMatchingChildren( parent, descr.wildcard, descr.isCaseSensitive, matchedFiles );
                 }
             }
             else
             {
-                matchedFiles.add(parent);
+                matchedFiles.add( parent );
             }
         }
 
         return matchedFiles;
     }
 
-    static void getMatchingChildren(File directory, String wildcard, boolean isCaseSensitive, Set matchingFileContainer)
+    static void getMatchingChildren( File directory, String wildcard, boolean isCaseSensitive, Set matchingFileContainer )
     {
-        FileFilter filter = new WildcardFileFilter(wildcard, isCaseSensitive ? IOCase.SENSITIVE : IOCase.INSENSITIVE);
-        File children[] = directory.listFiles(filter);
+        FileFilter filter = new WildcardFileFilter( wildcard, isCaseSensitive ? IOCase.SENSITIVE : IOCase.INSENSITIVE );
+        File children[] = directory.listFiles( filter );
 
-        for (int i = 0; i < children.length; i++)
-            matchingFileContainer.add(children[i]);
+        for ( int i = 0; i < children.length; i++ )
+            matchingFileContainer.add( children[i] );
     }
 
     /**
@@ -147,12 +144,12 @@ public class PathParserUtil
      * @return position of the first occurrence of either '?' or '*' character
      *         or -1;
      */
-    static int findFirstGlobCharPosition(final String path)
+    static int findFirstGlobCharPosition( final String path )
     {
         char[] array = path.toCharArray();
-        for (int i = 0; i < array.length; i++)
+        for ( int i = 0; i < array.length; i++ )
         {
-            if (array[i] == '?' || array[i] == '*')
+            if ( array[i] == '?' || array[i] == '*' )
                 return i;
         }
         return -1;

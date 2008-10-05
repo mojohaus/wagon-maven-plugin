@@ -1,22 +1,18 @@
 package org.codehaus.mojo;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
+ * agreements. See the NOTICE file distributed with this work for additional information regarding
+ * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 import java.util.Set;
@@ -32,7 +28,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 public class ResourceDescriptor
 {
     final String path;
+
     final String wildcard;
+
     final boolean isCaseSensitive;
 
     /**
@@ -58,18 +56,19 @@ public class ResourceDescriptor
      * 
      * @throws MojoExecutionException
      */
-    public ResourceDescriptor(String path, boolean isCaseSensitive) throws MojoExecutionException
+    public ResourceDescriptor( String path, boolean isCaseSensitive )
+        throws MojoExecutionException
     {
         this.isCaseSensitive = isCaseSensitive;
-        int pos = PathParserUtil.findFirstGlobCharPosition(path);
+        int pos = PathParserUtil.findFirstGlobCharPosition( path );
 
-        if (pos != -1)
+        if ( pos != -1 )
         {
-            int dirEndPos = path.replace('\\', '/').lastIndexOf('/');
-            if (dirEndPos >= pos)
-                throw new MojoExecutionException("Invalid path - '" + path
-                        + "'. Wildcards must not contain a path separator '/' or '\\'.");
-            else if (dirEndPos == -1)
+            int dirEndPos = path.replace( '\\', '/' ).lastIndexOf( '/' );
+            if ( dirEndPos >= pos )
+                throw new MojoExecutionException( "Invalid path - '" + path
+                    + "'. Wildcards must not contain a path separator '/' or '\\'." );
+            else if ( dirEndPos == -1 )
             {
                 // children of the current dir are being matched
                 this.path = "";
@@ -77,8 +76,8 @@ public class ResourceDescriptor
             }
             else
             {
-                this.path = path.substring(0, dirEndPos + 1);
-                this.wildcard = path.substring(dirEndPos + 1);
+                this.path = path.substring( 0, dirEndPos + 1 );
+                this.wildcard = path.substring( dirEndPos + 1 );
             }
         }
         else
@@ -94,11 +93,12 @@ public class ResourceDescriptor
      */
     public Set toLocalFiles()
     {
-        return PathParserUtil.toFiles(this);
+        return PathParserUtil.toFiles( this );
     }
 
-    public boolean isMatch(String fileName)
+    public boolean isMatch( String fileName )
     {
-        return FilenameUtils.wildcardMatch(fileName, wildcard, isCaseSensitive ? IOCase.SENSITIVE : IOCase.INSENSITIVE);
+        return FilenameUtils
+            .wildcardMatch( fileName, wildcard, isCaseSensitive ? IOCase.SENSITIVE : IOCase.INSENSITIVE );
     }
 }
