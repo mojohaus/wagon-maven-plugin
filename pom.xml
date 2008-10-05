@@ -11,15 +11,45 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
+  
   <packaging>maven-plugin</packaging>
+  
   <name>Maven Wagon plugin</name>
+  
   <description>
     Maven 2 plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
     files and directories and allows glob expressions for specifying them. Provides upload, download and list directory
     content functionality.
   </description>
+  
   <version>1.0-SNAPSHOT</version>
 
+  <inceptionYear>2008</inceptionYear>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</developerConnection>
+    <url>http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>James W. Dumay</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache License 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
