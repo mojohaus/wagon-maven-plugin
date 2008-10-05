@@ -95,6 +95,11 @@
   
   <profiles>
     <profile>
+      <!-- This requires external resources that are may be not repeatable over time -->
+      
+      <!-- It is not functional at this moment due class confict with shitting-maven-plugin -->
+      <!-- http://jira.codehaus.org/browse/MSHITTY-31 -->
+      
       <id>run-its</id>
       <build>
         <plugins>
