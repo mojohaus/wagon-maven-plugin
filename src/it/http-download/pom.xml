@@ -18,6 +18,7 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
         <executions>
+          <!-- this fails currently -->
           <execution>
             <id>http-download</id>
             <phase>package</phase>
@@ -25,10 +26,24 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <resourceSrc>commons-dbutils/commons-dbutils/1.1/*</resourceSrc>
+              <resourceSrc>commons-dbutils-1.1-sources.jar</resourceSrc>
               <resourceDest>${project.build.directory}/it/http-download</resourceDest>
               <serverId>central</serverId>
-              <url>http://repo1.maven.org/maven2</url>
+              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>http-download2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <!-- download all file the url -->
+              <resourceDest>${project.build.directory}/it/http-download</resourceDest>
+              <serverId>central</serverId>
+              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
             </configuration>
           </execution>
         </executions>
