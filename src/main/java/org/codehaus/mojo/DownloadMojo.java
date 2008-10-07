@@ -16,10 +16,10 @@ package org.codehaus.mojo;
  */
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -33,51 +33,40 @@ import org.apache.maven.wagon.WagonException;
 public class DownloadMojo
     extends AbstractWagonMojo
 {
+
     /**
-     * Resource(s) to be downloaded. Can be a file or directory. Also supports wildcards.
      * 
-     * @see PathParserUtil#toFiles(String)
-     * @parameter expression="${wagon.resourceSrc}" default-value="."
-     * 
+     * @parameter expression="${wagon.recursive}" default-value="true"
      */
-    protected String resourceSrc;
-    
+    private boolean recursive;
+
     /**
-     * Local path to download the resource to.
-     * 
-     * For instance: 
-     * <ul>
-     * <li>src=dir1/dir2 dest=xyz will create xyz/dir2 </li>
-     * <li>src=dir1/dir2/* dest=xyz will create xyz/ and put all the content of dir2 there </li>
-     * <li>src=dir1/dir2 will create dir2 on the server with all the dir2 content</li>
-     * </ul>
+     * The list return from the protocol has a ending slash to indicate a directory.
+     * The value is automatically discoverred
+     */
+    private boolean hasDirectoryIndicator = false;
+
+    /**
+     * Local path to download the remote resource ( tree ) to.
      * 
      * @parameter expression="${wagon.resourceDest}" default-value="${project.build.directory}/wagon-plugin"
      */
-    protected String resourceDest;    
-    
+    protected File destinationDirectory;
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
-        
-        List fileList = wagon.getFileList( descr.path );
+        List fileList = new ArrayList();
+
+        WagonUtils.scan( wagon, "", fileList, recursive, hasDirectoryIndicator, this.getLog() );
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {
-            String fullPath = (String) iterator.next();
-            String fileName = FilenameUtils.getName( fullPath );
+            String remotePath = (String) iterator.next();
 
-            File destination = new File( resourceDest + "/" + fileName );
+            File destination = new File( destinationDirectory + "/" + remotePath );
 
-            if ( !iterator.hasNext() && descr.path.endsWith( fileName ) )
-            {
-                wagon.get( descr.path, destination ); // the source path points at a single file
-            }
-            else if ( descr.wildcard == null || descr.isMatch( fileName ) )
-            {
-                wagon.get( descr.path + "/" + fileName, destination );
-            }
+            wagon.get( remotePath, destination ); // the source path points at a single file
         }
     }
 

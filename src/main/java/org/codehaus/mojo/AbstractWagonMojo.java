@@ -19,6 +19,7 @@ import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.wagon.ConnectionException;
@@ -76,6 +77,15 @@ public abstract class AbstractWagonMojo
      */
     protected Settings settings;
 
+    /**
+     * Internal Maven's project
+     * @parameter expression="${project}"
+     * @readonly
+     * @since alpha 1
+     */
+    protected MavenProject project;
+    
+    
     /**
      * If true, performs a case sensitive wildcard matching. Case insensitive otherwise.
      * 

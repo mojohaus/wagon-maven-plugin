@@ -20,8 +20,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Uploads the given resources (files and/or directories) using a suitable wagon provider.
@@ -32,75 +35,51 @@ import org.apache.maven.wagon.WagonException;
 public class UploadMojo
     extends AbstractWagonMojo
 {
+
     /**
-     * Resource(s) to be uploaded. Can be a file or directory. Also supports
-     * wildcards.
-     * 
-     * @see PathParserUtil#toFiles(String)
-     * @parameter expression="${wagon.resourceSrc}"
-     * @required
+     * A single FileSet to upload.
+     *
+     * @parameter
+     * @since 1.0-alpha-1
      */
-    protected String resourceSrc;
+    private Fileset fileset;
     
-    /**
-     * Path on the server to upload the resource to.
-     * 
-     * For instance: 
-     * <ul>
-     * <li>src=dir1/dir2 dest=xyz will create xyz/dir2 </li>
-     * <li>src=dir1/dir2/* dest=xyz will create xyz/ and put all the content of dir2 there </li>
-     * <li>src=dir1/dir2 will create dir2 on the server with all the dir2 content</li>
-     * 
-     * @parameter expression="${wagon.resourceDest}" default-value=""
-     */
-    protected String resourceDest;    
-    
+    private boolean verbose = false;
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
-        
-        final Set resources = descr.toLocalFiles();
-        
-        if ( resources.isEmpty() )
-        {
-            final String message = "Resource " + resourceSrc + " does not match an existing file or directory.";
-            if ( ignoreInvalidResource )
-            {
-                getLog().info( message );
-                return;
-            }
-            else
-            {
-                throw new InvalidResourceException( message );
-            }
-        }
-
-        if ( resources == null || resources.isEmpty() )
-        {
-            throw new MojoExecutionException( "The resources to upload are not specified." );
-        }
-
-        for ( Iterator iterator = resources.iterator(); iterator.hasNext(); )
-        {
-            File resource = (File) iterator.next();
-            if ( resource.isDirectory() && !wagon.supportsDirectoryCopy() )
-            {
-                if ( this.ignoreInvalidResource )
-                    iterator.remove();
-                else
-                    throw new MojoExecutionException( "Wagon protocol '" + wagon.getRepository().getProtocol()
-                        + "' doesn't support directory copying. " + resource + " will fail the operation." );
-            }
-        }
-
-        for ( Iterator iterator = resources.iterator(); iterator.hasNext(); )
-        {
-            File resource = (File) iterator.next();
-            if ( resource.isDirectory() )
-                wagon.putDirectory( resource, resourceDest + '/' + resource.getName() );
-            else
-                wagon.put( resource, resourceDest + '/' + resource.getName() );
-        }
+        this.processFileSet( wagon, this.fileset );
     }
+
+    private void processFileSet( Wagon wagon, Fileset oneFileSet )
+        throws WagonException
+    {
+        if ( StringUtils.isBlank( oneFileSet.getDirectory() ) )
+        {
+            oneFileSet.setDirectory( this.project.getBasedir().getAbsolutePath() );
+        }
+
+        getLog().info( "uploading " + oneFileSet );
+
+        FileSetManager fileSetManager = new FileSetManager( getLog(), this.verbose );
+
+        String[] files = fileSetManager.getIncludedFiles( oneFileSet );
+        
+        for ( int i = 0; i < files.length; ++i )
+        {
+            String relativeDestPath = files[i];
+            if ( !StringUtils.isBlank( oneFileSet.getOutputDirectory() ) )
+            {
+                relativeDestPath = oneFileSet.getOutputDirectory() + "/" + relativeDestPath;
+            }
+            File dest = new File( relativeDestPath );
+
+            File source = new File( oneFileSet.getDirectory(), files[i] );
+
+            wagon.put( source, relativeDestPath );
+        }
+
+    }
+
 }

@@ -39,9 +39,12 @@
               <goal>upload</goal>
             </goals>
             <configuration>
-              <!-- need a live local sshd -->
-              <resourceSrc>${basedir}/pom.xml</resourceSrc>
-              <resourceDest>home/${user.name}</resourceDest>  <!-- must be full path at remote host. and must not start with a /.  this is a bug -->
+              <fileset>
+                 <directory>${basedir}</directory>
+                 <includes>
+                   <include>pom.xml</include>
+                   </includes>
+              </fileset>
             </configuration>
           </execution>        
           <execution>
@@ -51,7 +54,6 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <resourceSrc>home/${user.name}</resourceSrc>
             </configuration>
           </execution>
           <execution>
