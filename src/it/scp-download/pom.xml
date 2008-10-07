@@ -18,10 +18,20 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
         <configuration>
-           <url>scp://localhost</url>
+           <url>scp://localhost/home/${user.name}</url>
            <serverId>localhost.scp</serverId>
         </configuration>
         <executions>
+          <execution>
+            <id>scp-list</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <!--resourceSrc></resourceSrc-->
+            </configuration>
+          </execution>
           <execution>
             <id>scp-upload</id>
             <phase>package</phase>
@@ -35,7 +45,7 @@
             </configuration>
           </execution>        
           <execution>
-            <id>scp-list</id>
+            <id>scp-list2</id>
             <phase>package</phase>
             <goals>
               <goal>list</goal>
@@ -56,6 +66,7 @@
               <resourceDest>${project.build.directory}/it/scp-download</resourceDest>
             </configuration>
           </execution>
+          
         </executions>
       </plugin>
     </plugins>

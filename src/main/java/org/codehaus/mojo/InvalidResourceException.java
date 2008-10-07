@@ -23,6 +23,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 public class InvalidResourceException
     extends MojoExecutionException
 {
+    
+    private static final long serialVersionUID = 0L;
+    
     public InvalidResourceException( String message )
     {
         super( message );

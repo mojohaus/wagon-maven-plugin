@@ -26,7 +26,6 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Downloads files that match specified pattern (resourceSrc) to the given destination. 
- * If destination is not specified, assumes "target/io-plugin/". Assumes that the destination is always a directory. 
  * 
  * @author Sherali Karimov
  * @goal download
@@ -34,9 +33,34 @@ import org.apache.maven.wagon.WagonException;
 public class DownloadMojo
     extends AbstractWagonMojo
 {
-    protected void execute( Wagon wagon, ResourceDescriptor descr )
+    /**
+     * Resource(s) to be downloaded. Can be a file or directory. Also supports wildcards.
+     * 
+     * @see PathParserUtil#toFiles(String)
+     * @parameter expression="${wagon.resourceSrc}" default-value="."
+     * 
+     */
+    protected String resourceSrc;
+    
+    /**
+     * Local path to download the resource to.
+     * 
+     * For instance: 
+     * <ul>
+     * <li>src=dir1/dir2 dest=xyz will create xyz/dir2 </li>
+     * <li>src=dir1/dir2/* dest=xyz will create xyz/ and put all the content of dir2 there </li>
+     * <li>src=dir1/dir2 will create dir2 on the server with all the dir2 content</li>
+     * </ul>
+     * 
+     * @parameter expression="${wagon.resourceDest}" default-value="${project.build.directory}/wagon-plugin"
+     */
+    protected String resourceDest;    
+    
+    protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
+        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
+        
         List fileList = wagon.getFileList( descr.path );
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
@@ -56,4 +80,5 @@ public class DownloadMojo
             }
         }
     }
+
 }

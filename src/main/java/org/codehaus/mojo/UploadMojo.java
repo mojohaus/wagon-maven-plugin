@@ -32,10 +32,36 @@ import org.apache.maven.wagon.WagonException;
 public class UploadMojo
     extends AbstractWagonMojo
 {
-    protected void execute( Wagon wagon, ResourceDescriptor descr )
+    /**
+     * Resource(s) to be uploaded. Can be a file or directory. Also supports
+     * wildcards.
+     * 
+     * @see PathParserUtil#toFiles(String)
+     * @parameter expression="${wagon.resourceSrc}"
+     * @required
+     */
+    protected String resourceSrc;
+    
+    /**
+     * Path on the server to upload the resource to.
+     * 
+     * For instance: 
+     * <ul>
+     * <li>src=dir1/dir2 dest=xyz will create xyz/dir2 </li>
+     * <li>src=dir1/dir2/* dest=xyz will create xyz/ and put all the content of dir2 there </li>
+     * <li>src=dir1/dir2 will create dir2 on the server with all the dir2 content</li>
+     * 
+     * @parameter expression="${wagon.resourceDest}" default-value=""
+     */
+    protected String resourceDest;    
+    
+    protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
+        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
+        
         final Set resources = descr.toLocalFiles();
+        
         if ( resources.isEmpty() )
         {
             final String message = "Resource " + resourceSrc + " does not match an existing file or directory.";

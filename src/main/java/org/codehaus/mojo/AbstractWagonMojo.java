@@ -37,29 +37,6 @@ import org.apache.maven.wagon.repository.Repository;
 public abstract class AbstractWagonMojo
     extends AbstractMojo
 {
-    /**
-     * Resource(s) to be uploaded or downloaded or listed. Can be a file or directory. Also supports
-     * wildcards.
-     * 
-     * @see PathParserUtil#toFiles(String)
-     * @parameter expression="${io.resourceSrc}"
-     * @required
-     */
-    protected String resourceSrc;
-
-    /**
-     * Path on the server to upload/download the resource to. If not specified - assumed
-     * to be "target/wagon-plugin/".
-     * 
-     * For instance: 
-     * <ul>
-     * <li>src=dir1/dir2 dest=xyz will create xyz/dir2 </li>
-     * <li>src=dir1/dir2/* dest=xyz will create xyz/ and put all the content of dir2 there </li>
-     * <li>src=dir1/dir2 will create dir2 on the server with all the dir2 content</li>
-     * 
-     * @parameter expression="${wagon.resourceDest}" default-value="target/wagon-plugin/"
-     */
-    protected String resourceDest;
 
     /**
      * URL to upload to or download from or list.
@@ -104,18 +81,13 @@ public abstract class AbstractWagonMojo
      * 
      * @parameter expression="${wagon.caseSensitive}" default-value="false"
      */
-    private boolean isCaseSensitive;
+    protected boolean isCaseSensitive;
 
     public void execute()
         throws MojoExecutionException
     {
-        final ResourceDescriptor descr = new ResourceDescriptor( resourceSrc, isCaseSensitive );
-        if ( url == null )
-        {
-            throw new MojoExecutionException( "The URL is missing." );
-        }
-
         final Repository repository = new Repository( serverId, url );
+        
         Debug debug = new Debug();
 
         try
@@ -137,7 +109,7 @@ public abstract class AbstractWagonMojo
                     wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ) );
                 }
 
-                execute( wagon, descr );
+                execute( wagon );
             }
             catch ( WagonException e )
             {
@@ -169,11 +141,10 @@ public abstract class AbstractWagonMojo
      * Perform the necessary action. To be implemented in the child mojo.
      * 
      * @param wagon
-     * @param descr
      * @throws MojoExecutionException
      * @throws WagonException
      */
-    protected abstract void execute( Wagon wagon, ResourceDescriptor descr )
+    protected abstract void execute( Wagon wagon )
         throws MojoExecutionException, WagonException;
 
     /**
@@ -183,7 +154,7 @@ public abstract class AbstractWagonMojo
      * @return a proxyInfo object or null if no active proxy is define in the
      *         settings.xml
      */
-    protected static ProxyInfo getProxyInfo( Settings settings )
+    private static ProxyInfo getProxyInfo( Settings settings )
     {
         ProxyInfo proxyInfo = null;
         if ( settings != null && settings.getActiveProxy() != null )
