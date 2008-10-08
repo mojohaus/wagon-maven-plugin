@@ -23,8 +23,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Lists the content of the specified directory (resourceSrc) under a specified repository (url) according to the given wildcard (part of resourceSrc).
- * Wildcard can be turned on and off as required.
+ * Lists the content of the specified directory (remoteResource) under a specified repository (url) 
  * 
  * @author Sherali Karimov
  * @goal list
@@ -35,7 +34,7 @@ public class ListMojo
     /**
      * Path after the url, can be a file or directory
      * 
-     * @parameter expression="${wagon.remoteResource}" 
+     * @parameter expression="${wagon.remoteResource}" default-value=""
      */
     private String remoteResource;
 

@@ -51,7 +51,7 @@ public abstract class AbstractWagonMojo
      * ID of the server under the above URL. This is used when wagon needs extra
      * authentication information for instance.
      * 
-     * @parameter expression="${wagon.serverId}"
+     * @parameter expression="${wagon.serverId}" default-value="";
      */
     protected String serverId;
 
@@ -75,8 +75,7 @@ public abstract class AbstractWagonMojo
      * @since alpha 1
      */
     protected MavenProject project;
-    
-    
+
     /**
      * If true, performs a case sensitive wildcard matching. Case insensitive otherwise.
      * 
@@ -88,8 +87,6 @@ public abstract class AbstractWagonMojo
         throws MojoExecutionException
     {
         final Repository repository = new Repository( serverId, url );
-        
-        Debug debug = new Debug();
 
         try
         {
@@ -97,8 +94,12 @@ public abstract class AbstractWagonMojo
 
             try
             {
-                wagon.addSessionListener( debug );
-                wagon.addTransferListener( debug );
+                if ( this.getLog().isDebugEnabled() )
+                {
+                    Debug debug = new Debug();
+                    wagon.addSessionListener( debug );
+                    wagon.addTransferListener( debug );
+                }
 
                 ProxyInfo proxyInfo = getProxyInfo( settings );
                 if ( proxyInfo != null )
@@ -163,7 +164,7 @@ public abstract class AbstractWagonMojo
 
         return proxyInfo;
     }
-    
+
     /**
      * Perform the necessary action. To be implemented in the child mojo.
      * 
@@ -174,5 +175,4 @@ public abstract class AbstractWagonMojo
     protected abstract void execute( Wagon wagon )
         throws MojoExecutionException, WagonException;
 
-    
 }

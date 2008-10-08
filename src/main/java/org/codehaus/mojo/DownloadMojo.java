@@ -25,7 +25,7 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Downloads files that match specified pattern (resourceSrc) to the given destination. 
+ * Downloads file(s) . 
  * 
  * @author Sherali Karimov
  * @goal download

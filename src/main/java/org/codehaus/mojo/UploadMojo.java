@@ -24,7 +24,7 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Uploads the given resources (files and/or directories) using a suitable wagon provider.
+ * Uploads file(s)
  * 
  * @author Sherali Karimov
  * @goal upload

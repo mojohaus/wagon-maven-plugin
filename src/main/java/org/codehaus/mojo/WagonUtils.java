@@ -13,31 +13,27 @@ import org.codehaus.plexus.util.StringUtils;
 
 public class WagonUtils
 {
-    public static List getFileList( Wagon wagon, String basePath, boolean recursive,
-                              Log logger )
+    public static List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
         throws WagonException
     {
-        boolean hasDirectoryIndicator = false; //tobe used later
-        
         ArrayList fileList = new ArrayList();
-        
+
         if ( wagon.resourceExists( basePath ) )
         {
-            if ( ! wagon.resourceExists( basePath + "/" ) )
+            if ( !wagon.resourceExists( basePath + "/" ) )
             {
                 fileList.add( basePath );
                 return fileList;
             }
         }
 
-        scanRemoteRepo( wagon, basePath, fileList, recursive, hasDirectoryIndicator, logger );
-        
+        scanRemoteRepo( wagon, basePath, fileList, recursive, logger );
+
         return fileList;
 
     }
 
-    public static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive,
-                                boolean hasDirectoryIndicator, Log logger )
+    public static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
         throws WagonException
     {
         logger.debug( "scanning " + basePath + " ..." );
@@ -48,7 +44,6 @@ public class WagonUtils
         {
             logger.debug( "Found empty directory: " + basePath );
             return;
-            //collected.add( basePath );
         }
         else
         {
@@ -88,25 +83,16 @@ public class WagonUtils
 
                 String fileResource = dirResource.substring( 0, dirResource.length() - 1 );
 
-                if ( hasDirectoryIndicator )
-                {
-                    if ( file.endsWith( "/" ) )
-                    {
-                        collected.add( fileResource );
-                        continue;
-                    }
-                }
-
                 try
                 {
                     //assume the entry is a directory 
                     if ( recursive )
                     {
-                        scanRemoteRepo( wagon, dirResource, collected, recursive, hasDirectoryIndicator, logger );
+                        scanRemoteRepo( wagon, dirResource, collected, recursive, logger );
                     }
                     else
                     {
-                        //just want to determine if it is a file or directory
+                        //just want to determine if it is a file or directory by checking for exception
                         wagon.getFileList( dirResource );
                     }
                 }
