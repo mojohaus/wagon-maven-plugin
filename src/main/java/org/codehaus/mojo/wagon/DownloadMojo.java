@@ -51,26 +51,12 @@ public class DownloadMojo
      * 
      * @parameter expression="${wagon.downloadDirectory}" default-value="${project.build.directory}/wagon-plugin"
      */
-    protected File downloadDirectory;
+    private File downloadDirectory;
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( StringUtils.isBlank( remoteResource ) )
-        {
-            remoteResource = "";
-        }
-            
-        List fileList = wagonHelpers.getFileList( wagon, remoteResource, recursive, this.getLog() );
-
-        for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
-        {
-            String remotePath = (String) iterator.next();
-
-            File destination = new File( downloadDirectory + "/" + remotePath );
-
-            wagon.get( remotePath, destination ); // the source path points at a single file
-        }
+        this.wagonHelpers.download( wagon, remoteResource, recursive, downloadDirectory, this.getLog() );
     }
 
 }

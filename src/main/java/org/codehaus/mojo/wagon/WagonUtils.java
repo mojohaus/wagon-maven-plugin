@@ -1,17 +1,20 @@
 package org.codehaus.mojo.wagon;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.shared.model.fileset.FileSet;
+import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/**
+/*
  * 
  * @author dtran
  * 
@@ -19,7 +22,7 @@ import org.codehaus.plexus.util.StringUtils;
  */
 
 public class WagonUtils
-   implements WagonHelpers
+    implements WagonHelpers
 {
     public List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
         throws WagonException
@@ -41,7 +44,54 @@ public class WagonUtils
 
     }
 
-    public static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
+    public void download( Wagon wagon, String basePath, boolean recursive, File downloadDirectory, Log logger )
+        throws WagonException
+    {
+        if ( StringUtils.isBlank( basePath ) )
+        {
+            basePath = "";
+        }
+
+        List fileList = this.getFileList( wagon, basePath, recursive, logger );
+
+        for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
+        {
+            String remotePath = (String) iterator.next();
+
+            File destination = new File( downloadDirectory + "/" + remotePath );
+
+            wagon.get( remotePath, destination ); // the source path points at a single file
+        }
+    }
+
+    public void upload( Wagon wagon, FileSet fileset, Log logger )
+        throws WagonException
+    {
+        logger.info( "uploading " + fileset );
+
+        FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
+
+        String[] files = fileSetManager.getIncludedFiles( fileset );
+        
+        for ( int i = 0; i < files.length; ++i )
+        {
+            String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
+            
+            if ( !StringUtils.isBlank( fileset.getOutputDirectory() ) )
+            {
+                relativeDestPath = fileset.getOutputDirectory() + "/" + relativeDestPath;
+            }
+
+            File source = new File( fileset.getDirectory(), files[i] );
+
+            wagon.put( source, relativeDestPath );
+        }
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
         throws WagonException
     {
         logger.debug( "scanning " + basePath + " ..." );

@@ -15,10 +15,7 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
@@ -40,8 +37,6 @@ public class UploadMojo
      * @since 1.0-alpha-1
      */
     private Fileset fileset;
-    
-    private boolean verbose = false;
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
@@ -57,25 +52,7 @@ public class UploadMojo
             oneFileSet.setDirectory( this.project.getBasedir().getAbsolutePath() );
         }
 
-        getLog().info( "uploading " + oneFileSet );
-
-        FileSetManager fileSetManager = new FileSetManager( getLog(), this.verbose );
-
-        String[] files = fileSetManager.getIncludedFiles( oneFileSet );
-        
-        for ( int i = 0; i < files.length; ++i )
-        {
-            String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
-            
-            if ( !StringUtils.isBlank( oneFileSet.getOutputDirectory() ) )
-            {
-                relativeDestPath = oneFileSet.getOutputDirectory() + "/" + relativeDestPath;
-            }
-
-            File source = new File( oneFileSet.getDirectory(), files[i] );
-
-            wagon.put( source, relativeDestPath );
-        }
+        this.wagonHelpers.upload( wagon, oneFileSet, this.getLog() );
 
     }
 
