@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Downloads files that match specified pattern (resourceSrc) to the given destination. 
@@ -42,29 +43,40 @@ public class DownloadMojo
 
     /**
      * The list return from the protocol has a ending slash to indicate a directory.
-     * The value is automatically discoverred
+     * The value is automatically discovered
      */
     private boolean hasDirectoryIndicator = false;
 
     /**
+     * @parameter expression="${wagon.srcResource}" default-value=""
+     */
+    private String srcResource;
+    
+    /**
      * Local path to download the remote resource ( tree ) to.
      * 
-     * @parameter expression="${wagon.destinationDirectory}" default-value="${project.build.directory}/wagon-plugin"
+     * @parameter expression="${wagon.downloadDirectory}" default-value="${project.build.directory}/wagon-plugin"
      */
-    protected File destinationDirectory;
+    protected File downloadDirectory;
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
         List fileList = new ArrayList();
+        
+        if ( StringUtils.isBlank( srcResource ) )
+        {
+            srcResource = "";
+        }
+            
 
-        WagonUtils.scan( wagon, "", fileList, recursive, hasDirectoryIndicator, this.getLog() );
+        WagonUtils.scan( wagon, srcResource, fileList, recursive, hasDirectoryIndicator, this.getLog() );
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {
             String remotePath = (String) iterator.next();
 
-            File destination = new File( destinationDirectory + "/" + remotePath );
+            File destination = new File( downloadDirectory + "/" + remotePath );
 
             wagon.get( remotePath, destination ); // the source path points at a single file
         }

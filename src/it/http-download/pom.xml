@@ -17,6 +17,10 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
+        <configuration>
+          <serverId>central</serverId>
+          <downloadDirectory>${project.build.directory}/it/http-download</downloadDirectory>
+        </configuration>
         <executions>
         
           <execution>
@@ -26,9 +30,6 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <!--resourceSrc>commons-dbutils-1.1-sources.jar</resourceSrc-->
-              <resourceDest>${project.build.directory}/it/http-download</resourceDest>
-              <serverId>central</serverId>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
             </configuration>
           </execution>
@@ -41,24 +42,19 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <resourceSrc>commons-dbutils-1.1-sources.jar</resourceSrc>
-              <resourceDest>${project.build.directory}/it/http-download</resourceDest>
-              <serverId>central</serverId>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
+              <srcResource>commons-dbutils-1.1-sources.jar</srcResource>
             </configuration>
           </execution>
 
           <execution>
-            <id>http-download</id>
+            <id>http-download-all</id>
             <phase>package</phase>
             <goals>
               <goal>download</goal>
             </goals>
             <configuration>
-              <!-- download all file the url -->
-              <resourceDest>${project.build.directory}/it/http-download</resourceDest>
-              <serverId>central</serverId>
-              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
+              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
             </configuration>
           </execution>
         </executions>

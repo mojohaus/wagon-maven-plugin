@@ -25,28 +25,31 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
+        <configuration>
+          <serverId>ibiblio.ftp</serverId>
+          <url>ftp://ftp.ibiblio.org</url>
+          <downloadDirectory>${project.build.directory}/it/ftp-download</downloadDirectory>
+          <!-- need additional settings.xml inorder to get this to work
+          
+              <server>
+                <id>ibiblio.ftp</id>
+                <username>anonymous</username>
+                <password></password>
+              </server>
+                
+             -->
+        </configuration>
+
         <executions>
           <execution>
-            <id>ftp-download</id>
+            <id>ftp-download-single</id>
             <phase>package</phase>
             <goals>
               <goal>download</goal>
             </goals>
             <configuration>
-              <url>ftp://ftp.ibiblio.org</url>
-              <resourceSrc>README</resourceSrc>
-              <resourceDest>${project.build.directory}/it/ftp-download</resourceDest>
-              <serverId>ibiblio.ftp</serverId>
+              <srcResource>README</srcResource>
             </configuration>
-            <!-- need additional settings.xml inorder to get this to work
-            
-                <server>
-                  <id>ibiblio.ftp</id>
-                  <username>anonymous</username>
-                  <password></password>
-                </server>
-                
-             -->
           </execution>
         </executions>
       </plugin>

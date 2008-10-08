@@ -28,7 +28,7 @@
         <configuration>
            <url>scp://localhost/home/${user.name}/wagon-plugin-it</url>
            <serverId>localhost.scp</serverId>
-           <destinationDirectory>${project.build.directory}/it/scp-download</destinationDirectory>
+           <downloadDirectory>${project.build.directory}/it/scp-download</downloadDirectory>
         </configuration>
         <executions>
           <execution>
@@ -70,7 +70,19 @@
               <goal>download</goal>
             </goals>
             <configuration>
-               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources/test.txt</url>
+               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
+               <srcSource>test.txt</srcSource>
+            </configuration>
+          </execution>
+          <execution>
+            <id>scp-list-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
+               <srcSource>test.txt</srcSource>
             </configuration>
           </execution>
 
