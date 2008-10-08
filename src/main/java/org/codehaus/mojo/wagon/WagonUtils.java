@@ -11,9 +11,17 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ * @author dtran
+ * 
+ * @plexus.component role="org.codehaus.mojo.wagon.WagonHelpers" role-hint="default"
+ */
+
 public class WagonUtils
+   implements WagonHelpers
 {
-    public static List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
+    public List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
         throws WagonException
     {
         ArrayList fileList = new ArrayList();

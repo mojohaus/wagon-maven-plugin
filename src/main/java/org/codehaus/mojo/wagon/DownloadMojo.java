@@ -61,7 +61,7 @@ public class DownloadMojo
             remoteResource = "";
         }
             
-        List fileList = WagonUtils.getFileList( wagon, remoteResource, recursive, this.getLog() );
+        List fileList = wagonHelpers.getFileList( wagon, remoteResource, recursive, this.getLog() );
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {

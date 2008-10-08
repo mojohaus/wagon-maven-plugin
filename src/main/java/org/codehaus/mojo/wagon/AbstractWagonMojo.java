@@ -83,6 +83,12 @@ public abstract class AbstractWagonMojo
      */
     protected boolean isCaseSensitive;
 
+    
+    /**
+     * @component
+     */
+    protected WagonHelpers wagonHelpers;
+    
     public void execute()
         throws MojoExecutionException
     {

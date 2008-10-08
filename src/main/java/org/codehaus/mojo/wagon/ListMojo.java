@@ -44,6 +44,7 @@ public class ListMojo
      */
     private boolean recursive;
 
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
@@ -52,7 +53,7 @@ public class ListMojo
             remoteResource = "";
         }
 
-        List files = WagonUtils.getFileList( wagon, remoteResource, recursive, this.getLog() );
+        List files = wagonHelpers.getFileList( wagon, remoteResource, recursive, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {
