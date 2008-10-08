@@ -40,7 +40,7 @@ public abstract class AbstractWagonMojo
 {
 
     /**
-     * URL to upload to or download from or list.
+     * URL to upload to or download from or list.  Must point to a directory.
      * 
      * @parameter expression="${wagon.url}"
      * @required
@@ -52,16 +52,8 @@ public abstract class AbstractWagonMojo
      * authentication information for instance.
      * 
      * @parameter expression="${wagon.serverId}"
-     * @required
      */
     protected String serverId;
-
-    /**
-     * If true, ignores invalid source resources during execution. Otherwise - fail the execution.
-     * 
-     * @parameter expression="${wagon.ignoreInvalidResource}" default-value="false"
-     */
-    protected boolean ignoreInvalidResource;
 
     /**
      * @component
@@ -72,7 +64,6 @@ public abstract class AbstractWagonMojo
      * The current user system settings for use in Maven.
      * 
      * @parameter expression="${settings}"
-     * @required
      * @readonly
      */
     protected Settings settings;
@@ -148,16 +139,6 @@ public abstract class AbstractWagonMojo
     }
 
     /**
-     * Perform the necessary action. To be implemented in the child mojo.
-     * 
-     * @param wagon
-     * @throws MojoExecutionException
-     * @throws WagonException
-     */
-    protected abstract void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException;
-
-    /**
      * Convenience method to map a <code>Proxy</code> object from the user
      * system settings to a <code>ProxyInfo</code> object.
      * 
@@ -182,4 +163,16 @@ public abstract class AbstractWagonMojo
 
         return proxyInfo;
     }
+    
+    /**
+     * Perform the necessary action. To be implemented in the child mojo.
+     * 
+     * @param wagon
+     * @throws MojoExecutionException
+     * @throws WagonException
+     */
+    protected abstract void execute( Wagon wagon )
+        throws MojoExecutionException, WagonException;
+
+    
 }
