@@ -16,7 +16,6 @@ package org.codehaus.mojo;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,21 +35,16 @@ public class DownloadMojo
 {
 
     /**
-     * 
+     * Download all files recursively 
      * @parameter expression="${wagon.recursive}" default-value="true"
      */
     private boolean recursive;
 
     /**
-     * The list return from the protocol has a ending slash to indicate a directory.
-     * The value is automatically discovered
+     * Path after the url, can be a file or directory
+     * @parameter expression="${wagon.remoteResource}" default-value=""
      */
-    private boolean hasDirectoryIndicator = false;
-
-    /**
-     * @parameter expression="${wagon.srcResource}" default-value=""
-     */
-    private String srcResource;
+    private String remoteResource;
     
     /**
      * Local path to download the remote resource ( tree ) to.
@@ -62,15 +56,12 @@ public class DownloadMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        List fileList = new ArrayList();
-        
-        if ( StringUtils.isBlank( srcResource ) )
+        if ( StringUtils.isBlank( remoteResource ) )
         {
-            srcResource = "";
+            remoteResource = "";
         }
             
-
-        WagonUtils.scan( wagon, srcResource, fileList, recursive, hasDirectoryIndicator, this.getLog() );
+        List fileList = WagonUtils.getFileList( wagon, remoteResource, recursive, this.getLog() );
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {

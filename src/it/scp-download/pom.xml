@@ -71,7 +71,7 @@
             </goals>
             <configuration>
                <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
-               <srcSource>test.txt</srcSource>
+               <remoteResource>test.txt</remoteResource>
             </configuration>
           </execution>
           <execution>
@@ -82,7 +82,7 @@
             </goals>
             <configuration>
                <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
-               <srcSource>test.txt</srcSource>
+               <remoteResource>test.txt</remoteResource>
             </configuration>
           </execution>
 

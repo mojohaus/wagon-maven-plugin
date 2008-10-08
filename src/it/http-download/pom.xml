@@ -43,7 +43,7 @@
             </goals>
             <configuration>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
-              <srcResource>commons-dbutils-1.1-sources.jar</srcResource>
+              <remoteResource>commons-dbutils-1.1-sources.jar</remoteResource>
             </configuration>
           </execution>
 

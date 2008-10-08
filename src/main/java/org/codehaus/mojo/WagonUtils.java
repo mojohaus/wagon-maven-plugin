@@ -1,5 +1,6 @@
 package org.codehaus.mojo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,12 +13,35 @@ import org.codehaus.plexus.util.StringUtils;
 
 public class WagonUtils
 {
-    public static void scan( Wagon wagon, String basePath, List collected, boolean recursive, boolean hasDirectoryIndicator,
-                      Log logger )
+    public static List getFileList( Wagon wagon, String basePath, boolean recursive,
+                              Log logger )
+        throws WagonException
+    {
+        boolean hasDirectoryIndicator = false; //tobe used later
+        
+        ArrayList fileList = new ArrayList();
+        
+        if ( wagon.resourceExists( basePath ) )
+        {
+            if ( ! wagon.resourceExists( basePath + "/" ) )
+            {
+                fileList.add( basePath );
+                return fileList;
+            }
+        }
+
+        scanRemoteRepo( wagon, basePath, fileList, recursive, hasDirectoryIndicator, logger );
+        
+        return fileList;
+
+    }
+
+    public static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive,
+                                boolean hasDirectoryIndicator, Log logger )
         throws WagonException
     {
         logger.debug( "scanning " + basePath + " ..." );
-        
+
         List files = wagon.getFileList( basePath );
 
         if ( files.isEmpty() )
@@ -78,7 +102,7 @@ public class WagonUtils
                     //assume the entry is a directory 
                     if ( recursive )
                     {
-                        scan( wagon, dirResource, collected, recursive, hasDirectoryIndicator, logger );
+                        scanRemoteRepo( wagon, dirResource, collected, recursive, hasDirectoryIndicator, logger );
                     }
                     else
                     {
@@ -92,14 +116,14 @@ public class WagonUtils
                     logger.debug( "Found file " + fileResource );
                     collected.add( fileResource );
                 }
-                
+
                 catch ( TransferFailedException e )
                 {
                     //until WAGON-245 is fixed
                     logger.debug( "Found file " + fileResource );
                     collected.add( fileResource );
                 }
-                
+
             }
         }
     }

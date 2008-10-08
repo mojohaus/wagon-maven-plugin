@@ -15,7 +15,6 @@ package org.codehaus.mojo;
  * the License.
  */
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,13 +33,11 @@ public class ListMojo
     extends AbstractWagonMojo
 {
     /**
-     * Resource(s) to be listed. Can be a file or directory. Also supports
-     * wildcards.
+     * Path after the url, can be a file or directory
      * 
-     * @see PathParserUtil#toFiles(String)
-     * @parameter expression="${wagon.resourceSrc}" 
+     * @parameter expression="${wagon.remoteResource}" 
      */
-    private String resourceSrc;
+    private String remoteResource;
 
     /**
      * 
@@ -48,23 +45,15 @@ public class ListMojo
      */
     private boolean recursive;
 
-    /**
-     * The list return from the protocol has a ending slash to indicate a directory.
-     * The value is automatically discoverred
-     */
-    private boolean hasDirectoryIndicator = false;
-
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        List files = new ArrayList();
-
-        if ( resourceSrc == null )
+        if ( remoteResource == null )
         {
-            resourceSrc = "";
+            remoteResource = "";
         }
 
-        WagonUtils.scan( wagon, resourceSrc, files, this.recursive, this.hasDirectoryIndicator, this.getLog() );
+        List files = WagonUtils.getFileList( wagon, remoteResource, recursive, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {

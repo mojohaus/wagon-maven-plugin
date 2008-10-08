@@ -42,13 +42,23 @@
 
         <executions>
           <execution>
+            <id>ftp-list-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <remoteResource>README</remoteResource>
+            </configuration>
+          </execution>
+          <execution>
             <id>ftp-download-single</id>
             <phase>package</phase>
             <goals>
               <goal>download</goal>
             </goals>
             <configuration>
-              <srcResource>README</srcResource>
+              <remoteResource>README</remoteResource>
             </configuration>
           </execution>
         </executions>
