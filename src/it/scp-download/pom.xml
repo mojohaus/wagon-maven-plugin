@@ -11,6 +11,14 @@
  
     <defaultGoal>package</defaultGoal>
     
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-4</version>
+      </extension>
+    </extensions>
+    
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
@@ -18,20 +26,11 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
         <configuration>
-           <url>scp://localhost/home/${user.name}</url>
+           <url>scp://localhost/home/${user.name}/wagon-plugin-it</url>
            <serverId>localhost.scp</serverId>
+           <destinationDirectory>${project.build.directory}/it/scp-download</destinationDirectory>
         </configuration>
         <executions>
-          <execution>
-            <id>scp-list</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-            <configuration>
-              <!--resourceSrc></resourceSrc-->
-            </configuration>
-          </execution>
           <execution>
             <id>scp-upload</id>
             <phase>package</phase>
@@ -42,33 +41,39 @@
               <fileset>
                  <directory>${basedir}</directory>
                  <includes>
-                   <include>pom.xml</include>
-                   </includes>
+                   <include>*</include>
+                   <include>**/test.txt</include>
+                 </includes>
               </fileset>
             </configuration>
-          </execution>        
+          </execution> 
           <execution>
-            <id>scp-list2</id>
+            <id>scp-download-all-files</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>scp-list</id>
             <phase>package</phase>
             <goals>
               <goal>list</goal>
             </goals>
-            <configuration>
-            </configuration>
           </execution>
+       
           <execution>
-            <!-- this is not working at time of writing this test -->
-            <id>scp-download</id>
+            <!-- this is not working at time of writing this test --> 
+            <id>scp-download-single-file</id>
             <phase>package</phase>
             <goals>
               <goal>download</goal>
             </goals>
             <configuration>
-              <resourceSrc>home/${user.name}/pom.xml</resourceSrc>
-              <resourceDest>${project.build.directory}/it/scp-download</resourceDest>
+               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources/test.txt</url>
             </configuration>
           </execution>
-          
+
         </executions>
       </plugin>
     </plugins>

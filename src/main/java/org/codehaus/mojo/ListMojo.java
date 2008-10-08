@@ -20,11 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.wagon.ResourceDoesNotExistException;
-import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Lists the content of the specified directory (resourceSrc) under a specified repository (url) according to the given wildcard (part of resourceSrc).

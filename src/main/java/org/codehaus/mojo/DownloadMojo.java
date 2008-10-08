@@ -49,7 +49,7 @@ public class DownloadMojo
     /**
      * Local path to download the remote resource ( tree ) to.
      * 
-     * @parameter expression="${wagon.resourceDest}" default-value="${project.build.directory}/wagon-plugin"
+     * @parameter expression="${wagon.destinationDirectory}" default-value="${project.build.directory}/wagon-plugin"
      */
     protected File destinationDirectory;
 

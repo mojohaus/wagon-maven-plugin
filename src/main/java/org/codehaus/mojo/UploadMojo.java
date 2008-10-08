@@ -16,11 +16,8 @@ package org.codehaus.mojo;
  */
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -68,12 +65,12 @@ public class UploadMojo
         
         for ( int i = 0; i < files.length; ++i )
         {
-            String relativeDestPath = files[i];
+            String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
+            
             if ( !StringUtils.isBlank( oneFileSet.getOutputDirectory() ) )
             {
                 relativeDestPath = oneFileSet.getOutputDirectory() + "/" + relativeDestPath;
             }
-            File dest = new File( relativeDestPath );
 
             File source = new File( oneFileSet.getDirectory(), files[i] );
 

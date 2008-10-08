@@ -17,6 +17,7 @@ public class WagonUtils
         throws WagonException
     {
         logger.debug( "scanning " + basePath + " ..." );
+        
         List files = wagon.getFileList( basePath );
 
         if ( files.isEmpty() )
@@ -91,12 +92,14 @@ public class WagonUtils
                     logger.debug( "Found file " + fileResource );
                     collected.add( fileResource );
                 }
+                
                 catch ( TransferFailedException e )
                 {
                     //until WAGON-245 is fixed
                     logger.debug( "Found file " + fileResource );
                     collected.add( fileResource );
                 }
+                
             }
         }
     }
