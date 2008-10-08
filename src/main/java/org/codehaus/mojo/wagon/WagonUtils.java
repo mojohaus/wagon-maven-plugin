@@ -1,4 +1,4 @@
-package org.codehaus.mojo;
+package org.codehaus.mojo.wagon;
 
 import java.util.ArrayList;
 import java.util.Iterator;

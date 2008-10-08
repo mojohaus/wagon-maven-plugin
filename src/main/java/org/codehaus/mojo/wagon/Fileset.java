@@ -1,4 +1,4 @@
-package org.codehaus.mojo;
+package org.codehaus.mojo.wagon;
 
 import org.apache.maven.shared.model.fileset.FileSet;
 
