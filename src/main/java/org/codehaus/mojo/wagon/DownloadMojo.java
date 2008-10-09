@@ -29,6 +29,7 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author Sherali Karimov
  * @goal download
+ * @requiresProject false
  */
 public class DownloadMojo
     extends AbstractWagonMojo

@@ -23,10 +23,11 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Lists the content of the specified directory (remoteResource) under a specified repository (url) 
+ * Lists the content of the specified directory (remotePath) under a specified repository (url) 
  * 
  * @author Sherali Karimov
  * @goal list
+ * @requiresProject false
  */
 public class ListMojo
     extends AbstractWagonMojo
@@ -36,7 +37,7 @@ public class ListMojo
      * 
      * @parameter expression="${wagon.remotePath}" default-value=""
      */
-    private String remotePath;
+    private String remotePath = "";
 
     /**
      * 
@@ -48,11 +49,6 @@ public class ListMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( remotePath == null )
-        {
-            remotePath = "";
-        }
-
         List files = wagonHelpers.getFileList( wagon, remotePath, recursive, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )

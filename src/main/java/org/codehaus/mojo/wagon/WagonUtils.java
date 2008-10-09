@@ -2,6 +2,7 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,6 +39,8 @@ public class WagonUtils
             scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
         }
 
+        Collections.sort( fileList );
+        
         return fileList;
 
     }
