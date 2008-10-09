@@ -85,9 +85,9 @@ public abstract class AbstractWagonMojo
 
     
     /**
-     * @component
+     *component
      */
-    protected WagonHelpers wagonHelpers;
+    protected WagonHelpers wagonHelpers = new WagonUtils();
     
     public void execute()
         throws MojoExecutionException

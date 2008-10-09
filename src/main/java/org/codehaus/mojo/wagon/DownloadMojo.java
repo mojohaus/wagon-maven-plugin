@@ -42,9 +42,9 @@ public class DownloadMojo
 
     /**
      * Path after the url, can be a file or directory
-     * @parameter expression="${wagon.remoteResource}" default-value=""
+     * @parameter expression="${wagon.remotePath}" default-value=""
      */
-    private String remoteResource;
+    private String remotePath;
     
     /**
      * Local path to download the remote resource ( tree ) to.
@@ -56,7 +56,7 @@ public class DownloadMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.wagonHelpers.download( wagon, remoteResource, recursive, downloadDirectory, this.getLog() );
+        this.wagonHelpers.download( wagon, remotePath, recursive, downloadDirectory, this.getLog() );
     }
 
 }

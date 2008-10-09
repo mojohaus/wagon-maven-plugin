@@ -34,9 +34,9 @@ public class ListMojo
     /**
      * Path after the url, can be a file or directory
      * 
-     * @parameter expression="${wagon.remoteResource}" default-value=""
+     * @parameter expression="${wagon.remotePath}" default-value=""
      */
-    private String remoteResource;
+    private String remotePath;
 
     /**
      * 
@@ -48,12 +48,12 @@ public class ListMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( remoteResource == null )
+        if ( remotePath == null )
         {
-            remoteResource = "";
+            remotePath = "";
         }
 
-        List files = wagonHelpers.getFileList( wagon, remoteResource, recursive, this.getLog() );
+        List files = wagonHelpers.getFileList( wagon, remotePath, recursive, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {

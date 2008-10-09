@@ -12,12 +12,37 @@ public interface WagonHelpers
 {
     String ROLE = WagonHelpers.class.getName();
 
-    List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param remotePath - directory or file relative to the wagon's url
+     * @param recursive -  list all
+     * @param logger
+     * @return a list of files at the remote host
+     * @throws WagonException
+     */
+    List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
         throws WagonException;
 
-    void download( Wagon wagon, String basePath, boolean recursive, File downloadDirectory, Log logger )
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param remotePath - directory or file relative to the wagon's url
+     * @param recursive - list all
+     * @param downloadDirectory 
+     * @param logger
+     * @throws WagonException
+     */
+    void download( Wagon wagon, String remotePath, boolean recursive, File downloadDirectory, Log logger )
         throws WagonException;
 
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param fileset
+     * @param logger
+     * @throws WagonException
+     */
     void upload( Wagon wagon, FileSet fileset, Log logger )
         throws WagonException;
 

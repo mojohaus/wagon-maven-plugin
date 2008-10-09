@@ -8,8 +8,6 @@ import java.util.List;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
-import org.apache.maven.wagon.ResourceDoesNotExistException;
-import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
@@ -24,43 +22,43 @@ import org.codehaus.plexus.util.StringUtils;
 public class WagonUtils
     implements WagonHelpers
 {
-    public List getFileList( Wagon wagon, String basePath, boolean recursive, Log logger )
+    public List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
         throws WagonException
     {
         ArrayList fileList = new ArrayList();
 
-        if ( wagon.resourceExists( basePath ) )
+        if ( this.isFile( wagon, remotePath ) )
         {
-            if ( !wagon.resourceExists( basePath + "/" ) )
-            {
-                fileList.add( basePath );
-                return fileList;
-            }
+            fileList.add( remotePath );
+            return fileList;
         }
 
-        scanRemoteRepo( wagon, basePath, fileList, recursive, logger );
+        scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
 
         return fileList;
 
     }
 
-    public void download( Wagon wagon, String basePath, boolean recursive, File downloadDirectory, Log logger )
+    public void download( Wagon wagon, String remotePath, boolean recursive, File downloadDirectory, Log logger )
         throws WagonException
     {
-        if ( StringUtils.isBlank( basePath ) )
+        if ( StringUtils.isBlank( remotePath ) )
         {
-            basePath = "";
+            remotePath = "";
         }
 
-        List fileList = this.getFileList( wagon, basePath, recursive, logger );
+        List fileList = this.getFileList( wagon, remotePath, recursive, logger );
 
+        String url = wagon.getRepository().getUrl() + "/";
+        
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {
-            String remotePath = (String) iterator.next();
+            String file = (String) iterator.next();
 
-            File destination = new File( downloadDirectory + "/" + remotePath );
+            File destination = new File( downloadDirectory + "/" + file );
 
-            wagon.get( remotePath, destination ); // the source path points at a single file
+            logger.debug( "Download " + url +  file + " to " + destination + " ..." );
+            wagon.get( file, destination ); // the source path points at a single file
         }
     }
 
@@ -72,11 +70,13 @@ public class WagonUtils
         FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
 
         String[] files = fileSetManager.getIncludedFiles( fileset );
+
+        String url = wagon.getRepository().getUrl() + "/";
         
         for ( int i = 0; i < files.length; ++i )
         {
             String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
-            
+
             if ( !StringUtils.isBlank( fileset.getOutputDirectory() ) )
             {
                 relativeDestPath = fileset.getOutputDirectory() + "/" + relativeDestPath;
@@ -84,6 +84,7 @@ public class WagonUtils
 
             File source = new File( fileset.getDirectory(), files[i] );
 
+            logger.debug( "Upload " + source + " to " + url + relativeDestPath + " ..." );
             wagon.put( source, relativeDestPath );
         }
 
@@ -91,7 +92,7 @@ public class WagonUtils
 
     ///////////////////////////////////////////////////////////////////////////
 
-    private static void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
+    private void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
         throws WagonException
     {
         logger.debug( "scanning " + basePath + " ..." );
@@ -103,73 +104,62 @@ public class WagonUtils
             logger.debug( "Found empty directory: " + basePath );
             return;
         }
-        else
+
+        for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {
-            for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
+            String file = (String) iterator.next();
+            
+            String filePath = basePath + "/" + file;
+            if ( StringUtils.isBlank( basePath  ) )
             {
-                String file = (String) iterator.next();
+                filePath = file;
+            }
 
-                if ( file.endsWith( "." ) ) //including ".."
+            if ( filePath.endsWith( "." ) ) //including ".."
+            {
+                continue;
+            }
+
+            if ( this.isDirectory( wagon, filePath ) )
+            {
+                if ( recursive )
                 {
-                    continue;
+                    this.scanRemoteRepo( wagon, filePath, collected, recursive, logger );
                 }
-
-                String dirResource = null;
-
-                //convert an entry to directory path and scan
-
-                if ( StringUtils.isEmpty( basePath ) )
-                {
-                    dirResource = file;
-                }
-                else
-                {
-                    if ( basePath.endsWith( "/" ) )
-                    {
-                        dirResource = basePath + file;
-                    }
-                    else
-                    {
-                        dirResource = basePath + "/" + file;
-                    }
-                }
-
-                if ( !dirResource.endsWith( "/" ) )
-                {
-                    dirResource += "/"; //force a directory scan
-                }
-
-                String fileResource = dirResource.substring( 0, dirResource.length() - 1 );
-
-                try
-                {
-                    //assume the entry is a directory 
-                    if ( recursive )
-                    {
-                        scanRemoteRepo( wagon, dirResource, collected, recursive, logger );
-                    }
-                    else
-                    {
-                        //just want to determine if it is a file or directory by checking for exception
-                        wagon.getFileList( dirResource );
-                    }
-                }
-                catch ( ResourceDoesNotExistException e )
-                {
-                    //directory scan fails so it must be a file
-                    logger.debug( "Found file " + fileResource );
-                    collected.add( fileResource );
-                }
-
-                catch ( TransferFailedException e )
-                {
-                    //until WAGON-245 is fixed
-                    logger.debug( "Found file " + fileResource );
-                    collected.add( fileResource );
-                }
-
+            }
+            else
+            {
+                logger.debug( "Found file " + filePath );
+                collected.add( filePath );
             }
         }
+    }
+
+    private boolean isFile( Wagon wagon, String remotePath )
+        throws WagonException
+    {
+        if ( wagon.resourceExists( remotePath ) )
+        {
+            if ( !wagon.resourceExists( remotePath + "/" ) )
+            {
+                //yeah, it is a file
+                return true;
+            }
+        }
+
+        //not exists or a directory
+        return false;
+    }
+
+    private boolean isDirectory( Wagon wagon, String existedRemotePath )
+        throws WagonException
+    {
+        if ( existedRemotePath.endsWith( "/" ) )
+        {
+            return true;
+        }
+        
+        return wagon.resourceExists( existedRemotePath + "/" );
     }
 
 }

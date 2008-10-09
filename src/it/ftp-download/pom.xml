@@ -28,7 +28,7 @@
         <configuration>
           <serverId>ibiblio.ftp</serverId>
           <url>ftp://ftp.ibiblio.org</url>
-          <downloadDirectory>${project.build.directory}/it/ftp-download</downloadDirectory>
+          <downloadDirectory>${downloadDir}</downloadDirectory>
           <!-- need additional settings.xml inorder to get this to work
           
               <server>
@@ -48,7 +48,17 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <remoteResource>README</remoteResource>
+              <remotePath>README</remotePath>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ftp-list-no-recursive</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <recursive>false</recursive>
             </configuration>
           </execution>
           <execution>
@@ -58,7 +68,18 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <remoteResource>README</remoteResource>
+              <remotePath>README</remotePath>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ftp-download-no-recursive</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <recursive>false</recursive>
+              <downloadDirectory>${downloadDir}/norecursive</downloadDirectory>
             </configuration>
           </execution>
         </executions>
@@ -68,6 +89,7 @@
 
   <properties>
     <version>testing</version>
+    <downloadDir>${project.build.directory}/it</downloadDir>
   </properties>
 
 </project>
