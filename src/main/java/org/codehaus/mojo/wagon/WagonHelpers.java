@@ -8,6 +8,11 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
+/**
+ * 
+ * @author Dan T. Tran
+ *
+ */
 public interface WagonHelpers
 {
     String ROLE = WagonHelpers.class.getName();
@@ -44,6 +49,16 @@ public interface WagonHelpers
      * @throws WagonException
      */
     void upload( Wagon wagon, FileSet fileset, Log logger )
+        throws WagonException;
+
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param fileItem
+     * @param logger
+     * @throws WagonException
+     */
+    public void upload( Wagon wagon, FileItem fileItem, Log logger )
         throws WagonException;
 
 }

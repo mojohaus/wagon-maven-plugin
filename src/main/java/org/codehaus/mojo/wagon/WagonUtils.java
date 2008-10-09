@@ -13,8 +13,8 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/**
- * @author dtran
+/*
+ * @author Dan T. Tran
  * 
  * @plexus.component role="org.codehaus.mojo.wagon.WagonHelpers" role-hint="default"
  */
@@ -39,7 +39,7 @@ public class WagonUtils
         }
 
         Collections.sort( fileList );
-        
+
         return fileList;
 
     }
@@ -71,7 +71,7 @@ public class WagonUtils
     public void upload( Wagon wagon, FileSet fileset, Log logger )
         throws WagonException
     {
-        logger.info( "uploading " + fileset );
+        logger.info( "Uploading " + fileset );
 
         FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
 
@@ -94,6 +94,19 @@ public class WagonUtils
 
             wagon.put( source, relativeDestPath );
         }
+
+    }
+
+    public void upload( Wagon wagon, FileItem fileItem, Log logger )
+        throws WagonException
+    {
+        String url = wagon.getRepository().getUrl() + "/";
+
+        String remotePath = fileItem.getRemoteFilePath();
+
+        logger.info( "Uploading " + fileItem.getLocalFile() + " to " + url + remotePath + " ..." );
+
+        wagon.put( fileItem.getLocalFile(), remotePath );
 
     }
 

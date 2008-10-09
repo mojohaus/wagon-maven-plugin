@@ -19,6 +19,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * @author <a href="mailto:james@atlassian.com">James William Dumay</a>
+ * @author Dan T. Tran
+ * 
  */
 public class InvalidResourceException
     extends MojoExecutionException

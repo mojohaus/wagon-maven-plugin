@@ -25,6 +25,8 @@ import org.apache.maven.wagon.WagonException;
  * Downloads file(s) . 
  * 
  * @author Sherali Karimov
+ * @author Dan T. Tran
+ * 
  * @goal download
  * @requiresProject false
  */

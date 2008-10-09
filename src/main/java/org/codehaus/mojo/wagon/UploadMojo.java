@@ -23,16 +23,29 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/**
+/*
  * Uploads file(s)
  * 
  * @author Sherali Karimov
+ * @author Dan T. Tran
+ * 
  * @goal upload
+ * 
  * @requiresProject true
  */
 public class UploadMojo
     extends AbstractWagonMojo
 {
+
+    /**
+     * @parameter
+     */
+    private FileItem fileItem;
+
+    /**
+     * @parameter
+     */
+    private List fileItems = new ArrayList( 0 );
 
     /**
      * A single FileSet to upload.
@@ -53,6 +66,13 @@ public class UploadMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
+        this.uploadFileItems( wagon );
+        this.uploadFileSets( wagon );
+    }
+
+    private void uploadFileSets( Wagon wagon )
+        throws MojoExecutionException, WagonException
+    {
         if ( fileset != null )
         {
             filesets.add( fileset );
@@ -61,13 +81,29 @@ public class UploadMojo
         for ( int i = 0; i < filesets.size(); ++i )
         {
             Fileset oneFileset = (Fileset) filesets.get( i );
-            
+
             if ( StringUtils.isBlank( oneFileset.getDirectory() ) )
             {
                 oneFileset.setDirectory( this.project.getBasedir().getAbsolutePath() );
             }
 
             this.wagonHelpers.upload( wagon, oneFileset, this.getLog() );
+        }
+    }
+
+    private void uploadFileItems( Wagon wagon )
+        throws MojoExecutionException, WagonException
+    {
+        if ( fileItem != null )
+        {
+            fileItems.add( fileItem );
+        }
+
+        for ( int i = 0; i < fileItems.size(); ++i )
+        {
+            FileItem fileItem = (FileItem) fileItems.get( i );
+
+            this.wagonHelpers.upload( wagon, fileItem, this.getLog() );
         }
     }
 
