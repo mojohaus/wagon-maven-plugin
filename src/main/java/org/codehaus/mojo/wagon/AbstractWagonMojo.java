@@ -53,7 +53,7 @@ public abstract class AbstractWagonMojo
      * 
      * @parameter expression="${wagon.serverId}" default-value="";
      */
-    protected String serverId;
+    protected String serverId = "";
 
     /**
      * @component

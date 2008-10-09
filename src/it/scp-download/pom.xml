@@ -42,7 +42,7 @@
                  <directory>${basedir}</directory>
                  <includes>
                    <include>*</include>
-                   <include>**/test.txt</include>
+                   <include>src/**/test.txt</include>
                  </includes>
               </fileset>
             </configuration>

@@ -100,7 +100,7 @@ public class WagonUtils
     private void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
         throws WagonException
     {
-        logger.debug( "scanning " + basePath + " ..." );
+        logger.debug( "Scanning " + basePath + " ..." );
 
         List files = wagon.getFileList( basePath );
 
@@ -121,7 +121,14 @@ public class WagonUtils
 
             if ( !StringUtils.isBlank( basePath ) )
             {
-                filePath = basePath + "/" + filePath;
+                if ( basePath.endsWith( "/" ) )
+                {
+                    filePath = basePath + filePath;
+                }
+                else
+                {
+                    filePath = basePath + "/" + filePath; // no separator ??? 
+                }
             }
 
             if ( this.isDirectory( wagon, filePath ) )
