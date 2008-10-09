@@ -25,15 +25,18 @@ public class WagonUtils
     public List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
         throws WagonException
     {
+        logger.info( "Listing " + wagon.getRepository().getUrl() + " ..." );
+
         ArrayList fileList = new ArrayList();
 
         if ( this.isFile( wagon, remotePath ) )
         {
             fileList.add( remotePath );
-            return fileList;
         }
-
-        scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
+        else
+        {
+            scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
+        }
 
         return fileList;
 
@@ -50,14 +53,15 @@ public class WagonUtils
         List fileList = this.getFileList( wagon, remotePath, recursive, logger );
 
         String url = wagon.getRepository().getUrl() + "/";
-        
+
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {
             String file = (String) iterator.next();
 
             File destination = new File( downloadDirectory + "/" + file );
 
-            logger.debug( "Download " + url +  file + " to " + destination + " ..." );
+            logger.info( "Downloading " + url + file + " to " + destination + " ..." );
+
             wagon.get( file, destination ); // the source path points at a single file
         }
     }
@@ -72,7 +76,7 @@ public class WagonUtils
         String[] files = fileSetManager.getIncludedFiles( fileset );
 
         String url = wagon.getRepository().getUrl() + "/";
-        
+
         for ( int i = 0; i < files.length; ++i )
         {
             String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
@@ -84,7 +88,8 @@ public class WagonUtils
 
             File source = new File( fileset.getDirectory(), files[i] );
 
-            logger.debug( "Upload " + source + " to " + url + relativeDestPath + " ..." );
+            logger.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
+
             wagon.put( source, relativeDestPath );
         }
 
@@ -107,17 +112,16 @@ public class WagonUtils
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {
-            String file = (String) iterator.next();
-            
-            String filePath = basePath + "/" + file;
-            if ( StringUtils.isBlank( basePath  ) )
-            {
-                filePath = file;
-            }
+            String filePath = (String) iterator.next();
 
             if ( filePath.endsWith( "." ) ) //including ".."
             {
                 continue;
+            }
+
+            if ( !StringUtils.isBlank( basePath ) )
+            {
+                filePath = basePath + "/" + filePath;
             }
 
             if ( this.isDirectory( wagon, filePath ) )
@@ -158,7 +162,7 @@ public class WagonUtils
         {
             return true;
         }
-        
+
         return wagon.resourceExists( existedRemotePath + "/" );
     }
 
