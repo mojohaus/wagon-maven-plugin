@@ -15,6 +15,9 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -25,6 +28,7 @@ import org.codehaus.plexus.util.StringUtils;
  * 
  * @author Sherali Karimov
  * @goal upload
+ * @requiresProject true
  */
 public class UploadMojo
     extends AbstractWagonMojo
@@ -38,22 +42,33 @@ public class UploadMojo
      */
     private Fileset fileset;
 
+    /**
+     * Multiple FileSet to upload
+     * 
+     * @parameter
+     * @since 1.0-alpha-1
+     */
+    private List filesets = new ArrayList( 0 );
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.processFileSet( wagon, this.fileset );
-    }
-
-    private void processFileSet( Wagon wagon, Fileset oneFileSet )
-        throws WagonException
-    {
-        if ( StringUtils.isBlank( oneFileSet.getDirectory() ) )
+        if ( fileset != null )
         {
-            oneFileSet.setDirectory( this.project.getBasedir().getAbsolutePath() );
+            filesets.add( fileset );
         }
 
-        this.wagonHelpers.upload( wagon, oneFileSet, this.getLog() );
+        for ( int i = 0; i < filesets.size(); ++i )
+        {
+            Fileset oneFileset = (Fileset) filesets.get( i );
+            
+            if ( StringUtils.isBlank( oneFileset.getDirectory() ) )
+            {
+                oneFileset.setDirectory( this.project.getBasedir().getAbsolutePath() );
+            }
 
+            this.wagonHelpers.upload( wagon, oneFileset, this.getLog() );
+        }
     }
 
 }

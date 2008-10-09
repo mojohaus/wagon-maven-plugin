@@ -16,13 +16,10 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Downloads file(s) . 

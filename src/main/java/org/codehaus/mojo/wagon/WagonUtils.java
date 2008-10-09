@@ -13,8 +13,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/*
- * 
+/**
  * @author dtran
  * 
  * @plexus.component role="org.codehaus.mojo.wagon.WagonHelpers" role-hint="default"
