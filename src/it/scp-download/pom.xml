@@ -28,7 +28,7 @@
         <configuration>
            <url>${url.base}</url>
            <serverId>localhost.scp</serverId>
-           <downloadDirectory>${project.build.directory}/it/scp</downloadDirectory>
+           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
         </configuration>
         <executions>
           <execution>
@@ -59,10 +59,10 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <fileItem>
+              <remoteFileItem>
                  <remoteFileName>pom.remote.xml</remoteFileName>
-                 <localFile>${downloadDirectory}/remote.download.xml</localFile>
-              </fileItem>
+                 <localFile>${downloadDirectory.base}/remote.download.xml</localFile>
+              </remoteFileItem>
             </configuration>
           </execution>
           <execution>
@@ -124,6 +124,7 @@
   <properties>
     <version>testing</version>
     <url.base>scp://localhost/home/${user.name}/wagon-plugin-it</url.base>
+    <downloadDirectory.base>${project.build.directory}/it/scp</downloadDirectory.base>
   </properties>
 
 </project>
