@@ -43,7 +43,9 @@
             </goals>
             <configuration>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
-              <remotePath>commons-dbutils-1.1-sources.jar</remotePath>
+              <remoteFileSet>
+                <remotePath>commons-dbutils-1.1-sources.jar</remotePath>
+              </remoteFileSet>
             </configuration>
           </execution>
 

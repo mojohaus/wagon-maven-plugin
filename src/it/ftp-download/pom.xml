@@ -41,6 +41,7 @@
         </configuration>
 
         <executions>
+
           <execution>
             <id>ftp-list-single</id>
             <phase>package</phase>
@@ -61,6 +62,7 @@
               <recursive>false</recursive>
             </configuration>
           </execution>
+          
           <execution>
             <id>ftp-download-single</id>
             <phase>package</phase>
@@ -68,9 +70,12 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <remotePath>README</remotePath>
+              <remoteFileSet>
+                <remotePath>README</remotePath>
+              </remoteFileSet>
             </configuration>
           </execution>
+          
           <execution>
             <id>ftp-download-no-recursive</id>
             <phase>package</phase>
@@ -78,8 +83,10 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <recursive>false</recursive>
-              <downloadDirectory>${downloadDir}/norecursive</downloadDirectory>
+              <remoteFileSet>
+                <downloadDirectory>${downloadDir}/norecursive</downloadDirectory>
+                <recursive>false</recursive>
+              </remoteFileSet>
             </configuration>
           </execution>
         </executions>

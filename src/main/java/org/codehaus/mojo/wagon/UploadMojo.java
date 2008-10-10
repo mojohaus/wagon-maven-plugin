@@ -23,14 +23,12 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/*
+/**
  * Uploads file(s)
  * 
  * @author Sherali Karimov
  * @author Dan T. Tran
- * 
  * @goal upload
- * 
  * @requiresProject true
  */
 public class UploadMojo
@@ -38,11 +36,13 @@ public class UploadMojo
 {
 
     /**
+     * Configuration to upload single file with option to rename.
      * @parameter
      */
     private FileItem fileItem;
 
     /**
+     * Configuration to upload multiple files with option to rename.
      * @parameter
      */
     private List fileItems = new ArrayList( 0 );
@@ -53,7 +53,7 @@ public class UploadMojo
      * @parameter
      * @since 1.0-alpha-1
      */
-    private Fileset fileset;
+    private Fileset fileSet;
 
     /**
      * Multiple FileSet to upload
@@ -61,7 +61,7 @@ public class UploadMojo
      * @parameter
      * @since 1.0-alpha-1
      */
-    private List filesets = new ArrayList( 0 );
+    private List fileSets = new ArrayList( 0 );
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
@@ -73,14 +73,14 @@ public class UploadMojo
     private void uploadFileSets( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( fileset != null )
+        if ( fileSet != null )
         {
-            filesets.add( fileset );
+            fileSets.add( fileSet );
         }
 
-        for ( int i = 0; i < filesets.size(); ++i )
+        for ( int i = 0; i < fileSets.size(); ++i )
         {
-            Fileset oneFileset = (Fileset) filesets.get( i );
+            Fileset oneFileset = (Fileset) fileSets.get( i );
 
             if ( StringUtils.isBlank( oneFileset.getDirectory() ) )
             {

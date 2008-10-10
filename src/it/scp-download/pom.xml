@@ -38,13 +38,13 @@
               <goal>upload</goal>
             </goals>
             <configuration>
-              <fileset>
+              <fileSet>
                  <directory>${basedir}</directory>
                  <includes>
                    <include>*</include>
                    <include>src/**/test.txt</include>
                  </includes>
-              </fileset>
+              </fileSet>
             </configuration>
           </execution> 
           <execution>
@@ -63,7 +63,6 @@
           </execution>
        
           <execution>
-            <!-- this is not working at time of writing this test --> 
             <id>scp-download-single-file</id>
             <phase>package</phase>
             <goals>
@@ -71,9 +70,12 @@
             </goals>
             <configuration>
                <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
-               <remotePath>test.txt</remotePath>
+               <remoteFileSet>
+                 <remotePath>test.txt</remotePath>               
+               </remoteFileSet>
             </configuration>
           </execution>
+          
           <execution>
             <id>scp-list-single</id>
             <phase>package</phase>

@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.codehaus.plexus.util.StringUtils;
 
-/*
+/**
  * Wagon configuration to download/upload single file with option to change destination name
  * 
  * @author Dan T. Tran
@@ -13,9 +13,9 @@ public class FileItem
 {
     private File localFile;
 
-    private String remoteDirectory;
+    private String remoteDirectory = "";
 
-    private String destFileName;
+    private String remoteFileName = "";
 
     public File getLocalFile()
     {
@@ -37,28 +37,28 @@ public class FileItem
         this.remoteDirectory = remoteDirectory;
     }
 
-    public String getDestFileName()
+    public String getRemoteFileName()
     {
-        return destFileName;
+        return remoteFileName;
     }
 
-    public void setDestFile( String destFileName )
+    public void setRemoteFileName( String destFileName )
     {
-        this.destFileName = destFileName;
+        this.remoteFileName = destFileName;
     }
 
     public String getRemoteFilePath()
     {
-        if ( StringUtils.isBlank( this.destFileName ) )
+        if ( StringUtils.isBlank( this.remoteFileName ) )
         {
-            this.destFileName = localFile.getName();
+            this.remoteFileName = localFile.getName();
         }
         
-        String remoteFilePath = this.remoteDirectory + "/" + this.destFileName;
+        String remoteFilePath = this.remoteDirectory + "/" + this.remoteFileName;
         
         if ( StringUtils.isBlank( this.remoteDirectory ) )
         {
-            remoteFilePath = this.destFileName;
+            remoteFilePath = this.remoteFileName;
         }
         
         return remoteFilePath;

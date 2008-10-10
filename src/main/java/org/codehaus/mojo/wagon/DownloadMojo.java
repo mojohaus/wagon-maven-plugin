@@ -22,30 +22,19 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Downloads file(s) . 
+ * Downloads file(s) .
  * 
  * @author Sherali Karimov
+ * 
  * @author Dan T. Tran
  * 
  * @goal download
+ * 
  * @requiresProject false
  */
 public class DownloadMojo
     extends AbstractWagonMojo
 {
-
-    /**
-     * Download all files recursively 
-     * @parameter expression="${wagon.recursive}" default-value="true"
-     */
-    private boolean recursive;
-
-    /**
-     * Path after the url, can be a file or directory
-     * @parameter expression="${wagon.remotePath}" default-value=""
-     */
-    private String remotePath;
-    
     /**
      * Local path to download the remote resource ( tree ) to.
      * 
@@ -53,10 +42,40 @@ public class DownloadMojo
      */
     private File downloadDirectory;
 
+    /**
+     * RemoteFileSet configuration, if not set, a default one will be created.
+     * @parameter
+     */
+    private RemoteFileSet remoteFileSet;
+
+    /**
+     * 
+     */
+    private FileItem fileItem;
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.wagonHelpers.download( wagon, remotePath, recursive, downloadDirectory, this.getLog() );
+        if ( remoteFileSet == null && fileItem == null )
+        {
+            remoteFileSet = new RemoteFileSet();
+        }
+        
+        if ( remoteFileSet != null )
+        {
+            if ( remoteFileSet.getDownloadDirectory() == null )
+            {
+                remoteFileSet.setDownloadDirectory( downloadDirectory );
+            }
+
+            this.wagonHelpers.download( wagon, remoteFileSet, this.getLog() );
+        }
+        
+        if( fileItem != null )
+        {
+            this.wagonHelpers.download( wagon, fileItem, this.getLog() );
+        }
+
     }
 
 }

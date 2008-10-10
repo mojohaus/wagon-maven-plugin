@@ -13,7 +13,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-/*
+/**
  * @author Dan T. Tran
  * 
  * @plexus.component role="org.codehaus.mojo.wagon.WagonHelpers" role-hint="default"
@@ -44,13 +44,12 @@ public class WagonUtils
 
     }
 
-    public void download( Wagon wagon, String remotePath, boolean recursive, File downloadDirectory, Log logger )
+    public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
         throws WagonException
     {
-        if ( StringUtils.isBlank( remotePath ) )
-        {
-            remotePath = "";
-        }
+        String remotePath = remoteFileSet.getRemotePath();
+        File downloadDirectory = remoteFileSet.getDownloadDirectory();
+        boolean recursive = remoteFileSet.isRecursive();
 
         List fileList = this.getFileList( wagon, remotePath, recursive, logger );
 
@@ -58,14 +57,27 @@ public class WagonUtils
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {
-            String file = (String) iterator.next();
+            String remoteFile = (String) iterator.next();
 
-            File destination = new File( downloadDirectory + "/" + file );
+            File destination = new File( downloadDirectory + "/" + remoteFile );
 
-            logger.info( "Downloading " + url + file + " to " + destination + " ..." );
+            logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
 
-            wagon.get( file, destination ); // the source path points at a single file
+            wagon.get( remoteFile, destination ); 
         }
+    }
+
+    public void download( Wagon wagon, FileItem fileItem, Log logger )
+        throws WagonException
+    {
+        String url = wagon.getRepository().getUrl() + "/";
+        
+        String remoteFile = fileItem.getRemoteFilePath();
+        File localFile = fileItem.getLocalFile();
+        
+        logger.info( "Downloading " + url + remoteFile + " to " + localFile + " ..." );
+        
+        wagon.get( remoteFile, localFile );
     }
 
     public void upload( Wagon wagon, FileSet fileset, Log logger )

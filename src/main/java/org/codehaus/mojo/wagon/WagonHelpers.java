@@ -1,6 +1,5 @@
 package org.codehaus.mojo.wagon;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
@@ -11,7 +10,6 @@ import org.apache.maven.wagon.WagonException;
 /**
  * 
  * @author Dan T. Tran
- *
  */
 public interface WagonHelpers
 {
@@ -32,13 +30,21 @@ public interface WagonHelpers
     /**
      * 
      * @param wagon - a Wagon instance
-     * @param remotePath - directory or file relative to the wagon's url
-     * @param recursive - list all
-     * @param downloadDirectory 
+     * @param remoteFileSet - 
      * @param logger
      * @throws WagonException
      */
-    void download( Wagon wagon, String remotePath, boolean recursive, File downloadDirectory, Log logger )
+    public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
+        throws WagonException;
+
+    /**
+     * 
+     * @param wagon
+     * @param fileItem
+     * @param logger
+     * @throws WagonException
+     */
+    public void download( Wagon wagon, FileItem fileItem, Log logger )
         throws WagonException;
 
     /**
