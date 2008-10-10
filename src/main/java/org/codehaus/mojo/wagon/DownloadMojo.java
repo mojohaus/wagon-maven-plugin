@@ -1,6 +1,6 @@
 package org.codehaus.mojo.wagon;
 
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
@@ -16,6 +16,8 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
@@ -49,33 +51,73 @@ public class DownloadMojo
     private RemoteFileSet remoteFileSet;
 
     /**
-     * 
+     * RemoteFileSet configuration, if not set, a default one will be created.
+     * @parameter
      */
-    private FileItem fileItem;
+    private List remoteFileSets = new ArrayList( 0 );
+
+    /**
+     * @parameter
+     */
+    private FileItem remoteFileItem;
+
+    /**
+     * RemoteFileSet configuration, if not set, a default one will be created.
+     * @parameter
+     */
+    private List remoteFileItems = new ArrayList( 0 );
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( remoteFileSet == null && fileItem == null )
+        
+        if ( remoteFileItem != null )
+        {
+            this.remoteFileItems.add( this.remoteFileItem );
+        }
+
+        if ( remoteFileSet != null )
+        {
+            this.remoteFileSets.add( this.remoteFileSet );
+        }
+
+        if ( remoteFileSets.isEmpty() && remoteFileItems.isEmpty() )
         {
             remoteFileSet = new RemoteFileSet();
         }
         
-        if ( remoteFileSet != null )
+        this.downloadRemoteFileItems( wagon );
+
+        this.downloadRemoteFileSets( wagon );
+    }
+
+    private void downloadRemoteFileSets( Wagon wagon )
+        throws MojoExecutionException, WagonException
+    {
+
+        for ( int i = 0; i < remoteFileSets.size(); ++i )
         {
-            if ( remoteFileSet.getDownloadDirectory() == null )
+            RemoteFileSet fileSet = (RemoteFileSet) remoteFileSets.get( i );
+            
+            if ( fileSet.getDownloadDirectory() == null )
             {
-                remoteFileSet.setDownloadDirectory( downloadDirectory );
+                fileSet.setDownloadDirectory( this.downloadDirectory );
             }
 
-            this.wagonHelpers.download( wagon, remoteFileSet, this.getLog() );
+            this.wagonHelpers.download( wagon, fileSet, this.getLog() );
         }
-        
-        if( fileItem != null )
+    }
+
+    private void downloadRemoteFileItems( Wagon wagon )
+        throws MojoExecutionException, WagonException
+    {
+
+        for ( int i = 0; i < remoteFileItems.size(); ++i )
         {
-            this.wagonHelpers.download( wagon, fileItem, this.getLog() );
+            FileItem item = (FileItem) remoteFileItems.get( i );
+
+            this.wagonHelpers.download( wagon, item, this.getLog() );
         }
 
     }
-
 }
