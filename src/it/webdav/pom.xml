@@ -60,6 +60,17 @@
           </execution>
         
         </executions>
+        
+        <!-- must use extensions instead
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>1.0-beta-4</version>
+          </dependency>
+        </dependencies>
+        -->
+        
       </plugin>
     </plugins>
   </build>
