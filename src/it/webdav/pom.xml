@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+  
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>1.0-beta-4</version>
+      </extension>
+    </extensions>
+
+ 
+    <defaultGoal>package</defaultGoal>
+    
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>${version}</version>
+        <configuration>
+          <url>${url.base}</url>
+          <serverId>codehaus.org</serverId>
+          <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
+        </configuration>
+        
+        <executions>
+        
+          <execution>
+            <id>download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <remotePath>org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT/build-helper-maven-plugin-1.2-20080813.143116-6.pom</remotePath>
+              <localFile>${project.build.directory}/a.txt</localFile>
+            </configuration>
+          </execution>
+
+          <!-- Currently failing -->
+          <execution>
+            <id>list</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <recursive>true</recursive>
+              <remotePath>org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT</remotePath>
+            </configuration>
+          </execution>
+        
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <version>testing</version>
+    <url.base>dav:https://dav.codehaus.org/snapshots.repository/mojo</url.base>
+    <downloadDirectory.base>${project.build.directory}/it/webdav</downloadDirectory.base>
+    
+  </properties>
+
+</project>
