@@ -18,8 +18,7 @@
   
   <description>
     Maven 2 plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
-    files and directories and allows glob expressions for specifying them. Provides upload, download and list directory
-    content functionality.
+    Provides recursive upload, download and list directory content functionality.
   </description>
   
   <version>1.0-SNAPSHOT</version>
@@ -35,6 +34,12 @@
   <developers>
     <developer>
       <name>James W. Dumay</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Dan T. Tran</name>
       <roles>
         <role>Developer</role>
       </roles>
