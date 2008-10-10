@@ -40,7 +40,7 @@ Introduction
   <build>
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
-      <artifactId>maven-wagon-plugin</artifactId>
+      <artifactId>wagon-maven-plugin</artifactId>
       <version>1.0-SNAPSHOT</version>
       <executions>
         <execution>
@@ -50,16 +50,16 @@ Introduction
             <goal>upload</goal>
           </goals>
           <configuration>
-            <resourceSrc>target/site/apidocs/*</resourceSrc>
-            <resourceDest>${pom.artifactId}/${pom.version}</resourceDest>
-            <serverId>atlassian-documentation</serverId>
             <url>dav:https://docs.atlassian.com/</url>
+            <fileSet>
+              <recursive>true</recursive>
+            </fileSet>
           </configuration>
-        </execution>
-      </executions>
-    </plugin>
-  </build>
-  [...]
+          </execution>
+        </executions>
+        </plugin>
+    </build>
+    [...]
 </project>
 +-----
 
@@ -81,10 +81,12 @@ Introduction
             <goal>download</goal>
           </goals>
           <configuration>
-            <resourceSrc>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}/*</resourceSrc>
-            <resourceDest>target/test-data/</resourceDest>
             <serverId>atlassian-public</serverId>
-            <url>dav:https://maven.atlassian.com/public/</url>
+            <url>dav:https://maven.atlassian.com/public</url>
+            <remoteFileSet>
+              <remotePath>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</resourceSrc>
+            </remoteFileSet>
+            <dowloadDirectory>${project.build.directory}/test-data</dowloadDirectory>
           </configuration>
         </execution>
       </executions>
@@ -92,4 +94,6 @@ Introduction
   </build>
   [...]
 </project>
-+-----
++----- 
+
+

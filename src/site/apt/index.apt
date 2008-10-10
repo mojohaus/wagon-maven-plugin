@@ -40,14 +40,17 @@ Overview
 
   The Wagon Plugin has the following goals.
 
-  * {{{upload-mojo.html}wagon:upload}} attempts to upload the specified data to a remote location.
+  * {{{upload-single-mojo.html}wagon:upload-single}} attempts to upload the specified file to a remote location.
   
-  * {{{download-mojo.html}wagon:download}} attempts to download the specified data from a remote location.
+  * {{{upload-mojo.html}wagon:upload}} attempts to upload the specified set of files to a remote location.
+  
+  * {{{download-single-mojo.html}wagon:download-single}} attempts to download the specified file from a remote location.
+  
+  * {{{download-mojo.html}wagon:download}} attempts to download the specified set of files from a remote location.
   
   * {{{list-mojo.html}wagon:list}} attempts to list the content of a specified location in a remote repository.
 
 * Usage
 
-  Instructions on the basic usage of the Wagon Plugin can be found
-  {{{usage.html}here}}.
+  Instructions on the basic usage of the Wagon Plugin can be found {{{usage.html}here}}.
 
