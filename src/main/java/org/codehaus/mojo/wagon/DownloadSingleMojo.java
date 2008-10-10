@@ -1,6 +1,6 @@
 package org.codehaus.mojo.wagon;
 
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
@@ -15,48 +15,45 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
-import java.util.Iterator;
-import java.util.List;
+import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Lists the content of the specified directory (remotePath) under a specified repository (url) 
+ * Download a single file.
  * 
- * @author Sherali Karimov
  * @author Dan T. Tran
+ * @goal download-single
  * 
- * @goal list
- * @requiresProject false
+ * @requiresProject true
  */
-public class ListMojo
+public class DownloadSingleMojo
     extends AbstractWagonMojo
 {
     /**
-     * Path after the url, can be a file or directory
-     * 
-     * @parameter expression="${wagon.remotePath}" default-value=""
+     * Path to a local file to download to.
+     *  
+     * @parameter expression="${wagon.localFile}"
+     * @required 
      */
-    private String remotePath = "";
+    private File localFile;
 
     /**
-     * 
-     * @parameter expression="${wagon.recursive}" default-value="false"
+     * Relative path to the URL of the remote file
+     * @parameter expression="${wagon.remotePath}"
+     * @required 
      */
-    private boolean recursive;
+    private String remotePath;
 
-    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        List files = wagonHelpers.getFileList( wagon, remotePath, recursive, this.getLog() );
+        this.getLog().info( "Downloading: " + wagon.getRepository().getUrl() + "/" + remotePath + " to " + localFile );
 
-        for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
-        {
-            String file = (String) iterator.next();
-            getLog().info( "\t" + file );
-        }
+        wagon.get( remotePath, localFile );
+
     }
+
 }

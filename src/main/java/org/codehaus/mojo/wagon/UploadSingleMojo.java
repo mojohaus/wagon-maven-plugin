@@ -1,6 +1,6 @@
 package org.codehaus.mojo.wagon;
 
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
@@ -15,21 +15,45 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.wagon.Wagon;
+import org.apache.maven.wagon.WagonException;
 
 /**
- * @author <a href="mailto:james@atlassian.com">James William Dumay</a>
- * @author Dan T. Tran
+ * Upload a single file with option to change name
  * 
+ * @author Dan T. Tran
+ * @goal upload-single
+ * 
+ * @requiresProject true
  */
-public class InvalidResourceException
-    extends MojoExecutionException
+public class UploadSingleMojo
+    extends AbstractWagonMojo
 {
-    
-    private static final long serialVersionUID = 0L;
-    
-    public InvalidResourceException( String message )
+    /**
+     * Path to a local file to be uploaded
+     * 
+     * @parameter expression="${wagon.localFile}" 
+     * @required
+     */
+    private File localFile;
+
+    /**
+     * Relative path to the URL of the remote file
+     * @parameter expression="${wagon.remotePath}"
+     * @required
+     */
+    private String remotePath;
+
+    protected void execute( Wagon wagon )
+        throws MojoExecutionException, WagonException
     {
-        super( message );
+        this.getLog().info( "Uploading: " + localFile + " " + wagon.getRepository().getUrl() + "/" + remotePath );
+
+        wagon.put( localFile, remotePath );
+
     }
+
 }

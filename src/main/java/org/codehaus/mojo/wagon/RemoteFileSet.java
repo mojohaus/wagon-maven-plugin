@@ -11,9 +11,9 @@ import java.io.File;
 public class RemoteFileSet
 {
     /**
-     * Download all files recursively 
+     * Download all files recursively if enable
      */
-    private boolean recursive = true;
+    private boolean recursive = false;
 
     /**
      * Path after the url, can be a file or directory

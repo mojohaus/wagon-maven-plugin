@@ -27,9 +27,7 @@ import org.apache.maven.wagon.WagonException;
  * Downloads file(s) .
  * 
  * @author Sherali Karimov
- * 
  * @author Dan T. Tran
- * 
  * @goal download
  * 
  * @requiresProject false
@@ -56,37 +54,19 @@ public class DownloadMojo
      */
     private List remoteFileSets = new ArrayList( 0 );
 
-    /**
-     * @parameter
-     */
-    private FileItem remoteFileItem;
-
-    /**
-     * RemoteFileSet configuration, if not set, a default one will be created.
-     * @parameter
-     */
-    private List remoteFileItems = new ArrayList( 0 );
-
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        
-        if ( remoteFileItem != null )
-        {
-            this.remoteFileItems.add( this.remoteFileItem );
-        }
 
         if ( remoteFileSet != null )
         {
             this.remoteFileSets.add( this.remoteFileSet );
         }
 
-        if ( remoteFileSets.isEmpty() && remoteFileItems.isEmpty() )
+        if ( remoteFileSets.isEmpty() )
         {
             remoteFileSets.add( new RemoteFileSet() );
         }
-        
-        this.downloadRemoteFileItems( wagon );
 
         this.downloadRemoteFileSets( wagon );
     }
@@ -98,7 +78,7 @@ public class DownloadMojo
         for ( int i = 0; i < remoteFileSets.size(); ++i )
         {
             RemoteFileSet fileSet = (RemoteFileSet) remoteFileSets.get( i );
-            
+
             if ( fileSet.getDownloadDirectory() == null )
             {
                 fileSet.setDownloadDirectory( this.downloadDirectory );
@@ -108,16 +88,4 @@ public class DownloadMojo
         }
     }
 
-    private void downloadRemoteFileItems( Wagon wagon )
-        throws MojoExecutionException, WagonException
-    {
-
-        for ( int i = 0; i < remoteFileItems.size(); ++i )
-        {
-            FileItem item = (FileItem) remoteFileItems.get( i );
-
-            this.wagonHelpers.download( wagon, item, this.getLog() );
-        }
-
-    }
 }

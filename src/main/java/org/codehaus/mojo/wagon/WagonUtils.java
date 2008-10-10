@@ -67,19 +67,6 @@ public class WagonUtils
         }
     }
 
-    public void download( Wagon wagon, FileItem fileItem, Log logger )
-        throws WagonException
-    {
-        String url = wagon.getRepository().getUrl() + "/";
-        
-        String remoteFile = fileItem.getRemoteFilePath();
-        File localFile = fileItem.getLocalFile();
-        
-        logger.info( "Downloading " + url + remoteFile + " to " + localFile + " ..." );
-        
-        wagon.get( remoteFile, localFile );
-    }
-
     public void upload( Wagon wagon, FileSet fileset, Log logger )
         throws WagonException
     {
@@ -109,18 +96,6 @@ public class WagonUtils
 
     }
 
-    public void upload( Wagon wagon, FileItem fileItem, Log logger )
-        throws WagonException
-    {
-        String url = wagon.getRepository().getUrl() + "/";
-
-        String remotePath = fileItem.getRemoteFilePath();
-
-        logger.info( "Uploading " + fileItem.getLocalFile() + " to " + url + remotePath + " ..." );
-
-        wagon.put( fileItem.getLocalFile(), remotePath );
-
-    }
 
     ///////////////////////////////////////////////////////////////////////////
 

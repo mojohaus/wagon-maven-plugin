@@ -39,32 +39,12 @@ public interface WagonHelpers
 
     /**
      * 
-     * @param wagon
-     * @param fileItem
-     * @param logger
-     * @throws WagonException
-     */
-    public void download( Wagon wagon, FileItem fileItem, Log logger )
-        throws WagonException;
-
-    /**
-     * 
      * @param wagon - a Wagon instance
      * @param fileset
      * @param logger
      * @throws WagonException
      */
     void upload( Wagon wagon, FileSet fileset, Log logger )
-        throws WagonException;
-
-    /**
-     * 
-     * @param wagon - a Wagon instance
-     * @param fileItem
-     * @param logger
-     * @throws WagonException
-     */
-    public void upload( Wagon wagon, FileItem fileItem, Log logger )
         throws WagonException;
 
 }
