@@ -83,7 +83,7 @@ public class DownloadMojo
 
         if ( remoteFileSets.isEmpty() && remoteFileItems.isEmpty() )
         {
-            remoteFileSet = new RemoteFileSet();
+            remoteFileSets.add( new RemoteFileSet() );
         }
         
         this.downloadRemoteFileItems( wagon );

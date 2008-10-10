@@ -26,13 +26,13 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
         <configuration>
-           <url>scp://localhost/home/${user.name}/wagon-plugin-it</url>
+           <url>${url.base}</url>
            <serverId>localhost.scp</serverId>
-           <downloadDirectory>${project.build.directory}/it/scp-download</downloadDirectory>
+           <downloadDirectory>${project.build.directory}/it/scp</downloadDirectory>
         </configuration>
         <executions>
           <execution>
-            <id>scp-upload</id>
+            <id>upload-test-files</id>
             <phase>package</phase>
             <goals>
               <goal>upload</goal>
@@ -45,45 +45,73 @@
                    <include>src/**/test.txt</include>
                  </includes>
               </fileSet>
+              <fileItem>
+                 <localFile>${basedir}/pom.xml</localFile>
+                 <remoteFileName>pom.remote.xml</remoteFileName>
+              </fileItem>
             </configuration>
           </execution> 
+          
           <execution>
-            <id>scp-download-all-files</id>
-            <phase>package</phase>
-            <goals>
-              <goal>download</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>scp-list</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-          </execution>
-       
-          <execution>
-            <id>scp-download-single-file</id>
+            <id>download-single-file-with-rename</id>
             <phase>package</phase>
             <goals>
               <goal>download</goal>
             </goals>
             <configuration>
-               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
+              <fileItem>
+                 <remoteFileName>pom.remote.xml</remoteFileName>
+                 <localFile>${downloadDirectory}/remote.download.xml</localFile>
+              </fileItem>
+            </configuration>
+          </execution>
+          <execution>
+            <id>download-single-file-with-norename</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
                <remoteFileSet>
-                 <remotePath>test.txt</remotePath>               
+                 <remotePath>pom.remote.xml</remotePath>               
                </remoteFileSet>
             </configuration>
           </execution>
+          <execution>
+            <id>download-all-files</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+          </execution>
           
           <execution>
-            <id>scp-list-single</id>
+            <id>list-all</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>list-no-recursive</id>
             <phase>package</phase>
             <goals>
               <goal>list</goal>
             </goals>
             <configuration>
-               <url>scp://localhost/home/${user.name}/wagon-plugin-it/src/main/resources</url>
+               <recursive>false</recursive>
+            </configuration>
+          </execution>
+       
+          
+          <execution>
+            <id>list-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+               <url>${url.base}/src/main/resources</url>
                <remotePath>test.txt</remotePath>
             </configuration>
           </execution>
@@ -95,6 +123,7 @@
 
   <properties>
     <version>testing</version>
+    <url.base>scp://localhost/home/${user.name}/wagon-plugin-it</url.base>
   </properties>
 
 </project>
