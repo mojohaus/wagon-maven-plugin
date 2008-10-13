@@ -16,8 +16,6 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
@@ -36,56 +34,25 @@ public class DownloadMojo
     extends AbstractWagonMojo
 {
     /**
-     * Local path to download the remote resource ( tree ) to.
+     * Local directory to download the remote resource ( tree ) to.
      * 
-     * @parameter expression="${wagon.downloadDirectory}" default-value="${project.build.directory}/wagon-plugin"
+     * @parameter expression="${wagon.toDir}" default-value="${project.build.directory}/wagon-plugin"
      */
-    private File downloadDirectory;
+    private File toDir;
 
     /**
-     * RemoteFileSet configuration, if not set, a default one will be created.
-     * @parameter
+     * @parameter expression="${wagon.recursive}" default-value="false"
      */
-    private RemoteFileSet remoteFileSet;
-
-    /**
-     * RemoteFileSet configuration, if not set, a default one will be created.
-     * @parameter
-     */
-    private List remoteFileSets = new ArrayList( 0 );
+    private boolean recursive = false;
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-
-        if ( remoteFileSet != null )
-        {
-            this.remoteFileSets.add( this.remoteFileSet );
-        }
-
-        if ( remoteFileSets.isEmpty() )
-        {
-            remoteFileSets.add( new RemoteFileSet() );
-        }
-
-        this.downloadRemoteFileSets( wagon );
+        RemoteFileSet fileSet = new RemoteFileSet();
+        fileSet.setDownloadDirectory( this.toDir );
+        fileSet.setRecursive( this.recursive );
+        
+        this.wagonHelpers.download( wagon, fileSet, this.getLog() );
     }
-
-    private void downloadRemoteFileSets( Wagon wagon )
-        throws MojoExecutionException, WagonException
-    {
-
-        for ( int i = 0; i < remoteFileSets.size(); ++i )
-        {
-            RemoteFileSet fileSet = (RemoteFileSet) remoteFileSets.get( i );
-
-            if ( fileSet.getDownloadDirectory() == null )
-            {
-                fileSet.setDownloadDirectory( this.downloadDirectory );
-            }
-
-            this.wagonHelpers.download( wagon, fileSet, this.getLog() );
-        }
-    }
-
+    
 }

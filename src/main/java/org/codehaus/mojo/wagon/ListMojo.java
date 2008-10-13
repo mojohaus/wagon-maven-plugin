@@ -35,13 +35,6 @@ public class ListMojo
     extends AbstractWagonMojo
 {
     /**
-     * Path after the url, can be a file or directory
-     * 
-     * @parameter expression="${wagon.remotePath}" default-value=""
-     */
-    private String remotePath = "";
-
-    /**
      * 
      * @parameter expression="${wagon.recursive}" default-value="false"
      */
@@ -51,7 +44,7 @@ public class ListMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        List files = wagonHelpers.getFileList( wagon, remotePath, recursive, this.getLog() );
+        List files = wagonHelpers.getFileList( wagon, "", recursive, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {

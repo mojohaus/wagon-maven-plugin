@@ -20,6 +20,7 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload a single file with option to change name
@@ -35,24 +36,29 @@ public class UploadSingleMojo
     /**
      * Path to a local file to be uploaded
      * 
-     * @parameter expression="${wagon.localFile}" 
+     * @parameter expression="${wagon.fromFile}" 
      * @required
      */
-    private File localFile;
+    private File fromFile;
 
     /**
-     * Relative path to the URL of the remote file
-     * @parameter expression="${wagon.remotePath}"
+     * Relative path to the URL of the remote directory
+     * @parameter expression="${wagon.toFile}"
      * @required
      */
-    private String remotePath;
+    private String toFile;
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.getLog().info( "Uploading: " + localFile + " " + wagon.getRepository().getUrl() + "/" + remotePath );
+        if ( StringUtils.isBlank( toFile ) )
+        {
+            toFile = fromFile.getName();
+        }
+            
+        this.getLog().info( "Uploading: " + fromFile + " " + wagon.getRepository().getUrl() + "/" + toFile );
 
-        wagon.put( localFile, remotePath );
+        wagon.put( fromFile, toFile );
 
     }
 

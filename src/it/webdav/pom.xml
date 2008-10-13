@@ -8,25 +8,19 @@
   <version>testing</version>
 
 
+  <repositories>
+    <repository>
+      <id>apache.org</id>
+      <name>Maven Central Development Plugin Repository</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
   <build>
   
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>1.0-beta-4</version>
-      </extension>
-      <extension>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.9.1</version>
-      </extension>
-      <extension>
-        <groupId>commons-collections</groupId>
-        <artifactId>commons-collections</artifactId>
-        <version>3.2.1</version>
-      </extension>
-    </extensions>
 
  
     <defaultGoal>package</defaultGoal>
@@ -52,8 +46,8 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <remotePath>org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT/build-helper-maven-plugin-1.2-20080813.143116-6.pom</remotePath>
-              <localFile>${project.build.directory}/a.txt</localFile>
+              <fromFile>org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT/build-helper-maven-plugin-1.2-20080813.143116-6.pom</fromFile>
+              <toFile>${project.build.directory}/a.txt</toFile>
             </configuration>
           </execution>
 
@@ -78,8 +72,8 @@
               <goal>list</goal>
             </goals>
             <configuration>
+              <url>${url.base}/org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT</url>
               <recursive>true</recursive>
-              <remotePath>org/codehaus/mojo/build-helper-maven-plugin/1.2-SNAPSHOT</remotePath>
             </configuration>
           </execution>
         
@@ -91,7 +85,7 @@
 
   <properties>
     <version>testing</version>
-    <url.base>dav:https://dav.codehaus.org/snapshots.repository/mojo</url.base>
+    <url.base>dav:https://dav.codehaus.org/snapshots.repository/mojo/</url.base>
     <downloadDirectory.base>${project.build.directory}/it/webdav</downloadDirectory.base>
     
   </properties>

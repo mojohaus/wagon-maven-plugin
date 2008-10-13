@@ -33,26 +33,41 @@ public class DownloadSingleMojo
     extends AbstractWagonMojo
 {
     /**
-     * Path to a local file to download to.
-     *  
-     * @parameter expression="${wagon.localFile}"
+     * Relative path to the URL of the remote file
+     * @parameter expression="${wagon.remoteFile}"
      * @required 
      */
-    private File localFile;
+    private String fromFile;
+    
+    /**
+     * Directory to download the remoteFile to
+     * @parameter expression="${wagon.toDir}" 
+     */
+    private File toDir;
 
     /**
-     * Relative path to the URL of the remote file
-     * @parameter expression="${wagon.remotePath}"
-     * @required 
+     * File to download the remoteFile to.  Use this option to rename the file after download
+     * @parameter expression="${wagon.toFile}" 
      */
-    private String remotePath;
+    private File toFile;
+    
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.getLog().info( "Downloading: " + wagon.getRepository().getUrl() + "/" + remotePath + " to " + localFile );
+        if ( toDir != null )
+        {
+            toFile = new File( toDir, new File( fromFile ).getName() );
+        }
+        
+        if ( toFile == null )
+        {
+            throw new MojoExecutionException( "Either toDir or toFile is required" );
+        }
+        
+        this.getLog().info( "Downloading: " + wagon.getRepository().getUrl() + "/" + fromFile + " to " + toFile );
 
-        wagon.get( remotePath, localFile );
+        wagon.get( fromFile, toFile );
 
     }
 

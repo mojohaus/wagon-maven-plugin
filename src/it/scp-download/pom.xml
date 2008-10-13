@@ -48,13 +48,23 @@
               <goal>upload</goal>
             </goals>
             <configuration>
-              <fileSet>
-                <directory>${basedir}</directory>
-                <includes>
-                  <include>*</include>
-                  <include>src/**/test.txt</include>
-                </includes>
-              </fileSet>
+              <fromDir>${basedir}</fromDir>
+              <includes>
+                <include>*</include>
+                <include>src/**/test.txt</include>
+              </includes>
+            </configuration>
+          </execution>
+          
+          <execution>
+            <id>upload-single-with-rename</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>pom.remote.xml</toFile>
             </configuration>
           </execution>
 
@@ -65,8 +75,8 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <remotePath>pom.remote.xml</remotePath>
-              <localFile>${downloadDirectory.base}/remote.download.xml</localFile>
+              <fromFile>pom.remote.xml</fromFile>
+              <toFile>${downloadDirectory.base}/remote.download.xml</toFile>
             </configuration>
           </execution>
           <execution>
@@ -76,8 +86,8 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <remotePath>pom.remote.xml</remotePath>
-              <localFile>${downloadDirectory.base}/pom.remote.xml</localFile>
+              <fromFile>pom.remote.xml</fromFile>
+              <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
           <execution>
@@ -86,6 +96,10 @@
             <goals>
               <goal>download</goal>
             </goals>
+            <configuration>
+              <toDir>${downloadDirectory.base}</toDir>
+            </configuration>
+            
           </execution>
           <execution>
             <id>download-all-files</id>
@@ -94,9 +108,8 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <remoteFileSet>
-                <recursive>true</recursive>
-              </remoteFileSet>
+              <toDir>${downloadDirectory.base}</toDir>
+              <recursive>true</recursive>
             </configuration>
           </execution>
 

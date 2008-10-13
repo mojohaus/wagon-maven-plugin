@@ -15,13 +15,13 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.Arrays;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload multiple sets of files.
@@ -34,53 +34,60 @@ import org.codehaus.plexus.util.StringUtils;
 public class UploadMojo
     extends AbstractWagonMojo
 {
+    /**
+     * Local directory to upload to wagon url
+     * @parameter expression="${wagon.fromDir}" default-value="${project.basedir}"
+     */
+    private File fromDir;
+    
+    /**
+     * Comma separate list of ocalDirectory's Ant excludes
+     * @parameter expression="${wagon.excludes}" 
+     * l
+     */
+    private String [] excludes;
+    
+    /**
+     * Comma separate list of ocalDirectory's Ant includes
+     * @parameter expression="${wagon.includes}" 
+     * localDirectory's Ant includes
+     */
+    private String [] includes;
+    
+    /**
+     * Follow local symbolic link if possible
+     * @parameter expression="${wagon.followSymLink}" default-value="true" 
+     */
+    private boolean  followSymLink = false;
 
     /**
-     * A single FileSet to upload.
-     *
-     * @parameter
-     * @since 1.0-alpha-1
+     * User default exclude sets
+     * @parameter expression="${wagon.userDefaultExcludes}" default-value="true" 
      */
-    private Fileset fileSet;
-
-    /**
-     * Multiple FileSets to upload
-     * 
-     * @parameter
-     * @since 1.0-alpha-1
-     */
-    private List fileSets = new ArrayList( 0 );
-
+    private boolean  userDefaultExcludes = true;
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        this.uploadFileSets( wagon );
-    }
-
-    private void uploadFileSets( Wagon wagon )
-        throws MojoExecutionException, WagonException
-    {
-        if ( fileSet != null )
+        FileSet fileSet = new FileSet();
+        
+        fileSet.setDirectory( this.fromDir.getAbsolutePath() );
+        
+        if ( this.includes != null )
         {
-            fileSets.add( fileSet );
+            fileSet.setIncludes( Arrays.asList( this.includes ) );
+        }
+
+        if ( this.excludes != null )
+        {
+            fileSet.setIncludes( Arrays.asList( this.excludes ) );
         }
         
-        if ( fileSets.isEmpty() )
-        {
-            this.getLog().info( "No file to upload." );
-            return;
-        }
+        fileSet.setFollowSymlinks( this.followSymLink );
+        
+        fileSet.setUseDefaultExcludes( this.userDefaultExcludes );
 
-        for ( int i = 0; i < fileSets.size(); ++i )
-        {
-            Fileset oneFileset = (Fileset) fileSets.get( i );
-
-            if ( StringUtils.isBlank( oneFileset.getDirectory() ) )
-            {
-                oneFileset.setDirectory( this.project.getBasedir().getAbsolutePath() );
-            }
-
-            this.wagonHelpers.upload( wagon, oneFileset, this.getLog() );
-        }
+        this.wagonHelpers.upload( wagon, fileSet, this.getLog() );
     }
+
 }
