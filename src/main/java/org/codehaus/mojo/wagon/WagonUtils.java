@@ -25,23 +25,30 @@ public class WagonUtils
     public List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
         throws WagonException
     {
-        logger.info( "Listing " + wagon.getRepository().getUrl() + " ..." );
+        WagonDirectoryScan dirScan = new WagonDirectoryScan();
+        dirScan.setWagon( wagon );
+        if ( ! recursive )
+        {
+            String [] excludes = new String[1];
+            excludes[0] = "**/*";
+            dirScan.setExcludes( excludes );
+        }
+        
+        dirScan.scan();
+        
+        return dirScan.getFilesIncluded();
+        
+        /*
+        logger.debug( "Listing " + wagon.getRepository().getUrl() + " ..." );
 
         ArrayList fileList = new ArrayList();
 
-        if ( this.isFile( wagon, remotePath ) )
-        {
-            fileList.add( remotePath );
-        }
-        else
-        {
-            scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
-        }
+        scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
 
         Collections.sort( fileList );
 
         return fileList;
-
+        */
     }
 
     public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
@@ -63,7 +70,7 @@ public class WagonUtils
 
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
 
-            wagon.get( remoteFile, destination ); 
+            wagon.get( remoteFile, destination );
         }
     }
 
@@ -95,7 +102,6 @@ public class WagonUtils
         }
 
     }
-
 
     ///////////////////////////////////////////////////////////////////////////
 

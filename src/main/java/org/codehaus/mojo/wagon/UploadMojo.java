@@ -69,7 +69,7 @@ public class UploadMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        FileSet fileSet = new FileSet();
+        Fileset fileSet = new Fileset();
         
         fileSet.setDirectory( this.fromDir.getAbsolutePath() );
         

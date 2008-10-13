@@ -42,16 +42,6 @@
         <executions>
 
           <execution>
-            <id>ftp-list-single</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-            <configuration>
-              <remotePath>README</remotePath>
-            </configuration>
-          </execution>
-          <execution>
             <id>ftp-list-no-recursive</id>
             <phase>package</phase>
             <goals>
