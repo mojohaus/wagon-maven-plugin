@@ -35,16 +35,35 @@ public class ListMojo
     extends AbstractWagonMojo
 {
     /**
-     * 
-     * @parameter expression="${wagon.recursive}" default-value="false"
+     * @parameter 
      */
-    private boolean recursive;
-
+    private String [] includes;
+    
+    /**
+     * @parameter
+     */
+    
+    private String [] excludes;
+    
     
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        List files = wagonHelpers.getFileList( wagon, "", recursive, this.getLog() );
+        
+        if ( includes == null && excludes == null )
+        {
+            excludes = new String[1];
+            excludes[0] = "*/**";    //prevent user from recursively download lots of file
+                                     //only download files at remote root dir
+        }
+        
+        RemoteFileSet fileSet = new RemoteFileSet();
+        fileSet.setIncludes( this.includes );
+        fileSet.setExcludes( this.excludes );
+        fileSet.setRemotePath( "" );
+        fileSet.setCaseSensitive( this.isCaseSensitive );
+        
+        List files = wagonHelpers.getFileList( wagon, fileSet, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {

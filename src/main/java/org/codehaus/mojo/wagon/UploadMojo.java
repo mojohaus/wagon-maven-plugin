@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 

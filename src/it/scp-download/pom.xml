@@ -109,7 +109,9 @@
             </goals>
             <configuration>
               <toDir>${downloadDirectory.base}</toDir>
-              <recursive>true</recursive>
+              <includes>
+                <include>**</include>
+              </includes>
             </configuration>
           </execution>
 
@@ -120,7 +122,9 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <recursive>true</recursive>
+              <includes>
+                <include>**</include>
+              </includes>
             </configuration>
           </execution>
           <execution>
@@ -129,19 +133,6 @@
             <goals>
               <goal>list</goal>
             </goals>
-          </execution>
-
-
-          <execution>
-            <id>list-single</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-            <configuration>
-              <url>${url.base}/src/main/resources</url>
-              <remotePath>test.txt</remotePath>
-            </configuration>
           </execution>
 
         </executions>

@@ -16,15 +16,13 @@ public interface WagonHelpers
     String ROLE = WagonHelpers.class.getName();
 
     /**
-     * 
      * @param wagon - a Wagon instance
-     * @param remotePath - directory or file relative to the wagon's url
-     * @param recursive -  list all
+     * @param fileSet - Criteria to build the list
      * @param logger
      * @return a list of files at the remote host
      * @throws WagonException
      */
-    List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
+    List getFileList( Wagon wagon, RemoteFileSet fileSet, Log logger )
         throws WagonException;
 
     /**

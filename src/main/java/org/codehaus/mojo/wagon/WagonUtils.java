@@ -1,8 +1,6 @@
 package org.codehaus.mojo.wagon;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,43 +20,24 @@ import org.codehaus.plexus.util.StringUtils;
 public class WagonUtils
     implements WagonHelpers
 {
-    public List getFileList( Wagon wagon, String remotePath, boolean recursive, Log logger )
+    public List getFileList( Wagon wagon, RemoteFileSet fileSet, Log logger )
         throws WagonException
     {
         WagonDirectoryScan dirScan = new WagonDirectoryScan();
         dirScan.setWagon( wagon );
-        if ( ! recursive )
-        {
-            String [] excludes = new String[1];
-            excludes[0] = "**/*";
-            dirScan.setExcludes( excludes );
-        }
-        
+        dirScan.setExcludes( fileSet.getExcludes() );
+        dirScan.setIncludes( fileSet.getIncludes() );
+        dirScan.setCaseSensitive( fileSet.isCaseSensitive() );
+
         dirScan.scan();
-        
+
         return dirScan.getFilesIncluded();
-        
-        /*
-        logger.debug( "Listing " + wagon.getRepository().getUrl() + " ..." );
-
-        ArrayList fileList = new ArrayList();
-
-        scanRemoteRepo( wagon, remotePath, fileList, recursive, logger );
-
-        Collections.sort( fileList );
-
-        return fileList;
-        */
     }
 
     public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
         throws WagonException
     {
-        String remotePath = remoteFileSet.getRemotePath();
-        File downloadDirectory = remoteFileSet.getDownloadDirectory();
-        boolean recursive = remoteFileSet.isRecursive();
-
-        List fileList = this.getFileList( wagon, remotePath, recursive, logger );
+        List fileList = this.getFileList( wagon, remoteFileSet, logger );
 
         String url = wagon.getRepository().getUrl() + "/";
 
@@ -66,7 +45,7 @@ public class WagonUtils
         {
             String remoteFile = (String) iterator.next();
 
-            File destination = new File( downloadDirectory + "/" + remoteFile );
+            File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
 
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
 
@@ -101,84 +80,6 @@ public class WagonUtils
             wagon.put( source, relativeDestPath );
         }
 
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    private void scanRemoteRepo( Wagon wagon, String basePath, List collected, boolean recursive, Log logger )
-        throws WagonException
-    {
-        logger.debug( "Scanning " + basePath + " ..." );
-
-        List files = wagon.getFileList( basePath );
-
-        if ( files.isEmpty() )
-        {
-            logger.debug( "Found empty directory: " + basePath );
-            return;
-        }
-
-        for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
-        {
-            String filePath = (String) iterator.next();
-
-            if ( filePath.endsWith( "." ) ) //including ".."
-            {
-                continue;
-            }
-
-            if ( !StringUtils.isBlank( basePath ) )
-            {
-                if ( basePath.endsWith( "/" ) )
-                {
-                    filePath = basePath + filePath;
-                }
-                else
-                {
-                    filePath = basePath + "/" + filePath; // no separator ??? 
-                }
-            }
-
-            if ( this.isDirectory( wagon, filePath ) )
-            {
-                if ( recursive )
-                {
-                    this.scanRemoteRepo( wagon, filePath, collected, recursive, logger );
-                }
-            }
-            else
-            {
-                logger.debug( "Found file " + filePath );
-                collected.add( filePath );
-            }
-        }
-    }
-
-    private boolean isFile( Wagon wagon, String remotePath )
-        throws WagonException
-    {
-        if ( wagon.resourceExists( remotePath ) )
-        {
-            if ( !wagon.resourceExists( remotePath + "/" ) )
-            {
-                //yeah, it is a file
-                return true;
-            }
-        }
-
-        //not exists or a directory
-        return false;
-    }
-
-    private boolean isDirectory( Wagon wagon, String existedRemotePath )
-        throws WagonException
-    {
-        if ( existedRemotePath.endsWith( "/" ) )
-        {
-            return true;
-        }
-
-        return wagon.resourceExists( existedRemotePath + "/" );
     }
 
 }

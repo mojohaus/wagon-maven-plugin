@@ -33,6 +33,18 @@ import org.apache.maven.wagon.WagonException;
 public class DownloadMojo
     extends AbstractWagonMojo
 {
+    
+    /**
+     * @parameter 
+     */
+    private String [] includes;
+    
+    /**
+     * @parameter
+     */
+    
+    private String [] excludes;
+    
     /**
      * Local directory to download the remote resource ( tree ) to.
      * 
@@ -40,19 +52,23 @@ public class DownloadMojo
      */
     private File toDir;
 
-    /**
-     * @parameter expression="${wagon.recursive}" default-value="false"
-     */
-    private boolean recursive = false;
-
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
+        if ( includes == null && excludes == null )
+        {
+            excludes = new String[1];
+            excludes[0] = "*/**";    //prevent user from recursively download lots of file
+                                     //only download files at remote root dir
+        }
+        
         RemoteFileSet fileSet = new RemoteFileSet();
+        fileSet.setIncludes( includes );
+        fileSet.setExcludes( excludes );
+        fileSet.setCaseSensitive( this.isCaseSensitive );
         fileSet.setDownloadDirectory( this.toDir );
-        fileSet.setRecursive( this.recursive );
         
         this.wagonHelpers.download( wagon, fileSet, this.getLog() );
     }
-    
+
 }

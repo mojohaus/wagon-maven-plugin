@@ -47,9 +47,6 @@
             <goals>
               <goal>list</goal>
             </goals>
-            <configuration>
-              <recursive>false</recursive>
-            </configuration>
           </execution>
           
           <execution>
