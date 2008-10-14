@@ -18,6 +18,7 @@ package org.codehaus.mojo.wagon;
 import java.io.File;
 import java.util.Arrays;
 
+import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -72,6 +73,12 @@ public class UploadMojo
     private String toDir = "";
     
     
+    /**
+     * @component
+     */
+    protected WagonUpload wagonUpload;
+
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
@@ -95,7 +102,7 @@ public class UploadMojo
         
         fileSet.setOutputDirectory( toDir );
 
-        this.wagonHelpers.upload( wagon, fileSet, this.getLog() );
+        this.wagonUpload.upload( wagon, fileSet, this.getLog() );
     }
 
 }

@@ -15,7 +15,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ftp</artifactId>
-        <version>1.0-beta-4</version>
+        <version>1.0-beta-5-SNAPSHOT</version>
       </extension>
     </extensions>
     
@@ -27,8 +27,8 @@
         <version>${version}</version>
         <configuration>
           <skip>true</skip>
-          <serverId>ibiblio.ftp</serverId>
-          <url>ftp://ftp.ibiblio.org</url>
+          <serverId>anonymous.ftp</serverId>
+          <url>ftp://ftp.ibiblio.org/incoming/linux</url>
           <!-- need additional settings.xml inorder to get this to work
           
               <server>
@@ -42,16 +42,6 @@
 
         <executions>
 
-          <execution>
-            <id>ftp-list-no-recursive</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-            <configuration>
-              <skip>false</skip>
-            </configuration>
-          </execution>
           
           <execution>
             <id>ftp-download-single</id>
@@ -75,6 +65,18 @@
               <toDir>${downloadDirectory.base}/norecursive</toDir>
             </configuration>
           </execution>
+          
+          <execution>
+            <id>ftp-list-no-recursive</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
+          </execution>
+          
         </executions>
       </plugin>
     </plugins>

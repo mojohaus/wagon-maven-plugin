@@ -7,7 +7,7 @@
   <packaging>pom</packaging>
   <version>testing</version>
   
-  <name>wagon-maven-it for SCP </name>
+  <name>wagon-maven-it for any protocol</name>
   
   <description>
     Contain various examples for wagon-maven-plugin. 
@@ -42,7 +42,7 @@
           <url>${url.base}</url>
           <serverId>localhost.${protocol}</serverId>
           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
-          <skip>true</skip>
+          <skip>false</skip>
         </configuration>
 
         <executions>

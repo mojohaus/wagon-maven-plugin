@@ -60,33 +60,4 @@ public class WagonUtils
         }
     }
 
-    public void upload( Wagon wagon, FileSet fileset, Log logger )
-        throws WagonException
-    {
-        logger.info( "Uploading " + fileset );
-
-        FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
-
-        String[] files = fileSetManager.getIncludedFiles( fileset );
-
-        String url = wagon.getRepository().getUrl() + "/";
-
-        for ( int i = 0; i < files.length; ++i )
-        {
-            String relativeDestPath = StringUtils.replace( files[i], "\\", "/" );
-
-            if ( !StringUtils.isBlank( fileset.getOutputDirectory() ) )
-            {
-                relativeDestPath = fileset.getOutputDirectory() + "/" + relativeDestPath;
-            }
-
-            File source = new File( fileset.getDirectory(), files[i] );
-
-            logger.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
-
-            wagon.put( source, relativeDestPath );
-        }
-
-    }
-
 }

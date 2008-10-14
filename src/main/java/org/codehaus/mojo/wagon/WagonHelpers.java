@@ -35,14 +35,4 @@ public interface WagonHelpers
     public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException;
 
-    /**
-     * 
-     * @param wagon - a Wagon instance
-     * @param fileset
-     * @param logger
-     * @throws WagonException
-     */
-    void upload( Wagon wagon, FileSet fileset, Log logger )
-        throws WagonException;
-
 }
