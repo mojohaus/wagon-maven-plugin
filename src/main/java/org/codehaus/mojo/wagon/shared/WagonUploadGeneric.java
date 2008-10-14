@@ -1,4 +1,4 @@
-package org.codehaus.mojo.wagon;
+package org.codehaus.mojo.wagon.shared;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author Dan T. Tran
  * 
- * @plexus.component role="org.codehaus.mojo.wagon.WagonUpload" role-hint="default"
+ * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonUpload" role-hint="default"
  */
 
 public class WagonUploadGeneric

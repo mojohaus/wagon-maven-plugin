@@ -1,4 +1,4 @@
-package org.codehaus.mojo.wagon.util;
+package org.codehaus.mojo.wagon.shared;
 
 import java.util.StringTokenizer;
 import java.util.Vector;

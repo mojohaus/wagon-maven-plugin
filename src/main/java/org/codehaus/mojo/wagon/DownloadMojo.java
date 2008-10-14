@@ -20,6 +20,8 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.WagonDownload;
+import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Downloads file(s) .

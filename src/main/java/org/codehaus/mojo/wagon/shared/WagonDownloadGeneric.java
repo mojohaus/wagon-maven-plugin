@@ -1,12 +1,10 @@
-package org.codehaus.mojo.wagon;
+package org.codehaus.mojo.wagon.shared;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.shared.model.fileset.FileSet;
-import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
@@ -14,7 +12,7 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author Dan T. Tran
  * 
- * @plexus.component role="org.codehaus.mojo.wagon.WagonDownload" role-hint="default"
+ * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonDownload" role-hint="default"
  */
 
 public class WagonDownloadGeneric

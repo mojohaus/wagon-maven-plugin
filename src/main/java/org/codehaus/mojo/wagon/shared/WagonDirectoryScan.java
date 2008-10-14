@@ -1,4 +1,4 @@
-package org.codehaus.mojo.wagon;
+package org.codehaus.mojo.wagon.shared;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.mojo.wagon.util.SelectorUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 

@@ -1,4 +1,4 @@
-package org.codehaus.mojo.wagon;
+package org.codehaus.mojo.wagon.shared;
 
 import java.io.File;
 

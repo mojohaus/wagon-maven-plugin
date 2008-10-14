@@ -1,4 +1,4 @@
-package org.codehaus.mojo.wagon;
+package org.codehaus.mojo.wagon.shared;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;

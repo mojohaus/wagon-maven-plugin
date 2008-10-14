@@ -21,6 +21,8 @@ import java.util.List;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.WagonDownload;
+import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Lists the content of the specified directory (remotePath) under a specified repository (url)
