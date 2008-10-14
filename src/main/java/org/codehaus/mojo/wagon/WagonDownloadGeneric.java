@@ -14,11 +14,11 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author Dan T. Tran
  * 
- * @plexus.component role="org.codehaus.mojo.wagon.WagonHelpers" role-hint="default"
+ * @plexus.component role="org.codehaus.mojo.wagon.WagonDownload" role-hint="default"
  */
 
-public class WagonUtils
-    implements WagonHelpers
+public class WagonDownloadGeneric
+    implements WagonDownload
 {
     
     public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )

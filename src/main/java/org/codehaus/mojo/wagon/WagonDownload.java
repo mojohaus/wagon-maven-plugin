@@ -11,9 +11,9 @@ import org.apache.maven.wagon.WagonException;
  * 
  * @author Dan T. Tran
  */
-public interface WagonHelpers
+public interface WagonDownload
 {
-    String ROLE = WagonHelpers.class.getName();
+    String ROLE = WagonDownload.class.getName();
 
     /**
      * @param wagon - a Wagon instance

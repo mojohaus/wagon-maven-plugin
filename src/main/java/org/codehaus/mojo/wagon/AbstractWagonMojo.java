@@ -85,11 +85,6 @@ public abstract class AbstractWagonMojo
     protected boolean skip = false;
 
     
-    /**
-     * @component
-     */
-    protected WagonHelpers wagonHelpers;
-    
     public void execute()
         throws MojoExecutionException
     {

@@ -55,6 +55,12 @@ public class ListMojo
      */
     private boolean isCaseSensitive = true;
 
+    /**
+     * @component
+     */
+    private WagonDownload wagonHelpers;
+    
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
