@@ -42,7 +42,7 @@
           <url>${url.base}</url>
           <serverId>localhost.${protocol}</serverId>
           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
-          <skip>false</skip>
+          <skip>true</skip>
         </configuration>
 
         <executions>
@@ -104,7 +104,6 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <skip>false</skip>
               <fromDir>wagon-plugin-it</fromDir>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
@@ -145,6 +144,22 @@
             </goals>
             <configuration>
               <fromDir>wagon-plugin-it</fromDir>
+            </configuration>
+          </execution>
+          
+          <execution>
+            <!--  currently not working yet -->
+            <id>list-with-inclusion</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <skip>false</skip>
+              <fromDir>wagon-plugin-it</fromDir>
+              <includes>
+                <include>**/test.txt</include>
+              </includes>>
             </configuration>
           </execution>
 
