@@ -42,7 +42,7 @@ public class UploadSingleMojo
     private File fromFile;
 
     /**
-     * Relative path to the URL of the remote directory
+     * Relative path to the URL
      * @parameter expression="${wagon.toFile}"
      * @required
      */

@@ -33,20 +33,20 @@ public class DownloadSingleMojo
     extends AbstractWagonMojo
 {
     /**
-     * Relative path to the URL of the remote file
-     * @parameter expression="${wagon.remoteFile}"
+     * Relative path to the URL.
+     * @parameter expression="${wagon.fromFile}"
      * @required 
      */
     private String fromFile;
     
     /**
-     * Directory to download the remoteFile to
+     * Directory to download the remote file to
      * @parameter expression="${wagon.toDir}" 
      */
     private File toDir;
 
     /**
-     * File to download the remoteFile to.  Use this option to rename the file after download
+     * File to download the remote file to.  Use this option to rename the file after download
      * @parameter expression="${wagon.toFile}" 
      */
     private File toFile;
