@@ -1,6 +1,5 @@
 package org.codehaus.mojo.wagon;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,8 +40,9 @@ public class WagonDirectoryScan
      */
     private boolean isCaseSensitive = true;
 
+
     /**
-     * The files which matched at least one include and at least one exclude.
+     * The files which matched at least one include and at least one exclude and relative to directory
      */
     private List filesIncluded = new ArrayList();
 
@@ -80,11 +80,9 @@ public class WagonDirectoryScan
     }
 
     /**
-     * Sets the list of exclude patterns to use. All '/' and '\' characters are replaced by
-     * <code>File.separatorChar</code>, so the separator used need not match
-     * <code>File.separatorChar</code>.
+     * Sets the list of exclude patterns to use. All '\' characters are replaced by '/'
      * <p>
-     * When a pattern ends with a '/' or '\', "**" is appended.
+     * When a pattern ends with a '/' orr '\', "**" is appended.
      * 
      * @param excludes A list of exclude patterns. May be <code>null</code>, indicating that no
      *            files should be excluded. If a non-<code>null</code> list is given, all elements
@@ -199,15 +197,11 @@ public class WagonDirectoryScan
     }
 
     /**
-     * Scans the given directory for files and directories. Found files and directories are placed
-     * in their respective collections, based on the matching of includes, excludes, and the
+     * Scans the given directory for files and directories. Found files are placed
+     * in a collection, based on the matching of includes, excludes, and the
      * selectors. When a directory is found, it is scanned recursively.
      * 
-     * @param dir The directory to scan. Must not be <code>null</code>.
-     * @param vpath The path relative to the base directory (needed to prevent problems with an
-     *            absolute path when using dir). Must not be <code>null</code>.
-     * @param fast Whether or not this call is part of a fast scan.
-     * @throws IOException
+     * @throws WagonException
      * 
      * @see #filesIncluded
      */
@@ -319,7 +313,7 @@ public class WagonDirectoryScan
         this.isCaseSensitive = isCaseSensitive;
     }
 
-    public void setBasePath( String basePath )
+    public void setDirectory( String basePath )
     {
         this.directory = basePath;
     }

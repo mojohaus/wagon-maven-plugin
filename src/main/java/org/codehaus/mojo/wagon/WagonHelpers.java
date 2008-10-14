@@ -19,10 +19,10 @@ public interface WagonHelpers
      * @param wagon - a Wagon instance
      * @param fileSet - Criteria to build the list
      * @param logger
-     * @return a list of files at the remote host
+     * @return a list of files at the remote host relative to RemoteFileSet's directory
      * @throws WagonException
      */
-    List getFileList( Wagon wagon, RemoteFileSet fileSet, Log logger )
+    List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException;
 
     /**
@@ -32,7 +32,7 @@ public interface WagonHelpers
      * @param logger
      * @throws WagonException
      */
-    public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
+    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException;
 
     /**

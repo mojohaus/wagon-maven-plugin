@@ -20,7 +20,8 @@ import org.codehaus.plexus.util.StringUtils;
 public class WagonUtils
     implements WagonHelpers
 {
-    public List getFileList( Wagon wagon, RemoteFileSet fileSet, Log logger )
+    
+    public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException
     {
         WagonDirectoryScan dirScan = new WagonDirectoryScan();
@@ -28,14 +29,14 @@ public class WagonUtils
         dirScan.setExcludes( fileSet.getExcludes() );
         dirScan.setIncludes( fileSet.getIncludes() );
         dirScan.setCaseSensitive( fileSet.isCaseSensitive() );
-        dirScan.setBasePath( fileSet.getRemotePath() );
+        dirScan.setDirectory( fileSet.getDirectory() );
 
         dirScan.scan();
 
         return dirScan.getFilesIncluded();
     }
 
-    public void download( Wagon wagon, RemoteFileSet remoteFileSet, Log logger )
+    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException
     {
         List fileList = this.getFileList( wagon, remoteFileSet, logger );
@@ -48,12 +49,13 @@ public class WagonUtils
 
             File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
 
-            if ( ! StringUtils.isBlank( remoteFileSet.getRemotePath() ) )
+            if ( ! StringUtils.isBlank( remoteFileSet.getDirectory() ) )
             {
-                remoteFile = remoteFileSet.getRemotePath() + "/" + remoteFile;
+                remoteFile = remoteFileSet.getDirectory() + "/" + remoteFile;
             }
             
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
+            
             wagon.get( remoteFile, destination );
         }
     }

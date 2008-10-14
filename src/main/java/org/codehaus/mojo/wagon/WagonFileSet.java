@@ -4,12 +4,18 @@ import java.io.File;
 
 
 /**
- * Wagon configuration to list/download a set of remote files
+ * Wagon configuration to scan for a set of remote files.
  * 
  * @author Dan T. Tran
  */
-public class RemoteFileSet
+public class WagonFileSet
 {
+    /**
+     * Path after the url, this is where the scan starts
+     */
+    
+    private String directory = "";
+    
     /**
      * Ant's excludes path expression
      */
@@ -27,23 +33,26 @@ public class RemoteFileSet
     
 
     /**
-     * Path after the url, can be a file or directory
+     * User default exclude sets
      */
-    private String remotePath = "";
+    private boolean  userDefaultExcludes = true;
+    
     
     /**
      * Local path to download the remote resource ( tree ) to.
      */
     private File downloadDirectory;
 
-    public String getRemotePath()
+    //////////////////////////////////////////////////////////////////////////////////////
+    
+    public String getDirectory()
     {
-        return remotePath;
+        return directory;
     }
 
-    public void setRemotePath( String remotePath )
+    public void setDirectory( String remotePath )
     {
-        this.remotePath = remotePath;
+        this.directory = remotePath;
     }
 
     public File getDownloadDirectory()
@@ -87,4 +96,18 @@ public class RemoteFileSet
         this.caseSensitive = caseSensitive;
     }
     
+    /**
+     * Retrieves the included and excluded files from this file-set's directory.
+     * Specifically, <code>"file-set: <I>[directory]</I> (included:
+     * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
+     *
+     * @return The included and excluded files from this file-set's directory.
+     * Specifically, <code>"file-set: <I>[directory]</I> (included:
+     * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
+     * @see java.lang.Object#toString()
+     */
+    public String toString()
+    {
+        return "file-set: " + getDirectory() + " (included: " + getIncludes() + ", excluded: " + getExcludes() + ")";
+    }    
 }

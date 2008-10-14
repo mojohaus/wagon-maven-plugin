@@ -72,8 +72,8 @@ public class DownloadMojo
                                      //only download files at remote root dir
         }
         
-        RemoteFileSet fileSet = new RemoteFileSet();
-        fileSet.setRemotePath( fromDir );
+        WagonFileSet fileSet = new WagonFileSet();
+        fileSet.setDirectory( fromDir );
         fileSet.setIncludes( includes );
         fileSet.setExcludes( excludes );
         fileSet.setCaseSensitive( this.isCaseSensitive );
