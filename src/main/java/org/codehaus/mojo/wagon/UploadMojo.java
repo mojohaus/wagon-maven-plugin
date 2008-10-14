@@ -65,6 +65,13 @@ public class UploadMojo
      */
     private boolean  userDefaultExcludes = true;
     
+    
+    /**
+     * @parameter expression="${wagon.todir}" default-value="";
+     */
+    private String toDir = "";
+    
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
@@ -85,6 +92,8 @@ public class UploadMojo
         fileSet.setFollowSymlinks( this.followSymLink );
         
         fileSet.setUseDefaultExcludes( this.userDefaultExcludes );
+        
+        fileSet.setOutputDirectory( toDir );
 
         this.wagonHelpers.upload( wagon, fileSet, this.getLog() );
     }

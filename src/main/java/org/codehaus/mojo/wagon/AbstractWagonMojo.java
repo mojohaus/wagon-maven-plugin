@@ -42,7 +42,7 @@ public abstract class AbstractWagonMojo
 {
 
     /**
-     * URL to upload to or download from or list.  Must point to a directory.
+     * URL to upload to or download from or list.  Must exist and point to a directory.
      * 
      * @parameter expression="${wagon.url}"
      * @required
@@ -78,12 +78,11 @@ public abstract class AbstractWagonMojo
      */
     protected MavenProject project;
 
+    
     /**
-     * If true, performs a case sensitive wildcard matching. Case insensitive otherwise.
-     * 
-     * @parameter expression="${wagon.caseSensitive}" default-value="false"
+     * @parameter expression="${wagon.skip}" default-value="false"
      */
-    protected boolean isCaseSensitive;
+    protected boolean skip = false;
 
     
     /**
@@ -94,6 +93,11 @@ public abstract class AbstractWagonMojo
     public void execute()
         throws MojoExecutionException
     {
+        if ( this.skip )
+        {
+            return;
+        }
+        
         final Repository repository = new Repository( serverId, url );
 
         try

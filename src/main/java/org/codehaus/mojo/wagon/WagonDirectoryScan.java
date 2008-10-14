@@ -28,7 +28,7 @@ public class WagonDirectoryScan
     /**
      * Relative to wagon url
      */
-    private String basePath;
+    private String directory;
 
     /** The patterns for the wagon files to be included. */
     private String[] includes;
@@ -173,9 +173,9 @@ public class WagonDirectoryScan
             throw new IllegalStateException( "No wagon set" );
         }
 
-        if ( StringUtils.isBlank( basePath ) )
+        if ( StringUtils.isBlank( directory ) )
         {
-            basePath = "";
+            directory = "";
         }
 
         if ( includes == null )
@@ -192,7 +192,7 @@ public class WagonDirectoryScan
 
         filesIncluded = new ArrayList();
 
-        scandir( basePath );
+        scandir( directory );
 
         Collections.sort( filesIncluded );
 
@@ -211,10 +211,10 @@ public class WagonDirectoryScan
      * 
      * @see #filesIncluded
      */
-    private void scandir( String basePath )
+    private void scandir( String fromPath )
         throws WagonException
     {
-        List files = wagon.getFileList( basePath );
+        List files = wagon.getFileList( fromPath );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {
@@ -225,18 +225,19 @@ public class WagonDirectoryScan
                 continue;
             }
 
-            if ( !StringUtils.isBlank( basePath ) )
+            if ( !StringUtils.isBlank( fromPath ) )
             {
-                if ( basePath.endsWith( "/" ) )
+                if ( fromPath.endsWith( "/" ) )
                 {
-                    filePath = basePath + filePath;
+                    filePath = fromPath + filePath;
                 }
                 else
                 {
-                    filePath = basePath + "/" + filePath;
+                    filePath = fromPath + "/" + filePath;
                 }
             }
 
+            
             if ( this.isDirectory( filePath ) )
             {
                 //append an ending slash so that we can perform directory exclude
@@ -245,9 +246,11 @@ public class WagonDirectoryScan
                     filePath += "/";
                 }
 
-                if ( isIncluded( filePath ) )
+                String relativePath = this.relativePath( filePath );
+
+                if ( isIncluded( relativePath ) )
                 {
-                    if ( !isExcluded( filePath ) )
+                    if ( !isExcluded( relativePath ) )
                     {
                         scandir( filePath );
                     }
@@ -255,14 +258,38 @@ public class WagonDirectoryScan
             }
             else
             {
-                if ( isIncluded( filePath ) )
+                String relativePath = this.relativePath( filePath );
+
+                if ( isIncluded( relativePath ) )
                 {
-                    if ( !isExcluded( filePath ) )
+                    if ( !isExcluded( relativePath ) )
                     {
-                        filesIncluded.add( filePath );
+                        filesIncluded.add( relativePath );
                     }
                 }
             }
+        }
+    }
+    
+    private String relativePath ( String filePath )
+    {
+        if ( this.isCaseSensitive )
+        {
+            if ( this.directory.equalsIgnoreCase( filePath ) )
+            {
+                return "";
+            }
+            
+            return filePath.substring( this.directory.length() +1 );
+        }
+        else
+        {
+            if ( this.directory.equals( filePath ) )
+            {
+                return "";
+            }
+            
+            return filePath.substring( this.directory.length() + 1 );
         }
     }
 
@@ -294,7 +321,7 @@ public class WagonDirectoryScan
 
     public void setBasePath( String basePath )
     {
-        this.basePath = basePath;
+        this.directory = basePath;
     }
 
 }

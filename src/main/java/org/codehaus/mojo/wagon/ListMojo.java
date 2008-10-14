@@ -23,7 +23,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Lists the content of the specified directory (remotePath) under a specified repository (url) 
+ * Lists the content of the specified directory (remotePath) under a specified repository (url)
  * 
  * @author Sherali Karimov
  * @author Dan T. Tran
@@ -35,34 +35,43 @@ public class ListMojo
     extends AbstractWagonMojo
 {
     /**
-     * @parameter 
+     * @parameter expression="${wagon.fromDir}" defaultValue="";
      */
-    private String [] includes;
-    
+    private String fromDir = "";
+
     /**
      * @parameter
      */
-    
-    private String [] excludes;
-    
-    
+    private String[] includes;
+
+    /**
+     * @parameter
+     */
+
+    private String[] excludes;
+
+    /**
+     * @parameter default-value="true"
+     */
+    private boolean isCaseSensitive = true;
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        
+
         if ( includes == null && excludes == null )
         {
             excludes = new String[1];
-            excludes[0] = "*/**";    //prevent user from recursively download lots of file
-                                     //only download files at remote root dir
+            excludes[0] = "*/**"; //prevent user from recursively download lots of files
+            //only download files at remote root dir
         }
-        
+
         RemoteFileSet fileSet = new RemoteFileSet();
+        fileSet.setRemotePath( fromDir );
         fileSet.setIncludes( this.includes );
         fileSet.setExcludes( this.excludes );
-        fileSet.setRemotePath( "" );
         fileSet.setCaseSensitive( this.isCaseSensitive );
-        
+
         List files = wagonHelpers.getFileList( wagon, fileSet, this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )

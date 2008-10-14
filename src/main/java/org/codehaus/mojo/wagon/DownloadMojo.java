@@ -35,6 +35,11 @@ public class DownloadMojo
 {
     
     /**
+     * @parameter expression="${wagon.fromDir}" default-value="";
+     */
+    private String fromDir = "";
+    
+    /**
      * @parameter 
      */
     private String [] includes;
@@ -52,6 +57,11 @@ public class DownloadMojo
      */
     private File toDir;
 
+    /**
+     * @parameter
+     */
+    private boolean isCaseSensitive = true; 
+    
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
@@ -63,10 +73,12 @@ public class DownloadMojo
         }
         
         RemoteFileSet fileSet = new RemoteFileSet();
+        fileSet.setRemotePath( fromDir );
         fileSet.setIncludes( includes );
         fileSet.setExcludes( excludes );
         fileSet.setCaseSensitive( this.isCaseSensitive );
         fileSet.setDownloadDirectory( this.toDir );
+        
         
         this.wagonHelpers.download( wagon, fileSet, this.getLog() );
     }

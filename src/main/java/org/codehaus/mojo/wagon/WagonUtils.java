@@ -28,6 +28,7 @@ public class WagonUtils
         dirScan.setExcludes( fileSet.getExcludes() );
         dirScan.setIncludes( fileSet.getIncludes() );
         dirScan.setCaseSensitive( fileSet.isCaseSensitive() );
+        dirScan.setBasePath( fileSet.getRemotePath() );
 
         dirScan.scan();
 
@@ -47,8 +48,12 @@ public class WagonUtils
 
             File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
 
+            if ( ! StringUtils.isBlank( remoteFileSet.getRemotePath() ) )
+            {
+                remoteFile = remoteFileSet.getRemotePath() + "/" + remoteFile;
+            }
+            
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
-
             wagon.get( remoteFile, destination );
         }
     }

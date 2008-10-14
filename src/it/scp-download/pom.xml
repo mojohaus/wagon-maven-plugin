@@ -25,6 +25,11 @@
         <artifactId>wagon-ssh</artifactId>
         <version>1.0-beta-4</version>
       </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+        <version>1.0-beta-4</version>
+      </extension>
     </extensions>
 
     <finalName>${project.artifactId}</finalName>
@@ -35,8 +40,9 @@
         <version>${version}</version>
         <configuration>
           <url>${url.base}</url>
-          <serverId>localhost.scp</serverId>
+          <serverId>localhost.${protocol}</serverId>
           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
+          <skip>false</skip>
         </configuration>
 
         <executions>
@@ -53,6 +59,7 @@
                 <include>*</include>
                 <include>src/**/test.txt</include>
               </includes>
+              <toDir>wagon-plugin-it</toDir>
             </configuration>
           </execution>
           
@@ -64,7 +71,7 @@
             </goals>
             <configuration>
               <fromFile>pom.xml</fromFile>
-              <toFile>pom.remote.xml</toFile>
+              <toFile>wagon-plugin-it/pom.remote.xml</toFile>
             </configuration>
           </execution>
 
@@ -75,7 +82,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>pom.remote.xml</fromFile>
+              <fromFile>wagon-plugin-it/pom.remote.xml</fromFile>
               <toFile>${downloadDirectory.base}/remote.download.xml</toFile>
             </configuration>
           </execution>
@@ -86,7 +93,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>pom.remote.xml</fromFile>
+              <fromFile>wagon-plugin-it/pom.remote.xml</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -97,9 +104,10 @@
               <goal>download</goal>
             </goals>
             <configuration>
+              <skip>false</skip>
+              <fromDir>wagon-plugin-it</fromDir>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
-            
           </execution>
           <execution>
             <id>download-all-files</id>
@@ -108,10 +116,11 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <toDir>${downloadDirectory.base}</toDir>
+              <fromDir>wagon-plugin-it</fromDir>
               <includes>
                 <include>**</include>
               </includes>
+              <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
 
@@ -122,6 +131,7 @@
               <goal>list</goal>
             </goals>
             <configuration>
+              <fromDir>wagon-plugin-it</fromDir>
               <includes>
                 <include>**</include>
               </includes>
@@ -133,6 +143,9 @@
             <goals>
               <goal>list</goal>
             </goals>
+            <configuration>
+              <fromDir>wagon-plugin-it</fromDir>
+            </configuration>
           </execution>
 
         </executions>
@@ -142,8 +155,9 @@
 
   <properties>
     <version>testing</version>
-    <url.base>scp://localhost/home/${user.name}/wagon-plugin-it</url.base>
-    <downloadDirectory.base>${project.build.directory}/it/scp</downloadDirectory.base>
+    <protocol>scp</protocol>
+    <url.base>${protocol}://localhost/home/${user.name}</url.base>
+    <downloadDirectory.base>${project.build.directory}/it</downloadDirectory.base>
   </properties>
 
 </project>
