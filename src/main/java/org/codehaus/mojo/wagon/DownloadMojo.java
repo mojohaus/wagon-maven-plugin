@@ -67,9 +67,9 @@ public class DownloadMojo
     {
         if ( includes == null && excludes == null )
         {
-            excludes = new String[1];
-            excludes[0] = "*/**";    //prevent user from recursively download lots of file
-                                     //only download files at remote root dir
+            includes = new String[1];
+            includes[0] = "*"; //prevent user from recursively download lots of files
+            //only download files at remote root dir
         }
         
         WagonFileSet fileSet = new WagonFileSet();

@@ -143,6 +143,7 @@
               <goal>list</goal>
             </goals>
             <configuration>
+              <skip>false</skip>
               <fromDir>wagon-plugin-it</fromDir>
             </configuration>
           </execution>
@@ -155,7 +156,6 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <skip>false</skip>
               <fromDir>wagon-plugin-it</fromDir>
               <includes>
                 <include>**/test.txt</include>

@@ -7,8 +7,9 @@ import java.util.List;
 
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.SelectorUtils;
+import org.codehaus.mojo.wagon.util.SelectorUtils;
 import org.codehaus.plexus.util.StringUtils;
+
 
 public class WagonDirectoryScan
 {
@@ -40,12 +41,12 @@ public class WagonDirectoryScan
      */
     private boolean isCaseSensitive = true;
 
-
     /**
      * The files which matched at least one include and at least one exclude and relative to directory
      */
     private List filesIncluded = new ArrayList();
-
+    
+    
     /**
      * Sets the list of include patterns to use. All '/' and '\' characters are replaced by
      * <code>File.separatorChar</code>, so the separator used need not match
@@ -149,6 +150,49 @@ public class WagonDirectoryScan
     }
 
     /**
+     * Tests whether or not a name matches the start of at least one include
+     * pattern.
+     *
+     * @param name The name to match. Must not be <code>null</code>.
+     * @return <code>true</code> when the name matches against the start of at
+     *         least one include pattern, or <code>false</code> otherwise.
+     */
+    protected boolean couldHoldIncluded( String name )
+    {
+        for ( int i = 0; i < includes.length; i++ )
+        {
+            if ( matchPatternStart( includes[i], name, isCaseSensitive ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Tests whether or not a given path matches the start of a given
+     * pattern up to the first "**".
+     * <p>
+     * This is not a general purpose test and should only be used if you
+     * can live with false positives. For example, <code>pattern=**\a</code>
+     * and <code>str=b</code> will yield <code>true</code>.
+     *
+     * @param pattern The pattern to match against. Must not be
+     *                <code>null</code>.
+     * @param str     The path to match, as a String. Must not be
+     *                <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed
+     *                        case sensitively.
+     *
+     * @return whether or not a given path matches the start of a given
+     * pattern up to the first "**".
+     */
+    protected static boolean matchPatternStart( String pattern, String str, boolean isCaseSensitive )
+    {
+        return SelectorUtils.matchPatternStart( pattern, str, isCaseSensitive );
+    }
+
+    /**
      * Tests whether or not a given path matches a given pattern.
      * 
      * @param pattern The pattern to match against. Must not be <code>null</code>.
@@ -190,7 +234,7 @@ public class WagonDirectoryScan
 
         filesIncluded = new ArrayList();
 
-        scandir( directory );
+        scandir( directory, "" );
 
         Collections.sort( filesIncluded );
 
@@ -205,85 +249,85 @@ public class WagonDirectoryScan
      * 
      * @see #filesIncluded
      */
-    private void scandir( String fromPath )
+    private void scandir( String dir, String vpath )
         throws WagonException
     {
-        List files = wagon.getFileList( fromPath );
+        List files = wagon.getFileList( dir );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {
-            String filePath = (String) iterator.next();
+            String fileName = (String) iterator.next();
 
-            if ( filePath.endsWith( "." ) ) //including ".."
+            if ( fileName.endsWith( "." ) ) //including ".."
             {
                 continue;
             }
 
-            if ( !StringUtils.isBlank( fromPath ) )
+            String file = fileName;
+            
+            if ( !StringUtils.isBlank( dir ) )
             {
-                if ( fromPath.endsWith( "/" ) )
+                if ( dir.endsWith( "/" ) )
                 {
-                    filePath = fromPath + filePath;
+                    file = dir + fileName;
                 }
                 else
                 {
-                    filePath = fromPath + "/" + filePath;
+                    file = dir + "/" + fileName;
                 }
             }
-
             
-            if ( this.isDirectory( filePath ) )
+            String name = vpath + fileName;
+
+            if ( this.isDirectory( file ) )
             {
-                //append an ending slash so that we can perform directory exclude
-                if ( !filePath.endsWith( "/" ) )
+                
+                if ( ! name.endsWith( "/" ) )
                 {
-                    filePath += "/";
+                    name += "/";
                 }
 
-                String relativePath = this.relativePath( filePath );
-
-                if ( isIncluded( relativePath ) )
+                if ( isIncluded( name ) )
                 {
-                    if ( !isExcluded( relativePath ) )
+                    if ( !isExcluded( name ) )
                     {
-                        scandir( filePath );
+                        scandir( file, name  );
+                    }
+                    /*
+                    else
+                    {
+                        if ( couldHoldIncluded( name ) )
+                        {
+                            scandir( file, name   );
+                        }
+                    }
+                    */
+                    
+                }
+                else
+                {
+                    if ( couldHoldIncluded( name ) )
+                    {
+                        scandir( file, name );
                     }
                 }
+
+                
+                //could not get the above block to work, do the most expensive one.
+                //scandir( file, name + "/"  );
+                
             }
             else
             {
-                String relativePath = this.relativePath( filePath );
 
-                if ( isIncluded( relativePath ) )
+                if ( isIncluded( name ) )
                 {
-                    if ( !isExcluded( relativePath ) )
+                    if ( !isExcluded( name ) )
                     {
-                        filesIncluded.add( relativePath );
+                        filesIncluded.add( name );
                     }
                 }
             }
-        }
-    }
-    
-    private String relativePath ( String filePath )
-    {
-        if ( this.isCaseSensitive )
-        {
-            if ( this.directory.equalsIgnoreCase( filePath ) )
-            {
-                return "";
-            }
-            
-            return filePath.substring( this.directory.length() +1 );
-        }
-        else
-        {
-            if ( this.directory.equals( filePath ) )
-            {
-                return "";
-            }
-            
-            return filePath.substring( this.directory.length() + 1 );
         }
     }
 
@@ -298,6 +342,7 @@ public class WagonDirectoryScan
         return wagon.resourceExists( existedRemotePath + "/" );
     }
 
+    /////////////////////////////////////////////////////////////////////////////////
     public List getFilesIncluded()
     {
         return filesIncluded;
