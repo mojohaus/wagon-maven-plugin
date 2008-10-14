@@ -293,7 +293,6 @@ public class WagonDirectoryScan
                     {
                         scandir( file, name  );
                     }
-                    /*
                     else
                     {
                         if ( couldHoldIncluded( name ) )
@@ -301,8 +300,6 @@ public class WagonDirectoryScan
                             scandir( file, name   );
                         }
                     }
-                    */
-                    
                 }
                 else
                 {
@@ -311,10 +308,6 @@ public class WagonDirectoryScan
                         scandir( file, name );
                     }
                 }
-
-                
-                //could not get the above block to work, do the most expensive one.
-                //scandir( file, name + "/"  );
                 
             }
             else

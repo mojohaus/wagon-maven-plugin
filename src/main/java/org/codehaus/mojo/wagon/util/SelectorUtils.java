@@ -4,9 +4,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
- * A port of plexus-util's SelectorUtils but deal with unix file separator only
- * 
- * 
+ * A copy of plexus-util's SelectorUtils to deal with unix file separator only.
  */
 public final class SelectorUtils
 {
@@ -514,25 +512,4 @@ public final class SelectorUtils
         return ret;
     }
 
-    /**
-     * "Flattens" a string by removing all whitespace (space, tab, linefeed,
-     * carriage return, and formfeed). This uses StringTokenizer and the
-     * default set of tokens as documented in the single arguement constructor.
-     *
-     * @param input a String to remove all whitespace.
-     * @return a String that has had all whitespace removed.
-     */
-    public static String removeWhitespace( String input )
-    {
-        StringBuffer result = new StringBuffer();
-        if ( input != null )
-        {
-            StringTokenizer st = new StringTokenizer( input );
-            while ( st.hasMoreTokens() )
-            {
-                result.append( st.nextToken() );
-            }
-        }
-        return result.toString();
-    }
 }
