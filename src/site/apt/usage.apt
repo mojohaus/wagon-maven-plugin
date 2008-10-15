@@ -1,9 +1,9 @@
  ------
  Usage
  ------
- Sherali Karimov, James Dumay
+ Sherali Karimov, James Dumay, Dan T. Tran
  ------
- April 4th, 2008
+ October 4th, 2008
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
 ~~ or more contributor license agreements.  See the NOTICE file
@@ -28,16 +28,44 @@
 Introduction
 
   The Maven Wagon Plugin, as the name implies, allows you to use various functions of a maven wagon. 
-  It allows you to upload resources from your build to a remote location using   wagon.
+  It allows you to upload resources from your build to a remote location using wagon.
   It allows you to download resources from a repository using wagon.
   It allows to list a content of a repository using wagon.
+  
+  The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
+  
+  However, due some differences in term of provider implementation, not all goals are 
+  working as expected. The following contains a list of limitations:
+  
+  * wagon-webdav and wagon-jackrabit do not work with list and download goals.
+  
+  * wagon-http does not work upload and upload-single.
+  
+  * list and download goals are a very slow since it needs to scan the remote file system.
+    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somfile 
+    scans the entire remote source tree.
 
+  []
+
+  The following contains a couple of usage examples.  
+  Live examples are available under {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
+    
+  
 * Configuration Example for upload. 
 
 +-----
 <project>
   [...]
   <build>
+    [...]
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-4</version>
+      </extension>
+    </extensions>  
+       
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
@@ -50,10 +78,11 @@ Introduction
             <goal>upload</goal>
           </goals>
           <configuration>
-            <url>dav:https://docs.atlassian.com/</url>
-            <fileSet>
-              <recursive>true</recursive>
-            </fileSet>
+            <fromDir>local.dir</fromDir>
+            <includes>*</include>
+            <excludes>pom.xml</excludes>
+            <url>scp://your.remote.host/</url>
+            <toDir>remote.dir</toDir>
           </configuration>
           </execution>
         </executions>
@@ -63,12 +92,20 @@ Introduction
 </project>
 +-----
 
-* Configuration Example for download. 
+* Configuration Example for download.
 
 +-----
 <project>
   [...]
   <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>  
+
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>maven-wagon-plugin</artifactId>
@@ -83,10 +120,8 @@ Introduction
           <configuration>
             <serverId>atlassian-public</serverId>
             <url>dav:https://maven.atlassian.com/public</url>
-            <remoteFileSet>
-              <remotePath>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</resourceSrc>
-            </remoteFileSet>
-            <dowloadDirectory>${project.build.directory}/test-data</dowloadDirectory>
+            <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
+            <toDir>${project.build.directory}/test-data</toDir>
           </configuration>
         </execution>
       </executions>
@@ -95,5 +130,6 @@ Introduction
   [...]
 </project>
 +----- 
+
 
 
