@@ -80,6 +80,7 @@ public abstract class AbstractWagonMojo
 
     
     /**
+     * When <code>true</code>, skip the execution.
      * @parameter expression="${wagon.skip}" default-value="false"
      */
     protected boolean skip = false;
@@ -90,7 +91,8 @@ public abstract class AbstractWagonMojo
     {
         if ( this.skip )
         {
-            return;
+            this.getLog().info( "Skip execution." );
+            return;        
         }
         
         final Repository repository = new Repository( serverId, url );
