@@ -21,8 +21,6 @@ import java.util.List;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.mojo.wagon.shared.WagonDownload;
-import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Lists the content of the specified directory (remotePath) under a specified repository (url)
@@ -34,53 +32,14 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
  * @requiresProject false
  */
 public class ListMojo
-    extends AbstractWagonMojo
+    extends AbstractWagonListMojo
 {
-    /**
-     * @parameter expression="${wagon.fromDir}" defaultValue="";
-     */
-    private String fromDir = "";
-
-    /**
-     * @parameter
-     */
-    private String[] includes;
-
-    /**
-     * @parameter
-     */
-
-    private String[] excludes;
-
-    /**
-     * @parameter default-value="true"
-     */
-    private boolean isCaseSensitive = true;
-
-    /**
-     * @component
-     */
-    private WagonDownload wagonHelpers;
-    
     
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-
-        if ( includes == null && excludes == null )
-        {
-            includes = new String[1];
-            includes[0] = "*"; //prevent user from recursively download lots of files
-            //only download files at remote root dir
-        }
-
-        WagonFileSet fileSet = new WagonFileSet();
-        fileSet.setDirectory( fromDir );
-        fileSet.setIncludes( this.includes );
-        fileSet.setExcludes( this.excludes );
-        fileSet.setCaseSensitive( this.isCaseSensitive );
-
-        List files = wagonHelpers.getFileList( wagon, fileSet, this.getLog() );
+        
+        List files = wagonDownload.getFileList( wagon, this.getWagonFileSet(), this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
         {

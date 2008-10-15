@@ -20,7 +20,6 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.mojo.wagon.shared.WagonDownload;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
@@ -33,24 +32,8 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
  * @requiresProject false
  */
 public class DownloadMojo
-    extends AbstractWagonMojo
+    extends AbstractWagonListMojo
 {
-    
-    /**
-     * @parameter expression="${wagon.fromDir}" default-value="";
-     */
-    private String fromDir = "";
-    
-    /**
-     * @parameter 
-     */
-    private String [] includes;
-    
-    /**
-     * @parameter
-     */
-    
-    private String [] excludes;
     
     /**
      * Local directory to download the remote resource ( tree ) to.
@@ -58,37 +41,15 @@ public class DownloadMojo
      * @parameter expression="${wagon.toDir}" default-value="${project.build.directory}/wagon-plugin"
      */
     private File toDir;
-
-    /**
-     * @parameter
-     */
-    private boolean isCaseSensitive = true; 
     
-    
-    /**
-     * @component
-     */
-    private WagonDownload wagonHelpers;
     
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        if ( includes == null && excludes == null )
-        {
-            includes = new String[1];
-            includes[0] = "*"; //prevent user from recursively download lots of files
-            //only download files at remote root dir
-        }
-        
-        WagonFileSet fileSet = new WagonFileSet();
-        fileSet.setDirectory( fromDir );
-        fileSet.setIncludes( includes );
-        fileSet.setExcludes( excludes );
-        fileSet.setCaseSensitive( this.isCaseSensitive );
+        WagonFileSet fileSet = this.getWagonFileSet();
         fileSet.setDownloadDirectory( this.toDir );
         
-        
-        this.wagonHelpers.download( wagon, fileSet, this.getLog() );
+        this.wagonDownload.download( wagon, fileSet, this.getLog() );
     }
 
 }

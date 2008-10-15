@@ -18,7 +18,6 @@ package org.codehaus.mojo.wagon;
 import java.io.File;
 import java.util.Arrays;
 
-import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -36,20 +35,20 @@ public class UploadMojo
     extends AbstractWagonMojo
 {
     /**
-     * Local directory to upload to wagon url
+     * Local directory to upload to wagon's "url/toDir"
      * @parameter expression="${wagon.fromDir}" default-value="${project.basedir}"
      */
     private File fromDir;
     
     /**
-     * Comma separate list of ocalDirectory's Ant excludes
+     * Comma separate list of Ant's excludes to scan for local files
      * @parameter expression="${wagon.excludes}" 
-     * l
+     * 
      */
     private String [] excludes;
     
     /**
-     * Comma separate list of ocalDirectory's Ant includes
+     * Comma separate list of Ant's includes to scan for local files
      * @parameter expression="${wagon.includes}" 
      * localDirectory's Ant includes
      */
@@ -69,6 +68,8 @@ public class UploadMojo
     
     
     /**
+     * Remote path relative to Wagon's url to upload local files to.
+     * 
      * @parameter expression="${wagon.todir}" default-value="";
      */
     private String toDir = "";

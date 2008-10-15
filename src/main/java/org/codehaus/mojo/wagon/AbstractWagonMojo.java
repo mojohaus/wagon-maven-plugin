@@ -47,7 +47,7 @@ public abstract class AbstractWagonMojo
      * @parameter expression="${wagon.url}"
      * @required
      */
-    protected String url;
+    private String url;
 
     /**
      * ID of the server under the above URL. This is used when wagon needs extra
@@ -55,12 +55,12 @@ public abstract class AbstractWagonMojo
      * 
      * @parameter expression="${wagon.serverId}" default-value="";
      */
-    protected String serverId = "";
+    private String serverId = "";
 
     /**
      * @component
      */
-    protected WagonManager wagonManager;
+    private WagonManager wagonManager;
 
     /**
      * The current user system settings for use in Maven.
@@ -68,7 +68,7 @@ public abstract class AbstractWagonMojo
      * @parameter expression="${settings}"
      * @readonly
      */
-    protected Settings settings;
+    private Settings settings;
 
     /**
      * Internal Maven's project
