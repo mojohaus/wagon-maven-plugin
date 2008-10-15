@@ -58,7 +58,7 @@ public class UploadMojo
     
     /**
      * Follow local symbolic link if possible
-     * @parameter expression="${wagon.followSymLink}" default-value="true" 
+     * @parameter expression="${wagon.followSymLink}" default-value="false" 
      */
     private boolean  followSymLink = false;
 

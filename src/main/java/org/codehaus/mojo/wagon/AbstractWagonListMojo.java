@@ -15,25 +15,26 @@ public abstract class AbstractWagonListMojo
 {
     /**
      * Directory path relative to Wagon's URL
-     * @parameter expression="${wagon.fromDir}" defaultValue="";
+     * @parameter expression="${wagon.fromDir}" default-value=""
      */
     protected String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files     
-     * @parameter
+     * @parameter expression="${wagon.includes}" default-value="*";
      */
     protected String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files     
-     * @parameter
+     * @parameter expression="${wagon.excludes}"
+     * 
      */
     protected String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan
-     * @parameter default-value="true"
+     * @parameter expression="${wagon.isCaseSensitive}"
      */
     protected boolean isCaseSensitive = true;
 
@@ -45,14 +46,6 @@ public abstract class AbstractWagonListMojo
     
     protected WagonFileSet getWagonFileSet()
     {
-
-        if ( includes == null && excludes == null )
-        {
-            //Prevent user from recursively download lots of files
-            //only download files at remote root dir
-            includes = "*"; 
-        }      
-        
         WagonFileSet fileSet = new WagonFileSet();
         fileSet.setDirectory( fromDir );
         
