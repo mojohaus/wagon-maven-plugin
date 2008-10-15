@@ -1,10 +1,8 @@
 package org.codehaus.mojo.wagon;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.wagon.Wagon;
-import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Contains common configuration to scan for Wagon's files
@@ -22,16 +20,16 @@ public abstract class AbstractWagonListMojo
     protected String fromDir = "";
 
     /**
-     * Ant's inclusion list to scan for remote files
+     * Comma separated list of Ant's includes to scan for remote files     
      * @parameter
      */
-    protected String[] includes;
+    protected String includes;
 
     /**
-     * Ant's exclusion list to scan for remote files
+     * Comma separated list of Ant's excludes to scan for remote files     
      * @parameter
      */
-    protected String[] excludes;
+    protected String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan
@@ -50,15 +48,24 @@ public abstract class AbstractWagonListMojo
 
         if ( includes == null && excludes == null )
         {
-            includes = new String[1];
-            includes[0] = "*"; //prevent user from recursively download lots of files
+            //Prevent user from recursively download lots of files
             //only download files at remote root dir
+            includes = "*"; 
         }      
         
         WagonFileSet fileSet = new WagonFileSet();
         fileSet.setDirectory( fromDir );
-        fileSet.setIncludes( this.includes );
-        fileSet.setExcludes( this.excludes );
+        
+        if ( ! StringUtils.isBlank( includes ) )
+        {
+            fileSet.setIncludes( StringUtils.split( this.includes, "," ) );
+        }
+        
+        if ( ! StringUtils.isBlank( excludes ) )
+        {
+            fileSet.setExcludes( StringUtils.split( this.excludes, "," ) );
+        }
+        
         fileSet.setCaseSensitive( this.isCaseSensitive );
         
         return fileSet;

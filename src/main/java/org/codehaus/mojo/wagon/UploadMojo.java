@@ -19,9 +19,11 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonUpload;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload multiple sets of files.
@@ -45,14 +47,14 @@ public class UploadMojo
      * @parameter expression="${wagon.excludes}" 
      * 
      */
-    private String [] excludes;
+    private String excludes;
     
     /**
      * Comma separate list of Ant's includes to scan for local files
      * @parameter expression="${wagon.includes}" 
      * localDirectory's Ant includes
      */
-    private String [] includes;
+    private String  includes;
     
     /**
      * Follow local symbolic link if possible
@@ -84,18 +86,18 @@ public class UploadMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        Fileset fileSet = new Fileset();
+        FileSet fileSet = new FileSet();
         
         fileSet.setDirectory( this.fromDir.getAbsolutePath() );
         
-        if ( this.includes != null )
+        if ( ! StringUtils.isBlank( includes ) )
         {
-            fileSet.setIncludes( Arrays.asList( this.includes ) );
+            fileSet.setIncludes( Arrays.asList( StringUtils.split( this.includes, "," ) ) );
         }
-
-        if ( this.excludes != null )
+        
+        if ( ! StringUtils.isBlank( excludes ) )
         {
-            fileSet.setIncludes( Arrays.asList( this.excludes ) );
+            fileSet.setExcludes( Arrays.asList( StringUtils.split( this.excludes, "," ) ) );
         }
         
         fileSet.setFollowSymlinks( this.followSymLink );

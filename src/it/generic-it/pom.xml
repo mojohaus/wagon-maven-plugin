@@ -41,7 +41,6 @@
         <configuration>
           <url>${url.base}</url>
           <serverId>localhost.${protocol}</serverId>
-          <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
           <skip>false</skip>
         </configuration>
 
@@ -55,10 +54,7 @@
             </goals>
             <configuration>
               <fromDir>${basedir}</fromDir>
-              <includes>
-                <include>*</include>
-                <include>src/**/test.txt</include>
-              </includes>
+              <includes>*, src/**/test.txt</includes>
               <toDir>wagon-plugin-it</toDir>
             </configuration>
           </execution>
@@ -116,9 +112,7 @@
             </goals>
             <configuration>
               <fromDir>wagon-plugin-it</fromDir>
-              <includes>
-                <include>**</include>
-              </includes>
+              <includes>**</includes>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -131,9 +125,7 @@
             </goals>
             <configuration>
               <fromDir>wagon-plugin-it</fromDir>
-              <includes>
-                <include>**</include>
-              </includes>
+              <includes>**</includes>
             </configuration>
           </execution>
           <execution>
@@ -157,9 +149,7 @@
             </goals>
             <configuration>
               <fromDir>wagon-plugin-it</fromDir>
-              <includes>
-                <include>**/test.txt</include>
-              </includes>>
+              <includes>**/test.txt</includes>
             </configuration>
           </execution>
 

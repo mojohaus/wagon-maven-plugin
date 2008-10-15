@@ -181,5 +181,6 @@ public abstract class AbstractWagonMojo
      */
     protected abstract void execute( Wagon wagon )
         throws MojoExecutionException, WagonException;
+    
 
 }

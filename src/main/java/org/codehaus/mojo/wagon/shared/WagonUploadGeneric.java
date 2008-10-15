@@ -21,7 +21,6 @@ public class WagonUploadGeneric
     public void upload( Wagon wagon, FileSet fileset, Log logger )
         throws WagonException
     {
-        logger.info( "Uploading " + fileset );
 
         FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
 

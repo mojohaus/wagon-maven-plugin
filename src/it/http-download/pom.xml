@@ -19,7 +19,6 @@
         <version>${version}</version>
         <configuration>
           <serverId>central</serverId>
-          <downloadDirectory>${project.build.directory}/it/http-download</downloadDirectory>
         </configuration>
         <executions>
         
@@ -56,9 +55,7 @@
             </goals>
             <configuration>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
-              <includes>
-                <include>**</include>
-              </includes>
+              <includes>**</includes>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
