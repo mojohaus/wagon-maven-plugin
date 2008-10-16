@@ -34,13 +34,16 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 public class MavenRepoCopierGeneric
     implements MavenRepoCopier
 {
+    /**
+     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonDownload"
+
+     */
     private WagonDownload downloader;
 
-    private WagonUpload  uploader;
-    
-    private MetadataXpp3Reader reader = new MetadataXpp3Reader();
-
-    private MetadataXpp3Writer writer = new MetadataXpp3Writer();
+    /**
+     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonUpload"
+     */
+    private WagonUpload uploader;
 
     public void copy( Wagon src, Wagon target, Log logger )
         throws WagonException, IOException
@@ -49,95 +52,107 @@ public class MavenRepoCopierGeneric
         String tempdir = System.getProperty( "java.io.tmpdir" );
 
         //copy src to a local dir
-        File downloadDir = File.createTempFile( tempdir, "wagon" );
-        downloadDir.delete();
-
-        File downloadSrcDir = new File( downloadDir, "src" );
-        downloadSrcDir.mkdirs();
+        File downloadSrcDir = File.createTempFile( tempdir, "wagon" );
+        downloadSrcDir.delete();
 
         WagonFileSet srcFileSet = new WagonFileSet();
         srcFileSet.setDownloadDirectory( downloadSrcDir );
-        downloader.download( src, srcFileSet, logger );
+        String[] excludes = { "**/.index" };
+        srcFileSet.setExcludes( excludes );
 
-        //copy target's metadata to local dir
-        File downloadTargetDir = new File( downloadDir, "target" );
-        downloadTargetDir.mkdirs();
-
-        
-        //merge metada
-
-        DirectoryScanner scanner = new DirectoryScanner();
-        scanner.setBasedir( downloadSrcDir );
-        String[] includes = { "**/metadata.xml" };
-        scanner.setIncludes( includes );
-        scanner.scan();
-        String[] files = scanner.getIncludedFiles();
-
-        for ( int i = 0; i < files.length; ++i )
+        try
         {
-            File emf = new File( downloadSrcDir, files[i] + ".rip" );
-            try
-            {
-                target.get( files[i], emf );
-            }
-            catch ( ResourceDoesNotExistException e )
-            {
-                // We don't have an equivalent on the targetRepositoryUrl side because we have something
-                // new on the sourceRepositoryUrl side so just skip the metadata merging.
+            downloader.download( src, srcFileSet, logger );
 
-                continue;
+            //merge metada
+            DirectoryScanner scanner = new DirectoryScanner();
+            scanner.setBasedir( downloadSrcDir );
+            String[] includes = { "**/" + MAVEN_METADATA };
+            scanner.setIncludes( includes );
+            scanner.scan();
+            String[] files = scanner.getIncludedFiles();
+
+            for ( int i = 0; i < files.length; ++i )
+            {
+                File srcMetadaFile = new File( downloadSrcDir, files[i] + IN_PROCESS_MARKER );
+
+                try
+                {
+                    target.get( files[i], srcMetadaFile );
+                }
+                catch ( ResourceDoesNotExistException e )
+                {
+                    // We don't have an equivalent on the targetRepositoryUrl side because we have something
+                    // new on the sourceRepositoryUrl side so just skip the metadata merging.
+                    continue;
+                }
+
+                try
+                {
+                    mergeMetadata( srcMetadaFile );
+                }
+                catch ( XmlPullParserException e )
+                {
+                    throw new IOException( "Metadata file is corrupt " + files[i] + " Reason: " + e.getMessage() );
+                }
+
             }
 
-            try
-            {
-                mergeMetadata( emf );
-            }
-            catch ( XmlPullParserException e )
-            {
-                throw new IOException( "Metadata file is corrupt " + files[i] + " Reason: " + e.getMessage() );
-            }
+            //upload to target
+            FileSet tobeUploadedFileSet = new FileSet();
+            tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
+
+            this.uploader.upload( target, tobeUploadedFileSet, logger );
 
         }
-
-        //upload to target
-        FileSet tobeUploadedFileSet = new FileSet();
-        tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
-        
-        this.uploader.upload( target, tobeUploadedFileSet, logger );
-        
+        finally
+        {
+            FileUtils.deleteDirectory( downloadSrcDir );
+        }
 
     }
 
     private void mergeMetadata( File existingMetadata )
         throws IOException, XmlPullParserException
     {
-        // Existing Metadata in target stage
 
-        Reader existingMetadataReader = new FileReader( existingMetadata );
+        Writer existingMetadataWriter = null;
+        Reader existingMetadataReader = null;
+        Reader stagedMetadataReader = null;
+        File stagedMetadataFile = null;
 
-        Metadata existing = reader.read( existingMetadataReader );
+        try
+        {
+            MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
+            MetadataXpp3Writer xppWriter = new MetadataXpp3Writer();
 
-        // Staged Metadata
+            // Existing Metadata in target stage
+            existingMetadataReader = new FileReader( existingMetadata );
+            Metadata existing = xppReader.read( existingMetadataReader );
 
-        File stagedMetadataFile = new File( existingMetadata.getParentFile(), MAVEN_METADATA );
+            // Staged Metadata
+            stagedMetadataFile = new File( existingMetadata.getParentFile(), MAVEN_METADATA );
+            stagedMetadataReader = new FileReader( stagedMetadataFile );
+            Metadata staged = xppReader.read( stagedMetadataReader );
 
-        Reader stagedMetadataReader = new FileReader( stagedMetadataFile );
+            // Merge
+            existing.merge( staged );
+            existingMetadataWriter = new FileWriter( existingMetadata );
+            xppWriter.write( existingMetadataWriter, existing );
 
-        Metadata staged = reader.read( stagedMetadataReader );
+            stagedMetadataFile.delete();
+        }
+        finally
+        {
+            IOUtil.close( existingMetadataWriter );
+            IOUtil.close( stagedMetadataReader );
+            IOUtil.close( existingMetadataReader );
 
-        // Merge
-
-        existing.merge( staged );
-
-        Writer writer = new FileWriter( existingMetadata );
-
-        this.writer.write( writer, existing );
-
-        IOUtil.close( writer );
-
-        IOUtil.close( stagedMetadataReader );
-
-        IOUtil.close( existingMetadataReader );
+            if ( stagedMetadataFile != null )
+            {
+                stagedMetadataFile.delete();
+            }
+        }
 
         // Mark all metadata as in-process and regenerate the checksums as they will be different
         // after the merger
@@ -145,19 +160,13 @@ public class MavenRepoCopierGeneric
         try
         {
             File newMd5 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".md5" + IN_PROCESS_MARKER );
-
             FileUtils.fileWrite( newMd5.getAbsolutePath(), checksum( existingMetadata, MD5 ) );
-
             File oldMd5 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".md5" );
-
             oldMd5.delete();
 
             File newSha1 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".sha1" + IN_PROCESS_MARKER );
-
             FileUtils.fileWrite( newSha1.getAbsolutePath(), checksum( existingMetadata, SHA1 ) );
-
             File oldSha1 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".sha1" );
-
             oldSha1.delete();
         }
         catch ( NoSuchAlgorithmException e )
@@ -167,7 +176,6 @@ public class MavenRepoCopierGeneric
 
         // We have the new merged copy so we're good
 
-        stagedMetadataFile.delete();
     }
 
     private String checksum( File file, String type )
@@ -191,7 +199,7 @@ public class MavenRepoCopierGeneric
         return encode( md5.digest() );
     }
 
-    protected String encode( byte[] binaryData )
+    private String encode( byte[] binaryData )
     {
         if ( binaryData.length != 16 && binaryData.length != 20 )
         {
