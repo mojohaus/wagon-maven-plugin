@@ -35,9 +35,9 @@ public class WagonFileSet
     /**
      * User default exclude sets
      */
-    private boolean  userDefaultExcludes = true;
+    private boolean  useDefaultExcludes = true;
     
-    
+
     /**
      * Local path to download the remote resource ( tree ) to.
      */
@@ -109,5 +109,16 @@ public class WagonFileSet
     public String toString()
     {
         return "file-set: " + getDirectory() + " (included: " + getIncludes() + ", excluded: " + getExcludes() + ")";
-    }    
+    }
+    
+    public boolean isUseDefaultExcludes()
+    {
+        return useDefaultExcludes;
+    }
+
+    public void setUseDefaultExcludes( boolean useDefaultExcludes )
+    {
+        this.useDefaultExcludes = useDefaultExcludes;
+    }
+    
 }

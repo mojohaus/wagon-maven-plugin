@@ -22,12 +22,16 @@ public class WagonDownloadGeneric
     public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException
     {
-        WagonDirectoryScan dirScan = new WagonDirectoryScan();
+        WagonDirectoryScanner dirScan = new WagonDirectoryScanner();
         dirScan.setWagon( wagon );
         dirScan.setExcludes( fileSet.getExcludes() );
         dirScan.setIncludes( fileSet.getIncludes() );
         dirScan.setCaseSensitive( fileSet.isCaseSensitive() );
         dirScan.setDirectory( fileSet.getDirectory() );
+        if ( fileSet.isUseDefaultExcludes() )
+        {
+            dirScan.addDefaultExcludes();
+        }
 
         dirScan.scan();
 

@@ -9,8 +9,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-
-public class WagonDirectoryScan
+public class WagonDirectoryScanner
 {
     /**
      * Patterns which should be excluded by default.
@@ -41,11 +40,11 @@ public class WagonDirectoryScan
     private boolean isCaseSensitive = true;
 
     /**
-     * The files which matched at least one include and at least one exclude and relative to directory
+     * The files which matched at least one include and at least one exclude and relative to
+     * directory
      */
     private List filesIncluded = new ArrayList();
-    
-    
+
     /**
      * Sets the list of include patterns to use. All '/' and '\' characters are replaced by
      * <code>File.separatorChar</code>, so the separator used need not match
@@ -149,12 +148,11 @@ public class WagonDirectoryScan
     }
 
     /**
-     * Tests whether or not a name matches the start of at least one include
-     * pattern.
-     *
+     * Tests whether or not a name matches the start of at least one include pattern.
+     * 
      * @param name The name to match. Must not be <code>null</code>.
-     * @return <code>true</code> when the name matches against the start of at
-     *         least one include pattern, or <code>false</code> otherwise.
+     * @return <code>true</code> when the name matches against the start of at least one include
+     *         pattern, or <code>false</code> otherwise.
      */
     protected boolean couldHoldIncluded( String name )
     {
@@ -169,22 +167,18 @@ public class WagonDirectoryScan
     }
 
     /**
-     * Tests whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * Tests whether or not a given path matches the start of a given pattern up to the first "**".
      * <p>
-     * This is not a general purpose test and should only be used if you
-     * can live with false positives. For example, <code>pattern=**\a</code>
-     * and <code>str=b</code> will yield <code>true</code>.
-     *
-     * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     *
-     * @return whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * This is not a general purpose test and should only be used if you can live with false
+     * positives. For example, <code>pattern=**\a</code> and <code>str=b</code> will yield
+     * <code>true</code>.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case sensitively.
+     * 
+     * @return whether or not a given path matches the start of a given pattern up to the first
+     *         "**".
      */
     protected static boolean matchPatternStart( String pattern, String str, boolean isCaseSensitive )
     {
@@ -240,9 +234,29 @@ public class WagonDirectoryScan
     }
 
     /**
-     * Scans the given directory for files and directories. Found files are placed
-     * in a collection, based on the matching of includes, excludes, and the
-     * selectors. When a directory is found, it is scanned recursively.
+     * Adds default exclusions to the current exclusions set.
+     */
+    public void addDefaultExcludes()
+    {
+        int excludesLength = excludes == null ? 0 : excludes.length;
+        String[] newExcludes;
+        newExcludes = new String[excludesLength + DEFAULTEXCLUDES.length];
+        if ( excludesLength > 0 )
+        {
+            System.arraycopy( excludes, 0, newExcludes, 0, excludesLength );
+        }
+        for ( int i = 0; i < DEFAULTEXCLUDES.length; i++ )
+        {
+            newExcludes[i + excludesLength] = DEFAULTEXCLUDES[i];
+        }
+        excludes = newExcludes;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Scans the given directory for files and directories. Found files are placed in a collection,
+     * based on the matching of includes, excludes, and the selectors. When a directory is found, it
+     * is scanned recursively.
      * 
      * @throws WagonException
      * 
@@ -263,7 +277,7 @@ public class WagonDirectoryScan
             }
 
             String file = fileName;
-            
+
             if ( !StringUtils.isBlank( dir ) )
             {
                 if ( dir.endsWith( "/" ) )
@@ -275,13 +289,13 @@ public class WagonDirectoryScan
                     file = dir + "/" + fileName;
                 }
             }
-            
+
             String name = vpath + fileName;
 
             if ( this.isDirectory( file ) )
             {
-                
-                if ( ! name.endsWith( "/" ) )
+
+                if ( !name.endsWith( "/" ) )
                 {
                     name += "/";
                 }
@@ -290,13 +304,13 @@ public class WagonDirectoryScan
                 {
                     if ( !isExcluded( name ) )
                     {
-                        scandir( file, name  );
+                        scandir( file, name );
                     }
                     else
                     {
                         if ( couldHoldIncluded( name ) )
                         {
-                            scandir( file, name   );
+                            scandir( file, name );
                         }
                     }
                 }
@@ -307,7 +321,7 @@ public class WagonDirectoryScan
                         scandir( file, name );
                     }
                 }
-                
+
             }
             else
             {
