@@ -15,13 +15,13 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
+import java.io.IOException;
+
 import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.UnsupportedProtocolException;
@@ -30,38 +30,62 @@ import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
+import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
 
 /**
- * Provides base functionality for dealing with I/O using wagon.
+ * Merge artifacts from one Maven repository to another Maven repository.
  * 
- * @author Sherali Karimov
- * @author Dan T. Tran
- * 
+ * @goal merge-maven-repo
+ * @requiresProject false
  */
-public abstract class AbstractWagonMojo
+public abstract class MergeMavenRepoMojo
     extends AbstractMojo
 {
 
     /**
-     * URL to upload to or download from or list. Must exist and point to a directory.
+     * The URL to the source repository.
      * 
-     * @parameter expression="${wagon.url}"
-     * @required
+     * @parameter expression="${wagon.src.url}"
      */
-    private String url;
+    private String source;
 
     /**
-     * ID of the server under the above URL. This is used when wagon needs extra authentication
-     * information for instance.
+     * The URL to the target repository.
      * 
-     * @parameter expression="${wagon.serverId}" default-value="";
+     * <p>
+     * <strong>Note:</strong> currently only <code>scp:</code> URLs are allowed as a target URL.
+     * </p>
+     * 
+     * @parameter expression="${wagon.targetUrl}"
      */
-    private String serverId = "";
+    private String target;
+
+    /**
+     * The id of the source repository, required if you need the configuration from the user
+     * settings.
+     * 
+     * @parameter expression="${wagon.srcUrl}" default-value="source"
+     */
+    private String sourceId;
+
+    /**
+     * The id of the target repository, required if you need the configuration from the user
+     * settings.
+     * 
+     * @parameter expression="${wagon.targetId}" default-value="target"
+     */
+    private String targetId;
 
     /**
      * @component
      */
     private WagonManager wagonManager;
+    
+    /**
+     * @component
+     */
+    private MavenRepoMerger mavenRepoMerger;
+    
 
     /**
      * The current user system settings for use in Maven.
@@ -80,39 +104,45 @@ public abstract class AbstractWagonMojo
      */
     protected MavenProject project;
 
-    /**
-     * When <code>true</code>, skip the execution.
-     * 
-     * @parameter expression="${wagon.skip}" default-value="false"
-     */
-    protected boolean skip = false;
-
     public void execute()
         throws MojoExecutionException
     {
-        if ( this.skip )
-        {
-            this.getLog().info( "Skip execution." );
-            return;
-        }
+        Wagon srcWagon = null;
+        Wagon targetWagon = null;
 
-        Wagon wagon = null;
         try
         {
-            wagon = createWagon( serverId, url, wagonManager, settings, this.getLog() );
-            execute( wagon );
+            srcWagon = AbstractWagonMojo.createWagon( sourceId, source, wagonManager, settings, this.getLog() );
+            targetWagon = AbstractWagonMojo.createWagon( targetId, target, wagonManager, settings, this.getLog() );
+            mavenRepoMerger.copy( srcWagon, targetWagon, this.getLog() );
+        }
+        catch ( IOException iox )
+        {
+            throw new MojoExecutionException( "Error during performing repository merge: " + iox );
         }
         catch ( WagonException e )
         {
-            throw new MojoExecutionException( "Error handling resource", e );
+            throw new MojoExecutionException( "Error during performing repository merge: " + e );
         }
         finally
         {
             try
             {
-                if ( wagon != null )
+                if ( srcWagon != null )
                 {
-                    wagon.disconnect();
+                    srcWagon.disconnect();
+                }
+            }
+            catch ( ConnectionException e )
+            {
+                getLog().debug( "Error disconnecting wagon - ignored", e );
+            }
+
+            try
+            {
+                if ( targetWagon != null )
+                {
+                    targetWagon.disconnect();
                 }
             }
             catch ( ConnectionException e )
@@ -120,44 +150,10 @@ public abstract class AbstractWagonMojo
                 getLog().debug( "Error disconnecting wagon - ignored", e );
             }
         }
+
     }
 
-    /**
-     * Convenience method to map a <code>Proxy</code> object from the user system settings to a
-     * <code>ProxyInfo</code> object.
-     * 
-     * @return a proxyInfo object or null if no active proxy is define in the settings.xml
-     */
-    public static ProxyInfo getProxyInfo( Settings settings )
-    {
-        ProxyInfo proxyInfo = null;
-        if ( settings != null && settings.getActiveProxy() != null )
-        {
-            Proxy settingsProxy = settings.getActiveProxy();
-
-            proxyInfo = new ProxyInfo();
-            proxyInfo.setHost( settingsProxy.getHost() );
-            proxyInfo.setType( settingsProxy.getProtocol() );
-            proxyInfo.setPort( settingsProxy.getPort() );
-            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
-            proxyInfo.setUserName( settingsProxy.getUsername() );
-            proxyInfo.setPassword( settingsProxy.getPassword() );
-        }
-
-        return proxyInfo;
-    }
-
-    /**
-     * Convenient method to create a wagon
-     * @param id
-     * @param url
-     * @param wagonManager
-     * @param settings
-     * @param logger
-     * @return
-     * @throws MojoExecutionException
-     */
-    protected static Wagon createWagon( String id, String url, WagonManager wagonManager, Settings settings, Log logger )
+    protected Wagon createWagon( String id, String url, WagonManager wagonManager )
         throws MojoExecutionException
     {
         Wagon wagon = null;
@@ -170,7 +166,7 @@ public abstract class AbstractWagonMojo
 
             try
             {
-                if ( logger.isDebugEnabled() )
+                if ( this.getLog().isDebugEnabled() )
                 {
                     Debug debug = new Debug();
                     wagon.addSessionListener( debug );
@@ -203,15 +199,5 @@ public abstract class AbstractWagonMojo
 
         return wagon;
     }
-
-    /**
-     * Perform the necessary action. To be implemented in the child mojo.
-     * 
-     * @param wagon
-     * @throws MojoExecutionException
-     * @throws WagonException
-     */
-    protected abstract void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException;
 
 }

@@ -31,8 +31,8 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoCopier" role-hint="default"
  */
 
-public class MavenRepoCopierGeneric
-    implements MavenRepoCopier
+public class MavenRepoMergerGeneric
+    implements MavenRepoMerger
 {
     /**
      * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonDownload"

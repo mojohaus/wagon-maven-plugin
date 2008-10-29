@@ -6,9 +6,9 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
-public interface MavenRepoCopier
+public interface MavenRepoMerger
 {
-    String ROLE = MavenRepoCopier.class.getName();
+    String ROLE = MavenRepoMerger.class.getName();
 
     String IN_PROCESS_MARKER = ".rip";
 
