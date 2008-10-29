@@ -40,7 +40,7 @@ public abstract class MergeMavenRepoMojo
     /**
      * The URL to the source repository.
      * 
-     * @parameter expression="${wagon.src.url}"
+     * @parameter expression="${wagon.source}"
      */
     private String source;
 
@@ -51,7 +51,7 @@ public abstract class MergeMavenRepoMojo
      * <strong>Note:</strong> currently only <code>scp:</code> URLs are allowed as a target URL.
      * </p>
      * 
-     * @parameter expression="${wagon.targetUrl}"
+     * @parameter expression="${wagon.target}"
      */
     private String target;
 
@@ -59,7 +59,7 @@ public abstract class MergeMavenRepoMojo
      * The id of the source repository, required if you need the configuration from the user
      * settings.
      * 
-     * @parameter expression="${wagon.srcUrl}" default-value="source"
+     * @parameter expression="${wagon.sourceId}" default-value="source"
      */
     private String sourceId;
 
