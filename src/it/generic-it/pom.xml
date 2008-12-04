@@ -40,7 +40,7 @@
         <version>${version}</version>
         <configuration>
           <url>${url.base}</url>
-          <serverId>localhost.${protocol}</serverId>
+          <serverId>${serverId}</serverId>
           <skip>false</skip>
         </configuration>
 
@@ -158,10 +158,39 @@
     </plugins>
   </build>
 
+  <profiles>
+  
+    <profile>
+      <id>scp</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <url.base>scp://localhost/home/${user.name}</url.base>
+       </properties>
+    </profile>
+    
+    <profile>
+      <id>dav</id>
+      <properties>
+        <serverId>wagon.test.davServerId</serverId>
+        <url.base>dav:https://dav.codehaus.org/user/${user.name}</url.base>
+       </properties>
+    </profile>
+
+    <profile>
+      <id>ftp</id>
+      <properties>
+        <serverId>wagon.test.ftpServerId</serverId>
+        <protocol>ftp</protocol>
+        <url.base>${protocol}://dav.codehaus.org/user/${user.name}</url.base>
+       </properties>
+    </profile>
+
+  </profiles>
+
   <properties>
     <version>testing</version>
-    <protocol>scp</protocol>
-    <url.base>${protocol}://localhost/home/${user.name}</url.base>
     <downloadDirectory.base>${project.build.directory}/it</downloadDirectory.base>
   </properties>
 
