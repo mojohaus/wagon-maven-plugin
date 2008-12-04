@@ -20,6 +20,8 @@ public class DefaultWagonDownload
     public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException
     {
+        logger.info( "Scanning remote file system: " + wagon.getRepository().getUrl() + " ...");
+        
         WagonDirectoryScanner dirScan = new WagonDirectoryScanner();
         dirScan.setWagon( wagon );
         dirScan.setExcludes( fileSet.getExcludes() );

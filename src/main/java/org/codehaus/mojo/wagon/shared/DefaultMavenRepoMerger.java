@@ -76,7 +76,7 @@ public class DefaultMavenRepoMerger
 
                 try
                 {
-                    target.get( files[i], srcMetadaFile );
+                    target.get( files[i].replace( '\\', '/' ), srcMetadaFile );
                 }
                 catch ( ResourceDoesNotExistException e )
                 {
@@ -87,7 +87,7 @@ public class DefaultMavenRepoMerger
 
                 try
                 {
-                    mergeMetadata( srcMetadaFile );
+                    mergeMetadata( srcMetadaFile, logger );
                 }
                 catch ( XmlPullParserException e )
                 {
@@ -110,11 +110,11 @@ public class DefaultMavenRepoMerger
 
     }
 
-    private void mergeMetadata( File existingMetadata )
+    private void mergeMetadata( File existingMetadata, Log logger )
         throws IOException, XmlPullParserException
     {
 
-        Writer existingMetadataWriter = null;
+        Writer stagedMetadataWriter = null;
         Reader existingMetadataReader = null;
         Reader stagedMetadataReader = null;
         File stagedMetadataFile = null;
@@ -133,23 +133,22 @@ public class DefaultMavenRepoMerger
             stagedMetadataReader = new FileReader( stagedMetadataFile );
             Metadata staged = xppReader.read( stagedMetadataReader );
 
-            // Merge
+            // Merge and write back to staged metadata to replace the remote one
             existing.merge( staged );
-            existingMetadataWriter = new FileWriter( existingMetadata );
-            xppWriter.write( existingMetadataWriter, existing );
-
-            stagedMetadataFile.delete();
+            
+            stagedMetadataWriter = new FileWriter( stagedMetadataFile );
+            xppWriter.write( stagedMetadataWriter, existing );
+            
+            logger.info( "Merging metadata file: " + stagedMetadataFile );
+            
         }
         finally
         {
-            IOUtil.close( existingMetadataWriter );
+            IOUtil.close( stagedMetadataWriter );
             IOUtil.close( stagedMetadataReader );
             IOUtil.close( existingMetadataReader );
-
-            if ( stagedMetadataFile != null )
-            {
-                stagedMetadataFile.delete();
-            }
+            
+            existingMetadata.delete();
         }
 
         // Mark all metadata as in-process and regenerate the checksums as they will be different
@@ -157,15 +156,11 @@ public class DefaultMavenRepoMerger
 
         try
         {
-            File newMd5 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".md5" + IN_PROCESS_MARKER );
-            FileUtils.fileWrite( newMd5.getAbsolutePath(), checksum( existingMetadata, MD5 ) );
-            File oldMd5 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".md5" );
-            oldMd5.delete();
+            File newMd5 = new File( stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".md5" );
+            FileUtils.fileWrite( newMd5.getAbsolutePath(), checksum( stagedMetadataFile, MD5 ) );
 
-            File newSha1 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".sha1" + IN_PROCESS_MARKER );
-            FileUtils.fileWrite( newSha1.getAbsolutePath(), checksum( existingMetadata, SHA1 ) );
-            File oldSha1 = new File( existingMetadata.getParentFile(), MAVEN_METADATA + ".sha1" );
-            oldSha1.delete();
+            File newSha1 = new File( stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".sha1" );
+            FileUtils.fileWrite( newSha1.getAbsolutePath(), checksum( stagedMetadataFile, SHA1 ) );
         }
         catch ( NoSuchAlgorithmException e )
         {
