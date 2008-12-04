@@ -52,9 +52,9 @@ Overview
   
   * {{{list-mojo.html}wagon:list}} attempts to list the content of a specified location in a remote repository.
 
-  * {{{copy.html}copy}} copy a set of files under a Wagon repository to another Wagon repository.
+  * {{{copy.html}copy}}wagon:copy a set of files under a Wagon repository to another Wagon repository.
 
-  * {{{merge-maven-repos.html}merge-maven-repos}} merge a Maven repository to another.
+  * {{{merge-maven-repos.html}wagon:merge-maven-repos}} merge a Maven repository to another.
 
   []
   
