@@ -52,7 +52,7 @@ Overview
   
   * {{{list-mojo.html}wagon:list}} attempts to list the content of a specified location in a remote repository.
 
-  * {{{merge-maven-repos.html}merge-maven-repos}} merge 2 maven a maven repository to another.
+  * {{{merge-maven-repos.html}merge-maven-repos}} merge a Maven repository to another.
 
   []
   

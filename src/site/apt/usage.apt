@@ -70,7 +70,7 @@ Introduction
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0-beta-1-SNAPSHOT</version>
       <executions>
         <execution>
           <id>upload-javadoc</id>
@@ -110,7 +110,7 @@ Introduction
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>maven-wagon-plugin</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0-beta-1-SNAPSHOT</version>
       <executions>
         <execution>
           <id>download-test-data</id>
@@ -137,7 +137,7 @@ Introduction
 * Configuration Example for merge Maven repositories
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-SNAPSHOT:merge-maven-repos \
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:merge-maven-repos \
      -Dsource=http://people.apache.org/~olamy/staging-repo \
      -Dtarget=scp://localhost/home/Owner/maven-repo \
      -Djava.io.tmpdir=target

@@ -21,7 +21,7 @@
     Provides recursive upload, download and list directory content functionality.
   </description>
   
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0-beta-1-SNAPSHOT</version>
 
   <inceptionYear>2008</inceptionYear>
 
