@@ -1,7 +1,6 @@
  ------
  Usage
  ------
- Sherali Karimov, James Dumay, Dan T. Tran
  ------
  October 4th, 2008
 
@@ -43,7 +42,7 @@ Introduction
   
   * wagon-http does not work <with upload> and <upload-single> goals
   
-  * <list> and <download> goals are a very slow since it needs to scan the remote file system.
+  * <list> and <download> goals are very slow since it needs to scan the remote file system.
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
     scans the entire remote source tree.
 
