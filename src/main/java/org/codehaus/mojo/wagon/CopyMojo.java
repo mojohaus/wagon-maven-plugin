@@ -19,27 +19,27 @@ import java.io.IOException;
 
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
+import org.codehaus.mojo.wagon.shared.WagonCopy;
 
 /**
- * Merge artifacts from one Maven repository to another Maven repository.
+ * Copy artifacts from one Wagon repository to another Wagon repository.
  * 
- * @goal merge-maven-repos
+ * @goal copy
  * @requiresProject false
  */
-public class MergeMavenRepoMojo
+public class CopyMojo
     extends AbstractCopyMojo
 {
 
     /**
      * @component
      */
-    private MavenRepoMerger mavenRepoMerger;
+    private WagonCopy wagonCopy;
 
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {
-        mavenRepoMerger.merge( srcWagon, targetWagon, this.getLog() );
+        wagonCopy.copy( srcWagon, null, targetWagon, this.getLog() );
     }
 
 }

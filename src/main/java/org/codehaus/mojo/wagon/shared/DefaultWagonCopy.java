@@ -10,6 +10,7 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
+ * Copy a set of file from a wagon repo to another wagon repo
  * 
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonCopy" role-hint="default"
  */
@@ -30,6 +31,11 @@ public class DefaultWagonCopy
     public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, Log logger )
         throws WagonException, IOException
     {
+        if ( wagonFileSet == null )
+        {
+            wagonFileSet = new WagonFileSet();
+        }
+        
         boolean removeDownloadDir = false;
 
         if ( wagonFileSet.getDownloadDirectory() == null )
