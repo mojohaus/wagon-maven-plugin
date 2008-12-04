@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="FAQ">
+
+<part id="" >
+  <title>FAQ</title>
+  
+  <faq id="stage-vs-merge-maven-repos">
+    <question>maven-stage-plugin:stage vs wagon-maven-plugin:merge-maven-repo</question>
+    <answer>
+      <br/>
+      Both have the same purpose with the following differences;
+      
+      <ul>
+        <li><i>merge-maven-repos</i> is more generic and therefore supports more protocols. it can be extended
+            to merge a subset of files base on groupId, artifactId and version.</li>
+        <li><i>stage</i> is atomic where the entire staged repo is compressed, transferred, and uncompressed at the remote side.
+            However, it is bound to scp protocol at the target side and the max compressed file size is limited to 2GB.
+        </li>
+      </ul>
+     </answer>
+   </faq>
+   
+  
+  </part>
+      
+  
+</faqs>

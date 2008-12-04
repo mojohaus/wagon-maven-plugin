@@ -23,7 +23,7 @@ public interface WagonCopy
      * @param logger
      * @throws WagonException
      */
-    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWargon, Log logger )
+    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, Log logger )
         throws WagonException, IOException;
 
 }
