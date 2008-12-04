@@ -14,7 +14,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonCopy" role-hint="default"
  */
 
-public class WagonCopyDefault
+public class DefaultWagonCopy
     implements WagonCopy
 {
     /**
