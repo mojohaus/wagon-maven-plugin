@@ -26,7 +26,6 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead
- * @author Dan T. Tran
  * 
  * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoCopier" role-hint="default"
  */
@@ -64,7 +63,7 @@ public class DefaultMavenRepoMerger
         {
             downloader.download( src, srcFileSet, logger );
 
-            //merge metada
+            //merge metadata
             DirectoryScanner scanner = new DirectoryScanner();
             scanner.setBasedir( downloadSrcDir );
             String[] includes = { "**/" + MAVEN_METADATA };

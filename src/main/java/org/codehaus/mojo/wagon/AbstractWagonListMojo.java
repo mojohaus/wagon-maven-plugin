@@ -6,8 +6,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Contains common configuration to scan for Wagon's files
- * @author dtran
- *
  */
 public abstract class AbstractWagonListMojo
     extends AbstractWagonMojo

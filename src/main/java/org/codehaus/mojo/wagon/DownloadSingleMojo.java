@@ -24,9 +24,7 @@ import org.apache.maven.wagon.WagonException;
 /**
  * Download a single file.
  * 
- * @author Dan T. Tran
  * @goal download-single
- * 
  * @requiresProject true
  */
 public class DownloadSingleMojo

@@ -24,10 +24,8 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload a single file with option to change name
- * 
- * @author Dan T. Tran
+ *
  * @goal upload-single
- * 
  * @requiresProject true
  */
 public class UploadSingleMojo

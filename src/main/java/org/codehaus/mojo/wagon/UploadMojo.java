@@ -28,8 +28,6 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * Upload multiple sets of files.
  * 
- * @author Sherali Karimov
- * @author Dan T. Tran
  * @goal upload
  * @requiresProject true
  */

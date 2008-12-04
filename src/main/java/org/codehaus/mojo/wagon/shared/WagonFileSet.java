@@ -5,8 +5,6 @@ import java.io.File;
 
 /**
  * Wagon configuration to scan for a set of remote files.
- * 
- * @author Dan T. Tran
  */
 public class WagonFileSet
 {

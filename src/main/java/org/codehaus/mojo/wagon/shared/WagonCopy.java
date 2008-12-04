@@ -8,7 +8,6 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * 
- * @author Dan T. Tran
  */
 public interface WagonCopy
 {

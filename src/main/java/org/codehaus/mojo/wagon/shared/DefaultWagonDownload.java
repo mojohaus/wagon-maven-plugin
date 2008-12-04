@@ -10,8 +10,6 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * @author Dan T. Tran
- * 
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonDownload" role-hint="default"
  */
 

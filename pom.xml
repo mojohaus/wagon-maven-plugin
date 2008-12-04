@@ -33,13 +33,19 @@
 
   <developers>
     <developer>
+      <name>Dan T. Tran</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
       <name>James W. Dumay</name>
       <roles>
         <role>Developer</role>
       </roles>
     </developer>
     <developer>
-      <name>Dan T. Tran</name>
+      <name>Sherali Karimov</name>
       <roles>
         <role>Developer</role>
       </roles>

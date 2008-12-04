@@ -25,10 +25,7 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 /**
  * Downloads file(s) .
  * 
- * @author Sherali Karimov
- * @author Dan T. Tran
  * @goal download
- * 
  * @requiresProject false
  */
 public class DownloadMojo

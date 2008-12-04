@@ -34,9 +34,6 @@ import org.apache.maven.wagon.repository.Repository;
 /**
  * Provides base functionality for dealing with I/O using wagon.
  * 
- * @author Sherali Karimov
- * @author Dan T. Tran
- * 
  */
 public abstract class AbstractWagonMojo
     extends AbstractMojo
