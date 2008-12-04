@@ -15,7 +15,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonUpload" role-hint="default"
  */
 
-public class WagonUploadGeneric
+public class DefaultWagonUpload
     implements WagonUpload
 {
     public void upload( Wagon wagon, FileSet fileset, Log logger )

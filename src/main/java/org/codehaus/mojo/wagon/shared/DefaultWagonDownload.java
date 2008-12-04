@@ -15,7 +15,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonDownload" role-hint="default"
  */
 
-public class WagonDownloadGeneric
+public class DefaultWagonDownload
     implements WagonDownload
 {
     

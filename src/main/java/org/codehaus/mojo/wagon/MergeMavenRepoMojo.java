@@ -109,7 +109,7 @@ public abstract class MergeMavenRepoMojo
         {
             srcWagon = AbstractWagonMojo.createWagon( sourceId, source, wagonManager, settings, this.getLog() );
             targetWagon = AbstractWagonMojo.createWagon( targetId, target, wagonManager, settings, this.getLog() );
-            mavenRepoMerger.copy( srcWagon, targetWagon, this.getLog() );
+            mavenRepoMerger.merge( srcWagon, targetWagon, this.getLog() );
         }
         catch ( IOException iox )
         {

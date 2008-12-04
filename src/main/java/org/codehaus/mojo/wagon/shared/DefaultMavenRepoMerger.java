@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoCopier" role-hint="default"
  */
 
-public class MavenRepoMergerGeneric
+public class DefaultMavenRepoMerger
     implements MavenRepoMerger
 {
     /**
@@ -45,7 +45,7 @@ public class MavenRepoMergerGeneric
      */
     private WagonUpload uploader;
 
-    public void copy( Wagon src, Wagon target, Log logger )
+    public void merge( Wagon src, Wagon target, Log logger )
         throws WagonException, IOException
     {
 
