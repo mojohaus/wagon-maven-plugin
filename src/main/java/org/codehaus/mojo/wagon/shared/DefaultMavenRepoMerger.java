@@ -27,7 +27,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 /**
  * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead
  * 
- * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoCopier" role-hint="default"
+ * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoMerger" role-hint="default"
  */
 
 public class DefaultMavenRepoMerger
@@ -35,7 +35,6 @@ public class DefaultMavenRepoMerger
 {
     /**
      * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonDownload"
-
      */
     private WagonDownload downloader;
 

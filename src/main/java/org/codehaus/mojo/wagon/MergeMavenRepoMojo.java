@@ -33,14 +33,15 @@ import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
  * @goal merge-maven-repos
  * @requiresProject false
  */
-public abstract class MergeMavenRepoMojo
+public class MergeMavenRepoMojo
     extends AbstractMojo
 {
 
     /**
      * The URL to the source repository.
      * 
-     * @parameter expression="${wagon.source}"
+     * @parameter expression="${source}"
+     * @required
      */
     private String source;
 
@@ -51,7 +52,8 @@ public abstract class MergeMavenRepoMojo
      * <strong>Note:</strong> currently only <code>scp:</code> URLs are allowed as a target URL.
      * </p>
      * 
-     * @parameter expression="${wagon.target}"
+     * @parameter expression="${target}"
+     * @required
      */
     private String target;
 
@@ -59,7 +61,7 @@ public abstract class MergeMavenRepoMojo
      * The id of the source repository, required if you need the configuration from the user
      * settings.
      * 
-     * @parameter expression="${wagon.sourceId}" default-value="source"
+     * @parameter expression="${sourceId}" default-value="source"
      */
     private String sourceId;
 
@@ -67,7 +69,7 @@ public abstract class MergeMavenRepoMojo
      * The id of the target repository, required if you need the configuration from the user
      * settings.
      * 
-     * @parameter expression="${wagon.targetId}" default-value="target"
+     * @parameter expression="${targetId}" default-value="target"
      */
     private String targetId;
 
@@ -113,11 +115,11 @@ public abstract class MergeMavenRepoMojo
         }
         catch ( IOException iox )
         {
-            throw new MojoExecutionException( "Error during performing repository merge: " + iox );
+            throw new MojoExecutionException( "Error during performing repository merge", iox );
         }
         catch ( WagonException e )
         {
-            throw new MojoExecutionException( "Error during performing repository merge: " + e );
+            throw new MojoExecutionException( "Error during performing repository merge", e );
         }
         finally
         {
