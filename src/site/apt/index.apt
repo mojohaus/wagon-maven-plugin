@@ -1,7 +1,6 @@
  ------
  Maven Wagon Plugin
  ------
- Sherali Karimov, James Dumay
  ------
  October 2008
  ------
@@ -30,11 +29,14 @@ Overview
 
   The Wagon Plugin is used when you want to:
   
-  * upload generated resources at build-time to a remote location.
+  * Upload generated resources at build-time to a remote location.
   
-  * download resources from a repository.
+  * Download resources from a repository.
   
-  * list the content of a directory in a repository 
+  * List the content of a directory in a repository
+  
+  * Merge 2 maven repositories. 
+   
 
 * Goals Overview
 
@@ -50,6 +52,10 @@ Overview
   
   * {{{list-mojo.html}wagon:list}} attempts to list the content of a specified location in a remote repository.
 
+  * {{{merge-maven-repos.html}wagon:list}} merge 2 maven a maven repository to another.
+
+  []
+  
 * Usage
 
   Instructions on the basic usage of the Wagon Plugin can be found {{{usage.html}here}}.

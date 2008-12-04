@@ -31,18 +31,20 @@ Introduction
   It allows you to upload resources from your build to a remote location using wagon.
   It allows you to download resources from a repository using wagon.
   It allows to list a content of a repository using wagon.
+  Finally, by combining the upload and download capabilities, it can merge a Maven repository to
+  another in a generic way.  
   
   The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
   
   However, due some differences in term of provider implementation, not all goals are 
   working as expected. The following contains a list of limitations:
   
-  * wagon-webdav and wagon-jackrabit do not work with list and download goals.
+  * wagon-webdav and wagon-jackrabit do not work with <list> and <download> goals.
   
-  * wagon-http does not work upload and upload-single.
+  * wagon-http does not work <with upload> and <upload-single> goals
   
-  * list and download goals are a very slow since it needs to scan the remote file system.
-    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somfile 
+  * <list> and <download> goals are a very slow since it needs to scan the remote file system.
+    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
     scans the entire remote source tree.
 
   []
@@ -133,3 +135,12 @@ Introduction
 
 
 
+* Configuration Example for merge Maven repositories
+
++-----
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-SNAPSHOT:merge-maven-repos \
+     -Dsource=http://people.apache.org/~olamy/staging-repo \
+     -Dtarget=scp://localhost/home/Owner/maven-repo \
+     -Djava.io.tmpdir=target
++-----
+   
