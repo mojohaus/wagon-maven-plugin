@@ -15,6 +15,8 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
+import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
@@ -64,6 +66,10 @@ public abstract class AbstractSingleWagonMojo
         {
             throw new MojoExecutionException( "Error handling resource", e );
         }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Error handling resource", e );
+        }
         finally
         {
             try
@@ -88,6 +94,6 @@ public abstract class AbstractSingleWagonMojo
      * @throws WagonException
      */
     protected abstract void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException;
+        throws  MojoExecutionException, WagonException, IOException;
 
 }

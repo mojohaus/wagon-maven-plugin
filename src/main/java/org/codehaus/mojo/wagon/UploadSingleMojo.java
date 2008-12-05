@@ -16,6 +16,7 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
@@ -47,7 +48,7 @@ public class UploadSingleMojo
     private String toFile;
 
     protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException
+        throws MojoExecutionException, WagonException, IOException
     {
         if ( StringUtils.isBlank( toFile ) )
         {

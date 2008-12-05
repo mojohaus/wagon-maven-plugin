@@ -17,13 +17,12 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
- * Transfers a set of file from a remote URL to a specified local directory.
+ * Transfers a set of files from a remote URL to a specified local directory.
  * 
  * @goal download
  * @requiresProject false
@@ -41,7 +40,7 @@ public class DownloadMojo
     
     
     protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException
+        throws WagonException
     {
         WagonFileSet fileSet = this.getWagonFileSet();
         fileSet.setDownloadDirectory( this.toDir );

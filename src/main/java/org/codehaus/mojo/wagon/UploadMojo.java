@@ -16,9 +16,9 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -82,7 +82,7 @@ public class UploadMojo
 
     
     protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException
+        throws WagonException, IOException
     {
         FileSet fileSet = new FileSet();
         
