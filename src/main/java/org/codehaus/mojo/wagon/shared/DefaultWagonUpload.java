@@ -70,24 +70,31 @@ public class DefaultWagonUpload
         {
             FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
             String[] files = fileSetManager.getIncludedFiles( fileset );
+            logger.info( "Creating " + zipFile + " ..." );
             createZip( files, zipFile, fileset.getDirectory() );
 
-            String zipFileName = zipFile.getName();
-            String targetRepoBaseDirectory = fileset.getOutputDirectory();
+            String remoteFileName = zipFile.getName();
+            
+            String remoteFile = zipFile.getName();
+            String remoteDir = fileset.getOutputDirectory();
+            if ( !StringUtils.isBlank( remoteDir ) )
+            {
+                remoteFile = remoteDir + "/" + remoteFile;
+            }            
 
-            wagon.put( zipFile, targetRepoBaseDirectory + "/" + zipFileName );
-
-            logger.info( "Unpacking zip file on the target machine." );
-
+            logger.info( "Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ..." );
+            wagon.put( zipFile, remoteFile );
+            
+            String targetRepoBaseDirectory = wagon.getRepository().getBasedir();  
+            
             // We use the super quiet option here as all the noise seems to kill/stall the connection
-            String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/"
-                + zipFileName;
+            String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/" + remoteFileName;
 
+            logger.info( "Remote: " + command );
             ( (CommandExecutor) wagon ).executeCommand( command );
 
-            logger.info( "Deleting zip file from the target repository." );
-
-            command = "rm -f " + targetRepoBaseDirectory + "/" + zipFile.getName();
+            command = "rm -f " + targetRepoBaseDirectory + "/" + remoteFileName ;
+            logger.info( "Remote: " + command );
 
             ( (CommandExecutor) wagon ).executeCommand( command );
         }

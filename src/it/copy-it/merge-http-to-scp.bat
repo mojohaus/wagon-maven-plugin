@@ -1,1 +1,1 @@
-mvn -e org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:merge-maven-repos -Dsource=http://people.apache.org/~olamy/staging-repo -Dtarget=scp://localhost/home/Owner/maven-repo -Djava.io.tmpdir=target
+mvn -e org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:merge-maven-repos -Dsource=http://people.apache.org/~olamy/staging-repo -Dtarget=scp://localhost/home/%USERNAME%/maven-repo -Djava.io.tmpdir=target -Dwagon.optimize=true
