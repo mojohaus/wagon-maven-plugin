@@ -15,21 +15,14 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
-import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
-import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
-import org.apache.maven.wagon.WagonException;
-import org.apache.maven.wagon.observers.Debug;
-import org.apache.maven.wagon.proxy.ProxyInfo;
-import org.apache.maven.wagon.repository.Repository;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
-import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.mojo.wagon.shared.WagonUtils;
 
 /**
  * Provides base functionality for dealing with I/O using wagon.
@@ -69,6 +62,7 @@ public abstract class AbstractWagonMojo
 
     /**
      * Convenient method to create a wagon
+     * 
      * @param id
      * @param url
      * @param wagonManager
@@ -77,97 +71,23 @@ public abstract class AbstractWagonMojo
      * @return
      * @throws MojoExecutionException
      */
-    protected  Wagon createWagon( String id, String url )
+    protected Wagon createWagon( String id, String url )
         throws MojoExecutionException
     {
-        Wagon wagon = null;
-
-        final Repository repository = new Repository( id, url );
-
         try
         {
-            wagon = wagonManager.getWagon( repository );
-
-            try
-            {
-                if ( this.getLog().isDebugEnabled() )
-                {
-                    Debug debug = new Debug();
-                    wagon.addSessionListener( debug );
-                    wagon.addTransferListener( debug );
-                }
-
-                ProxyInfo proxyInfo = getProxyInfo();
-                if ( proxyInfo != null )
-                {
-                    wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ), proxyInfo );
-                }
-                else
-                {
-                    wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ) );
-                }
-            }
-            catch ( WagonException e )
-            {
-                throw new MojoExecutionException( "Error handling resource", e );
-            }
+            return WagonUtils.createWagon( id, url, wagonManager, settings, this.getLog() );
         }
-        catch ( UnsupportedProtocolException e )
+        catch ( Exception e )
         {
-            throw new MojoExecutionException( "Unsupported protocol: '" + repository.getProtocol() + "'", e );
-        }
-        catch ( WagonConfigurationException e )
-        {
-            throw new MojoExecutionException( "Unable to configure Wagon: '" + repository.getProtocol() + "'", e );
+            throw new MojoExecutionException( "Error handling resource", e );
         }
 
-        return wagon;
     }
 
     protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean isCaseSensitive )
     {
-        WagonFileSet fileSet = new WagonFileSet();
-        fileSet.setDirectory( fromDir );
-        
-        if ( ! StringUtils.isBlank( includes ) )
-        {
-            fileSet.setIncludes( StringUtils.split( includes, "," ) );
-        }
-        
-        if ( ! StringUtils.isBlank( excludes ) )
-        {
-            fileSet.setExcludes( StringUtils.split( excludes, "," ) );
-        }
-        
-        fileSet.setCaseSensitive( isCaseSensitive );
-        
-        return fileSet;
-        
-    }    
-    
-    /**
-     * Convenience method to map a <code>Proxy</code> object from the user system settings to a
-     * <code>ProxyInfo</code> object.
-     * 
-     * @return a proxyInfo object or null if no active proxy is define in the settings.xml
-     */
-    private ProxyInfo getProxyInfo()
-    {
-        ProxyInfo proxyInfo = null;
-        if ( settings != null && settings.getActiveProxy() != null )
-        {
-            Proxy settingsProxy = settings.getActiveProxy();
-
-            proxyInfo = new ProxyInfo();
-            proxyInfo.setHost( settingsProxy.getHost() );
-            proxyInfo.setType( settingsProxy.getProtocol() );
-            proxyInfo.setPort( settingsProxy.getPort() );
-            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
-            proxyInfo.setUserName( settingsProxy.getUsername() );
-            proxyInfo.setPassword( settingsProxy.getPassword() );
-        }
-
-        return proxyInfo;
+        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
     }
-    
+
 }
