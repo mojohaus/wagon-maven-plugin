@@ -40,7 +40,7 @@ public class WagonUploadZipScp
         
         wagon.put( zipFile, targetRepoBaseDirectory + "/" + zipFileName );
 
-        //unpack the zip at remote site
+        logger.info( "Unpacking zip file on the target machine." );
 
         // We use the super quiet option here as all the noise seems to kill/stall the connection
         String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/" + zipFileName;
