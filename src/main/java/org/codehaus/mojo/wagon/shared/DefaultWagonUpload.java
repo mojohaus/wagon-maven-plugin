@@ -11,6 +11,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.CommandExecutor;
+import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.IOUtil;
@@ -60,6 +61,10 @@ public class DefaultWagonUpload
             return ;
         }
         
+        if ( ! wagon.getRepository().getUrl().startsWith( "scp://" ) ) 
+        {
+            throw new UnsupportedProtocolException( "Optitmize upload only works with Wagon SCP" );
+        }
         
         logger.info( "Uploading " + fileset );
 
