@@ -29,29 +29,36 @@ public class WagonUploadZipScp
 
         File zipFile;
         zipFile = File.createTempFile( "wagon", ".zip" );
-        zipFile.deleteOnExit();
 
-        FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
-        String[] files = fileSetManager.getIncludedFiles( fileset );
-        createZip( files, zipFile, fileset.getDirectory() );
+        try
+        {
+            FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
+            String[] files = fileSetManager.getIncludedFiles( fileset );
+            createZip( files, zipFile, fileset.getDirectory() );
 
-        String zipFileName = zipFile.getName();
-        String targetRepoBaseDirectory = fileset.getOutputDirectory();
-        
-        wagon.put( zipFile, targetRepoBaseDirectory + "/" + zipFileName );
+            String zipFileName = zipFile.getName();
+            String targetRepoBaseDirectory = fileset.getOutputDirectory();
 
-        logger.info( "Unpacking zip file on the target machine." );
+            wagon.put( zipFile, targetRepoBaseDirectory + "/" + zipFileName );
 
-        // We use the super quiet option here as all the noise seems to kill/stall the connection
-        String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/" + zipFileName;
+            logger.info( "Unpacking zip file on the target machine." );
 
-        ( (CommandExecutor) wagon ).executeCommand( command );
+            // We use the super quiet option here as all the noise seems to kill/stall the connection
+            String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/"
+                + zipFileName;
 
-        logger.info( "Deleting zip file from the target repository." );
+            ( (CommandExecutor) wagon ).executeCommand( command );
 
-        command = "rm -f " + targetRepoBaseDirectory + "/" + zipFile.getName();
+            logger.info( "Deleting zip file from the target repository." );
 
-        ( (CommandExecutor) wagon ).executeCommand( command );
+            command = "rm -f " + targetRepoBaseDirectory + "/" + zipFile.getName();
+
+            ( (CommandExecutor) wagon ).executeCommand( command );
+        }
+        finally
+        {
+            zipFile.delete();
+        }
 
     }
 
