@@ -95,13 +95,19 @@ public class DefaultWagonUpload
             // We use the super quiet option here as all the noise seems to kill/stall the connection
             String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/" + remoteFileName;
 
-            logger.info( "Remote: " + command );
-            ( (CommandExecutor) wagon ).executeCommand( command );
+            try
+            {
+                logger.info( "Remote: " + command );
+                ( (CommandExecutor) wagon ).executeCommand( command );
+            }
+            finally
+            {
+                command = "rm -f " + targetRepoBaseDirectory + "/" + remoteFileName ;
+                logger.info( "Remote: " + command );
 
-            command = "rm -f " + targetRepoBaseDirectory + "/" + remoteFileName ;
-            logger.info( "Remote: " + command );
+                ( (CommandExecutor) wagon ).executeCommand( command );
+            }
 
-            ( (CommandExecutor) wagon ).executeCommand( command );
         }
         finally
         {
