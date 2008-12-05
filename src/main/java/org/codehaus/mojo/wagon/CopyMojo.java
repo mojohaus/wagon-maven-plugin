@@ -66,7 +66,7 @@ public class CopyMojo
     {
         WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
         
-        wagonCopy.copy( srcWagon, fileSet, targetWagon, this.getLog() );
+        wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
     }
 
 }

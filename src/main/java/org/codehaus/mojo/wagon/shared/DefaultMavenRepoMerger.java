@@ -43,7 +43,7 @@ public class DefaultMavenRepoMerger
      */
     private WagonUpload uploader;
 
-    public void merge( Wagon src, Wagon target, Log logger )
+    public void merge( Wagon src, Wagon target, boolean optimize, Log logger )
         throws WagonException, IOException
     {
 
@@ -101,7 +101,7 @@ public class DefaultMavenRepoMerger
             FileSet tobeUploadedFileSet = new FileSet();
             tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
 
-            this.uploader.upload( target, tobeUploadedFileSet, logger );
+            this.uploader.upload( target, tobeUploadedFileSet, optimize, logger );
 
         }
         finally

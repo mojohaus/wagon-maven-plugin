@@ -74,6 +74,13 @@ public class UploadMojo
      */
     private String toDir = "";
     
+    /**
+     * Optimized upload by locally compressed and remote uncompress for scp.
+     * 
+     * @parameter expression="${wagon.optimize}" default-value="false";
+     */
+    
+    private boolean optimize = false;
     
     /**
      * @component
@@ -104,7 +111,7 @@ public class UploadMojo
         
         fileSet.setOutputDirectory( toDir );
 
-        this.wagonUpload.upload( wagon, fileSet, this.getLog() );
+        this.wagonUpload.upload( wagon, fileSet, optimize, this.getLog() );
     }
 
 }

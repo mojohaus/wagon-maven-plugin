@@ -39,7 +39,7 @@ public class MergeMavenRepoMojo
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {
-        mavenRepoMerger.merge( srcWagon, targetWagon, this.getLog() );
+        mavenRepoMerger.merge( srcWagon, targetWagon, optimize, this.getLog() );
     }
 
 }

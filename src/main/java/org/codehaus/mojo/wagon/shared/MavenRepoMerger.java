@@ -18,6 +18,6 @@ public interface MavenRepoMerger
 
     String MAVEN_METADATA = "maven-metadata.xml";
     
-    void merge( Wagon fromWagon, Wagon toWagon, Log logger )
+    void merge( Wagon fromWagon, Wagon toWagon, boolean optimize, Log logger )
         throws WagonException, IOException;
 }

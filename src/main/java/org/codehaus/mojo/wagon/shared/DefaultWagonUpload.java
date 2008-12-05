@@ -51,7 +51,7 @@ public class DefaultWagonUpload
 
     }
 
-    public void upload( Wagon wagon, FileSet fileset, Log logger, boolean optimize )
+    public void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
         throws WagonException, IOException
     {
         if ( ! optimize)

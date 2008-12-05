@@ -55,5 +55,14 @@ public abstract class AbstractDoubleWagonMojo
      * @parameter expression="${targetId}" default-value="target"
      */
     protected String targetId;
+    
+    /**
+     * Optimized upload by locally compressed and remote uncompress for scp.
+     * 
+     * @parameter expression="${wagon.optimize}" default-value="false";
+     */
+    
+    protected boolean optimize = false;
+    
 
 }
