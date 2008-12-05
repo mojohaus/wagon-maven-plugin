@@ -32,7 +32,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @requiresProject true
  */
 public class UploadMojo
-    extends AbstractWagonMojo
+    extends AbstractSingleWagonMojo
 {
     /**
      * Local directory to upload to wagon's "url/toDir"

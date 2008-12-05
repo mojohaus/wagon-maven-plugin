@@ -15,59 +15,62 @@ package org.codehaus.mojo.wagon;
  * the License.
  */
 
-import java.io.IOException;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
-public abstract class AbstractCopyMojo
-    extends AbstractDoubleWagonMojo
+/**
+ * Provides base functionality for dealing with I/O using single wagon.
+ * 
+ */
+public abstract class AbstractSingleWagonMojo
+    extends AbstractWagonMojo
 {
 
-    protected abstract void copy(  Wagon src, Wagon target ) 
-        throws IOException, WagonException;
-    
+    /**
+     * URL to upload to or download from or list. Must exist and point to a directory.
+     * 
+     * @parameter expression="${wagon.url}"
+     * @required
+     */
+    private String url;
+
+    /**
+     * ID of the server under the above URL. This is used when wagon needs extra authentication
+     * information for instance.
+     * 
+     * @parameter expression="${wagon.serverId}" default-value="";
+     */
+    private String serverId = "";
+
+
     public void execute()
         throws MojoExecutionException
     {
-        Wagon srcWagon = null;
-        Wagon targetWagon = null;
+        if ( this.skip )
+        {
+            this.getLog().info( "Skip execution." );
+            return;
+        }
 
+        Wagon wagon = null;
         try
         {
-            srcWagon = AbstractWagonMojo.createWagon( sourceId, source, wagonManager, settings, this.getLog() );
-            targetWagon = AbstractWagonMojo.createWagon( targetId, target, wagonManager, settings, this.getLog() );
-            copy( srcWagon, targetWagon );
-        }
-        catch ( IOException iox )
-        {
-            throw new MojoExecutionException( "Error during performing repository copy", iox );
+            wagon = createWagon( serverId, url, wagonManager, settings, this.getLog() );
+            execute( wagon );
         }
         catch ( WagonException e )
         {
-            throw new MojoExecutionException( "Error during performing repository copy", e );
+            throw new MojoExecutionException( "Error handling resource", e );
         }
         finally
         {
             try
             {
-                if ( srcWagon != null )
+                if ( wagon != null )
                 {
-                    srcWagon.disconnect();
-                }
-            }
-            catch ( ConnectionException e )
-            {
-                getLog().debug( "Error disconnecting wagon - ignored", e );
-            }
-
-            try
-            {
-                if ( targetWagon != null )
-                {
-                    targetWagon.disconnect();
+                    wagon.disconnect();
                 }
             }
             catch ( ConnectionException e )
@@ -75,7 +78,16 @@ public abstract class AbstractCopyMojo
                 getLog().debug( "Error disconnecting wagon - ignored", e );
             }
         }
-
     }
+
+    /**
+     * Perform the necessary action. To be implemented in the child mojo.
+     * 
+     * @param wagon
+     * @throws MojoExecutionException
+     * @throws WagonException
+     */
+    protected abstract void execute( Wagon wagon )
+        throws MojoExecutionException, WagonException;
 
 }

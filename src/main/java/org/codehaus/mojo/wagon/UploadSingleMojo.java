@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @requiresProject true
  */
 public class UploadSingleMojo
-    extends AbstractWagonMojo
+    extends AbstractSingleWagonMojo
 {
     /**
      * Path to a local file to be uploaded

@@ -35,7 +35,6 @@ public class ListMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
-        
         List files = wagonDownload.getFileList( wagon, this.getWagonFileSet(), this.getLog() );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )

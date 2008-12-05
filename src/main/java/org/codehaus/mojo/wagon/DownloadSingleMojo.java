@@ -28,7 +28,7 @@ import org.apache.maven.wagon.WagonException;
  * @requiresProject true
  */
 public class DownloadSingleMojo
-    extends AbstractWagonMojo
+    extends AbstractSingleWagonMojo
 {
     /**
      * Relative path to the URL.

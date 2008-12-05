@@ -2,13 +2,12 @@ package org.codehaus.mojo.wagon;
 
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Contains common configuration to scan for Wagon's files
  */
 public abstract class AbstractWagonListMojo
-    extends AbstractWagonMojo
+    extends AbstractSingleWagonMojo
 
 {
     /**
@@ -44,23 +43,7 @@ public abstract class AbstractWagonListMojo
     
     protected WagonFileSet getWagonFileSet()
     {
-        WagonFileSet fileSet = new WagonFileSet();
-        fileSet.setDirectory( fromDir );
-        
-        if ( ! StringUtils.isBlank( includes ) )
-        {
-            fileSet.setIncludes( StringUtils.split( this.includes, "," ) );
-        }
-        
-        if ( ! StringUtils.isBlank( excludes ) )
-        {
-            fileSet.setExcludes( StringUtils.split( this.excludes, "," ) );
-        }
-        
-        fileSet.setCaseSensitive( this.isCaseSensitive );
-        
-        return fileSet;
-        
+        return this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
     }
 
 }

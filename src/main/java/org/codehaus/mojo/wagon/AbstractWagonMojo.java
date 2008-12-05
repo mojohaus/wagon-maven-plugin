@@ -23,13 +23,14 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
-import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
+import org.codehaus.mojo.wagon.shared.WagonFileSet;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Provides base functionality for dealing with I/O using wagon.
@@ -40,25 +41,9 @@ public abstract class AbstractWagonMojo
 {
 
     /**
-     * URL to upload to or download from or list. Must exist and point to a directory.
-     * 
-     * @parameter expression="${wagon.url}"
-     * @required
-     */
-    private String url;
-
-    /**
-     * ID of the server under the above URL. This is used when wagon needs extra authentication
-     * information for instance.
-     * 
-     * @parameter expression="${wagon.serverId}" default-value="";
-     */
-    private String serverId = "";
-
-    /**
      * @component
      */
-    private WagonManager wagonManager;
+    protected WagonManager wagonManager;
 
     /**
      * The current user system settings for use in Maven.
@@ -66,7 +51,7 @@ public abstract class AbstractWagonMojo
      * @parameter expression="${settings}"
      * @readonly
      */
-    private Settings settings;
+    protected Settings settings;
 
     /**
      * Internal Maven's project
@@ -84,40 +69,6 @@ public abstract class AbstractWagonMojo
      */
     protected boolean skip = false;
 
-    public void execute()
-        throws MojoExecutionException
-    {
-        if ( this.skip )
-        {
-            this.getLog().info( "Skip execution." );
-            return;
-        }
-
-        Wagon wagon = null;
-        try
-        {
-            wagon = createWagon( serverId, url, wagonManager, settings, this.getLog() );
-            execute( wagon );
-        }
-        catch ( WagonException e )
-        {
-            throw new MojoExecutionException( "Error handling resource", e );
-        }
-        finally
-        {
-            try
-            {
-                if ( wagon != null )
-                {
-                    wagon.disconnect();
-                }
-            }
-            catch ( ConnectionException e )
-            {
-                getLog().debug( "Error disconnecting wagon - ignored", e );
-            }
-        }
-    }
 
     /**
      * Convenience method to map a <code>Proxy</code> object from the user system settings to a
@@ -201,14 +152,24 @@ public abstract class AbstractWagonMojo
         return wagon;
     }
 
-    /**
-     * Perform the necessary action. To be implemented in the child mojo.
-     * 
-     * @param wagon
-     * @throws MojoExecutionException
-     * @throws WagonException
-     */
-    protected abstract void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException;
-
+    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean isCaseSensitive )
+    {
+        WagonFileSet fileSet = new WagonFileSet();
+        fileSet.setDirectory( fromDir );
+        
+        if ( ! StringUtils.isBlank( includes ) )
+        {
+            fileSet.setIncludes( StringUtils.split( includes, "," ) );
+        }
+        
+        if ( ! StringUtils.isBlank( excludes ) )
+        {
+            fileSet.setExcludes( StringUtils.split( excludes, "," ) );
+        }
+        
+        fileSet.setCaseSensitive( isCaseSensitive );
+        
+        return fileSet;
+        
+    }    
 }
