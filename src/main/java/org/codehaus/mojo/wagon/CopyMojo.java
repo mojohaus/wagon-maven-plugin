@@ -32,7 +32,7 @@ public class CopyMojo
     extends AbstractCopyMojo
 {
     /**
-     * Directory path relative to Wagon's URL
+     * Directory path relative to source's Wagon
      * @parameter expression="${wagon.fromDir}" default-value=""
      */
     protected String fromDir = "";

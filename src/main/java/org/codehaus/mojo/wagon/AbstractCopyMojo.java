@@ -37,45 +37,35 @@ public abstract class AbstractCopyMojo
 
         try
         {
-            srcWagon = AbstractWagonMojo.createWagon( sourceId, source, wagonManager, settings, this.getLog() );
-            targetWagon = AbstractWagonMojo.createWagon( targetId, target, wagonManager, settings, this.getLog() );
+            srcWagon = createWagon( sourceId, source );
+            targetWagon = createWagon( targetId, target );
             copy( srcWagon, targetWagon );
         }
-        catch ( IOException iox )
-        {
-            throw new MojoExecutionException( "Error during performing repository copy", iox );
-        }
-        catch ( WagonException e )
+        catch ( Exception e )
         {
             throw new MojoExecutionException( "Error during performing repository copy", e );
         }
         finally
         {
-            try
-            {
-                if ( srcWagon != null )
-                {
-                    srcWagon.disconnect();
-                }
-            }
-            catch ( ConnectionException e )
-            {
-                getLog().debug( "Error disconnecting wagon - ignored", e );
-            }
-
-            try
-            {
-                if ( targetWagon != null )
-                {
-                    targetWagon.disconnect();
-                }
-            }
-            catch ( ConnectionException e )
-            {
-                getLog().debug( "Error disconnecting wagon - ignored", e );
-            }
+            disconnectWagon( srcWagon );
+            disconnectWagon( targetWagon );
         }
 
+    }
+    
+    private void disconnectWagon( Wagon wagon )
+    {
+        try
+        {
+            if ( wagon != null )
+            {
+                wagon.disconnect();
+            }
+        }
+        catch ( ConnectionException e )
+        {
+            getLog().debug( "Error disconnecting wagon - ignored", e );
+        }        
     }
 
 }

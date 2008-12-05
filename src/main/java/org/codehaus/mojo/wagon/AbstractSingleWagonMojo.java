@@ -57,7 +57,7 @@ public abstract class AbstractSingleWagonMojo
         Wagon wagon = null;
         try
         {
-            wagon = createWagon( serverId, url, wagonManager, settings, this.getLog() );
+            wagon = createWagon( serverId, url );
             execute( wagon );
         }
         catch ( WagonException e )

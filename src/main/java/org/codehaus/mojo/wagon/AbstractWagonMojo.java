@@ -19,7 +19,6 @@ import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
@@ -58,7 +57,6 @@ public abstract class AbstractWagonMojo
      * 
      * @parameter expression="${project}"
      * @readonly
-     * @since alpha 1
      */
     protected MavenProject project;
 
@@ -68,32 +66,6 @@ public abstract class AbstractWagonMojo
      * @parameter expression="${wagon.skip}" default-value="false"
      */
     protected boolean skip = false;
-
-
-    /**
-     * Convenience method to map a <code>Proxy</code> object from the user system settings to a
-     * <code>ProxyInfo</code> object.
-     * 
-     * @return a proxyInfo object or null if no active proxy is define in the settings.xml
-     */
-    public static ProxyInfo getProxyInfo( Settings settings )
-    {
-        ProxyInfo proxyInfo = null;
-        if ( settings != null && settings.getActiveProxy() != null )
-        {
-            Proxy settingsProxy = settings.getActiveProxy();
-
-            proxyInfo = new ProxyInfo();
-            proxyInfo.setHost( settingsProxy.getHost() );
-            proxyInfo.setType( settingsProxy.getProtocol() );
-            proxyInfo.setPort( settingsProxy.getPort() );
-            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
-            proxyInfo.setUserName( settingsProxy.getUsername() );
-            proxyInfo.setPassword( settingsProxy.getPassword() );
-        }
-
-        return proxyInfo;
-    }
 
     /**
      * Convenient method to create a wagon
@@ -105,7 +77,7 @@ public abstract class AbstractWagonMojo
      * @return
      * @throws MojoExecutionException
      */
-    protected static Wagon createWagon( String id, String url, WagonManager wagonManager, Settings settings, Log logger )
+    protected  Wagon createWagon( String id, String url )
         throws MojoExecutionException
     {
         Wagon wagon = null;
@@ -118,14 +90,14 @@ public abstract class AbstractWagonMojo
 
             try
             {
-                if ( logger.isDebugEnabled() )
+                if ( this.getLog().isDebugEnabled() )
                 {
                     Debug debug = new Debug();
                     wagon.addSessionListener( debug );
                     wagon.addTransferListener( debug );
                 }
 
-                ProxyInfo proxyInfo = AbstractWagonMojo.getProxyInfo( settings );
+                ProxyInfo proxyInfo = getProxyInfo();
                 if ( proxyInfo != null )
                 {
                     wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ), proxyInfo );
@@ -172,4 +144,30 @@ public abstract class AbstractWagonMojo
         return fileSet;
         
     }    
+    
+    /**
+     * Convenience method to map a <code>Proxy</code> object from the user system settings to a
+     * <code>ProxyInfo</code> object.
+     * 
+     * @return a proxyInfo object or null if no active proxy is define in the settings.xml
+     */
+    private ProxyInfo getProxyInfo()
+    {
+        ProxyInfo proxyInfo = null;
+        if ( settings != null && settings.getActiveProxy() != null )
+        {
+            Proxy settingsProxy = settings.getActiveProxy();
+
+            proxyInfo = new ProxyInfo();
+            proxyInfo.setHost( settingsProxy.getHost() );
+            proxyInfo.setType( settingsProxy.getProtocol() );
+            proxyInfo.setPort( settingsProxy.getPort() );
+            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
+            proxyInfo.setUserName( settingsProxy.getUsername() );
+            proxyInfo.setPassword( settingsProxy.getPassword() );
+        }
+
+        return proxyInfo;
+    }
+    
 }

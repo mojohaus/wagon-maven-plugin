@@ -23,7 +23,7 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
- * Downloads file(s) .
+ * Transfers a set of file from a remote URL to a specified local directory.
  * 
  * @goal download
  * @requiresProject false
