@@ -52,7 +52,7 @@ Introduction
   Live examples are available under {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
     
   
-* Configuration Example for upload. 
+* Configuration example to upload. 
 
 +-----
 <project>
@@ -93,7 +93,7 @@ Introduction
 </project>
 +-----
 
-* Configuration Example for download.
+* Configuration example to download.
 
 +-----
 <project>
@@ -134,7 +134,7 @@ Introduction
 
 
 
-* Configuration Example for merge Maven repositories
+* Configuration example to merge Maven repositories
 
 +-----
   mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:merge-maven-repos \
@@ -144,7 +144,8 @@ Introduction
 +-----
 
 
-* Configuration Example for copy files under one URL to another URL
+* Configuration example to copy files under one URL to another URL
+
 +-----
   mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:copy\
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
