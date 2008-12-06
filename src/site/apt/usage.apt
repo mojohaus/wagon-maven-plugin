@@ -119,7 +119,7 @@ Introduction
             <goal>download</goal>
           </goals>
           <configuration>
-            <serverId>atlassian-public</serverId>
+            <sourceId>atlassian-public</sourceId>
             <url>dav:https://maven.atlassian.com/public</url>
             <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
             <toDir>${project.build.directory}/test-data</toDir>

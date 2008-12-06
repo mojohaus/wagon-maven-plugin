@@ -33,7 +33,7 @@
         <version>${version}</version>
         <configuration>
           <url>${url.base}</url>
-          <serverId>codehaus.org</serverId>
+          <sourceId>codehaus.org</sourceId>
           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
         </configuration>
         

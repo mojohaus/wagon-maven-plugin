@@ -27,34 +27,26 @@
 
 Overview
 
-  The Wagon Plugin is used when you want to:
-  
-  * Upload generated resources at build-time to a remote location.
-  
-  * Download resources from a repository.
-  
-  * List the content of a directory in a repository
-  
-  * Merge 2 maven repositories. 
+  Use this plugin to view and transfer resources between repositories using Maven Wagon.
    
 
 * Goals Overview
 
   The Wagon Plugin has the following goals.
 
-  * {{{upload-single-mojo.html}wagon:upload-single}} attempts to upload the specified file to a remote location.
+  * {{{upload-single-mojo.html}wagon:upload-single}} uploads the specified file to a remote location.
   
-  * {{{upload-mojo.html}wagon:upload}} attempts to upload the specified set of files to a remote location.
+  * {{{upload-mojo.html}wagon:upload}} uploads the specified set of files to a remote location.
   
-  * {{{download-single-mojo.html}wagon:download-single}} attempts to download the specified file from a remote location.
+  * {{{download-single-mojo.html}wagon:download-single}} downloads the specified file from a remote location.
   
-  * {{{download-mojo.html}wagon:download}} attempts to download the specified set of files from a remote location.
+  * {{{download-mojo.html}wagon:download}} downloads the specified set of files from a remote location.
   
-  * {{{list-mojo.html}wagon:list}} attempts to list the content of a specified location in a remote repository.
+  * {{{list-mojo.html}wagon:list}} lists the content of a specified location in a remote repository.
 
-  * {{{copy.html}copy}}wagon:copy a set of files under a Wagon repository to another Wagon repository.
+  * {{{copy.html}wagon:copy}} copies a set of files under a Wagon repository to another.
 
-  * {{{merge-maven-repos.html}wagon:merge-maven-repos}} merge a Maven repository to another.
+  * {{{merge-maven-repos.html}wagon:merge-maven-repos}} merges , including metadata, a Maven repository to another.
 
   []
   
@@ -65,5 +57,5 @@ Overview
 
 * Examples
 
-   *  Live examples are available under {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
+   *  Live examples are available at {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
    

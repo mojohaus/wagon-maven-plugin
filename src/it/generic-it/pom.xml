@@ -40,7 +40,7 @@
         <version>${version}</version>
         <configuration>
           <url>${url.base}</url>
-          <serverId>${serverId}</serverId>
+          <sourceId>${sourceId}</sourceId>
           <skip>false</skip>
         </configuration>
 
@@ -173,7 +173,7 @@
     <profile>
       <id>dav</id>
       <properties>
-        <serverId>wagon.test.davServerId</serverId>
+        <sourceId>wagon.test.davServerId</sourceId>
         <url.base>dav:https://dav.codehaus.org/user/${user.name}</url.base>
        </properties>
     </profile>
@@ -181,7 +181,7 @@
     <profile>
       <id>ftp</id>
       <properties>
-        <serverId>wagon.test.ftpServerId</serverId>
+        <sourceId>wagon.test.ftpServerId</sourceId>
         <protocol>ftp</protocol>
         <url.base>${protocol}://dav.codehaus.org/user/${user.name}</url.base>
        </properties>

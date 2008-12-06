@@ -42,9 +42,9 @@ public abstract class AbstractSingleWagonMojo
      * ID of the server under the above URL. This is used when wagon needs extra authentication
      * information for instance.
      * 
-     * @parameter expression="${wagon.serverId}" default-value="";
+     * @parameter expression="${wagon.sourceId}" default-value="source";
      */
-    private String serverId = "";
+    private String sourceId;
 
 
     public void execute()
@@ -59,7 +59,7 @@ public abstract class AbstractSingleWagonMojo
         Wagon wagon = null;
         try
         {
-            wagon = createWagon( serverId, url );
+            wagon = createWagon( sourceId, url );
             execute( wagon );
         }
         catch ( WagonException e )

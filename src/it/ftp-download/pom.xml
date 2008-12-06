@@ -27,7 +27,7 @@
         <version>${version}</version>
         <configuration>
           <skip>true</skip>
-          <serverId>anonymous.ftp</serverId>
+          <sourceId>anonymous.ftp</sourceId>
           <url>ftp://ftp.ibiblio.org/incoming/linux</url>
           <!-- need additional settings.xml inorder to get this to work
           

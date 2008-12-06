@@ -27,7 +27,7 @@ public abstract class AbstractDoubleWagonMojo
     /**
      * The URL to the source repository.
      * 
-     * @parameter expression="${source}"
+     * @parameter expression="${wagon.source}"
      * @required
      */
     protected String source;
@@ -35,7 +35,7 @@ public abstract class AbstractDoubleWagonMojo
     /**
      * The URL to the target repository.
      * 
-     * @parameter expression="${target}"
+     * @parameter expression="${wagon.target}"
      * @required
      */
     protected String target;
@@ -44,7 +44,7 @@ public abstract class AbstractDoubleWagonMojo
      * The id of the source repository, required if you need the configuration from the user
      * settings.
      * 
-     * @parameter expression="${sourceId}" default-value="source"
+     * @parameter expression="${wagon.sourceId}" default-value="source"
      */
     protected String sourceId;
 
@@ -52,7 +52,7 @@ public abstract class AbstractDoubleWagonMojo
      * The id of the target repository, required if you need the configuration from the user
      * settings.
      * 
-     * @parameter expression="${targetId}" default-value="target"
+     * @parameter expression="${wagon.targetId}" default-value="target"
      */
     protected String targetId;
     
