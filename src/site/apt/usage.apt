@@ -138,8 +138,17 @@ Introduction
 
 +-----
   mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:merge-maven-repos \
-     -Dsource=http://people.apache.org/~olamy/staging-repo \
-     -Dtarget=scp://localhost/home/Owner/maven-repo \
+     -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
+     -Dwagon.target=scp://localhost/$LOGNAME/maven-repo \
+     -Djava.io.tmpdir=target
++-----
+
+
+* Configuration Example for copy files under one URL to another URL
++-----
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1-SNAPSHOT:copy\
+     -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
+     -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo \
      -Djava.io.tmpdir=target
 +-----
    
