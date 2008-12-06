@@ -75,7 +75,9 @@ public class UploadMojo
     private String toDir = "";
     
     /**
-     * Optimized upload by locally compressed and remote uncompress for scp.
+     * Optimize the upload by locally compressed all files in one bundle, 
+     * upload the bundle, and finally remote uncompress the bundle.
+     * This only works with SCP's URL
      * 
      * @parameter expression="${wagon.optimize}" default-value="false";
      */
