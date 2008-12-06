@@ -18,7 +18,7 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${version}</version>
         <configuration>
-          <sourceId>central</sourceId>
+          <serverId>central</serverId>
         </configuration>
         <executions>
         

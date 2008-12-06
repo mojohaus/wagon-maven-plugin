@@ -41,16 +41,16 @@ public abstract class AbstractDoubleWagonMojo
     protected String target;
 
     /**
-     * The id of the source repository, required if you need the configuration from the user
-     * settings.
+     * settings.xml's server id of the source repository. 
+     * This is used when wagon needs extra authentication information.
      * 
      * @parameter expression="${wagon.sourceId}" default-value="source"
      */
     protected String sourceId;
 
     /**
-     * The id of the target repository, required if you need the configuration from the user
-     * settings.
+     * settings.xml's server id of the target repository. 
+     * This is used when wagon needs extra authentication information.
      * 
      * @parameter expression="${wagon.targetId}" default-value="target"
      */
