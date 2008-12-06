@@ -4,10 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>mojo-sandbox-parent</artifactId>
+    <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>5-SNAPSHOT</version>
-    <relativePath>../mojo-sandbox-parent</relativePath>
+    <version>18</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -26,9 +25,9 @@
   <inceptionYear>2008</inceptionYear>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin</url>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</developerConnection>
+    <url>http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</url>
   </scm>
 
   <developers>
@@ -105,15 +104,6 @@
   <build>
   
     <defaultGoal>install</defaultGoal>
-    
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>1.0-beta-4</version>
-      </extension>
-    </extensions>
-    
     
     <plugins>
       <plugin>
