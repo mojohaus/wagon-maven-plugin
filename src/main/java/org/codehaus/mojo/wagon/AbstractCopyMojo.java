@@ -32,6 +32,13 @@ public abstract class AbstractCopyMojo
     public void execute()
         throws MojoExecutionException
     {
+        
+        if ( this.skip )
+        {
+            this.getLog().info( "Skip execution." );
+            return;
+        }
+        
         Wagon srcWagon = null;
         Wagon targetWagon = null;
 
