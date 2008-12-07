@@ -66,7 +66,6 @@ public class UploadMojo
      */
     private boolean  useDefaultExcludes = true;
     
-    
     /**
      * Remote path relative to Wagon's url to upload local files to.
      * 
@@ -77,7 +76,6 @@ public class UploadMojo
     /**
      * Optimize the upload by locally compressed all files in one bundle, 
      * upload the bundle, and finally remote uncompress the bundle.
-     * This only works with SCP's URL
      * 
      * @parameter expression="${wagon.optimize}" default-value="false";
      */

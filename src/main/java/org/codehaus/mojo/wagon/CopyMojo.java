@@ -35,26 +35,34 @@ public class CopyMojo
      * Directory path relative to source's Wagon
      * @parameter expression="${wagon.fromDir}" default-value=""
      */
-    protected String fromDir = "";
+    private String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files     
      * @parameter expression="${wagon.includes}" default-value="**";
      */
-    protected String includes;
+    private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files     
      * @parameter expression="${wagon.excludes}"
      * 
      */
-    protected String excludes;
+    private String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan
      * @parameter expression="${wagon.caseSensitive}"
      */
-    protected boolean caseSensitive = true;
+    private boolean caseSensitive = true;
+    
+    /**
+     * Remote path relative to target's url to copy files to.
+     * 
+     * @parameter expression="${wagon.target.todir}" default-value="";
+     */
+    private String toDir = "";
+    
     
     /**
      * @component
@@ -64,7 +72,7 @@ public class CopyMojo
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {
-        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive );
+        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
         
         wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
     }

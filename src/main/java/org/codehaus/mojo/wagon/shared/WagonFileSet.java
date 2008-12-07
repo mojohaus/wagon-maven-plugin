@@ -34,13 +34,17 @@ public class WagonFileSet
      * User default exclude sets
      */
     private boolean  useDefaultExcludes = true;
-    
 
     /**
      * Local path to download the remote resource ( tree ) to.
      */
     private File downloadDirectory;
 
+    /**
+     * Relative of a remote URL when it used to copy files between 2 URLs.
+     */
+    private String outputDirectory = "";
+    
     //////////////////////////////////////////////////////////////////////////////////////
     
     public String getDirectory()
@@ -118,5 +122,15 @@ public class WagonFileSet
     {
         this.useDefaultExcludes = useDefaultExcludes;
     }
+    
+    public String getOutputDirectory()
+    {
+        return outputDirectory;
+    }
+
+    public void setOutputDirectory( String outputDirectory )
+    {
+        this.outputDirectory = outputDirectory;
+    }    
     
 }

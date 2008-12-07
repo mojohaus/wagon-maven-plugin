@@ -43,7 +43,7 @@ public abstract class AbstractWagonListMojo
     
     protected WagonFileSet getWagonFileSet()
     {
-        return this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
+        return this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive, "" );
     }
 
 }

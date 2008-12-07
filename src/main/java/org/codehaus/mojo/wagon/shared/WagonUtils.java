@@ -57,7 +57,7 @@ public class WagonUtils
     }
 
     public static WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes,
-                                                boolean isCaseSensitive )
+                                                boolean isCaseSensitive, String toDir )
     {
         WagonFileSet fileSet = new WagonFileSet();
         fileSet.setDirectory( fromDir );
@@ -73,6 +73,8 @@ public class WagonUtils
         }
 
         fileSet.setCaseSensitive( isCaseSensitive );
+        
+        fileSet.setOutputDirectory( toDir );
 
         return fileSet;
 

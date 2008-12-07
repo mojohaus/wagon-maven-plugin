@@ -80,14 +80,14 @@ public abstract class AbstractWagonMojo
         }
         catch ( Exception e )
         {
-            throw new MojoExecutionException( "Error handling resource", e );
+            throw new MojoExecutionException( "Unable to create a Wagon instance for " + url, e );
         }
 
     }
 
-    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive )
+    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive, String toDir )
     {
-        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, caseSensitive );
+        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
     }
 
 }
