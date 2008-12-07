@@ -31,9 +31,9 @@ public abstract class AbstractWagonListMojo
 
     /**
      * Whether to consider remote path case sensitivity during scan
-     * @parameter expression="${wagon.isCaseSensitive}" default-value="true"
+     * @parameter expression="${wagon.caseSensitive}" default-value="true"
      */
-    protected boolean isCaseSensitive = true;
+    protected boolean caseSensitive = true;
 
     /**
      * @component
@@ -43,7 +43,7 @@ public abstract class AbstractWagonListMojo
     
     protected WagonFileSet getWagonFileSet()
     {
-        return this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive, "" );
+        return this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, "" );
     }
 
 }
