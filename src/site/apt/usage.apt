@@ -41,9 +41,8 @@ Introduction
   
   The following contains a list of known limitations:
   
-  * wagon-webdav and wagon-jackrabit do not work with <list> and <download> goals.
-  
-  * wagon-file does not work with <list> and <download> goals
+  * <list> and <download> goals do not work with wagon-webdav,wagon-webdav-jackrabit, wagon-file, 
+    and wagon-sftp.  JIRAs have been filed against WAGON.
   
   * <list> and <download> goals are very slow since it needs to scan the remote file system.
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
