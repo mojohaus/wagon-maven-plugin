@@ -174,7 +174,7 @@
       <id>dav</id>
       <properties>
         <serverId>wagon.test.davServerId</serverId>
-        <url.base>dav:https://dav.codehaus.org/user/${username}</url.base>
+        <url.base>dav:https://dav.codehaus.org/mojo/user/${username}</url.base>
        </properties>
     </profile>
 
