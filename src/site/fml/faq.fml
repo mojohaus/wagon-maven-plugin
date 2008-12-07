@@ -5,15 +5,17 @@
   <title>FAQ</title>
   
   <faq id="stage-vs-merge-maven-repos">
-    <question>maven-stage-plugin:stage vs wagon-maven-plugin:merge-maven-repo</question>
+    <question>maven-stage-plugin:stage vs wagon-maven-plugin:merge-maven-repos</question>
     <answer>
       <br/>
-      Both have the same purpose with the following differences;
+      Both are used to merge artifact from one Maven repository to another with following differences;
       
       <ul>
-        <li><i>merge-maven-repos</i> is more generic and therefore supports more protocols. it can be extended
-            to merge a subset of files base on groupId, artifactId and version.
-        </li>
+        <li><i>merge-maven-repos</i> is more generic and therefore supports more protocols. </li>
+        <li><i>merge-maven-repos</i> supports both normal upload and "optimize" upload where
+          files are compressed into an archive, transferred, remote uncompresse the archive, 
+          and remote remove the archive. Wagon scp, and scpexe are known to support remote execution
+          and therefore suitable for this type of optimization.
       </ul>
      </answer>
    </faq>

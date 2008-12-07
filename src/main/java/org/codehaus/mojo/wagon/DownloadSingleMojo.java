@@ -25,7 +25,7 @@ import org.apache.maven.wagon.WagonException;
  * Download a single file.
  * 
  * @goal download-single
- * @requiresProject true
+ * @requiresProject false
  */
 public class DownloadSingleMojo
     extends AbstractSingleWagonMojo
