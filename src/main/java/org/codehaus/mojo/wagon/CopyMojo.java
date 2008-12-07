@@ -59,7 +59,7 @@ public class CopyMojo
     /**
      * Remote path relative to target's url to copy files to.
      * 
-     * @parameter expression="${wagon.todir}" default-value="";
+     * @parameter expression="${wagon.toDir}" default-value="";
      */
     private String toDir = "";
     

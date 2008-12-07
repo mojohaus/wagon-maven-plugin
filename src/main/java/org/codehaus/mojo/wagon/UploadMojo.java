@@ -69,7 +69,7 @@ public class UploadMojo
     /**
      * Remote path relative to Wagon's url to upload local files to.
      * 
-     * @parameter expression="${wagon.todir}" default-value="";
+     * @parameter expression="${wagon.toDir}" default-value="";
      */
     private String toDir = "";
     

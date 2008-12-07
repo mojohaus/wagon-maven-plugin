@@ -13,9 +13,9 @@
       <ul>
         <li><i>merge-maven-repos</i> is more generic and therefore supports more protocols. </li>
         <li><i>merge-maven-repos</i> supports both normal upload and "optimize" upload where
-          files are compressed into an archive, transferred, remote uncompresse the archive, 
-          and remote remove the archive. Wagon scp, and scpexe are known to support remote execution
-          and therefore suitable for this type of optimization.
+          files are compressed into an archive which are then transferred, uncompressed and 
+          removed remotely. Wagon scp, scpexe, and sftp are known to support remote execution
+          and therefore suitable for this type of optimization.</li>
       </ul>
      </answer>
    </faq>
