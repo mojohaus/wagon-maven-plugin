@@ -52,9 +52,9 @@ public class CopyMojo
 
     /**
      * Whether to consider remote path case sensitivity during scan
-     * @parameter expression="${wagon.isCaseSensitive}"
+     * @parameter expression="${wagon.caseSensitive}"
      */
-    protected boolean isCaseSensitive = true;
+    protected boolean caseSensitive = true;
     
     /**
      * @component
@@ -64,7 +64,7 @@ public class CopyMojo
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {
-        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
+        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive );
         
         wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
     }

@@ -85,9 +85,9 @@ public abstract class AbstractWagonMojo
 
     }
 
-    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean isCaseSensitive )
+    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive )
     {
-        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, isCaseSensitive );
+        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, caseSensitive );
     }
 
 }

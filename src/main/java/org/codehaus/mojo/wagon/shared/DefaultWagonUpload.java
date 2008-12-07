@@ -61,9 +61,9 @@ public class DefaultWagonUpload
             return ;
         }
         
-        if ( ! wagon.getRepository().getUrl().startsWith( "scp://" ) ) 
+        if ( ! ( wagon instanceof CommandExecutor ) )
         {
-            throw new UnsupportedProtocolException( "Optitmize upload only works with Wagon SCP" );
+            throw new UnsupportedProtocolException( "Wagon " + wagon.getRepository().getProtocol() + " does not support optimize upload" );
         }
         
         logger.info( "Uploading " + fileset );

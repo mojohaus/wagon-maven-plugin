@@ -61,10 +61,10 @@ public class UploadMojo
     private boolean  followSymLink = false;
 
     /**
-     * User default exclude sets
-     * @parameter expression="${wagon.userDefaultExcludes}" default-value="true" 
+     * Use default exclude sets
+     * @parameter expression="${wagon.useDefaultExcludes}" default-value="true" 
      */
-    private boolean  userDefaultExcludes = true;
+    private boolean  useDefaultExcludes = true;
     
     
     /**
@@ -109,7 +109,7 @@ public class UploadMojo
         
         fileSet.setFollowSymlinks( this.followSymLink );
         
-        fileSet.setUseDefaultExcludes( this.userDefaultExcludes );
+        fileSet.setUseDefaultExcludes( this.useDefaultExcludes );
         
         fileSet.setOutputDirectory( toDir );
 
