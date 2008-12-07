@@ -36,11 +36,14 @@ Introduction
   The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
   
   However, due some differences in term of provider implementation, not all goals are 
-  working as expected. The following contains a list of limitations:
+  working as expected. In general, a good way to see a particular wagon implementation
+  would work with this plugin is to run <wagon:list> goal against its URL.
+  
+  The following contains a list of known limitations:
   
   * wagon-webdav and wagon-jackrabit do not work with <list> and <download> goals.
   
-  * wagon-http does not work <with upload> and <upload-single> goals
+  * wagon-file does not work with <list> and <download> goals
   
   * <list> and <download> goals are very slow since it needs to scan the remote file system.
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
@@ -48,6 +51,7 @@ Introduction
 
   []
 
+  
   The following contains a couple of usage examples.  
   Live examples are available under {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
     
