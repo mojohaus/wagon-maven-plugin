@@ -166,7 +166,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <url.base>scp://localhost/home/${user.name}</url.base>
+        <url.base>scp://localhost/home/${username}</url.base>
        </properties>
     </profile>
     
@@ -174,7 +174,7 @@
       <id>dav</id>
       <properties>
         <serverId>wagon.test.davServerId</serverId>
-        <url.base>dav:https://dav.codehaus.org/user/${user.name}</url.base>
+        <url.base>dav:https://dav.codehaus.org/user/${username}</url.base>
        </properties>
     </profile>
 
@@ -182,8 +182,7 @@
       <id>ftp</id>
       <properties>
         <serverId>wagon.test.ftpServerId</serverId>
-        <protocol>ftp</protocol>
-        <url.base>${protocol}://dav.codehaus.org/user/${user.name}</url.base>
+        <url.base>ftp://localhost/user/${username}</url.base>
        </properties>
     </profile>
 
@@ -192,6 +191,7 @@
   <properties>
     <version>testing</version>
     <downloadDirectory.base>${project.build.directory}/it</downloadDirectory.base>
+    <username>${user.name}</username>
   </properties>
 
 </project>
