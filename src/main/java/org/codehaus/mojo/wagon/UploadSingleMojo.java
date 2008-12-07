@@ -50,6 +50,12 @@ public class UploadSingleMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException, IOException
     {
+        if ( this.skip )
+        {
+            this.getLog().info( "Skip execution." );
+            return;
+        }
+        
         if ( StringUtils.isBlank( toFile ) )
         {
             toFile = fromFile.getName();

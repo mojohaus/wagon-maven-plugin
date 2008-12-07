@@ -53,6 +53,13 @@ public class DownloadSingleMojo
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
+        
+        if ( this.skip )
+        {
+            this.getLog().info( "Skip execution." );
+            return;
+        }
+        
         if ( toDir != null )
         {
             toFile = new File( toDir, new File( fromFile ).getName() );
