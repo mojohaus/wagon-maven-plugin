@@ -21,6 +21,11 @@ under the License.
 
 <project>
   <body>
+  
+    <links>
+      <item name="Wagon" href="http://maven.apache.org/wagon"/>
+    </links>
+  
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
       <item name="Usage" href="usage.html"/>
