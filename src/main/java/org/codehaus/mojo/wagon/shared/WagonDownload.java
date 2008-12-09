@@ -48,4 +48,13 @@ public interface WagonDownload
     public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException;
 
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param resource 
+     * @throws WagonException
+     */
+    public boolean exists( Wagon wagon, String resource )
+        throws WagonException;
+    
 }

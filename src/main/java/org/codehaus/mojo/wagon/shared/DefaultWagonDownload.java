@@ -31,12 +31,12 @@ import org.codehaus.plexus.util.StringUtils;
 public class DefaultWagonDownload
     implements WagonDownload
 {
-    
+
     public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException
     {
-        logger.info( "Scanning remote file system: " + wagon.getRepository().getUrl() + " ...");
-        
+        logger.info( "Scanning remote file system: " + wagon.getRepository().getUrl() + " ..." );
+
         WagonDirectoryScanner dirScan = new WagonDirectoryScanner();
         dirScan.setWagon( wagon );
         dirScan.setExcludes( fileSet.getExcludes() );
@@ -66,15 +66,27 @@ public class DefaultWagonDownload
 
             File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
 
-            if ( ! StringUtils.isBlank( remoteFileSet.getDirectory() ) )
+            if ( !StringUtils.isBlank( remoteFileSet.getDirectory() ) )
             {
                 remoteFile = remoteFileSet.getDirectory() + "/" + remoteFile;
             }
-            
+
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
-            
+
             wagon.get( remoteFile, destination );
         }
+    }
+
+    /**
+     * 
+     * @param wagon - a Wagon instance
+     * @param resource - Remote resource to check
+     * @throws WagonException
+     */
+    public boolean exists( Wagon wagon, String resource )
+        throws WagonException
+    {
+        return wagon.resourceExists( resource );
     }
 
 }
