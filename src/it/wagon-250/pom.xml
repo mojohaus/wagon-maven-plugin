@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin-it</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+ 
+    <defaultGoal>package</defaultGoal>
+    
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-5-SNAPSHOT</version>
+      </extension>
+    </extensions>
+    
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0-beta-2-SNAPSHOT</version>
+        <configuration>
+          <url>sftp://localhost/home/${user.name}</url>
+          <includes>**</includes>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>list-dir</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
