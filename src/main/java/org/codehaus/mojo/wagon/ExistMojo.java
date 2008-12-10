@@ -16,13 +16,10 @@ package org.codehaus.mojo.wagon;
  */
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Check for the existing of remote resource.

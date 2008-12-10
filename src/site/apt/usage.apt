@@ -52,7 +52,7 @@ Introduction
 
   
   The following contains a couple of usage examples.  
-  Live examples are available under {{{http://svn.codehaus.org/mojo/trunk/sandbox/wagon-maven-plugin/src/it}SVN}}
+  Live examples are available under {{{https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it}SVN}}
     
   
 * Configuration example to upload. 

@@ -20,6 +20,13 @@
      </answer>
    </faq>
    
+  <faq id="support-ftp-on-commandline">
+    <question>Not able to run wagon with ftp protocol on command line</question>
+    <answer>
+      <br/>
+        Copy wagon-ftp-beta-4.jar, oro-2.0.8.jar, and commons-net-1.4.1.jar ( or newer ) to $MAVEN_HOME/lib directory.
+     </answer>
+   </faq>
   
   </part>
       
