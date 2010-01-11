@@ -72,7 +72,7 @@ public class DefaultMavenRepoMerger
         WagonFileSet srcFileSet = new WagonFileSet();
         srcFileSet.setDownloadDirectory( downloadSrcDir );
         //ignore archiva/nexus .index at root dir
-        String[] excludes = { ".index/**", ".indexer/**" };
+        String[] excludes = { ".index/**", ".indexer/**, .meta/**" };
         srcFileSet.setExcludes( excludes );
 
         try
