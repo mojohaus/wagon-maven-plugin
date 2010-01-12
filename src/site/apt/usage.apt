@@ -44,12 +44,15 @@ Introduction
   * This plugin uses the Maven wagon that come with Maven distribution, so it is crucial to use with Maven 2.2+ since
     its Wagon is much more stable than the one that comes with Maven 2.0.x. Due to this reason,
     do not add Wagon dependencies to your plugin execution since they are ignored. 
+     
+  * <list> and <download> goals do not work with wagon-webdav provider types.
   
   * <list> and <download> goals are very slow since it needs to scan the remote file system.
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
     scans the entire remote source tree.
 
   []
+
   
   The following contains a couple of usage examples.  
   Live examples are available under {{{https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it}SVN}}
