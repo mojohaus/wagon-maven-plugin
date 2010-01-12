@@ -41,9 +41,9 @@ Introduction
   
   The following contains a list of known limitations:
   
-  * This plugin uses the Maven wagon that come with Maven distribution, so it is crucial to use with Maven 2.2+ since
-    its Wagon is much more stable than the one that comes with Maven 2.0.x. Due to this reason,
-    do not add Wagon dependencies to your plugin execution since they are ignored. 
+  * This plugin uses the wagon ssh, http, webdav, and file type providers that come with Maven distribution, 
+    so it is crucial to use with Maven 2.2+ since Wagon is much more stable than the ones that comes with Maven 2.0.x. 
+    Due to this reason, do not add Wagon dependencies, except wagon-ftp, to your plugin execution since they are ignored. 
      
   * <list> and <download> goals do not work with wagon-webdav provider types.
   
