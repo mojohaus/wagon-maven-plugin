@@ -59,6 +59,12 @@ public class DefaultWagonDownload
         List fileList = this.getFileList( wagon, remoteFileSet, logger );
 
         String url = wagon.getRepository().getUrl() + "/";
+        
+        if ( fileList.size() == 0 )
+        {
+            logger.info( "Nothing to download.");
+            return;
+        }
 
         for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
         {

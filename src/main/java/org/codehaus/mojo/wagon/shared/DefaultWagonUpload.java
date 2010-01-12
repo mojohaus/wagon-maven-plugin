@@ -48,6 +48,12 @@ public class DefaultWagonUpload
         String[] files = fileSetManager.getIncludedFiles( fileset );
 
         String url = wagon.getRepository().getUrl() + "/";
+        
+        if ( files.length == 0 )
+        {
+            logger.info( "Nothing to upload.");
+            return;
+        }
 
         for ( int i = 0; i < files.length; ++i )
         {
@@ -90,6 +96,13 @@ public class DefaultWagonUpload
         {
             FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
             String[] files = fileSetManager.getIncludedFiles( fileset );
+            
+            if ( files.length == 0 )
+            {
+                logger.info( "Nothing to upload.");
+                return;
+            }
+            
             logger.info( "Creating " + zipFile + " ..." );
             createZip( files, zipFile, fileset.getDirectory() );
 
