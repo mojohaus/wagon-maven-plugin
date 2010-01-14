@@ -5,10 +5,10 @@
   <title>FAQ</title>
   
   <faq id="stage-vs-merge-maven-repos">
-    <question>maven-stage-plugin:stage vs wagon-maven-plugin:merge-maven-repos</question>
+    <question>maven-stage-plugin:stage versus wagon-maven-plugin:merge-maven-repos</question>
     <answer>
       <br/>
-      Both are used to merge artifact from one Maven repository to another with following differences;
+      Both are used to merge artifacts from one Maven repository to another with following differences;
       
       <ul>
         <li><i>merge-maven-repos</i> is more generic and therefore supports more protocols. </li>
@@ -17,14 +17,6 @@
           removed remotely. Wagon scp, scpexe, and sftp are known to support remote execution
           and therefore suitable for this type of optimization.</li>
       </ul>
-     </answer>
-   </faq>
-   
-  <faq id="support-ftp-on-commandline">
-    <question>Not able to run wagon with ftp protocol on command line</question>
-    <answer>
-      <br/>
-        Copy wagon-ftp-beta-4.jar, oro-2.0.8.jar, and commons-net-1.4.1.jar ( or newer ) to $MAVEN_HOME/lib directory.
      </answer>
    </faq>
   

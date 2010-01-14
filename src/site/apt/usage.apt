@@ -41,9 +41,21 @@ Introduction
   
   The following contains a list of known limitations:
   
-  * This plugin uses the wagon ssh, http, webdav, and file type providers that come with Maven distribution, 
+  * This plugin uses the wagon providers ( http, webdav, etc) that come with Maven distribution, 
     so it is crucial to use with Maven 2.2+ since Wagon is much more stable than the ones that comes with Maven 2.0.x. 
-    Due to this reason, do not add Wagon dependencies, except wagon-ftp, to your plugin execution since they are ignored. 
+    Due to this reason, do not add Wagon dependencies to your plugin execution since they are ignored. 
+     
+  * Since ftp wagon provider is not part of your maven distribution, you will need to copy
+    
+    * wagon-ftp-beta-6.jar
+    
+    * oro-2.0.8.jar
+    
+    * commons-net-1.4.1.jar
+    
+    []
+     
+    to your $MAVEN_HOME/lib directory.
      
   * <list> and <download> goals do not work with wagon-webdav provider types.
   
