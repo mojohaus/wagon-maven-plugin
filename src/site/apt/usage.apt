@@ -69,14 +69,14 @@ Introduction
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-4</version>
+        <version>1.0-beta-6</version>
       </extension>
     </extensions>  
        
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-beta-1</version>
+      <version>1.0-beta-3</version>
       <executions>
         <execution>
           <id>upload-javadoc</id>
@@ -109,14 +109,14 @@ Introduction
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
+        <version>1.0-beta-6</version>
       </extension>
     </extensions>  
 
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>maven-wagon-plugin</artifactId>
-      <version>1.0-beta-1</version>
+      <version>1.0-beta-3</version>
       <executions>
         <execution>
           <id>download-test-data</id>
@@ -142,7 +142,7 @@ Introduction
 * Configuration example to merge Maven repositories
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1:merge-maven-repos \
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-3:merge-maven-repos \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/$LOGNAME/maven-repo \
      -Djava.io.tmpdir=target
@@ -152,7 +152,7 @@ Introduction
 * Configuration example to copy files under one URL to another URL
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-1:copy \
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-3:copy \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo \
      -Djava.io.tmpdir=target
