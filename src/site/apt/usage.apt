@@ -127,7 +127,7 @@ Introduction
 
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
-      <artifactId>maven-wagon-plugin</artifactId>
+      <artifactId>wagon-maven-plugin</artifactId>
       <version>1.0-beta-3</version>
       <executions>
         <execution>
