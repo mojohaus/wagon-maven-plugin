@@ -55,8 +55,7 @@ public class DefaultWagonCopy
 
         if ( wagonFileSet.getDownloadDirectory() == null )
         {
-            String tempdir = System.getProperty( "java.io.tmpdir" );
-            File downloadSrcDir = File.createTempFile( tempdir, "wagon" );
+            File downloadSrcDir = File.createTempFile( "wagon", "wagon" );
             downloadSrcDir.delete();
             wagonFileSet.setDownloadDirectory( downloadSrcDir );
             removeDownloadDir = true;
