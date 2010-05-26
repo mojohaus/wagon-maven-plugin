@@ -44,7 +44,8 @@ public class DownloadSingleMojo
     private File toDir;
 
     /**
-     * File to download the remote file to.  Use this option to rename the file after download
+     * File to download the remote file to.  Use this option to rename the file after download.
+     * When toDir is present, this argument is ignored
      * @parameter expression="${wagon.toFile}" 
      */
     private File toFile;
