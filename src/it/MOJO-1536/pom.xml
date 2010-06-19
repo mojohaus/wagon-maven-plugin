@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin-it</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+  
+  <build>
+
+   <defaultGoal>package</defaultGoal>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0-beta-4-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>upload-website</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload</goal>
+            </goals>
+            <configuration>
+              <fromDir>${project.basedir}/src/website</fromDir>
+              <includes>*</includes>
+              <url>scpexe://localhost</url>
+              <toDir>/home/${user.name}</toDir>
+              <optimize>true</optimize>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -106,8 +106,6 @@ public class DefaultWagonUpload
             logger.info( "Creating " + zipFile + " ..." );
             createZip( files, zipFile, fileset.getDirectory() );
 
-            String remoteFileName = zipFile.getName();
-            
             String remoteFile = zipFile.getName();
             String remoteDir = fileset.getOutputDirectory();
             if ( !StringUtils.isBlank( remoteDir ) )
@@ -118,10 +116,8 @@ public class DefaultWagonUpload
             logger.info( "Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ..." );
             wagon.put( zipFile, remoteFile );
             
-            String targetRepoBaseDirectory = wagon.getRepository().getBasedir();  
-            
             // We use the super quiet option here as all the noise seems to kill/stall the connection
-            String command = "unzip -o -qq -d " + targetRepoBaseDirectory + " " + targetRepoBaseDirectory + "/" + remoteFileName;
+            String command = "unzip -o -qq -d " + remoteDir + " " + remoteFile;
 
             try
             {
@@ -130,7 +126,7 @@ public class DefaultWagonUpload
             }
             finally
             {
-                command = "rm -f " + targetRepoBaseDirectory + "/" + remoteFileName ;
+                command = "rm -f " + remoteFile ;
                 logger.info( "Remote: " + command );
 
                 ( (CommandExecutor) wagon ).executeCommand( command );
