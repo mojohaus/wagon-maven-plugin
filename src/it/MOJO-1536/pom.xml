@@ -28,7 +28,7 @@
             <configuration>
               <fromDir>${project.basedir}/src/website</fromDir>
               <includes>*</includes>
-              <url>scpexe://localhost</url>
+              <url>scp://localhost</url>
               <toDir>/home/${user.name}</toDir>
               <optimize>true</optimize>
             </configuration>
