@@ -63,11 +63,9 @@ public class DefaultMavenRepoMerger
         throws WagonException, IOException
     {
 
-        String tempdir = System.getProperty( "java.io.tmpdir" );
-
         //copy src to a local dir
-        File downloadSrcDir = File.createTempFile( tempdir, "wagon" );
-        downloadSrcDir.delete();
+        File downloadSrcDir = File.createTempFile( "wagon-maven-plugin", "dummy" ); // create a dummy unique file in the dir.
+        downloadSrcDir.delete(); // then delete the file.
 
         WagonFileSet srcFileSet = new WagonFileSet();
         srcFileSet.setDownloadDirectory( downloadSrcDir );
