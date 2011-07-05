@@ -266,6 +266,23 @@ public class WagonDirectoryScanner
         }
         excludes = newExcludes;
     }
+    
+    /**
+     * Jenkins, if nothing else, will return pathnames with * characters in them that lead to 
+     * infinite recursion down here. Given the impoverished API to the wagons, some ad-hoc
+     * filtration is called for. The filters in here are just culled from strange stuff
+     * we see from Jenkins.
+     * @param fileName supposed file name
+     * @return true if it seems like a bad idea.
+     */
+    private boolean isRidiculousFile( String fileName )
+    {
+        return 
+                        fileName.endsWith( "." )
+                        || fileName.contains( "*" )
+                        || fileName.startsWith( "?" )
+                        || fileName.startsWith( "#" );
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -286,7 +303,7 @@ public class WagonDirectoryScanner
         {
             String fileName = (String) iterator.next();
 
-            if ( fileName.endsWith( "." ) ) //including ".."
+            if ( isRidiculousFile( fileName ) ) //including ".."
             {
                 continue;
             }

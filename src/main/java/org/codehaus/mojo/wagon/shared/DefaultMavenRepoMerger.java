@@ -15,7 +15,6 @@ package org.codehaus.mojo.wagon.shared;
  * the License.
  */
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -63,13 +62,12 @@ public class DefaultMavenRepoMerger
         throws WagonException, IOException
     {
 
-        //copy src to a local dir
-        File downloadSrcDir = File.createTempFile( "wagon-maven-plugin", "dummy" ); // create a dummy unique file in the dir.
-        downloadSrcDir.delete(); // then delete the file.
+        // copy src to a local dir
+        File downloadSrcDir =  createTempDirectory( "wagon-maven-plugin" );
 
         WagonFileSet srcFileSet = new WagonFileSet();
         srcFileSet.setDownloadDirectory( downloadSrcDir );
-        //ignore archiva/nexus .index at root dir
+        // ignore archiva/nexus .index at root dir
         String[] excludes = { ".index/**", ".indexer/**, .meta/**, .nexus/**" };
         srcFileSet.setExcludes( excludes );
 
@@ -77,7 +75,7 @@ public class DefaultMavenRepoMerger
         {
             downloader.download( src, srcFileSet, logger );
 
-            //merge metadata
+            // merge metadata
             DirectoryScanner scanner = new DirectoryScanner();
             scanner.setBasedir( downloadSrcDir );
             String[] includes = { "**/" + MAVEN_METADATA };
@@ -111,7 +109,7 @@ public class DefaultMavenRepoMerger
 
             }
 
-            //upload to target
+            // upload to target
             FileSet tobeUploadedFileSet = new FileSet();
             tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
 
@@ -150,19 +148,19 @@ public class DefaultMavenRepoMerger
 
             // Merge and write back to staged metadata to replace the remote one
             existing.merge( staged );
-            
+
             stagedMetadataWriter = new FileWriter( stagedMetadataFile );
             xppWriter.write( stagedMetadataWriter, existing );
-            
+
             logger.info( "Merging metadata file: " + stagedMetadataFile );
-            
+
         }
         finally
         {
             IOUtil.close( stagedMetadataWriter );
             IOUtil.close( stagedMetadataReader );
             IOUtil.close( existingMetadataReader );
-            
+
             existingMetadata.delete();
         }
 
@@ -232,6 +230,26 @@ public class DefaultMavenRepoMerger
         }
 
         return retValue.trim();
+    }
+
+    public static File createTempDirectory(String prefix)
+        throws IOException
+    {
+        final File temp;
+
+        temp = File.createTempFile( prefix, Long.toString( System.nanoTime() ) );
+
+        if ( !( temp.delete() ) )
+        {
+            throw new IOException( "Could not delete temp file: " + temp.getAbsolutePath() );
+        }
+
+        if ( !( temp.mkdir() ) )
+        {
+            throw new IOException( "Could not create temp directory: " + temp.getAbsolutePath() );
+        }
+
+        return ( temp );
     }
 
 }
