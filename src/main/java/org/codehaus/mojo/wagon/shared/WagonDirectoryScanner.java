@@ -20,12 +20,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
 public class WagonDirectoryScanner
 {
+    private final static String[] NOT_DIRECTORIES = new String[] { ".jar", ".zip", ".md5",
+        ".sha1", ".pom", ".xml", ".war" };
     /**
      * Patterns which should be excluded by default.
      * 
@@ -37,7 +40,7 @@ public class WagonDirectoryScanner
      * The wagon
      */
     private Wagon wagon;
-
+    
     /**
      * Relative to wagon url
      */
@@ -59,6 +62,8 @@ public class WagonDirectoryScanner
      * directory
      */
     private List filesIncluded = new ArrayList();
+    
+    private Log logger;
 
     /**
      * Sets the list of include patterns to use. All '/' and '\' characters are replaced by
@@ -96,7 +101,7 @@ public class WagonDirectoryScanner
     /**
      * Sets the list of exclude patterns to use. All '\' characters are replaced by '/'
      * <p>
-     * When a pattern ends with a '/' orr '\', "**" is appended.
+     * When a pattern ends with a '/' or '\', "**" is appended.
      * 
      * @param excludes A list of exclude patterns. May be <code>null</code>, indicating that no
      *            files should be excluded. If a non-<code>null</code> list is given, all elements
@@ -297,6 +302,7 @@ public class WagonDirectoryScanner
     private void scandir( String dir, String vpath )
         throws WagonException
     {
+        logger.debug( "scandir: dir: " + dir + " vpath: " +vpath );
         List files = wagon.getFileList( dir );
 
         for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
@@ -372,6 +378,13 @@ public class WagonDirectoryScanner
     private boolean isDirectory( String existedRemotePath )
         throws WagonException
     {
+        for ( int x = 0; x < NOT_DIRECTORIES.length; x++ )
+        {
+            if ( existedRemotePath.endsWith( NOT_DIRECTORIES[x] ) )
+            {
+                return false;
+            }
+        }
         if ( existedRemotePath.endsWith( "/" ) )
         {
             return true;
@@ -399,6 +412,16 @@ public class WagonDirectoryScanner
     public void setDirectory( String basePath )
     {
         this.directory = basePath;
+    }
+
+    public Log getLogger()
+    {
+        return logger;
+    }
+
+    public void setLogger( Log logger )
+    {
+        this.logger = logger;
     }
 
 }

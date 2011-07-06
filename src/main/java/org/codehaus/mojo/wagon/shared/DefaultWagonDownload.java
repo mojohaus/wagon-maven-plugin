@@ -38,6 +38,7 @@ public class DefaultWagonDownload
         logger.info( "Scanning remote file system: " + wagon.getRepository().getUrl() + " ..." );
 
         WagonDirectoryScanner dirScan = new WagonDirectoryScanner();
+        dirScan.setLogger( logger );
         dirScan.setWagon( wagon );
         dirScan.setExcludes( fileSet.getExcludes() );
         dirScan.setIncludes( fileSet.getIncludes() );
