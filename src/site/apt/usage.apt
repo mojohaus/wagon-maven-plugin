@@ -81,14 +81,14 @@ Introduction
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-6</version>
+        <version>1.0</version>
       </extension>
     </extensions>  
        
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-beta-3</version>
+      <version>1.0-beta-4</version>
       <executions>
         <execution>
           <id>upload-javadoc</id>
@@ -121,14 +121,14 @@ Introduction
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-6</version>
+        <version>1.0</version>
       </extension>
     </extensions>  
 
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-beta-3</version>
+      <version>1.0-beta-4</version>
       <executions>
         <execution>
           <id>download-test-data</id>
