@@ -8,19 +8,19 @@
   <body>
   
     <release version="1.0-beta-4" date="2012-04-10" description="Bug fixes">
-      <action dev="dtran" type="fix" issue="1406">
+      <action dev="dtran" type="fix" issue="MOJO-1406">
         maven-wagon-plugin fails to create temp folder on Windows
       </action>
-      <action dev="rfscholte" type="fix" issue="1496">
+      <action dev="rfscholte" type="fix" issue="MOJO-1496">
         Fix artifactId of website example
       </action>
-      <action dev="dtran" type="fix" issue="1536">
+      <action dev="dtran" type="fix" issue="MOJO-1536">
         Optimized wagon plugin is trying to unzip the wrong file
       </action>
-      <action dev="bimargulies" type="fix" issue="1700">
+      <action dev="bimargulies" type="fix" issue="MOJO-1700">
         Array index out of bounds trying to use merge on a jenkins repository
       </action>
-      <action dev="bimargulies" type="fix" issue="1701">
+      <action dev="bimargulies" type="fix" issue="MOJO-1701">
         wagon-maven-plugin uses wrong temp file API
       </action>
     </release>
