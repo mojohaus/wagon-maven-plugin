@@ -6,9 +6,9 @@ package org.codehaus.mojo.wagon.shared;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -21,6 +21,7 @@ import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.settings.Proxy;
+import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
@@ -28,13 +29,14 @@ import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
+import org.apache.maven.wagon.repository.RepositoryPermissions;
 import org.codehaus.plexus.util.StringUtils;
 
 public class WagonUtils
 {
     /**
      * Convenient method to create a wagon
-     * 
+     *
      * @param id
      * @param url
      * @param wagonManager
@@ -49,6 +51,7 @@ public class WagonUtils
         Wagon wagon = null;
 
         final Repository repository = new Repository( id, url );
+        repository.setPermissions(getPermissions(id, settings));
 
         wagon = wagonManager.getWagon( repository );
 
@@ -68,7 +71,7 @@ public class WagonUtils
         {
             wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ) );
         }
-        
+
         return wagon;
     }
 
@@ -89,7 +92,7 @@ public class WagonUtils
         }
 
         fileSet.setCaseSensitive( isCaseSensitive );
-        
+
         fileSet.setOutputDirectory( toDir );
 
         return fileSet;
@@ -99,7 +102,7 @@ public class WagonUtils
     /**
      * Convenience method to map a <code>Proxy</code> object from the user system settings to a
      * <code>ProxyInfo</code> object.
-     * 
+     *
      * @return a proxyInfo object or null if no active proxy is define in the settings.xml
      */
     public static ProxyInfo getProxyInfo( Settings settings )
@@ -120,5 +123,38 @@ public class WagonUtils
 
         return proxyInfo;
     }
+
+    private static RepositoryPermissions getPermissions( String id, Settings settings )
+    {
+        // May not have an id
+        if ( StringUtils.isBlank( id ) )
+        {
+            return null;
+        }
+
+        // May not be a server matching that id
+        Server server = settings.getServer( id );
+        if ( server == null )
+        {
+            return null;
+        }
+
+        // Extract perms (if there are any)
+        String filePerms = server.getFilePermissions();
+        String dirPerms = server.getDirectoryPermissions();
+
+        // Check to see if custom permissions were supplied
+        if ( StringUtils.isBlank( filePerms ) && StringUtils.isBlank( dirPerms ) )
+        {
+            return null;
+        }
+
+        // There are custom permissions specified in settings.xml for this server
+        RepositoryPermissions permissions = new RepositoryPermissions();
+        permissions.setFileMode( filePerms );
+        permissions.setDirectoryMode( dirPerms );
+        return permissions;
+    }
+
 
 }
