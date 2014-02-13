@@ -1,18 +1,22 @@
 package org.codehaus.mojo.wagon.shared;
 
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
- * agreements. See the NOTICE file distributed with this work for additional information regarding
- * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ public class WagonDirectoryScanner
         ".sha1", ".pom", ".xml", ".war" };
     /**
      * Patterns which should be excluded by default.
-     * 
+     *
      * @see #addDefaultExcludes()
      */
     public static final String[] DEFAULTEXCLUDES = org.codehaus.plexus.util.DirectoryScanner.DEFAULTEXCLUDES;
@@ -40,7 +44,7 @@ public class WagonDirectoryScanner
      * The wagon
      */
     private Wagon wagon;
-    
+
     /**
      * Relative to wagon url
      */
@@ -62,7 +66,7 @@ public class WagonDirectoryScanner
      * directory
      */
     private List filesIncluded = new ArrayList();
-    
+
     private Log logger;
 
     /**
@@ -71,7 +75,7 @@ public class WagonDirectoryScanner
      * <code>File.separatorChar</code>.
      * <p>
      * When a pattern ends with a '/' or '\', "**" is appended.
-     * 
+     *
      * @param includes A list of include patterns. May be <code>null</code>, indicating that all
      *            files should be included. If a non-<code>null</code> list is given, all elements
      *            must be non-<code>null</code>.
@@ -102,7 +106,7 @@ public class WagonDirectoryScanner
      * Sets the list of exclude patterns to use. All '\' characters are replaced by '/'
      * <p>
      * When a pattern ends with a '/' or '\', "**" is appended.
-     * 
+     *
      * @param excludes A list of exclude patterns. May be <code>null</code>, indicating that no
      *            files should be excluded. If a non-<code>null</code> list is given, all elements
      *            must be non-<code>null</code>.
@@ -131,7 +135,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches against at least one include pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against at least one include pattern, or
      *         <code>false</code> otherwise.
@@ -150,7 +154,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches against at least one exclude pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against at least one exclude pattern, or
      *         <code>false</code> otherwise.
@@ -169,7 +173,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches the start of at least one include pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against the start of at least one include
      *         pattern, or <code>false</code> otherwise.
@@ -192,11 +196,11 @@ public class WagonDirectoryScanner
      * This is not a general purpose test and should only be used if you can live with false
      * positives. For example, <code>pattern=**\a</code> and <code>str=b</code> will yield
      * <code>true</code>.
-     * 
+     *
      * @param pattern The pattern to match against. Must not be <code>null</code>.
      * @param str The path to match, as a String. Must not be <code>null</code>.
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
-     * 
+     *
      * @return whether or not a given path matches the start of a given pattern up to the first
      *         "**".
      */
@@ -207,11 +211,11 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a given path matches a given pattern.
-     * 
+     *
      * @param pattern The pattern to match against. Must not be <code>null</code>.
      * @param str The path to match, as a String. Must not be <code>null</code>.
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
-     * 
+     *
      * @return <code>true</code> if the pattern matches against the string, or <code>false</code>
      *         otherwise.
      */
@@ -271,9 +275,9 @@ public class WagonDirectoryScanner
         }
         excludes = newExcludes;
     }
-    
+
     /**
-     * Jenkins, if nothing else, will return pathnames with * characters in them that lead to 
+     * Jenkins, if nothing else, will return pathnames with * characters in them that lead to
      * infinite recursion down here. Given the impoverished API to the wagons, some ad-hoc
      * filtration is called for. The filters in here are just culled from strange stuff
      * we see from Jenkins.
@@ -282,7 +286,7 @@ public class WagonDirectoryScanner
      */
     private boolean isRidiculousFile( String fileName )
     {
-        return 
+        return
                         fileName.endsWith( "." )
                         || fileName.contains( "*" )
                         || fileName.startsWith( "?" )
@@ -294,9 +298,9 @@ public class WagonDirectoryScanner
      * Scans the given directory for files and directories. Found files are placed in a collection,
      * based on the matching of includes, excludes, and the selectors. When a directory is found, it
      * is scanned recursively.
-     * 
+     *
      * @throws WagonException
-     * 
+     *
      * @see #filesIncluded
      */
     private void scandir( String dir, String vpath )
