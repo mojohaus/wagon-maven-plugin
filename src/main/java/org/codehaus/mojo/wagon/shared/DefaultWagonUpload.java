@@ -55,7 +55,7 @@ public class DefaultWagonUpload
 
         if ( files.length == 0 )
         {
-            logger.info( "Nothing to upload.");
+            logger.info( "Nothing to upload." );
             return;
         }
 
@@ -80,15 +80,16 @@ public class DefaultWagonUpload
     public void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
         throws WagonException, IOException
     {
-        if ( ! optimize)
+        if ( !optimize )
         {
             upload( wagon, fileset, logger );
-            return ;
+            return;
         }
 
-        if ( ! ( wagon instanceof CommandExecutor ) )
+        if ( !( wagon instanceof CommandExecutor ) )
         {
-            throw new UnsupportedProtocolException( "Wagon " + wagon.getRepository().getProtocol() + " does not support optimize upload" );
+            throw new UnsupportedProtocolException( "Wagon " + wagon.getRepository().getProtocol()
+                + " does not support optimize upload" );
         }
 
         logger.info( "Uploading " + fileset );
@@ -103,7 +104,7 @@ public class DefaultWagonUpload
 
             if ( files.length == 0 )
             {
-                logger.info( "Nothing to upload.");
+                logger.info( "Nothing to upload." );
                 return;
             }
 
@@ -130,7 +131,7 @@ public class DefaultWagonUpload
             }
             finally
             {
-                command = "rm -f " + remoteFile ;
+                command = "rm -f " + remoteFile;
                 logger.info( "Remote: " + command );
 
                 ( (CommandExecutor) wagon ).executeCommand( command );

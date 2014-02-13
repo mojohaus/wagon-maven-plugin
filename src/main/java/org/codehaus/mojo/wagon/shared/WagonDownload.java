@@ -43,7 +43,6 @@ public interface WagonDownload
         throws WagonException;
 
     /**
-     *
      * @param wagon - a Wagon instance
      * @param remoteFileSet -
      * @param logger
@@ -53,7 +52,6 @@ public interface WagonDownload
         throws WagonException;
 
     /**
-     *
      * @param wagon - a Wagon instance
      * @param resource
      * @throws WagonException

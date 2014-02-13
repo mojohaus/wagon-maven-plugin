@@ -28,7 +28,7 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Copy artifacts from one Wagon repository to another Wagon repository.
- *
+ * 
  * @goal copy
  * @requiresProject false
  */
@@ -37,36 +37,38 @@ public class CopyMojo
 {
     /**
      * Directory path relative to source's Wagon
+     * 
      * @parameter property="wagon.fromDir" default-value=""
      */
     private String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
+     * 
      * @parameter property="wagon.includes" default-value="**";
      */
     private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files
+     * 
      * @parameter property="wagon.excludes"
-     *
      */
     private String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan
+     * 
      * @parameter property="wagon.caseSensitive"
      */
     private boolean caseSensitive = true;
 
     /**
      * Remote path relative to target's url to copy files to.
-     *
+     * 
      * @parameter property="wagon.toDir" default-value="";
      */
     private String toDir = "";
-
 
     /**
      * @component

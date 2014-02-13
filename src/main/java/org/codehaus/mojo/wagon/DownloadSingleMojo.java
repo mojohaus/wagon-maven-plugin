@@ -27,7 +27,7 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Download a single file.
- *
+ * 
  * @goal download-single
  * @requiresProject false
  */
@@ -36,6 +36,7 @@ public class DownloadSingleMojo
 {
     /**
      * Relative path to the URL.
+     * 
      * @parameter property="wagon.fromFile"
      * @required
      */
@@ -43,17 +44,18 @@ public class DownloadSingleMojo
 
     /**
      * Directory to download the remote file to
+     * 
      * @parameter property="wagon.toDir"
      */
     private File toDir;
 
     /**
-     * File to download the remote file to.  Use this option to rename the file after download.
-     * When toDir is present, this argument is ignored
+     * File to download the remote file to. Use this option to rename the file after download. When toDir is present,
+     * this argument is ignored
+     * 
      * @parameter property="wagon.toFile"
      */
     private File toFile;
-
 
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException

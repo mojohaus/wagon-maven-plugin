@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Copy a set of file from a wagon repo to another wagon repo
- *
+ * 
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonCopy" role-hint="default"
  */
 

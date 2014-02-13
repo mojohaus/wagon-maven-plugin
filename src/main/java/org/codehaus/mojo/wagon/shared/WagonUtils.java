@@ -19,7 +19,6 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
-
 import org.apache.maven.artifact.manager.WagonConfigurationException;
 import org.apache.maven.artifact.manager.WagonManager;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -40,7 +39,7 @@ public class WagonUtils
 {
     /**
      * Convenient method to create a wagon
-     *
+     * 
      * @param id
      * @param url
      * @param wagonManager
@@ -55,7 +54,7 @@ public class WagonUtils
         Wagon wagon = null;
 
         final Repository repository = new Repository( id, url );
-        repository.setPermissions(getPermissions(id, settings));
+        repository.setPermissions( getPermissions( id, settings ) );
 
         wagon = wagonManager.getWagon( repository );
 
@@ -104,9 +103,9 @@ public class WagonUtils
     }
 
     /**
-     * Convenience method to map a <code>Proxy</code> object from the user system settings to a
-     * <code>ProxyInfo</code> object.
-     *
+     * Convenience method to map a <code>Proxy</code> object from the user system settings to a <code>ProxyInfo</code>
+     * object.
+     * 
      * @return a proxyInfo object or null if no active proxy is define in the settings.xml
      */
     public static ProxyInfo getProxyInfo( Settings settings )
@@ -159,6 +158,5 @@ public class WagonUtils
         permissions.setDirectoryMode( dirPerms );
         return permissions;
     }
-
 
 }

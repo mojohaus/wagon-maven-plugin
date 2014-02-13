@@ -28,7 +28,7 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Lists the content of the specified directory (remotePath) under a specified repository (url)
- *
+ * 
  * @goal list
  * @requiresProject false
  */

@@ -27,7 +27,7 @@ import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
 
 /**
  * Merge artifacts from one Maven repository to another Maven repository.
- *
+ * 
  * @goal merge-maven-repos
  * @requiresProject false
  */

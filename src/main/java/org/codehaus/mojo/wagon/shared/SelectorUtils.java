@@ -29,20 +29,14 @@ public final class SelectorUtils
 {
 
     /**
-     * Tests whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * Tests whether or not a given path matches the start of a given pattern up to the first "**".
      * <p>
-     * This is not a general purpose test and should only be used if you
-     * can live with false positives. For example, <code>pattern=**\a</code>
-     * and <code>str=b</code> will yield <code>true</code>.
-     *
-     * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     *
-     * @return whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * This is not a general purpose test and should only be used if you can live with false positives. For example,
+     * <code>pattern=**\a</code> and <code>str=b</code> will yield <code>true</code>.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @return whether or not a given path matches the start of a given pattern up to the first "**".
      */
     public static boolean matchPatternStart( String pattern, String str )
     {
@@ -50,22 +44,15 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * Tests whether or not a given path matches the start of a given pattern up to the first "**".
      * <p>
-     * This is not a general purpose test and should only be used if you
-     * can live with false positives. For example, <code>pattern=**\a</code>
-     * and <code>str=b</code> will yield <code>true</code>.
-     *
-     * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     *
-     * @return whether or not a given path matches the start of a given
-     * pattern up to the first "**".
+     * This is not a general purpose test and should only be used if you can live with false positives. For example,
+     * <code>pattern=**\a</code> and <code>str=b</code> will yield <code>true</code>.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case sensitively.
+     * @return whether or not a given path matches the start of a given pattern up to the first "**".
      */
     public static boolean matchPatternStart( String pattern, String str, boolean isCaseSensitive )
     {
@@ -122,14 +109,10 @@ public final class SelectorUtils
 
     /**
      * Tests whether or not a given path matches a given pattern.
-     *
-     * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     *
-     * @return <code>true</code> if the pattern matches against the string,
-     *         or <code>false</code> otherwise.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @return <code>true</code> if the pattern matches against the string, or <code>false</code> otherwise.
      */
     public static boolean matchPath( String pattern, String str )
     {
@@ -138,16 +121,11 @@ public final class SelectorUtils
 
     /**
      * Tests whether or not a given path matches a given pattern.
-     *
-     * @param pattern The pattern to match against. Must not be
-     *                <code>null</code>.
-     * @param str     The path to match, as a String. Must not be
-     *                <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     *
-     * @return <code>true</code> if the pattern matches against the string,
-     *         or <code>false</code> otherwise.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The path to match, as a String. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case sensitively.
+     * @return <code>true</code> if the pattern matches against the string, or <code>false</code> otherwise.
      */
     public static boolean matchPath( String pattern, String str, boolean isCaseSensitive )
     {
@@ -305,18 +283,13 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a string matches against a pattern.
-     * The pattern may contain two special characters:<br>
+     * Tests whether or not a string matches against a pattern. The pattern may contain two special characters:<br>
      * '*' means zero or more characters<br>
      * '?' means one and only one character
-     *
-     * @param pattern The pattern to match against.
-     *                Must not be <code>null</code>.
-     * @param str     The string which must be matched against the pattern.
-     *                Must not be <code>null</code>.
-     *
-     * @return <code>true</code> if the string matches against the pattern,
-     *         or <code>false</code> otherwise.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The string which must be matched against the pattern. Must not be <code>null</code>.
+     * @return <code>true</code> if the string matches against the pattern, or <code>false</code> otherwise.
      */
     public static boolean match( String pattern, String str )
     {
@@ -324,21 +297,14 @@ public final class SelectorUtils
     }
 
     /**
-     * Tests whether or not a string matches against a pattern.
-     * The pattern may contain two special characters:<br>
+     * Tests whether or not a string matches against a pattern. The pattern may contain two special characters:<br>
      * '*' means zero or more characters<br>
      * '?' means one and only one character
-     *
-     * @param pattern The pattern to match against.
-     *                Must not be <code>null</code>.
-     * @param str     The string which must be matched against the pattern.
-     *                Must not be <code>null</code>.
-     * @param isCaseSensitive Whether or not matching should be performed
-     *                        case sensitively.
-     *
-     *
-     * @return <code>true</code> if the string matches against the pattern,
-     *         or <code>false</code> otherwise.
+     * 
+     * @param pattern The pattern to match against. Must not be <code>null</code>.
+     * @param str The string which must be matched against the pattern. Must not be <code>null</code>.
+     * @param isCaseSensitive Whether or not matching should be performed case sensitively.
+     * @return <code>true</code> if the string matches against the pattern, or <code>false</code> otherwise.
      */
     public static boolean match( String pattern, String str, boolean isCaseSensitive )
     {
@@ -513,11 +479,9 @@ public final class SelectorUtils
     }
 
     /**
-     * Breaks a path up into a Vector of path elements, tokenizing on
-     * <code>File.separator</code>.
-     *
+     * Breaks a path up into a Vector of path elements, tokenizing on <code>File.separator</code>.
+     * 
      * @param path Path to tokenize. Must not be <code>null</code>.
-     *
      * @return a Vector of path elements from the tokenized path
      */
     public static Vector tokenizePath( String path )

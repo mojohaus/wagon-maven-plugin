@@ -27,7 +27,7 @@ import org.codehaus.mojo.wagon.shared.WagonDownload;
 
 /**
  * Check for the existing of remote resource.
- *
+ * 
  * @goal exist
  * @requiresProject true
  */
@@ -36,6 +36,7 @@ public class ExistMojo
 {
     /**
      * relative path to a remote resource
+     * 
      * @parameter property="wagon.resource" default-value=""
      */
     private String resource = "";
@@ -44,7 +45,6 @@ public class ExistMojo
      * @component
      */
     protected WagonDownload wagonDownload;
-
 
     protected void execute( Wagon wagon )
         throws WagonException, IOException

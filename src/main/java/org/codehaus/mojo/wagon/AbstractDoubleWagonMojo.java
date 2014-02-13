@@ -19,10 +19,8 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-
 /**
  * Provides base functionality for dealing with I/O using single wagon.
- *
  */
 public abstract class AbstractDoubleWagonMojo
     extends AbstractWagonMojo
@@ -30,7 +28,7 @@ public abstract class AbstractDoubleWagonMojo
 
     /**
      * The URL to the source repository.
-     *
+     * 
      * @parameter property="wagon.source"
      * @required
      */
@@ -38,36 +36,35 @@ public abstract class AbstractDoubleWagonMojo
 
     /**
      * The URL to the target repository.
-     *
+     * 
      * @parameter property="wagon.target"
      * @required
      */
     protected String target;
 
     /**
-     * settings.xml's server id of the source repository.
-     * This is used when wagon needs extra authentication information.
-     *
+     * settings.xml's server id of the source repository. This is used when wagon needs extra authentication
+     * information.
+     * 
      * @parameter property="wagon.sourceId" default-value="source"
      */
     protected String sourceId;
 
     /**
-     * settings.xml's server id of the target repository.
-     * This is used when wagon needs extra authentication information.
-     *
+     * settings.xml's server id of the target repository. This is used when wagon needs extra authentication
+     * information.
+     * 
      * @parameter property="wagon.targetId" default-value="target"
      */
     protected String targetId;
 
     /**
-     * Optimize the  upload by locally compressed all files in one bundle,
-     * upload the bundle, and finally remote uncompress the bundle.
-     * This only works with SCP's URL
+     * Optimize the upload by locally compressed all files in one bundle, upload the bundle, and finally remote
+     * uncompress the bundle. This only works with SCP's URL
+     * 
      * @parameter property="wagon.optimize" default-value="false";
      */
 
     protected boolean optimize = false;
-
 
 }

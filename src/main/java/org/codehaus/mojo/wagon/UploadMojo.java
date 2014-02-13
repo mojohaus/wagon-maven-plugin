@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload multiple sets of files.
- *
+ * 
  * @goal upload
  * @requiresProject true
  */
@@ -40,47 +40,50 @@ public class UploadMojo
 {
     /**
      * Local directory to upload to wagon's "url/toDir"
+     * 
      * @parameter property="wagon.fromDir" default-value="${project.basedir}"
      */
     private File fromDir;
 
     /**
      * Comma separate list of Ant's excludes to scan for local files
+     * 
      * @parameter property="wagon.excludes"
-     *
      */
     private String excludes;
 
     /**
      * Comma separate list of Ant's includes to scan for local files
-     * @parameter property="wagon.includes"
-     * localDirectory's Ant includes
+     * 
+     * @parameter property="wagon.includes" localDirectory's Ant includes
      */
-    private String  includes;
+    private String includes;
 
     /**
      * Follow local symbolic link if possible
+     * 
      * @parameter property="wagon.followSymLink" default-value="false"
      */
-    private boolean  followSymLink = false;
+    private boolean followSymLink = false;
 
     /**
      * Use default exclude sets
+     * 
      * @parameter property="wagon.useDefaultExcludes" default-value="true"
      */
-    private boolean  useDefaultExcludes = true;
+    private boolean useDefaultExcludes = true;
 
     /**
      * Remote path relative to Wagon's url to upload local files to.
-     *
+     * 
      * @parameter property="wagon.toDir" default-value="";
      */
     private String toDir = "";
 
     /**
-     * Optimize the upload by locally compressed all files in one bundle,
-     * upload the bundle, and finally remote uncompress the bundle.
-     *
+     * Optimize the upload by locally compressed all files in one bundle, upload the bundle, and finally remote
+     * uncompress the bundle.
+     * 
      * @parameter property="wagon.optimize" default-value="false";
      */
 
@@ -91,7 +94,6 @@ public class UploadMojo
      */
     protected WagonUpload wagonUpload;
 
-
     protected void execute( Wagon wagon )
         throws WagonException, IOException
     {
@@ -99,12 +101,12 @@ public class UploadMojo
 
         fileSet.setDirectory( this.fromDir.getAbsolutePath() );
 
-        if ( ! StringUtils.isBlank( includes ) )
+        if ( !StringUtils.isBlank( includes ) )
         {
             fileSet.setIncludes( Arrays.asList( StringUtils.split( this.includes, "," ) ) );
         }
 
-        if ( ! StringUtils.isBlank( excludes ) )
+        if ( !StringUtils.isBlank( excludes ) )
         {
             fileSet.setExcludes( Arrays.asList( StringUtils.split( this.excludes, "," ) ) );
         }

@@ -30,7 +30,6 @@ import org.codehaus.mojo.wagon.shared.WagonUtils;
 
 /**
  * Provides base functionality for dealing with I/O using wagon.
- *
  */
 public abstract class AbstractWagonMojo
     extends AbstractMojo
@@ -43,7 +42,7 @@ public abstract class AbstractWagonMojo
 
     /**
      * The current user system settings for use in Maven.
-     *
+     * 
      * @parameter default-value="${settings}"
      * @readonly
      */
@@ -51,7 +50,7 @@ public abstract class AbstractWagonMojo
 
     /**
      * Internal Maven's project
-     *
+     * 
      * @parameter default-value="${project}"
      * @readonly
      */
@@ -59,14 +58,14 @@ public abstract class AbstractWagonMojo
 
     /**
      * When <code>true</code>, skip the execution.
-     *
+     * 
      * @parameter property="wagon.skip" default-value="false"
      */
     protected boolean skip = false;
 
     /**
      * Convenient method to create a wagon
-     *
+     * 
      * @param id
      * @param url
      * @param wagonManager
@@ -89,7 +88,8 @@ public abstract class AbstractWagonMojo
 
     }
 
-    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive, String toDir )
+    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive,
+                                            String toDir )
     {
         return WagonUtils.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
     }

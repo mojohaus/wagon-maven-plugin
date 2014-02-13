@@ -30,7 +30,7 @@ public abstract class AbstractCopyMojo
     extends AbstractDoubleWagonMojo
 {
 
-    protected abstract void copy(  Wagon src, Wagon target )
+    protected abstract void copy( Wagon src, Wagon target )
         throws IOException, WagonException;
 
     public void execute()

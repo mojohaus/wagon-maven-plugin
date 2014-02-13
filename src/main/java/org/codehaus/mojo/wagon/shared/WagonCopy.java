@@ -33,9 +33,9 @@ public interface WagonCopy
     String ROLE = WagonCopy.class.getName();
 
     /**
-     * Transfer files between 2 Wagon URLs.  If download directory is not given in the fileset
-     * a temporary one will be created.
-     *
+     * Transfer files between 2 Wagon URLs. If download directory is not given in the fileset a temporary one will be
+     * created.
+     * 
      * @param fromWagon - source Wagon
      * @param fileset
      * @param toWagon - target Wagon

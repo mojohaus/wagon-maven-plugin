@@ -28,7 +28,6 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Provides base functionality for dealing with I/O using single wagon.
- *
  */
 public abstract class AbstractSingleWagonMojo
     extends AbstractWagonMojo
@@ -36,20 +35,18 @@ public abstract class AbstractSingleWagonMojo
 
     /**
      * URL to upload to or download from or list. Must exist and point to a directory.
-     *
+     * 
      * @parameter property="wagon.url"
      * @required
      */
     private String url;
 
     /**
-     * settings.xml's server id for the URL.
-     * This is used when wagon needs extra authentication information.
-     *
+     * settings.xml's server id for the URL. This is used when wagon needs extra authentication information.
+     * 
      * @parameter property="wagon.serverId" default-value="serverId";
      */
     private String serverId;
-
 
     public void execute()
         throws MojoExecutionException
@@ -92,12 +89,12 @@ public abstract class AbstractSingleWagonMojo
 
     /**
      * Perform the necessary action. To be implemented in the child mojo.
-     *
+     * 
      * @param wagon
      * @throws MojoExecutionException
      * @throws WagonException
      */
     protected abstract void execute( Wagon wagon )
-        throws  MojoExecutionException, WagonException, IOException;
+        throws MojoExecutionException, WagonException, IOException;
 
 }

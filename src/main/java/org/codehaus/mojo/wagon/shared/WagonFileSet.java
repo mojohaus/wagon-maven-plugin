@@ -19,9 +19,7 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
-
 import java.io.File;
-
 
 /**
  * Wagon configuration to scan for a set of remote files.
@@ -37,23 +35,22 @@ public class WagonFileSet
     /**
      * Ant's excludes path expression
      */
-    private String [] excludes;
+    private String[] excludes;
 
     /**
      * Ant's includes path expression
      */
-    private String [] includes;
+    private String[] includes;
 
     /**
      *
      */
     private boolean caseSensitive;
 
-
     /**
      * User default exclude sets
      */
-    private boolean  useDefaultExcludes = true;
+    private boolean useDefaultExcludes = true;
 
     /**
      * Local path to download the remote resource ( tree ) to.
@@ -65,7 +62,7 @@ public class WagonFileSet
      */
     private String outputDirectory = "";
 
-    //////////////////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////////////////
 
     public String getDirectory()
     {
@@ -86,7 +83,6 @@ public class WagonFileSet
     {
         this.downloadDirectory = downloadDirectory;
     }
-
 
     public String[] getExcludes()
     {
@@ -119,12 +115,12 @@ public class WagonFileSet
     }
 
     /**
-     * Retrieves the included and excluded files from this file-set's directory.
-     * Specifically, <code>"file-set: <I>[directory]</I> (included:
+     * Retrieves the included and excluded files from this file-set's directory. Specifically,
+     * <code>"file-set: <I>[directory]</I> (included:
      * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
-     *
-     * @return The included and excluded files from this file-set's directory.
-     * Specifically, <code>"file-set: <I>[directory]</I> (included:
+     * 
+     * @return The included and excluded files from this file-set's directory. Specifically,
+     *         <code>"file-set: <I>[directory]</I> (included:
      * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
      * @see java.lang.Object#toString()
      */

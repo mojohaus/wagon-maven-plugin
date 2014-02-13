@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload a single file with option to change name
- *
+ * 
  * @goal upload-single
  * @requiresProject false
  */
@@ -38,7 +38,7 @@ public class UploadSingleMojo
 {
     /**
      * Path to a local file to be uploaded
-     *
+     * 
      * @parameter property="wagon.fromFile"
      * @required
      */
@@ -46,7 +46,7 @@ public class UploadSingleMojo
 
     /**
      * Relative path to the URL. When blank, default to fromFile's file name.
-     *
+     * 
      * @parameter property="wagon.toFile"
      */
     private String toFile;

@@ -28,7 +28,7 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Executes a list of commands against a given server.
- *
+ * 
  * @goal sshexec
  * @requiresProject true
  */
@@ -38,7 +38,7 @@ public class SshExecMojo
 
     /**
      * The commands that we will execute.
-     *
+     * 
      * @parameter alias="commands"
      * @required
      */

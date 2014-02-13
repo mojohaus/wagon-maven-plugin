@@ -45,7 +45,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead
- *
+ * 
  * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoMerger" role-hint="default"
  */
 
@@ -67,7 +67,7 @@ public class DefaultMavenRepoMerger
     {
 
         // copy src to a local dir
-        File downloadSrcDir =  createTempDirectory( "wagon-maven-plugin" );
+        File downloadSrcDir = createTempDirectory( "wagon-maven-plugin" );
 
         WagonFileSet srcFileSet = new WagonFileSet();
         srcFileSet.setDownloadDirectory( downloadSrcDir );
@@ -236,7 +236,7 @@ public class DefaultMavenRepoMerger
         return retValue.trim();
     }
 
-    public static File createTempDirectory(String prefix)
+    public static File createTempDirectory( String prefix )
         throws IOException
     {
         final File temp;
