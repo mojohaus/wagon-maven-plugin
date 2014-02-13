@@ -26,51 +26,51 @@
 
 Introduction
 
-  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a maven wagon. 
+  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a maven wagon.
   It allows you to upload resources from your build to a remote location using wagon.
   It allows you to download resources from a repository using wagon.
   It allows to list a content of a repository using wagon.
   Finally, by combining the upload and download capabilities, it can merge a Maven repository to
-  another in a generic way.  
-  
+  another in a generic way.
+
   The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
-  
-  However, due some differences in term of provider implementation, not all goals are 
+
+  However, due some differences in term of provider implementation, not all goals are
   working as expected. In general, a good way to see a particular wagon implementation
   would work with this plugin is to run <wagon:list> goal against its URL.
-  
+
   The following contains a list of known limitations:
-  
-  * This plugin uses the wagon providers ( http, webdav, etc) that come with Maven distribution, 
-    so it is crucial to use with Maven 2.2+ since Wagon is much more stable than the ones that comes with Maven 2.0.x. 
-    Due to this reason, do not add Wagon dependencies to your plugin execution since they are ignored. 
-     
+
+  * This plugin uses the wagon providers ( http, webdav, etc) that come with Maven distribution,
+    so it is crucial to use with Maven 2.2+ since Wagon is much more stable than the ones that comes with Maven 2.0.x.
+    Due to this reason, do not add Wagon dependencies to your plugin execution since they are ignored.
+
   * Since ftp wagon provider is not part of your maven distribution, you will need to copy
-    
+
     * wagon-ftp-beta-6.jar
-    
+
     * oro-2.0.8.jar
-    
+
     * commons-net-1.4.1.jar
-    
+
     []
-     
+
     to your $MAVEN_HOME/lib directory.
-     
+
   * <list> and <download> goals do not work with wagon-webdav provider types.
-  
+
   * <list> and <download> goals are very slow since it needs to scan the remote file system.
-    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile 
+    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile
     scans the entire remote source tree.
 
   []
 
-  
-  The following contains a couple of usage examples.  
+
+  The following contains a couple of usage examples.
   Live examples are available under {{{https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it}SVN}}
-    
-  
-* Configuration example to upload. 
+
+
+* Configuration example to upload.
 
 +-----
 <project>
@@ -83,12 +83,12 @@ Introduction
         <artifactId>wagon-ssh</artifactId>
         <version>1.0</version>
       </extension>
-    </extensions>  
-       
+    </extensions>
+
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-beta-4</version>
+      <version>1.0-beta-5</version>
       <executions>
         <execution>
           <id>upload-javadoc</id>
@@ -123,12 +123,12 @@ Introduction
         <artifactId>wagon-webdav</artifactId>
         <version>1.0</version>
       </extension>
-    </extensions>  
+    </extensions>
 
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0-beta-4</version>
+      <version>1.0-beta-5</version>
       <executions>
         <execution>
           <id>download-test-data</id>
@@ -148,23 +148,65 @@ Introduction
   </build>
   [...]
 </project>
-+----- 
++-----
 
 
 * Configuration example to merge Maven repositories
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-4:merge-maven-repos \
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-5:merge-maven-repos \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
-     -Dwagon.target=scp://localhost/$LOGNAME/maven-repo 
+     -Dwagon.target=scp://localhost/$LOGNAME/maven-repo
 +-----
 
 
 * Configuration example to copy files under one URL to another URL
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-4:copy \
+  mvn org.codehaus.mojo:wagon-maven-plugin:1.0-beta-5:copy \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
-     -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo 
+     -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
 +-----
-   
+
+* Configuration example to execute commands.
+
+-----
+<project>
+  [...]
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-5</version>
+      </extension>
+    </extensions>
+
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>wagon-maven-plugin</artifactId>
+      <version>1.0-beta-5</version>
+      <executions>
+        <execution>
+          <id>execute-test-commands</id>
+          <phase>deploy</phase>
+          <goals>
+            <goal>sshexec</goal>
+          </goals>
+          <configuration>
+            <serverId>atlassian-public</serverId>
+            <url>dav:https://maven.atlassian.com/public</url>
+            <commands>
+              <param>/usr/share/tomcat/bin/tomcat stop</param>
+              <param>rm -rf /usr/share/tomcat/webapps/ROOT</param>
+              <param>unzip -o /usr/share/tomcat/webapps/myapp.zip -d /usr/share/tomcat/webapps/</param>
+              <param>/usr/share/tomcat/bin/tomcat start</param>
+            </commands>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </build>
+  [...]
+</project>
+-----
