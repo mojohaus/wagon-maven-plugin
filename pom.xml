@@ -6,7 +6,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>30</version>
+    <version>33</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -16,7 +16,7 @@
   <name>Maven Wagon plugin</name>
 
   <description>
-    Maven 2 plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
+    Maven plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
     recursive upload, download, and list directory content functionality.
   </description>
 

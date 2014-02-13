@@ -6,9 +6,9 @@ package org.codehaus.mojo.wagon;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -19,9 +19,9 @@ package org.codehaus.mojo.wagon;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -39,26 +39,26 @@ public abstract class AbstractWagonListMojo
 {
     /**
      * Directory path relative to Wagon's URL
-     * @parameter expression="${wagon.fromDir}" default-value=""
+     * @parameter property="wagon.fromDir" default-value=""
      */
     protected String fromDir = "";
 
     /**
-     * Comma separated list of Ant's includes to scan for remote files     
-     * @parameter expression="${wagon.includes}" default-value="*";
+     * Comma separated list of Ant's includes to scan for remote files
+     * @parameter property="wagon.includes" default-value="*";
      */
     protected String includes;
 
     /**
-     * Comma separated list of Ant's excludes to scan for remote files     
-     * @parameter expression="${wagon.excludes}"
-     * 
+     * Comma separated list of Ant's excludes to scan for remote files
+     * @parameter property="wagon.excludes"
+     *
      */
     protected String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan
-     * @parameter expression="${wagon.caseSensitive}" default-value="true"
+     * @parameter property="wagon.caseSensitive" default-value="true"
      */
     protected boolean caseSensitive = true;
 
@@ -66,8 +66,8 @@ public abstract class AbstractWagonListMojo
      * @component
      */
     protected WagonDownload wagonDownload;
-    
-    
+
+
     protected WagonFileSet getWagonFileSet()
     {
         return this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, "" );

@@ -6,9 +6,9 @@ package org.codehaus.mojo.wagon;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -34,16 +34,16 @@ public class UploadSingleMojo
 {
     /**
      * Path to a local file to be uploaded
-     * 
-     * @parameter expression="${wagon.fromFile}" 
+     *
+     * @parameter property="wagon.fromFile"
      * @required
      */
     private File fromFile;
 
     /**
      * Relative path to the URL. When blank, default to fromFile's file name.
-     * 
-     * @parameter expression="${wagon.toFile}" 
+     *
+     * @parameter property="wagon.toFile"
      */
     private String toFile;
 
@@ -55,12 +55,12 @@ public class UploadSingleMojo
             this.getLog().info( "Skip execution." );
             return;
         }
-        
+
         if ( StringUtils.isBlank( toFile ) )
         {
             toFile = fromFile.getName();
         }
-            
+
         this.getLog().info( "Uploading: " + fromFile + " " + wagon.getRepository().getUrl() + "/" + toFile );
 
         wagon.put( fromFile, toFile );
