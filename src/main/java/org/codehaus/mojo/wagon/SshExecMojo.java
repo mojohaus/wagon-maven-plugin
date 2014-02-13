@@ -39,13 +39,13 @@ public class SshExecMojo
     /**
      * The commands that we will execute.
      *
-     * @parameter alias="commands"
+     * @parameter
      * @required
      */
     private String[] commands;
 
     /**
-     * Allow option not to fail the build
+     * Allow option not to fail the build on error
      *
      * @parameter default-value = "true"
      */

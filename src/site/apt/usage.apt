@@ -195,12 +195,12 @@ Introduction
           </goals>
           <configuration>
             <serverId>atlassian-public</serverId>
-            <url>dav:https://maven.atlassian.com/public</url>
+            <url>scp://maven.atlassian.com/public</url>
             <commands>
-              <param>/usr/share/tomcat/bin/tomcat stop</param>
-              <param>rm -rf /usr/share/tomcat/webapps/ROOT</param>
-              <param>unzip -o /usr/share/tomcat/webapps/myapp.zip -d /usr/share/tomcat/webapps/</param>
-              <param>/usr/share/tomcat/bin/tomcat start</param>
+              <command>/usr/share/tomcat/bin/tomcat stop</command>
+              <command>rm -rf /usr/share/tomcat/webapps/ROOT</command>
+              <command>unzip -o /usr/share/tomcat/webapps/myapp.zip -d /usr/share/tomcat/webapps/</command>
+              <command>/usr/share/tomcat/bin/tomcat start</command>
             </commands>
           </configuration>
         </execution>
