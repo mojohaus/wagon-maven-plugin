@@ -28,7 +28,7 @@ import org.apache.maven.wagon.WagonException;
 
 /**
  * Executes a list of commands against a given server.
- * 
+ *
  * @goal sshexec
  * @requiresProject true
  */
@@ -38,28 +38,43 @@ public class SshExecMojo
 
     /**
      * The commands that we will execute.
-     * 
+     *
      * @parameter alias="commands"
      * @required
      */
     private String[] commands;
 
+    /**
+     * Allow option not to fail the build
+     *
+     * @parameter default-value = "true"
+     */
+    private boolean failOnError = true;
+
     protected void execute( final Wagon wagon )
-        throws MojoExecutionException, WagonException, IOException
+        throws MojoExecutionException
     {
-        try
+        if ( commands != null )
         {
-            if ( commands != null )
+            for ( int i = 0; i < commands.length; i++ )
             {
-                for ( int i = 0; i < commands.length; i++ )
+                try
                 {
                     ( (CommandExecutor) wagon ).executeCommand( commands[i] );
                 }
+                catch ( final WagonException e )
+                {
+                    if ( this.failOnError )
+                    {
+                        throw new MojoExecutionException( "Unable to execture remote command", e );
+                    }
+                    else
+                    {
+                        this.getLog().warn( e );
+                    }
+                }
+
             }
-        }
-        catch ( final WagonException e )
-        {
-            this.getLog().error( e );
         }
     }
 }
