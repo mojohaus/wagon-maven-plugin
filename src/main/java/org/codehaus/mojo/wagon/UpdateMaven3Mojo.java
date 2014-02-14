@@ -1,5 +1,24 @@
 package org.codehaus.mojo.wagon;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import java.io.File;
 import java.util.List;
 
@@ -32,7 +51,7 @@ public class UpdateMaven3Mojo
     private ArtifactFactory artifactFactory;
 
     /**
-     * @parameter expression = "${project.remoteArtifactRepositories}"
+     * @parameter default-value = "${project.remoteArtifactRepositories}"
      */
     private List<ArtifactRepository> remoteRepositories;
 
@@ -43,19 +62,19 @@ public class UpdateMaven3Mojo
 
     /**
      * commons-io:commons-io version
-     * @parameter expression = ${commonsIoVersion}" default-value = "2.2";
+     * @parameter property = "commonsIoVersion" default-value = "2.2";
      */
     private String commonsIoVersion = "2.2";
 
     /**
      * commons-lang:commons-lang version
-     * @parameter expression = "${commonsLangVersion}" default-value = "2.6";
+     * @parameter property = "commonsLangVersion" default-value = "2.6";
      */
     private String commonsLangVersion = "2.6";
 
     /**
      * org.jsoup:jsoup version
-     * @parameter expression = "${jsoupVersion}" default-value = "1.7.2"
+     * @parameter property = "jsoupVersion" default-value = "1.7.2"
      */
     private String jsoupVersion = "1.7.2";
 

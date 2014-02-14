@@ -21,18 +21,17 @@ under the License.
 
 <project xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
   <body>
-  
+
     <links>
       <item name="Wagon" href="http://maven.apache.org/wagon"/>
     </links>
-  
+
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
       <item name="Usage" href="usage.html"/>
       <item name="Goals" href="plugin-info.html"/>
       <item name="FAQ" href="faq.html"/>
-      <item name="Changes" href="changes-report.html" />
-      
+
     </menu>
     <menu name="Examples">
       <item name="Comprehensive" href="https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it"/>
