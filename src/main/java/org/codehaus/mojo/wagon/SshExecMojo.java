@@ -19,8 +19,6 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import java.io.IOException;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.CommandExecutor;
 import org.apache.maven.wagon.Wagon;
