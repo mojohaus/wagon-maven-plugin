@@ -63,8 +63,10 @@ Introduction
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile
     scans the entire remote source tree.
 
-  * To work with Maven 3.x, you need to copy  commons-io-2.x, common-lang-2.x, and jsoup-1.x to $MAVEN_HOME/lib.
-    See {{{https://jira.codehaus.org/browse/WAGON-407} WAGON-407}}
+  * <<This plugin does not work with Maven 3.x out of the box>> due to missing the following libraries in
+    it distribution:  commons-io-2.x, common-lang-2.x, and jsoup-1.x. You can invoke wagon:update-maven-3
+    to add the missing files to $MAVEN_HOME/lib.
+    See {{{https://jira.codehaus.org/browse/WAGON-407} WAGON-407}} for details
 
   []
 
