@@ -123,6 +123,10 @@ public class DefaultWagonUpload
 
             // We use the super quiet option here as all the noise seems to kill/stall the connection
             String command = "unzip -o -qq -d " + remoteDir + " " + remoteFile;
+            if ( StringUtils.isBlank( remoteDir ) )
+            {
+                command = "unzip -o -qq " + remoteFile;
+            }
 
             try
             {
