@@ -9,17 +9,14 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
-
+  <version>1.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-
   <name>Maven Wagon plugin</name>
 
   <description>
     Maven plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
     recursive upload, download, and list directory content functionality.
   </description>
-
-  <version>1.0-beta-6-SNAPSHOT</version>
 
   <inceptionYear>2008</inceptionYear>
 
@@ -32,6 +29,11 @@
     <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</developerConnection>
     <url>http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</url>
   </scm>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/MWAGON</url>
+  </issueManagement>
 
   <developers>
     <developer>
