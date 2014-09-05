@@ -20,11 +20,11 @@
   </repositories>
 
   <build>
-  
 
- 
+
+
     <defaultGoal>package</defaultGoal>
-    
+
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
@@ -36,9 +36,9 @@
           <serverId>codehaus.org</serverId>
           <downloadDirectory>${downloadDirectory.base}</downloadDirectory>
         </configuration>
-        
+
         <executions>
-        
+
           <execution>
             <id>download-single</id>
             <phase>package</phase>
@@ -53,8 +53,8 @@
 
           <!-- Currently failing -->
           <execution>
-             <!-- this return one wear file list with only one file .DS_store-->
-            <id>list-all</id> 
+            <!-- this return one wear file list with only one file .DS_store -->
+            <id>list-all</id>
             <phase>package</phase>
             <goals>
               <goal>list</goal>
@@ -65,7 +65,7 @@
           </execution>
 
           <execution>
-             <!-- this returns exception-->
+            <!-- this returns exception -->
             <id>list-dir</id>
             <phase>package</phase>
             <goals>
@@ -76,9 +76,9 @@
               <recursive>true</recursive>
             </configuration>
           </execution>
-        
+
         </executions>
-        
+
       </plugin>
     </plugins>
   </build>
@@ -87,7 +87,7 @@
     <version>testing</version>
     <url.base>dav:https://dav.codehaus.org/snapshots.repository/mojo/</url.base>
     <downloadDirectory.base>${project.build.directory}/it/webdav</downloadDirectory.base>
-    
+
   </properties>
 
 </project>

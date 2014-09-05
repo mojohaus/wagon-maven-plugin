@@ -8,9 +8,9 @@
   <version>testing</version>
 
   <build>
- 
+
     <defaultGoal>package</defaultGoal>
-    
+
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
@@ -21,7 +21,7 @@
           <serverId>central</serverId>
         </configuration>
         <executions>
-        
+
           <execution>
             <id>http-list</id>
             <phase>package</phase>
@@ -32,7 +32,7 @@
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
             </configuration>
           </execution>
-        
+
           <!-- this fails currently -->
           <execution>
             <id>http-download-single</id>

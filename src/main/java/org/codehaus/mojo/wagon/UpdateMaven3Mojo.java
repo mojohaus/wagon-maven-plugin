@@ -62,18 +62,21 @@ public class UpdateMaven3Mojo
 
     /**
      * commons-io:commons-io version
+     * 
      * @parameter property = "commonsIoVersion" default-value = "2.2";
      */
     private String commonsIoVersion = "2.2";
 
     /**
      * commons-lang:commons-lang version
+     * 
      * @parameter property = "commonsLangVersion" default-value = "2.6";
      */
     private String commonsLangVersion = "2.6";
 
     /**
      * org.jsoup:jsoup version
+     * 
      * @parameter property = "jsoupVersion" default-value = "1.7.2"
      */
     private String jsoupVersion = "1.7.2";
@@ -94,7 +97,7 @@ public class UpdateMaven3Mojo
         {
             File mavenLibDir = new File( System.getProperty( "maven.home" ), "lib/ext" );
             artifactResolver.resolve( artifact, remoteRepositories, localRepository );
-            this.getLog().info( "Copy " + artifact.getFile() + " to " + mavenLibDir  );
+            this.getLog().info( "Copy " + artifact.getFile() + " to " + mavenLibDir );
             FileUtils.copyFileToDirectory( artifact.getFile(), mavenLibDir );
         }
         catch ( Exception e )

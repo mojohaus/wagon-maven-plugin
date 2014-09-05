@@ -6,13 +6,14 @@
   <artifactId>wagon-maven-plugin</artifactId>
   <packaging>pom</packaging>
   <version>testing</version>
-  
+
   <name>wagon-maven-it for any protocol</name>
-  
+
   <description>
-    Contain various examples for wagon-maven-plugin. 
+    Contain various examples for wagon-maven-plugin.
     When run from command line, -Dversion=a.valid.version must be passed in.
-    Note the use of shared configurations, ie downloadDirectory
+    Note the use of shared configurations, ie
+    downloadDirectory
   </description>
 
   <build>
@@ -58,7 +59,7 @@
               <toDir>wagon-plugin-it</toDir>
             </configuration>
           </execution>
-          
+
           <execution>
             <id>upload-single-with-rename</id>
             <phase>package</phase>
@@ -139,9 +140,9 @@
               <fromDir>wagon-plugin-it</fromDir>
             </configuration>
           </execution>
-          
+
           <execution>
-            <!--  currently not working yet -->
+            <!-- currently not working yet -->
             <id>list-with-inclusion</id>
             <phase>package</phase>
             <goals>
@@ -159,7 +160,7 @@
   </build>
 
   <profiles>
-  
+
     <profile>
       <id>scp</id>
       <activation>
@@ -167,15 +168,15 @@
       </activation>
       <properties>
         <url.base>scp://localhost/home/${username}</url.base>
-       </properties>
+      </properties>
     </profile>
-    
+
     <profile>
       <id>dav</id>
       <properties>
         <serverId>wagon.test.davServerId</serverId>
         <url.base>dav:https://dav.codehaus.org/mojo/user/${username}</url.base>
-       </properties>
+      </properties>
     </profile>
 
     <profile>
@@ -183,7 +184,7 @@
       <properties>
         <serverId>wagon.test.ftpServerId</serverId>
         <url.base>ftp://localhost/user/${username}</url.base>
-       </properties>
+      </properties>
     </profile>
 
   </profiles>

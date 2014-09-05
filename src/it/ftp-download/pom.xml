@@ -8,9 +8,9 @@
   <version>testing</version>
 
   <build>
- 
+
     <defaultGoal>package</defaultGoal>
-    
+
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
@@ -18,7 +18,7 @@
         <version>1.0-beta-5-SNAPSHOT</version>
       </extension>
     </extensions>
-    
+
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
@@ -29,20 +29,13 @@
           <skip>true</skip>
           <serverId>anonymous.ftp</serverId>
           <url>ftp://ftp.ibiblio.org/incoming/linux</url>
-          <!-- need additional settings.xml inorder to get this to work
-          
-              <server>
-                <id>ibiblio.ftp</id>
-                <username>anonymous</username>
-                <password></password>
-              </server>
-                
-             -->
+          <!-- need additional settings.xml inorder to get this to work <server> <id>ibiblio.ftp</id> <username>anonymous</username> 
+            <password></password> </server> -->
         </configuration>
 
         <executions>
 
-          
+
           <execution>
             <id>ftp-download-single</id>
             <phase>package</phase>
@@ -54,7 +47,7 @@
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
-          
+
           <execution>
             <id>ftp-download-no-recursive</id>
             <phase>package</phase>
@@ -65,7 +58,7 @@
               <toDir>${downloadDirectory.base}/norecursive</toDir>
             </configuration>
           </execution>
-          
+
           <execution>
             <id>ftp-list-no-recursive</id>
             <phase>package</phase>
@@ -76,7 +69,7 @@
               <skip>false</skip>
             </configuration>
           </execution>
-          
+
         </executions>
       </plugin>
     </plugins>

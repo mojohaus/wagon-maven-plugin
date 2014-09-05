@@ -8,9 +8,9 @@
   <version>testing</version>
 
   <build>
- 
+
     <defaultGoal>package</defaultGoal>
-    
+
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
@@ -18,7 +18,7 @@
         <version>1.0-beta-5-SNAPSHOT</version>
       </extension>
     </extensions>
-    
+
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
