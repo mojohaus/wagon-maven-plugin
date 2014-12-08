@@ -28,28 +28,31 @@
 Overview
 
   Use this plugin to view and transfer resources between repositories using Maven Wagon.
-   
+
 
 * Goals Overview
 
   The Wagon Plugin has the following goals.
 
   * {{{./upload-single-mojo.html}wagon:upload-single}} uploads the specified file to a remote location.
-  
+
   * {{{./upload-mojo.html}wagon:upload}} uploads the specified set of files to a remote location.
-  
+
   * {{{./download-single-mojo.html}wagon:download-single}} downloads the specified file from a remote location.
-  
+
   * {{{./download-mojo.html}wagon:download}} downloads the specified set of files from a remote location.
-  
+
   * {{{./list-mojo.html}wagon:list}} lists the content of a specified location in a remote repository.
 
   * {{{./copy-mojo.html}wagon:copy}} copies a set of files under a Wagon repository to another.
 
   * {{{./merge-maven-repos-mojo.html}wagon:merge-maven-repos}} merges , including metadata, a Maven repository to another.
 
+  * {{{./sshexec-mojo.html}wagon:sshexec}} Executes a set of commands at remote SSH host.
+
+
   []
-  
+
 * Usage
 
   Instructions on the basic usage of the Wagon Plugin can be found {{{./usage.html}here}}.
@@ -58,4 +61,3 @@ Overview
 * Examples
 
    *  Live examples are available at {{{http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it/}SVN}}
-   
