@@ -20,11 +20,7 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
@@ -33,7 +29,9 @@ import org.apache.maven.wagon.CommandExecutor;
 import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.plexus.archiver.manager.ArchiverManager;
+import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
+import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -43,6 +41,12 @@ import org.codehaus.plexus.util.StringUtils;
 public class DefaultWagonUpload
     implements WagonUpload
 {
+
+    /**
+     * @plexus.requirement role="org.codehaus.plexus.archiver.manager.ArchiverManager"
+     */
+    private ArchiverManager archiverManager;
+
     public void upload( Wagon wagon, FileSet fileset, Log logger )
         throws WagonException
     {
@@ -149,52 +153,22 @@ public class DefaultWagonUpload
 
     }
 
-    private static void createZip( String[] files, File zipName, String basedir )
+    private void createZip( String[] files, File zipFile, String basedir )
         throws IOException
     {
-        ZipOutputStream zos = new ZipOutputStream( new FileOutputStream( zipName ) );
-
         try
         {
-            for ( int i = 0; i < files.length; i++ )
+            ZipArchiver archiver = (ZipArchiver) this.archiverManager.getArchiver( zipFile );
+            archiver.setDestFile( zipFile );
+            for ( String file : files )
             {
-                String file = (String) files[i];
-
-                file = file.replace( '\\', '/' );
-
-                writeZipEntry( zos, new File( basedir, file ), file );
+                archiver.addFile( new File( basedir, file ), file );
             }
+            archiver.createArchive();
         }
-        finally
+        catch ( NoSuchArchiverException e )
         {
-            IOUtil.close( zos );
+            // should never happen
         }
     }
-
-    private static void writeZipEntry( ZipOutputStream jar, File source, String entryName )
-        throws IOException
-    {
-        byte[] buffer = new byte[1024];
-
-        int bytesRead;
-
-        FileInputStream is = new FileInputStream( source );
-
-        try
-        {
-            ZipEntry entry = new ZipEntry( entryName );
-
-            jar.putNextEntry( entry );
-
-            while ( ( bytesRead = is.read( buffer ) ) != -1 )
-            {
-                jar.write( buffer, 0, bytesRead );
-            }
-        }
-        finally
-        {
-            is.close();
-        }
-    }
-
 }
