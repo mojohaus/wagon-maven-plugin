@@ -21,6 +21,7 @@ package org.codehaus.mojo.wagon;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.CommandExecutor;
+import org.apache.maven.wagon.Streams;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
@@ -49,6 +50,13 @@ public class SshExecMojo
      */
     private boolean failOnError = true;
 
+    /**
+     * Option to display remote command's outputs
+     *
+     * @parameter default-value = "false"
+     */
+    private boolean displayCommandOutputs = true;
+
     protected void execute( final Wagon wagon )
         throws MojoExecutionException
     {
@@ -58,13 +66,19 @@ public class SshExecMojo
             {
                 try
                 {
-                    ( (CommandExecutor) wagon ).executeCommand( commands[i] );
+                    Streams stream = ( (CommandExecutor) wagon ).executeCommand( commands[i], false );
+                    if ( displayCommandOutputs )
+                    {
+                        this.getLog().info( "sshexec: " + commands[i] );
+                        System.out.println( stream.getOut() );
+                        System.out.println( stream.getErr() );
+                    }
                 }
                 catch ( final WagonException e )
                 {
                     if ( this.failOnError )
                     {
-                        throw new MojoExecutionException( "Unable to execture remote command", e );
+                        throw new MojoExecutionException( "Unable to execute remote command", e );
                     }
                     else
                     {
