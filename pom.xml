@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>Maven Wagon plugin</name>
 
@@ -25,9 +25,9 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/wagon-maven-plugin-1.0</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/wagon-maven-plugin-1.0</developerConnection>
-    <url>http://svn.codehaus.org/mojo/tags/wagon-maven-plugin-1.0</url>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</developerConnection>
+    <url>http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</url>
   </scm>
 
   <issueManagement>
