@@ -67,9 +67,9 @@ public class SshExecMojo
                 try
                 {
                     Streams stream = ( (CommandExecutor) wagon ).executeCommand( commands[i], false );
+                    this.getLog().info( "sshexec: " + commands[i]+ " ..." );
                     if ( displayCommandOutputs )
                     {
-                        this.getLog().info( "sshexec: " + commands[i] );
                         System.out.println( stream.getOut() );
                         System.out.println( stream.getErr() );
                     }
