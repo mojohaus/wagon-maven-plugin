@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.8</version>
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.1-SNAPSHOT</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+          <!-- this fails currently -->
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
