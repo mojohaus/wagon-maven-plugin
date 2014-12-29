@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.1-SNAPSHOT</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+<!--
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>wagon-maven-plugin</artifactId>
+  <packaging>pom</packaging>
+  <version>testing</version>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.9-SNAPSHOT</version> <!-- need WAGON-429 fix -->
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <serverId>wagon-maven-plugin-ssh-test</serverId>
+          <url>scp://localhost:2222</url>
+        </configuration>
+        <executions>
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-upload-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>upload-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>pom.xml</fromFile>
+              <toFile>tmp/wagon/pom.xml</toFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-download-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <fromFile>tmp/wagon/pom.xml</fromFile>
+              <toFile>${project.build.directory}/pom.xml</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/pom.xml</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
+ -->

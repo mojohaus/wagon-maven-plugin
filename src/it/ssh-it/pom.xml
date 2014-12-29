@@ -23,7 +23,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
         <configuration>
           <serverId>wagon-maven-plugin-ssh-test</serverId>
           <url>scp://localhost:2222</url>
@@ -39,8 +39,6 @@
             <configuration>
               <displayCommandOutputs>true</displayCommandOutputs>
               <commands>
-                <command>rm -f /tmp/pom.xml</command>
-                <command>rm -rf /tmp/wagon</command>
                 <command>rm -rf /tmp/wagon</command>
                 <command>mkdir -p /tmp/wagon/empty</command>
                 <command>touch /tmp/wagon/a.txt</command>
@@ -79,8 +77,8 @@
               <goal>upload-single</goal>
             </goals>
             <configuration>
-              <fromFile>pom.xml</fromFile>
-              <toFile>tmp/pom.xml</toFile>
+              <fromFile>src/test/data/gt-32k.txt</fromFile>
+              <toFile>tmp/wagon/gt-32k.txt</toFile>
             </configuration>
           </execution>
           <execution>
@@ -90,8 +88,22 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>tmp/pom.xml</fromFile>
-              <toFile>${project.build.directory}/pom.xml</toFile>
+              <fromFile>tmp/wagon/gt-32k.txt</fromFile>
+              <toFile>${project.build.directory}/gt-32k.txt</toFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>ssh-exec-wagon-431</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>cat /tmp/wagon/gt-32k.txt</command>
+              </commands>
             </configuration>
           </execution>
         </executions>
