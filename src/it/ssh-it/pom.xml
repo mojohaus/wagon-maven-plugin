@@ -73,7 +73,7 @@
             </goals>
             <configuration>
               <fromDir>/tmp/wagon</fromDir>
-              <includes>**</includes>
+              <includes>*.txt</includes><!-- MWAGON-22 -->
             </configuration>
           </execution>
 
