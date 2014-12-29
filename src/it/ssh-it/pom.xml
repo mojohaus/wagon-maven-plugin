@@ -29,7 +29,49 @@
           <url>scp://localhost:2222</url>
         </configuration>
         <executions>
-          <!-- this fails currently -->
+
+          <execution>
+            <id>ssh-exec</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <displayCommandOutputs>true</displayCommandOutputs>
+              <commands>
+                <command>rm -f /tmp/pom.xml</command>
+                <command>rm -rf /tmp/wagon</command>
+                <command>rm -rf /tmp/wagon</command>
+                <command>mkdir -p /tmp/wagon/empty</command>
+                <command>touch /tmp/wagon/a.txt</command>
+                <command>touch /tmp/wagon/b.txt</command>
+              </commands>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ssh-list-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+              <excludes>**/b.txt</excludes>
+            </configuration>
+          </execution>
+                    <execution>
+            <id>ssh-list-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <fromDir>/tmp/wagon</fromDir>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
           <execution>
             <id>ssh-upload-single</id>
             <phase>package</phase>
