@@ -7,6 +7,13 @@
   <packaging>pom</packaging>
   <version>testing</version>
 
+  <!-- to run this test add the below block to your local's settings.xml -->
+  <!-- <server> -->
+  <!-- <id>wagon-maven-plugin-ssh-test</id> -->
+  <!-- <username>your localhost ssh user name</username> -->
+  <!-- <password>your localhost password</password> -->
+  <!-- </server> -->
+
   <build>
 
     <defaultGoal>package</defaultGoal>
@@ -26,7 +33,7 @@
         <version>1.1-SNAPSHOT</version>
         <configuration>
           <serverId>wagon-maven-plugin-ssh-test</serverId>
-          <url>scp://localhost:2222</url>
+          <url>scp://localhost:2222</url> <!-- change of 22 for real localhost ssh -->
         </configuration>
         <executions>
 
@@ -58,7 +65,7 @@
               <excludes>**/b.txt</excludes>
             </configuration>
           </execution>
-                    <execution>
+          <execution>
             <id>ssh-list-2</id>
             <phase>package</phase>
             <goals>
