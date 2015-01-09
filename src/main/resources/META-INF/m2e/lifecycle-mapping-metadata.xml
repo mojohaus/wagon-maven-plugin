@@ -1,0 +1,23 @@
+<lifecycleMappingMetadata>
+  <pluginExecutions>
+    <pluginExecution>
+      <pluginExecutionFilter>
+        <goals>
+          <goal>download</goal>
+          <goal>download-single</goal>
+          <goal>upload</goal>
+          <goal>upload-single</goal>
+          <goal>remove</goal>
+          <goal>list</goal>
+          <goal>copy</goal>
+          <goal>sshexec</goal>
+          <goal>exist</goal>
+          <goal>merge-maven-repos</goal>
+        </goals>
+      </pluginExecutionFilter>
+      <action>
+        <ignore />
+      </action>
+    </pluginExecution>
+  </pluginExecutions>
+</lifecycleMappingMetadata>
