@@ -1,8 +1,8 @@
  ------
- Maven Wagon Plugin
+ Introduction
  ------
  ------
- October 2008
+ 2015-09-01
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -32,7 +32,7 @@ Overview
 
 * Goals Overview
 
-  The Wagon Plugin has the following goals.
+  The Wagon Maven Plugin has the following goals.
 
   * {{{./upload-single-mojo.html}wagon:upload-single}} uploads the specified file to a remote location.
 
@@ -55,9 +55,9 @@ Overview
 
 * Usage
 
-  Instructions on the basic usage of the Wagon Plugin can be found {{{./usage.html}here}}.
+  Instructions on the basic usage of the Wagon Maven Plugin can be found {{{./usage.html}here}}.
 
 
 * Examples
 
-   *  Live examples are available at {{{http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it/}SVN}}
+   *  Live examples are available in {{{https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it}Git}}

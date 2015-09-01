@@ -2,7 +2,8 @@
  Usage
  ------
  ------
- October 4th, 2008
+ 2015-09-01
+ ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
 ~~ or more contributor license agreements.  See the NOTICE file
@@ -24,18 +25,18 @@
 ~~ NOTE: For help with the syntax of this file, see:
 ~~ http://maven.apache.org/guides/mini/guide-apt-format.html
 
-Introduction
+Usage
 
-  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a maven wagon.
+  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a Maven wagon.
   It allows you to upload resources from your build to a remote location using wagon.
   It allows you to download resources from a repository using wagon.
-  It allows to list a content of a repository using wagon.
+  It allows to list the content of a repository using wagon.
   Finally, by combining the upload and download capabilities, it can merge a Maven repository to
   another in a generic way.
 
   The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
 
-  However, due some differences in term of provider implementation, not all goals are
+  However, due to some differences in term of provider implementation, not all goals are
   working as expected. In general, a good way to see a particular wagon implementation
   would work with this plugin is to run <wagon:list> goal against its URL.
 
@@ -72,10 +73,10 @@ Introduction
 
 
   The following contains a couple of usage examples.
-  Live examples are available under {{{https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it}SVN}}
+  Live examples are available in {{{https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it}Git}}
 
 
-* Configuration example to upload.
+* Configuration example to upload
 
 +-----
 <project>
@@ -90,33 +91,35 @@ Introduction
       </extension>
     </extensions>
 
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0</version>
-      <executions>
-        <execution>
-          <id>upload-javadoc</id>
-          <phase>deploy</phase>
-          <goals>
-            <goal>upload</goal>
-          </goals>
-          <configuration>
-            <fromDir>local.dir</fromDir>
-            <includes>*</include>
-            <excludes>pom.xml</excludes>
-            <url>scp://your.remote.host/</url>
-            <toDir>remote.dir</toDir>
-          </configuration>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>upload-javadoc</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>upload</goal>
+            </goals>
+            <configuration>
+              <fromDir>local.dir</fromDir>
+              <includes>*</includes>
+              <excludes>pom.xml</excludes>
+              <url>scp://your.remote.host/</url>
+              <toDir>remote.dir</toDir>
+            </configuration>
           </execution>
         </executions>
-        </plugin>
-    </build>
-    [...]
+      </plugin>
+    </plugins>
+  </build>
+  [...]
 </project>
 +-----
 
-* Configuration example to download.
+* Configuration example to download
 
 +-----
 <project>
@@ -130,26 +133,28 @@ Introduction
       </extension>
     </extensions>
 
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0</version>
-      <executions>
-        <execution>
-          <id>download-test-data</id>
-          <phase>pre-integration-test</phase>
-          <goals>
-            <goal>download</goal>
-          </goals>
-          <configuration>
-            <serverId>atlassian-public</serverId>
-            <url>dav:https://maven.atlassian.com/public</url>
-            <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
-            <toDir>${project.build.directory}/test-data</toDir>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>download-test-data</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <serverId>atlassian-public</serverId>
+              <url>dav:https://maven.atlassian.com/public</url>
+              <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
+              <toDir>${project.build.directory}/test-data</toDir>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   [...]
 </project>
@@ -173,7 +178,7 @@ Introduction
      -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
 +-----
 
-* Configuration example to execute commands.
+* Configuration example to execute commands
 
 -----
 <project>
@@ -187,30 +192,32 @@ Introduction
       </extension>
     </extensions>
 
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>wagon-maven-plugin</artifactId>
-      <version>1.0</version>
-      <executions>
-        <execution>
-          <id>execute-test-commands</id>
-          <phase>deploy</phase>
-          <goals>
-            <goal>sshexec</goal>
-          </goals>
-          <configuration>
-            <serverId>atlassian-public</serverId>
-            <url>scp://maven.atlassian.com/public</url>
-            <commands>
-              <command>/usr/share/tomcat/bin/tomcat stop</command>
-              <command>rm -rf /usr/share/tomcat/webapps/ROOT</command>
-              <command>unzip -o /usr/share/tomcat/webapps/myapp.zip -d /usr/share/tomcat/webapps/</command>
-              <command>/usr/share/tomcat/bin/tomcat start</command>
-            </commands>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>execute-test-commands</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>sshexec</goal>
+            </goals>
+            <configuration>
+              <serverId>atlassian-public</serverId>
+              <url>scp://maven.atlassian.com/public</url>
+              <commands>
+                <command>/usr/share/tomcat/bin/tomcat stop</command>
+                <command>rm -rf /usr/share/tomcat/webapps/ROOT</command>
+                <command>unzip -o /usr/share/tomcat/webapps/myapp.zip -d /usr/share/tomcat/webapps/</command>
+                <command>/usr/share/tomcat/bin/tomcat start</command>
+              </commands>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   [...]
 </project>
