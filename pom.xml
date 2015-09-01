@@ -5,7 +5,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>33</version>
+    <version>36</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -17,6 +17,7 @@
     Maven plugin that can be used to access various operations on a given URL using a supported maven wagon. Supports
     recursive upload, download, and list directory content functionality.
   </description>
+  <url>http://www.mojohaus.org/wagon-maven-plugin/</url>
 
   <inceptionYear>2008</inceptionYear>
 
@@ -25,14 +26,14 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin</url>
+    <connection>scm:git:https://github.com/mojohaus/wagon-maven-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mojohaus/wagon-maven-plugin.git</developerConnection>
+    <url>https://github.com/mojohaus/wagon-maven-plugin/</url>
   </scm>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/MWAGON</url>
+    <system>GitHub</system>
+    <url>https://github.com/mojohaus/wagon-maven-plugin/issues</url>
   </issueManagement>
 
   <developers>
@@ -66,6 +67,7 @@
 
   <properties>
     <maven.api.version>2.2.1</maven.api.version>
+    <mojo.java.target>1.5</mojo.java.target>
     <wagon.api.version>1.0</wagon.api.version>
   </properties>
 
