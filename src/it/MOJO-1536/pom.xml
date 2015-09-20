@@ -17,7 +17,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0-beta-4-SNAPSHOT</version>
+        <version>1.0</version>
         <executions>
           <execution>
             <id>upload-website</id>
