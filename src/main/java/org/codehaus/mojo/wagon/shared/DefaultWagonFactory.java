@@ -13,6 +13,7 @@ import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.wagon.TransferFailedException;
+import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.observers.Debug;
@@ -72,7 +73,7 @@ public class DefaultWagonFactory
         final Repository repository = new Repository( serverId, url );
         repository.setPermissions( getPermissions( serverId, settings ) );
 
-        Wagon wagon = wagonManager.getWagon( repository );
+        Wagon wagon = getWagon( repository.getProtocol() );
 
         configureWagon( wagon, serverId, settings, container );
 
@@ -98,6 +99,30 @@ public class DefaultWagonFactory
 
     ///////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
+
+    private Wagon getWagon( String protocol )
+        throws UnsupportedProtocolException
+    {
+        if ( protocol == null )
+        {
+            throw new UnsupportedProtocolException( "Unspecified protocol" );
+        }
+
+        String hint = protocol.toLowerCase( java.util.Locale.ENGLISH );
+
+        Wagon wagon;
+        try
+        {
+            wagon = container.lookup( Wagon.class, hint );
+        }
+        catch ( ComponentLookupException e )
+        {
+            throw new UnsupportedProtocolException( "Cannot find wagon which supports the requested protocol: "
+                + protocol, e );
+        }
+
+        return wagon;
+    }
 
     private static RepositoryPermissions getPermissions( String id, Settings settings )
     {
