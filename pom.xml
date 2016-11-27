@@ -5,7 +5,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>38</version>
+    <version>39</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -20,10 +20,6 @@
   <url>http://www.mojohaus.org/wagon-maven-plugin/</url>
 
   <inceptionYear>2008</inceptionYear>
-
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
 
   <scm>
     <connection>scm:git:https://github.com/mojohaus/wagon-maven-plugin.git</connection>
@@ -70,7 +66,7 @@
   </licenses>
 
   <properties>
-    <maven.api.version>2.2.1</maven.api.version>
+    <maven.api.version>3.0</maven.api.version>
     <mojo.java.target>1.5</mojo.java.target>
     <wagon.api.version>1.0</wagon.api.version>
     <scmpublish.content>${project.build.directory}/staging/wagon-maven-plugin</scmpublish.content>
@@ -110,12 +106,7 @@
     <!-- maven 2.x only -->
     <dependency>
       <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>${maven.api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-artifact-manager</artifactId>
+      <artifactId>maven-artifact</artifactId>
       <version>${maven.api.version}</version>
     </dependency>
     <!-- maven 2.x only -->
@@ -130,13 +121,13 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.21</version>
+      <version>3.0.24</version>
     </dependency>
 
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>2.9.1</version>
+      <version>3.4</version>
     </dependency>
 
     <dependency>
