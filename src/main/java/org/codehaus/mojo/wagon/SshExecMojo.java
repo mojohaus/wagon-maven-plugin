@@ -20,10 +20,10 @@ package org.codehaus.mojo.wagon;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.wagon.CommandExecutor;
 import org.apache.maven.wagon.Streams;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.apache.maven.wagon.providers.ssh.jsch.ScpWagon;
 
 /**
  * Executes a list of commands against a given server.
@@ -66,8 +66,8 @@ public class SshExecMojo
             {
                 try
                 {
-                    Streams stream = ( (CommandExecutor) wagon ).executeCommand( commands[i], false );
-                    this.getLog().info( "sshexec: " + commands[i]+ " ..." );
+                    Streams stream = ( (ScpWagon) wagon ).executeCommand( commands[i], true, false );
+                    this.getLog().info( "sshexec: " + commands[i] + " ..." );
                     if ( displayCommandOutputs )
                     {
                         System.out.println( stream.getOut() );

@@ -68,7 +68,7 @@
   <properties>
     <maven.api.version>3.0</maven.api.version>
     <mojo.java.target>1.5</mojo.java.target>
-    <wagon.api.version>1.0</wagon.api.version>
+    <wagon.api.version>2.0</wagon.api.version>
     <scmpublish.content>${project.build.directory}/staging/wagon-maven-plugin</scmpublish.content>
   </properties>
 
@@ -117,6 +117,13 @@
       <version>${wagon.api.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven.wagon</groupId>
+      <artifactId>wagon-ssh</artifactId>
+      <version>2.11-SNAPSHOT</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
