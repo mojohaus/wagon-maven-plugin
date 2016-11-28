@@ -81,13 +81,15 @@ public class DefaultWagonFactory
         }
 
         ProxyInfo proxyInfo = getProxyInfo( settings );
+
+        AuthenticationInfo authInfo = getAuthenticationInfo( serverId, settings );
         if ( proxyInfo != null )
         {
-            wagon.connect( repository, getAuthenticationInfo( repository.getId(), settings ), proxyInfo );
+            wagon.connect( repository, authInfo, proxyInfo );
         }
         else
         {
-            wagon.connect( repository, getAuthenticationInfo( repository.getId(), settings ) );
+            wagon.connect( repository, authInfo );
         }
 
         return wagon;
