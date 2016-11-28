@@ -2,7 +2,6 @@ package org.codehaus.mojo.wagon.shared;
 
 import java.util.List;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -53,14 +52,11 @@ public class DefaultWagonFactory
 
     /**
      * Convenient method to create a wagon
-     *
-     * @param serverId
      * @param url
-     * @param wagonManager
+     * @param serverId
      * @param settings
-     * @param logger
      * @return
-     * @throws MojoExecutionException
+     * @throws WagonException
      */
     public Wagon create( String url, String serverId, Settings settings )
         throws WagonException
@@ -185,11 +181,9 @@ public class DefaultWagonFactory
      * @param wagon
      * @param repositoryId
      * @param settings
-     * @param container
-     * @param log
      * @throws TransferFailedException
      */
-    private void configureWagon( Wagon wagon, String repositoryId, Settings settings )
+    private Wagon configureWagon( Wagon wagon, String repositoryId, Settings settings )
         throws TransferFailedException
     {
         logger.debug( " configureWagon " );
@@ -241,6 +235,8 @@ public class DefaultWagonFactory
                 }
             }
         }
+
+        return wagon;
     }
 
     public AuthenticationInfo getAuthenticationInfo( String id, Settings settings )
