@@ -47,11 +47,17 @@ public class DefaultWagonFactory
      */
     private SettingsDecrypter settingsDecrypter;
 
+    /**
+     * @plexus.requirement role="org.codehaus.plexus.component.configurator.ComponentConfigurator" hint="basic"
+     */
+    private ComponentConfigurator componentConfigurator;
+
     ////////////////////////////////////////////////////////////////////
     private PlexusContainer container;
 
     /**
      * Convenient method to create a wagon
+     *
      * @param url
      * @param serverId
      * @param settings
@@ -200,39 +206,18 @@ public class DefaultWagonFactory
                 final PlexusConfiguration plexusConf =
                     new XmlPlexusConfiguration( (Xpp3Dom) server.getConfiguration() );
 
-                ComponentConfigurator componentConfigurator = null;
                 try
                 {
-                    componentConfigurator =
-                        (ComponentConfigurator) container.lookup( ComponentConfigurator.ROLE, "basic" );
-
                     componentConfigurator.configureComponent( wagon, plexusConf, container.getContainerRealm() );
-
-                }
-                catch ( final ComponentLookupException e )
-                {
-                    throw new TransferFailedException( "While configuring wagon for \'" + repositoryId
-                        + "\': Unable to lookup wagon configurator." + " Wagon configuration cannot be applied.", e );
                 }
                 catch ( ComponentConfigurationException e )
                 {
                     throw new TransferFailedException( "While configuring wagon for \'" + repositoryId
                         + "\': Unable to apply wagon configuration.", e );
                 }
-                finally
-                {
-                    if ( componentConfigurator != null )
-                    {
-                        try
-                        {
-                            container.release( componentConfigurator );
-                        }
-                        catch ( ComponentLifecycleException e )
-                        {
-                            logger.error( "Problem releasing configurator - ignoring: " + e.getMessage() );
-                        }
-                    }
-                }
+
+                break;
+
             }
         }
 
