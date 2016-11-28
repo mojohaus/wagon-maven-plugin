@@ -1,14 +1,7 @@
 package org.codehaus.mojo.wagon.shared;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.Properties;
-
 import org.apache.maven.artifact.manager.WagonManager;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -20,7 +13,6 @@ import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
 import org.apache.maven.wagon.repository.RepositoryPermissions;
-import org.codehaus.classworlds.ClassRealm;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
@@ -32,7 +24,6 @@ import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
@@ -214,14 +205,9 @@ public class DefaultWagonFactory
                 {
                     componentConfigurator =
                         (ComponentConfigurator) container.lookup( ComponentConfigurator.ROLE, "basic" );
-                    if ( isMaven3OrMore() )
-                    {
-                        componentConfigurator.configureComponent( wagon, plexusConf, container.getContainerRealm() );
-                    }
-                    else
-                    {
-                        configureWagonWithMaven2( componentConfigurator, wagon, plexusConf, container );
-                    }
+
+                    componentConfigurator.configureComponent( wagon, plexusConf, container.getContainerRealm() );
+
                 }
                 catch ( final ComponentLookupException e )
                 {
@@ -249,68 +235,6 @@ public class DefaultWagonFactory
                 }
             }
         }
-    }
-
-    private static void configureWagonWithMaven2( ComponentConfigurator componentConfigurator, Wagon wagon,
-                                                  PlexusConfiguration plexusConf, PlexusContainer container )
-        throws ComponentConfigurationException
-    {
-        // in Maven 2.x :
-        // * container.getContainerRealm() -> org.codehaus.classworlds.ClassRealm
-        // * componentConfiguration 3rd param is org.codehaus.classworlds.ClassRealm
-        // so use some reflection see MSITE-609
-        try
-        {
-            Method methodContainerRealm = container.getClass().getMethod( "getContainerRealm" );
-            ClassRealm realm = (ClassRealm) methodContainerRealm.invoke( container );
-
-            Method methodConfigure = componentConfigurator.getClass().getMethod( "configureComponent", new Class[] {
-                Object.class, PlexusConfiguration.class, ClassRealm.class } );
-
-            methodConfigure.invoke( componentConfigurator, wagon, plexusConf, realm );
-        }
-        catch ( Exception e )
-        {
-            throw new ComponentConfigurationException( "Failed to configure wagon component for a Maven2 use "
-                + e.getMessage(), e );
-        }
-    }
-
-    /**
-     * Check the current Maven version to see if it's Maven 3.0 or newer.
-     */
-    private static boolean isMaven3OrMore()
-    {
-        return new ComparableVersion( getMavenVersion() ).compareTo( new ComparableVersion( "3.0" ) ) >= 0;
-    }
-
-    private static String getMavenVersion()
-    {
-        // This relies on the fact that MavenProject is the in core classloader
-        // and that the core classloader is for the maven-core artifact
-        // and that should have a pom.properties file
-        // if this ever changes, we will have to revisit this code.
-        final Properties properties = new Properties();
-        final String corePomProperties = "META-INF/maven/org.apache.maven/maven-core/pom.properties";
-
-        InputStream in = null;
-        try
-        {
-            in = MavenProject.class.getClassLoader().getResourceAsStream( corePomProperties );
-            properties.load( in );
-            in.close();
-            in = null;
-        }
-        catch ( IOException ioe )
-        {
-            return "";
-        }
-        finally
-        {
-            IOUtil.close( in );
-        }
-
-        return properties.getProperty( "version" ).trim();
     }
 
     /**
