@@ -19,9 +19,9 @@ import org.apache.maven.wagon.repository.Repository;
 import org.apache.maven.wagon.repository.RepositoryPermissions;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 import org.codehaus.plexus.component.configurator.ComponentConfigurator;
-import org.codehaus.plexus.component.repository.exception.ComponentLifecycleException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
@@ -67,7 +67,6 @@ public class DefaultWagonFactory
     public Wagon create( String url, String serverId, Settings settings )
         throws WagonException
     {
-
         final Repository repository = new Repository( serverId, url );
         repository.setPermissions( getPermissions( serverId, settings ) );
 
@@ -82,17 +81,9 @@ public class DefaultWagonFactory
             wagon.addTransferListener( debug );
         }
 
-        ProxyInfo proxyInfo = getProxyInfo( settings );
-
         AuthenticationInfo authInfo = getAuthenticationInfo( serverId, settings );
-        if ( proxyInfo != null )
-        {
-            wagon.connect( repository, authInfo, proxyInfo );
-        }
-        else
-        {
-            wagon.connect( repository, authInfo );
-        }
+        ProxyInfo proxyInfo = getProxyInfo( settings );
+        wagon.connect( repository, authInfo, proxyInfo );
 
         return wagon;
     }
@@ -108,20 +99,15 @@ public class DefaultWagonFactory
             throw new UnsupportedProtocolException( "Unspecified protocol" );
         }
 
-        String hint = protocol.toLowerCase( java.util.Locale.ENGLISH );
-
-        Wagon wagon;
         try
         {
-            wagon = container.lookup( Wagon.class, hint );
+            return container.lookup( Wagon.class, protocol.toLowerCase( java.util.Locale.ENGLISH ) );
         }
         catch ( ComponentLookupException e )
         {
             throw new UnsupportedProtocolException( "Cannot find wagon which supports the requested protocol: "
                 + protocol, e );
         }
-
-        return wagon;
     }
 
     private static RepositoryPermissions getPermissions( String id, Settings settings )
@@ -192,14 +178,9 @@ public class DefaultWagonFactory
     private Wagon configureWagon( Wagon wagon, String repositoryId, Settings settings )
         throws TransferFailedException
     {
-        logger.debug( " configureWagon " );
-
-        // MSITE-25: Make sure that the server settings are inserted
         for ( Server server : settings.getServers() )
         {
             String id = server.getId();
-
-            logger.debug( "configureWagon server " + id );
 
             if ( id != null && id.equals( repositoryId ) && ( server.getConfiguration() != null ) )
             {
@@ -208,7 +189,7 @@ public class DefaultWagonFactory
 
                 try
                 {
-                    componentConfigurator.configureComponent( wagon, plexusConf, container.getContainerRealm() );
+                    componentConfigurator.configureComponent( wagon, plexusConf, (ClassRealm)this.getClass().getClassLoader() );
                 }
                 catch ( ComponentConfigurationException e )
                 {
