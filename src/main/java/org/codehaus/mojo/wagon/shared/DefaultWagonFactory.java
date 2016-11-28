@@ -1,14 +1,19 @@
 package org.codehaus.mojo.wagon.shared;
 
-import org.apache.maven.artifact.manager.WagonManager;
+import java.util.List;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
+import org.apache.maven.settings.crypto.DefaultSettingsDecryptionRequest;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
+import org.apache.maven.settings.crypto.SettingsDecryptionResult;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.UnsupportedProtocolException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.apache.maven.wagon.authentication.AuthenticationInfo;
 import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
@@ -39,9 +44,9 @@ public class DefaultWagonFactory
     private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
     /**
-     * @plexus.requirement role="org.apache.maven.artifact.manager.WagonManager"
+     * @plexus.requirement role="org.apache.maven.settings.crypto.SettingsDecrypter"
      */
-    private WagonManager wagonManager;
+    private SettingsDecrypter settingsDecrypter;
 
     ////////////////////////////////////////////////////////////////////
     private PlexusContainer container;
@@ -66,7 +71,7 @@ public class DefaultWagonFactory
 
         Wagon wagon = getWagon( repository.getProtocol() );
 
-        configureWagon( wagon, serverId, settings, container );
+        configureWagon( wagon, serverId, settings );
 
         if ( logger.isDebugEnabled() )
         {
@@ -78,11 +83,11 @@ public class DefaultWagonFactory
         ProxyInfo proxyInfo = getProxyInfo( settings );
         if ( proxyInfo != null )
         {
-            wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ), proxyInfo );
+            wagon.connect( repository, getAuthenticationInfo( repository.getId(), settings ), proxyInfo );
         }
         else
         {
-            wagon.connect( repository, wagonManager.getAuthenticationInfo( repository.getId() ) );
+            wagon.connect( repository, getAuthenticationInfo( repository.getId(), settings ) );
         }
 
         return wagon;
@@ -181,9 +186,8 @@ public class DefaultWagonFactory
      * @param container
      * @param log
      * @throws TransferFailedException
-     * @todo Remove when {@link WagonManager#getWagon(Repository) is available}. It's available in Maven 2.0.5.
      */
-    private void configureWagon( Wagon wagon, String repositoryId, Settings settings, PlexusContainer container )
+    private void configureWagon( Wagon wagon, String repositoryId, Settings settings )
         throws TransferFailedException
     {
         logger.debug( " configureWagon " );
@@ -235,6 +239,36 @@ public class DefaultWagonFactory
                 }
             }
         }
+    }
+
+    public AuthenticationInfo getAuthenticationInfo( String id, Settings settings )
+    {
+        List<Server> servers = settings.getServers();
+
+        if ( servers != null )
+        {
+            for ( Server server : servers )
+            {
+                if ( id.equalsIgnoreCase( server.getId() ) )
+                {
+                    SettingsDecryptionResult result =
+                        settingsDecrypter.decrypt( new DefaultSettingsDecryptionRequest( server ) );
+                    server = result.getServer();
+
+                    AuthenticationInfo authInfo = new AuthenticationInfo();
+                    authInfo.setUserName( server.getUsername() );
+                    authInfo.setPassword( server.getPassword() );
+                    authInfo.setPrivateKey( server.getPrivateKey() );
+                    authInfo.setPassphrase( server.getPassphrase() );
+
+                    return authInfo;
+                }
+            }
+
+        }
+
+        // empty one to prevent NPE
+        return new AuthenticationInfo();
     }
 
     /**
