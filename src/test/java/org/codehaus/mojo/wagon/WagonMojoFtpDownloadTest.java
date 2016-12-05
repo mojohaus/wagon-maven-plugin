@@ -17,14 +17,14 @@ import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )
-public class WagonMojoHttpSettingsTest
+public class WagonMojoFtpDownloadTest
 {
     @Rule
     public final TestResources resources = new TestResources();
 
     public final MavenRuntime maven;
 
-    public WagonMojoHttpSettingsTest( MavenRuntimeBuilder builder )
+    public WagonMojoFtpDownloadTest( MavenRuntimeBuilder builder )
         throws Exception
     {
         this.maven = builder.withCliOptions( "-B", "-e", "-s", "settings.xml" ).build();
@@ -35,10 +35,11 @@ public class WagonMojoHttpSettingsTest
     public void testDownload()
         throws Exception
     {
-        File projDir = resources.getBasedir( "http-download" );
+        File projDir = resources.getBasedir( "ftp-download" );
         MavenExecution mavenExec = maven.forProject( projDir );
 
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
-    }
+
+   }
 }

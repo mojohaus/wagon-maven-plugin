@@ -59,8 +59,8 @@
             </goals>
             <configuration>
               <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
-              <includes>**</includes>
-              <excludes>1.1/**, 1.2/**, 1.3/**, 1.4/**, 1.5/**, 1.6/**</excludes>
+              <includes>1*/**</includes>
+              <excludes>1.0/**, 1.2/**, 1.3/**, 1.4/**, 1.5/**, 1.6/**</excludes>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>

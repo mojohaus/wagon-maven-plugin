@@ -2,6 +2,7 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +34,13 @@ public class WagonMojoHttpTest
     public void testDownload()
         throws Exception
     {
-        File projDir = resources.getBasedir( "wagon-8" );
+        File projDir = resources.getBasedir( "http-download" );
         MavenExecution mavenExec = maven.forProject( projDir );
 
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
+
+        Assert.assertTrue( new File( result.getBasedir(),
+                        "target/it/http-download/1.1/commons-dbutils-1.1-sources.jar" ).exists() );
     }
 }
