@@ -7,14 +7,12 @@
       <username>jbochenski</username>
       <password>***</password>
       <configuration>
-        <wagonProvider>httpclient</wagonProvider>
         <httpConfiguration>
           <all>
             <usePreemptive>true</usePreemptive>
           </all>
         </httpConfiguration>
       </configuration>
-
     </server>
   </servers>
 </settings>

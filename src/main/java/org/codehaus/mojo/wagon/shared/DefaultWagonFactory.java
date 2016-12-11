@@ -52,6 +52,11 @@ public class DefaultWagonFactory
      */
     private ComponentConfigurator componentConfigurator;
 
+    /**
+     * @plexus.requirement role="org.codehaus.plexus.component.configurator.ComponentConfigurator" hint="map-oriented"
+     */
+    private ComponentConfigurator mapComponentConfigurator;
+
     ////////////////////////////////////////////////////////////////////
     private PlexusContainer container;
 
@@ -189,7 +194,8 @@ public class DefaultWagonFactory
 
                 try
                 {
-                    componentConfigurator.configureComponent( wagon, plexusConf, (ClassRealm)this.getClass().getClassLoader() );
+                    componentConfigurator.configureComponent( wagon, plexusConf,
+                                                              (ClassRealm) this.getClass().getClassLoader() );
                 }
                 catch ( ComponentConfigurationException e )
                 {

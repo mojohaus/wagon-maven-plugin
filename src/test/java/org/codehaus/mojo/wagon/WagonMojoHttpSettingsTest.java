@@ -2,7 +2,6 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +30,6 @@ public class WagonMojoHttpSettingsTest
     }
 
     @Test
-    @Ignore
     public void testDownload()
         throws Exception
     {
