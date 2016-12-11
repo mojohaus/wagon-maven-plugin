@@ -41,5 +41,5 @@ public class WagonMojoFtpDownloadTest
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
 
-   }
+    }
 }
