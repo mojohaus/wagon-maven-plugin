@@ -39,6 +39,8 @@ public class WagonMojoFtpBasicTest
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
         Assert.assertTrue( new File( result.getBasedir(), "target/it/README" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/README" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/HEADER.html" ).exists() );
 
     }
 }

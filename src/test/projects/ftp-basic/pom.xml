@@ -41,7 +41,7 @@
             </goals>
           </execution>
           <execution>
-            <id>ftp-download-single</id>
+            <id>ftp-download-single-file</id>
             <phase>package</phase>
             <goals>
               <goal>download-single</goal>
@@ -49,6 +49,17 @@
             <configuration>
               <fromFile>pub/linux/devel/vc/README</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ftp-download-single-dir</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <toDir>${downloadDirectory.base}/single-dir</toDir>
+              <includes>README,HEADER.html</includes>
             </configuration>
           </execution>
         </executions>
