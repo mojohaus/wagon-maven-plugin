@@ -31,7 +31,6 @@ public class WagonMojoFtpDownloadTest
     }
 
     @Test
-    @Ignore
     public void testDownload()
         throws Exception
     {

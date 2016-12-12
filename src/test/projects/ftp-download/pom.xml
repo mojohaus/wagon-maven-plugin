@@ -28,45 +28,22 @@
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${it-plugin.version}</version>
         <configuration>
-          <skip>true</skip>
+          <skip>false</skip>
           <serverId>anonymous.ftp</serverId>
-          <url>ftp://ftp.ibiblio.org/pub/linux/</url>
+          <url>ftp://ftp.ibiblio.org/pub/linux/devel/vc/</url>
         </configuration>
         <executions>
           <execution>
             <id>ftp-download-single</id>
             <phase>package</phase>
             <goals>
-              <goal>download</goal>
+              <goal>download-single</goal>
             </goals>
             <configuration>
               <fromFile>README</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
-
-          <execution>
-            <id>ftp-download-no-recursive</id>
-            <phase>package</phase>
-            <goals>
-              <goal>download</goal>
-            </goals>
-            <configuration>
-              <toDir>${downloadDirectory.base}/norecursive</toDir>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>ftp-list-no-recursive</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-            <configuration>
-              <skip>false</skip>
-            </configuration>
-          </execution>
-
         </executions>
       </plugin>
     </plugins>
