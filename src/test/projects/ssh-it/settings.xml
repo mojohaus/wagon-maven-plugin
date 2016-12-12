@@ -1,0 +1,16 @@
+<settings xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <localRepository xmlns="http://maven.apache.org/SETTINGS/1.1.0">/home/jbochenski/.m2/repository</localRepository>
+  <servers xmlns="http://maven.apache.org/SETTINGS/1.1.0">
+    <server>
+      <id>wagon-maven-plugin-ssh-test</id>
+      <username>${user.name}</username>
+      <password></password>
+      <configuration>
+        <knownHostsProvider implementation="org.apache.maven.wagon.providers.ssh.knownhost.NullKnownHostProvider">
+          <hostKeyChecking>no</hostKeyChecking>
+        </knownHostsProvider>
+      </configuration>
+    </server>
+  </servers>
+</settings>
