@@ -30,9 +30,16 @@
         <configuration>
           <skip>false</skip>
           <serverId>anonymous.ftp</serverId>
-          <url>ftp://ftp.ibiblio.org/pub/linux/devel/vc/</url>
+          <url>ftp://ftp.ibiblio.org</url>
         </configuration>
         <executions>
+          <execution>
+            <id>ftp-list</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+          </execution>
           <execution>
             <id>ftp-download-single</id>
             <phase>package</phase>
@@ -40,7 +47,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>README</fromFile>
+              <fromFile>pub/linux/devel/vc/README</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
