@@ -1,7 +1,5 @@
 package org.codehaus.mojo.wagon.shared;
 
-import java.util.List;
-
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -20,6 +18,7 @@ import org.apache.maven.wagon.repository.RepositoryPermissions;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
+import org.codehaus.plexus.component.configurator.BasicComponentConfigurator;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 import org.codehaus.plexus.component.configurator.ComponentConfigurator;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
@@ -32,6 +31,8 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonFactory" role-hint="default"
@@ -194,6 +195,9 @@ public class DefaultWagonFactory
 
                 try
                 {
+                    if ( componentConfigurator == null || !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
+                        componentConfigurator = new BasicComponentConfigurator();
+                    }
                     componentConfigurator.configureComponent( wagon, plexusConf,
                                                               (ClassRealm) this.getClass().getClassLoader() );
                 }
