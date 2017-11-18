@@ -73,12 +73,21 @@ public class DefaultWagonFactory
     public Wagon create( String url, String serverId, Settings settings )
         throws WagonException
     {
-        final Repository repository = new Repository( serverId, url );
+        final Repository repository = new Repository( serverId, url == null ? "" : url );
         repository.setPermissions( getPermissions( serverId, settings ) );
+        Wagon wagon;
+        if ( url == null )
+        {
+            wagon = createAndConfigureWagon( serverId, settings, repository );
+        }
+        else
+        {
+            wagon = getWagon( repository.getProtocol() );
 
-        Wagon wagon = getWagon( repository.getProtocol() );
+            configureWagon( wagon, serverId, settings );
+        }
 
-        configureWagon( wagon, serverId, settings );
+
 
         if ( logger.isDebugEnabled() )
         {
@@ -90,6 +99,42 @@ public class DefaultWagonFactory
         AuthenticationInfo authInfo = getAuthenticationInfo( serverId, settings );
         ProxyInfo proxyInfo = getProxyInfo( settings );
         wagon.connect( repository, authInfo, proxyInfo );
+
+        return wagon;
+    }
+
+    /**
+     * Configure the Wagon with the information from serverConfigurationMap ( which comes from settings.xml )
+     *
+     * @param repositoryId
+     * @param settings
+     * @throws TransferFailedException
+     */
+    private Wagon createAndConfigureWagon( String repositoryId, Settings settings, Repository repository )
+            throws WagonException
+    {
+        Wagon wagon = null;
+        for ( Server server : settings.getServers() )
+        {
+            String id = server.getId();
+
+            if ( id != null && id.equals( repositoryId ) )
+            {
+                Xpp3Dom configuration = (Xpp3Dom) server.getConfiguration();
+                String url = configuration == null ? null : configuration.getAttribute( "url" );
+                if ( StringUtils.isBlank( url ) )
+                {
+                    throw new NullPointerException( "url cannot be null" );
+                }
+                repository.setUrl( url );
+
+                wagon = getWagon( repository.getProtocol() );
+                configureWagon( wagon, repositoryId, server );
+
+                break;
+
+            }
+        }
 
         return wagon;
     }
@@ -190,28 +235,34 @@ public class DefaultWagonFactory
 
             if ( id != null && id.equals( repositoryId ) && ( server.getConfiguration() != null ) )
             {
-                final PlexusConfiguration plexusConf =
-                    new XmlPlexusConfiguration( (Xpp3Dom) server.getConfiguration() );
 
-                try
-                {
-                    if ( componentConfigurator == null || !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
-                        componentConfigurator = new BasicComponentConfigurator();
-                    }
-                    componentConfigurator.configureComponent( wagon, plexusConf,
-                                                              (ClassRealm) this.getClass().getClassLoader() );
-                }
-                catch ( ComponentConfigurationException e )
-                {
-                    throw new TransferFailedException( "While configuring wagon for \'" + repositoryId
-                        + "\': Unable to apply wagon configuration.", e );
-                }
-
+                configureWagon( wagon, repositoryId, server);
                 break;
 
             }
         }
 
+        return wagon;
+    }
+
+    private Wagon configureWagon( Wagon wagon, String repositoryId, Server server)
+            throws TransferFailedException
+    {
+        final PlexusConfiguration plexusConf =
+                new XmlPlexusConfiguration( (Xpp3Dom) server.getConfiguration() );
+        try
+        {
+            if ( componentConfigurator == null || !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
+                componentConfigurator = new BasicComponentConfigurator();
+            }
+            componentConfigurator.configureComponent( wagon, plexusConf,
+                    (ClassRealm) this.getClass().getClassLoader() );
+        }
+        catch ( ComponentConfigurationException e )
+        {
+            throw new TransferFailedException( "While configuring wagon for \'" + repositoryId
+                    + "\': Unable to apply wagon configuration.", e );
+        }
         return wagon;
     }
 

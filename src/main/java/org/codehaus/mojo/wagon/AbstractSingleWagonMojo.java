@@ -19,12 +19,12 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import java.io.IOException;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+
+import java.io.IOException;
 
 /**
  * Provides base functionality for dealing with I/O using single wagon.
@@ -37,7 +37,6 @@ public abstract class AbstractSingleWagonMojo
      * URL to upload to or download from or list. Must exist and point to a directory.
      * 
      * @parameter property="wagon.url"
-     * @required
      */
     private String url;
 
