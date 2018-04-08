@@ -19,13 +19,13 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+
+import java.io.File;
 
 /**
  * Download a single file.
@@ -53,6 +53,12 @@ public class DownloadSingleMojo
     @Parameter( property = "wagon.toFile")
     private File toFile;
 
+    /**
+     * Skip download if local file already exists.
+     */
+    @Parameter( property = "wagon.skipIfExists")
+    private boolean skipIfExists;
+
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {
@@ -73,6 +79,11 @@ public class DownloadSingleMojo
             throw new MojoExecutionException( "Either toDir or toFile is required" );
         }
 
+        if ( skipIfExists && toFile.exists() )
+        {
+            getLog().info("Skip execution - file " + toFile + " already exists." );
+            return;
+        }
         this.getLog().info( "Downloading: " + wagon.getRepository().getUrl() + "/" + fromFile + " to " + toFile );
 
         wagon.get( fromFile, toFile );
