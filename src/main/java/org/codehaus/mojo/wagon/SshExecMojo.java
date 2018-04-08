@@ -20,6 +20,8 @@ package org.codehaus.mojo.wagon;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Streams;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -27,34 +29,28 @@ import org.apache.maven.wagon.providers.ssh.jsch.ScpWagon;
 
 /**
  * Executes a list of commands against a given server.
- *
- * @goal sshexec
- * @requiresProject true
  */
+@Mojo( name = "sshexec")
 public class SshExecMojo
     extends AbstractSingleWagonMojo
 {
 
     /**
      * The commands that we will execute.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter(required = true)
     private String[] commands;
 
     /**
-     * Allow option not to fail the build on error
-     *
-     * @parameter default-value = "true"
+     * Allow option not to fail the build on error.
      */
+    @Parameter(defaultValue = "true")
     private boolean failOnError = true;
 
     /**
-     * Option to display remote command's outputs
-     *
-     * @parameter default-value = "false"
+     * Option to display remote command's outputs.
      */
+    @Parameter(defaultValue = "false")
     private boolean displayCommandOutputs = true;
 
     protected void execute( final Wagon wagon )

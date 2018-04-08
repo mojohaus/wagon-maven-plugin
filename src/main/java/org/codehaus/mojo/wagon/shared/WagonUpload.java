@@ -31,7 +31,6 @@ import org.apache.maven.wagon.WagonException;
  */
 public interface WagonUpload
 {
-    String ROLE = WagonUpload.class.getName();
 
     /**
      * Upload a set of files via FileSet interface to a remote repository via Wagon

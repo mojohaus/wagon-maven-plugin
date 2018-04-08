@@ -23,32 +23,31 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload a single file with option to change name
- * 
- * @goal upload-single
- * @requiresProject false
  */
+@Mojo( name = "upload-single" , requiresProject = false)
 public class UploadSingleMojo
     extends AbstractSingleWagonMojo
 {
     /**
-     * Path to a local file to be uploaded
-     * 
-     * @parameter property="wagon.fromFile"
-     * @required
+     * Path to a local file to be uploaded.
      */
+    @Parameter( property = "wagon.fromFile", required = true)
     private File fromFile;
 
     /**
      * Relative path to the URL. When blank, default to fromFile's file name.
-     * 
-     * @parameter property="wagon.toFile"
      */
+    @Parameter( property = "wagon.toFile")
     private String toFile;
 
     protected void execute( Wagon wagon )

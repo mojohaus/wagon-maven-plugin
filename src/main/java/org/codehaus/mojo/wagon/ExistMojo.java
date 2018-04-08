@@ -21,29 +21,27 @@ package org.codehaus.mojo.wagon;
 
 import java.io.IOException;
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 
 /**
  * Check for the existing of remote resource.
- * 
- * @goal exist
- * @requiresProject true
  */
+@Mojo( name = "exist" )
 public class ExistMojo
     extends AbstractSingleWagonMojo
 {
     /**
-     * relative path to a remote resource
-     * 
-     * @parameter property="wagon.resource" default-value=""
+     * relative path to a remote resource.
      */
+    @Parameter( property = "wagon.resource")
     private String resource = "";
 
-    /**
-     * @component
-     */
+    @Component
     protected WagonDownload wagonDownload;
 
     protected void execute( Wagon wagon )

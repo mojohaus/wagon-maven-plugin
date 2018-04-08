@@ -1,4 +1,4 @@
-# MojoHaus Truezip Maven Plugin
+# MojoHaus Wagon Maven Plugin
 
 This is the [wagon-maven-plugin](http://www.mojohaus.org/wagon-maven-plugin/).
 

@@ -19,6 +19,8 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
@@ -31,35 +33,29 @@ public abstract class AbstractWagonListMojo
 {
     /**
      * Directory path relative to Wagon's URL
-     * 
-     * @parameter property="wagon.fromDir" default-value=""
      */
+    @Parameter( property = "wagon.fromDir")
     protected String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
-     * 
-     * @parameter property="wagon.includes" default-value="*";
      */
+    @Parameter( property = "wagon.includes", defaultValue = "*")
     protected String includes;
 
     /**
-     * Comma separated list of Ant's excludes to scan for remote files
-     * 
-     * @parameter property="wagon.excludes"
+     * Comma separated list of Ant's excludes to scan for remote files.
      */
+    @Parameter( property = "wagon.excludes")
     protected String excludes;
 
     /**
-     * Whether to consider remote path case sensitivity during scan
-     * 
-     * @parameter property="wagon.caseSensitive" default-value="true"
+     * Whether to consider remote path case sensitivity during scan.
      */
+    @Parameter( property = "wagon.caseSensitive", defaultValue = "true")
     protected boolean caseSensitive = true;
 
-    /**
-     * @component
-     */
+    @Component
     protected WagonDownload wagonDownload;
 
     protected WagonFileSet getWagonFileSet()

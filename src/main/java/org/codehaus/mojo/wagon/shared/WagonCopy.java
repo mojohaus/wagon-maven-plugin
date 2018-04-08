@@ -30,7 +30,6 @@ import org.apache.maven.wagon.WagonException;
  */
 public interface WagonCopy
 {
-    String ROLE = WagonCopy.class.getName();
 
     /**
      * Transfer files between 2 Wagon URLs. If download directory is not given in the fileset a temporary one will be

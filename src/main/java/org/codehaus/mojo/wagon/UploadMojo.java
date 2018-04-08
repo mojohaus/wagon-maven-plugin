@@ -23,6 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -31,67 +34,55 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Upload multiple sets of files.
- * 
- * @goal upload
- * @requiresProject true
  */
+@Mojo( name = "upload" )
 public class UploadMojo
     extends AbstractSingleWagonMojo
 {
     /**
-     * Local directory to upload to wagon's "url/toDir"
-     * 
-     * @parameter property="wagon.fromDir" default-value="${project.basedir}"
+     * Local directory to upload to wagon's "url/toDir".
      */
+    @Parameter( property = "wagon.fromDir", defaultValue = "${project.basedir}")
     private File fromDir;
 
     /**
-     * Comma separate list of Ant's excludes to scan for local files
-     * 
-     * @parameter property="wagon.excludes"
+     * Comma separate list of Ant's excludes to scan for local files.
      */
+    @Parameter( property = "wagon.excludes")
     private String excludes;
 
     /**
-     * Comma separate list of Ant's includes to scan for local files
-     * 
-     * @parameter property="wagon.includes" localDirectory's Ant includes
+     * Comma separate list of Ant's includes to scan for local files.
      */
+    @Parameter( property = "wagon.includes")
     private String includes;
 
     /**
-     * Follow local symbolic link if possible
-     * 
-     * @parameter property="wagon.followSymLink" default-value="false"
+     * Follow local symbolic link if possible.
      */
+    @Parameter( property = "wagon.followSymLink", defaultValue = "false")
     private boolean followSymLink = false;
 
     /**
-     * Use default exclude sets
-     * 
-     * @parameter property="wagon.useDefaultExcludes" default-value="true"
+     * Use default exclude sets.
      */
+    @Parameter( property = "wagon.useDefaultExcludes", defaultValue = "true")
     private boolean useDefaultExcludes = true;
 
     /**
      * Remote path relative to Wagon's url to upload local files to.
-     * 
-     * @parameter property="wagon.toDir" default-value="";
      */
+    @Parameter( property = "wagon.toDir")
     private String toDir = "";
 
     /**
      * Optimize the upload by locally compressed all files in one bundle, upload the bundle, and finally remote
      * uncompress the bundle.
-     * 
-     * @parameter property="wagon.optimize" default-value="false";
      */
-
+    @Parameter( property = "wagon.optimize", defaultValue = "false")
     private boolean optimize = false;
 
-    /**
-     * @component
-     */
+    @Component
     protected WagonUpload wagonUpload;
 
     protected void execute( Wagon wagon )

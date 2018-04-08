@@ -19,6 +19,8 @@ import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.component.configurator.BasicComponentConfigurator;
+import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 import org.codehaus.plexus.component.configurator.ComponentConfigurator;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
@@ -33,29 +35,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
-/**
- * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonFactory" role-hint="default"
- */
+@Component(role = WagonFactory.class, hint = "default")
 public class DefaultWagonFactory
     implements WagonFactory, Contextualizable
 {
 
     private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
-    /**
-     * @plexus.requirement role="org.apache.maven.settings.crypto.SettingsDecrypter"
-     */
+    @Requirement
     private SettingsDecrypter settingsDecrypter;
 
-    /**
-     * @plexus.requirement role="org.codehaus.plexus.component.configurator.ComponentConfigurator" hint="basic"
-     */
+    @Requirement(hint = "basic")
     private ComponentConfigurator componentConfigurator;
 
-    /**
-     * @plexus.requirement role="org.codehaus.plexus.component.configurator.ComponentConfigurator" hint="map-oriented"
-     */
+    @Requirement(hint = "map-oriented")
     private ComponentConfigurator mapComponentConfigurator;
 
     ////////////////////////////////////////////////////////////////////

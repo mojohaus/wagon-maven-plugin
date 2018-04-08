@@ -23,15 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
- * Lists the content of the specified directory (remotePath) under a specified repository (url)
- * 
- * @goal list
- * @requiresProject false
+ * Lists the content of the specified directory (remotePath) under a specified repository (url).
  */
+@Mojo( name = "list" , requiresProject = false)
 public class ListMojo
     extends AbstractWagonListMojo
 {

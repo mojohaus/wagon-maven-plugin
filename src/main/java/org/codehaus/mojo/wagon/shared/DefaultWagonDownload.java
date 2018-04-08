@@ -26,12 +26,10 @@ import java.util.List;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.util.StringUtils;
 
-/**
- * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonDownload" role-hint="default"
- */
-
+@Component(role = WagonDownload.class, hint = "default")
 public class DefaultWagonDownload
     implements WagonDownload
 {

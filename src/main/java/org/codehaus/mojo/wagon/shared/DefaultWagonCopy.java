@@ -26,25 +26,21 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Copy a set of file from a wagon repo to another wagon repo
- * 
- * @plexus.component role="org.codehaus.mojo.wagon.shared.WagonCopy" role-hint="default"
+ * Copy a set of file from a wagon repo to another wagon repo.
  */
-
+@Component(role = WagonCopy.class, hint = "default")
 public class DefaultWagonCopy
     implements WagonCopy
 {
-    /**
-     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonDownload"
-     */
+    @Requirement
     private WagonDownload downloader;
 
-    /**
-     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonUpload"
-     */
+    @Requirement
     private WagonUpload uploader;
 
     public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger )
