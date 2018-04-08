@@ -22,6 +22,7 @@ package org.codehaus.mojo.wagon;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -35,17 +36,14 @@ public abstract class AbstractSingleWagonMojo
 
     /**
      * URL to upload to or download from or list. Must exist and point to a directory.
-     * 
-     * @parameter property="wagon.url"
-     * @required
      */
+    @Parameter( property = "wagon.url", required = true )
     private String url;
 
     /**
      * settings.xml's server id for the URL. This is used when wagon needs extra authentication information.
-     * 
-     * @parameter property="wagon.serverId" default-value="serverId";
      */
+    @Parameter( property = "wagon.serverId", defaultValue = "serverId")
     private String serverId;
 
     public void execute()

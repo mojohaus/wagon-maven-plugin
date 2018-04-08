@@ -30,7 +30,6 @@ import org.apache.maven.wagon.WagonException;
  */
 public interface WagonDownload
 {
-    String ROLE = WagonDownload.class.getName();
 
     /**
      * @param wagon - a Wagon instance

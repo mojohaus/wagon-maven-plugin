@@ -27,7 +27,6 @@ import org.apache.maven.wagon.WagonException;
 
 public interface MavenRepoMerger
 {
-    String ROLE = MavenRepoMerger.class.getName();
 
     String IN_PROCESS_MARKER = ".rip";
 

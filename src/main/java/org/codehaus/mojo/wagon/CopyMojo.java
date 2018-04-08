@@ -21,6 +21,9 @@ package org.codehaus.mojo.wagon;
 
 import java.io.IOException;
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonCopy;
@@ -28,51 +31,42 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Copy artifacts from one Wagon repository to another Wagon repository.
- * 
- * @goal copy
- * @requiresProject false
  */
+@Mojo( name = "copy" , requiresProject = false)
 public class CopyMojo
     extends AbstractCopyMojo
 {
     /**
      * Directory path relative to source's Wagon
-     * 
-     * @parameter property="wagon.fromDir" default-value=""
      */
+    @Parameter( property = "wagon.fromDir")
     private String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
-     * 
-     * @parameter property="wagon.includes" default-value="**";
      */
+    @Parameter( property = "wagon.includes", defaultValue = "*")
     private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files
-     * 
-     * @parameter property="wagon.excludes"
      */
+    @Parameter( property = "wagon.excludes")
     private String excludes;
 
     /**
-     * Whether to consider remote path case sensitivity during scan
-     * 
-     * @parameter property="wagon.caseSensitive"
+     * Whether to consider remote path case sensitivity during scan.
      */
+    @Parameter( property = "wagon.caseSensitive")
     private boolean caseSensitive = true;
 
     /**
      * Remote path relative to target's url to copy files to.
-     * 
-     * @parameter property="wagon.toDir" default-value="";
      */
+    @Parameter( property = "wagon.toDir")
     private String toDir = "";
 
-    /**
-     * @component
-     */
+    @Component
     private WagonCopy wagonCopy;
 
     protected void copy( Wagon srcWagon, Wagon targetWagon )

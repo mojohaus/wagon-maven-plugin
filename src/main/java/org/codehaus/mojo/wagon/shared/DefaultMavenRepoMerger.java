@@ -38,28 +38,24 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.component.annotations.Component;
+import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
- * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead
- * 
- * @plexus.component role="org.codehaus.mojo.wagon.shared.MavenRepoMerger" role-hint="default"
+ * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead.
  */
-
+@Component(role = MavenRepoMerger.class, hint = "default")
 public class DefaultMavenRepoMerger
     implements MavenRepoMerger
 {
-    /**
-     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonDownload"
-     */
+    @Requirement
     private WagonDownload downloader;
 
-    /**
-     * @plexus.requirement role="org.codehaus.mojo.wagon.shared.WagonUpload"
-     */
+    @Requirement
     private WagonUpload uploader;
 
     public void merge( Wagon src, Wagon target, boolean optimize, Log logger )

@@ -21,25 +21,24 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Transfers a set of files from a remote URL to a specified local directory.
- * 
- * @goal download
- * @requiresProject false
  */
+@Mojo( name = "download" , requiresProject = false)
 public class DownloadMojo
     extends AbstractWagonListMojo
 {
 
     /**
      * Local directory to download the remote resource ( tree ) to.
-     * 
-     * @parameter property="wagon.toDir" default-value="${project.build.directory}/wagon-plugin"
      */
+    @Parameter( property = "wagon.toDir", defaultValue = "${project.build.directory}/wagon-plugin")
     private File toDir;
 
     protected void execute( Wagon wagon )

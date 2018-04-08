@@ -22,39 +22,35 @@ package org.codehaus.mojo.wagon;
 import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
 /**
  * Download a single file.
- * 
- * @goal download-single
- * @requiresProject false
  */
+@Mojo( name = "download-single", requiresProject = false)
 public class DownloadSingleMojo
     extends AbstractSingleWagonMojo
 {
     /**
-     * Relative path to the URL.
-     * 
-     * @parameter property="wagon.fromFile"
-     * @required
+     * Relative path to the URL
      */
+    @Parameter( property = "wagon.fromFile", required = true)
     private String fromFile;
 
     /**
-     * Directory to download the remote file to
-     * 
-     * @parameter property="wagon.toDir"
+     * Directory to download the remote file to.
      */
+    @Parameter( property = "wagon.toDir")
     private File toDir;
 
     /**
      * File to download the remote file to. Use this option to rename the file after download. When toDir is present,
-     * this argument is ignored
-     * 
-     * @parameter property="wagon.toFile"
+     * this argument is ignored.
      */
+    @Parameter( property = "wagon.toFile")
     private File toFile;
 
     protected void execute( Wagon wagon )

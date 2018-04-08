@@ -29,56 +29,47 @@ import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Work around for WAGON-407 to copy commons-io, commons-lang, and jsoup to ${maven.home}/lib/ext directory
- *
- * @goal update-maven-3
- * @requiresProject false
+ * Work around for WAGON-407 to copy commons-io, commons-lang, and jsoup to ${maven.home}/lib/ext directory.
  */
+@Mojo( name = "update-maven-3" , requiresProject = false)
 public class UpdateMaven3Mojo
     extends AbstractMojo
 {
-    /**
-     * @component
-     */
+
+    @Component
     private ArtifactResolver artifactResolver;
 
-    /**
-     * @component
-     */
+    @Component
     private ArtifactFactory artifactFactory;
 
-    /**
-     * @parameter default-value = "${project.remoteArtifactRepositories}"
-     */
+    @Parameter( defaultValue = "${project.remoteArtifactRepositories}")
     private List<ArtifactRepository> remoteRepositories;
 
-    /**
-     * @parameter default-value= "${localRepository}"
-     */
+    @Parameter( defaultValue = "${localRepository}")
     private ArtifactRepository localRepository;
 
     /**
      * commons-io:commons-io version
-     * 
-     * @parameter property = "commonsIoVersion" default-value = "2.2";
      */
+    @Parameter( property = "commonsIoVersion", defaultValue = "2.2")
     private String commonsIoVersion = "2.2";
 
     /**
      * commons-lang:commons-lang version
-     * 
-     * @parameter property = "commonsLangVersion" default-value = "2.6";
      */
+    @Parameter( property = "commonsLangVersion", defaultValue = "2.6")
     private String commonsLangVersion = "2.6";
 
     /**
      * org.jsoup:jsoup version
-     * 
-     * @parameter property = "jsoupVersion" default-value = "1.7.2"
      */
+    @Parameter( property = "jsoupVersion", defaultValue = "1.7.2")
     private String jsoupVersion = "1.7.2";
 
     public void execute()

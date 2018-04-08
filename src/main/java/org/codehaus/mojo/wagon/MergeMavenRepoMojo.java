@@ -21,23 +21,21 @@ package org.codehaus.mojo.wagon;
 
 import java.io.IOException;
 
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
 
 /**
  * Merge artifacts from one Maven repository to another Maven repository.
- * 
- * @goal merge-maven-repos
- * @requiresProject false
  */
+@Mojo( name = "merge-maven-repos" , requiresProject = false)
 public class MergeMavenRepoMojo
     extends AbstractCopyMojo
 {
 
-    /**
-     * @component
-     */
+    @Component
     private MavenRepoMerger mavenRepoMerger;
 
     protected void copy( Wagon srcWagon, Wagon targetWagon )
