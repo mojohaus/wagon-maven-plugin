@@ -20,6 +20,7 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * Wagon configuration to scan for a set of remote files.
@@ -126,7 +127,7 @@ public class WagonFileSet
      */
     public String toString()
     {
-        return "file-set: " + getDirectory() + " (included: " + getIncludes() + ", excluded: " + getExcludes() + ")";
+        return "file-set: " + getDirectory() + " (included: " + Arrays.toString( getIncludes() ) + ", excluded: " + Arrays.toString( getExcludes() ) + ")";
     }
 
     public boolean isUseDefaultExcludes()

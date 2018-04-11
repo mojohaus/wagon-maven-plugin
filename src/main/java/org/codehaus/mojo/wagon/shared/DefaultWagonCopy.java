@@ -43,6 +43,7 @@ public class DefaultWagonCopy
     @Requirement
     private WagonUpload uploader;
 
+    @Override
     public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger )
         throws WagonException, IOException
     {

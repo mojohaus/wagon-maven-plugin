@@ -47,7 +47,7 @@ public interface WagonDownload
      * @param logger - logger used
      * @throws WagonException if any wagon error
      */
-    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
+    void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException;
 
     /**
@@ -56,7 +56,7 @@ public interface WagonDownload
      * @throws WagonException if any wagon error
      * @return {@code true} if found, {@code false} otherwise
      */
-    public boolean exists( Wagon wagon, String resource )
+    boolean exists( Wagon wagon, String resource )
         throws WagonException;
 
 }

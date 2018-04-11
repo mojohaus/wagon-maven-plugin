@@ -35,14 +35,15 @@ public class ListMojo
     extends AbstractWagonListMojo
 {
 
+    @Override
     protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException
+        throws WagonException
     {
         List files = wagonDownload.getFileList( wagon, this.getWagonFileSet(), this.getLog() );
 
-        for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
+        for ( Object file1 : files )
         {
-            String file = (String) iterator.next();
+            String file = (String) file1;
             getLog().info( "\t" + file );
         }
     }

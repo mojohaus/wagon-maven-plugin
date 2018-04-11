@@ -42,6 +42,6 @@ public interface WagonUpload
      * @throws WagonException if nay wagon exception
      * @throws IOException if any io exception
      */
-    public void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
+    void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
         throws WagonException, IOException;
 }

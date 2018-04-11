@@ -59,6 +59,7 @@ public class DownloadSingleMojo
     @Parameter( property = "wagon.skipIfExists")
     private boolean skipIfExists;
 
+    @Override
     protected void execute( Wagon wagon )
         throws MojoExecutionException, WagonException
     {

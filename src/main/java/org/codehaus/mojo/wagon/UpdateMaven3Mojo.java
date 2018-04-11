@@ -72,8 +72,9 @@ public class UpdateMaven3Mojo
     @Parameter( property = "jsoupVersion", defaultValue = "1.7.2")
     private String jsoupVersion = "1.7.2";
 
+    @Override
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         updateMavenLib( this.artifactFactory.createBuildArtifact( "commons-io", "commons-io", commonsIoVersion, "jar" ) );
         updateMavenLib( this.artifactFactory.createBuildArtifact( "commons-lang", "commons-lang", commonsLangVersion,

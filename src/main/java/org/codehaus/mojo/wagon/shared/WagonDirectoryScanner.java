@@ -139,9 +139,9 @@ public class WagonDirectoryScanner
      */
     private boolean isIncluded( String name )
     {
-        for ( int i = 0; i < includes.length; i++ )
+        for ( String include : includes )
         {
-            if ( matchPath( includes[i], name, isCaseSensitive ) )
+            if ( matchPath( include, name, isCaseSensitive ) )
             {
                 return true;
             }
@@ -158,9 +158,9 @@ public class WagonDirectoryScanner
      */
     protected boolean isExcluded( String name )
     {
-        for ( int i = 0; i < excludes.length; i++ )
+        for ( String exclude : excludes )
         {
-            if ( matchPath( excludes[i], name, isCaseSensitive ) )
+            if ( matchPath( exclude, name, isCaseSensitive ) )
             {
                 return true;
             }
@@ -177,9 +177,9 @@ public class WagonDirectoryScanner
      */
     protected boolean couldHoldIncluded( String name )
     {
-        for ( int i = 0; i < includes.length; i++ )
+        for ( String include : includes )
         {
-            if ( matchPatternStart( includes[i], name, isCaseSensitive ) )
+            if ( matchPatternStart( include, name, isCaseSensitive ) )
             {
                 return true;
             }
@@ -261,10 +261,7 @@ public class WagonDirectoryScanner
         {
             System.arraycopy( excludes, 0, newExcludes, 0, excludesLength );
         }
-        for ( int i = 0; i < DEFAULTEXCLUDES.length; i++ )
-        {
-            newExcludes[i + excludesLength] = DEFAULTEXCLUDES[i];
-        }
+        System.arraycopy( DEFAULTEXCLUDES, 0, newExcludes, excludesLength, DEFAULTEXCLUDES.length );
         excludes = newExcludes;
     }
 
@@ -296,9 +293,9 @@ public class WagonDirectoryScanner
         logger.debug( "scandir: dir: " + dir + " vpath: " + vpath );
         List files = wagon.getFileList( dir );
 
-        for ( Iterator iterator = files.iterator(); iterator.hasNext(); )
+        for ( Object file1 : files )
         {
-            String fileName = (String) iterator.next();
+            String fileName = (String) file1;
 
             if ( isRidiculousFile( fileName ) ) // including ".."
             {
@@ -369,9 +366,9 @@ public class WagonDirectoryScanner
     private boolean isDirectory( String existedRemotePath )
         throws WagonException
     {
-        for ( int x = 0; x < NOT_DIRECTORIES.length; x++ )
+        for ( String NOT_DIRECTORY : NOT_DIRECTORIES )
         {
-            if ( existedRemotePath.endsWith( NOT_DIRECTORIES[x] ) )
+            if ( existedRemotePath.endsWith( NOT_DIRECTORY ) )
             {
                 return false;
             }

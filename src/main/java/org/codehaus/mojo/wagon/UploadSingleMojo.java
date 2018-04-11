@@ -34,7 +34,7 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * Upload a single file with option to change name
  */
-@Mojo( name = "upload-single" , requiresProject = false)
+@Mojo( name = "upload-single" , requiresProject = false )
 public class UploadSingleMojo
     extends AbstractSingleWagonMojo
 {
@@ -50,8 +50,9 @@ public class UploadSingleMojo
     @Parameter( property = "wagon.toFile")
     private String toFile;
 
+    @Override
     protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException, IOException
+        throws WagonException
     {
         if ( this.skip )
         {

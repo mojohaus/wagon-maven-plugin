@@ -54,6 +54,7 @@ public class DefaultWagonFactory
     ////////////////////////////////////////////////////////////////////
     private PlexusContainer container;
 
+    @Override
     public Wagon create( String url, String serverId, Settings settings )
         throws WagonException
     {
@@ -221,7 +222,7 @@ public class DefaultWagonFactory
                 new XmlPlexusConfiguration( (Xpp3Dom) server.getConfiguration() );
         try
         {
-            if ( componentConfigurator == null || !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
+            if ( !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
                 componentConfigurator = new BasicComponentConfigurator();
             }
             componentConfigurator.configureComponent( wagon, plexusConf,
@@ -265,9 +266,7 @@ public class DefaultWagonFactory
         return new AuthenticationInfo();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void contextualize( Context context )
         throws ContextException
     {

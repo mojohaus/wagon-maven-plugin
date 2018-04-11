@@ -53,24 +53,24 @@ public class SshExecMojo
     @Parameter(defaultValue = "false")
     private boolean displayCommandOutputs = true;
 
+    @Override
     protected void execute( final Wagon wagon )
         throws MojoExecutionException
     {
         if ( commands != null )
         {
-            for ( int i = 0; i < commands.length; i++ )
+            for ( String command : commands )
             {
                 try
                 {
-                    Streams stream = ( (ScpWagon) wagon ).executeCommand( commands[i], true, false );
-                    this.getLog().info( "sshexec: " + commands[i] + " ..." );
+                    Streams stream = ( (ScpWagon) wagon ).executeCommand( command, true, false );
+                    this.getLog().info( "sshexec: " + command + " ..." );
                     if ( displayCommandOutputs )
                     {
                         System.out.println( stream.getOut() );
                         System.out.println( stream.getErr() );
                     }
-                }
-                catch ( final WagonException e )
+                } catch ( final WagonException e )
                 {
                     if ( this.failOnError )
                     {

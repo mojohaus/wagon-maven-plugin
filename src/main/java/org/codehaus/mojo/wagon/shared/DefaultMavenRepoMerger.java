@@ -58,6 +58,7 @@ public class DefaultMavenRepoMerger
     @Requirement
     private WagonUpload uploader;
 
+    @Override
     public void merge( Wagon src, Wagon target, boolean optimize, Log logger )
         throws WagonException, IOException
     {
@@ -83,15 +84,14 @@ public class DefaultMavenRepoMerger
             scanner.scan();
             String[] files = scanner.getIncludedFiles();
 
-            for ( int i = 0; i < files.length; ++i )
+            for ( String file : files )
             {
-                File srcMetadaFile = new File( downloadSrcDir, files[i] + IN_PROCESS_MARKER );
+                File srcMetadaFile = new File( downloadSrcDir, file + IN_PROCESS_MARKER );
 
                 try
                 {
-                    target.get( files[i].replace( '\\', '/' ), srcMetadaFile );
-                }
-                catch ( ResourceDoesNotExistException e )
+                    target.get( file.replace( '\\', '/' ), srcMetadaFile );
+                } catch ( ResourceDoesNotExistException e )
                 {
                     // We don't have an equivalent on the targetRepositoryUrl side because we have something
                     // new on the sourceRepositoryUrl side so just skip the metadata merging.
@@ -101,10 +101,9 @@ public class DefaultMavenRepoMerger
                 try
                 {
                     mergeMetadata( srcMetadaFile, logger );
-                }
-                catch ( XmlPullParserException e )
+                } catch ( XmlPullParserException e )
                 {
-                    throw new IOException( "Metadata file is corrupt " + files[i] + " Reason: " + e.getMessage() );
+                    throw new IOException( "Metadata file is corrupt " + file + " Reason: " + e.getMessage() );
                 }
 
             }
@@ -130,7 +129,7 @@ public class DefaultMavenRepoMerger
         Writer stagedMetadataWriter = null;
         Reader existingMetadataReader = null;
         Reader stagedMetadataReader = null;
-        File stagedMetadataFile = null;
+        File stagedMetadataFile;
 
         try
         {
@@ -215,9 +214,9 @@ public class DefaultMavenRepoMerger
 
         String retValue = "";
 
-        for ( int i = 0; i < binaryData.length; i++ )
+        for ( byte aBinaryData : binaryData )
         {
-            String t = Integer.toHexString( binaryData[i] & 0xff );
+            String t = Integer.toHexString( aBinaryData & 0xff );
 
             if ( t.length() == 1 )
             {

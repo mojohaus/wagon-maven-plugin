@@ -19,8 +19,6 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import java.io.IOException;
-
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -44,8 +42,9 @@ public class ExistMojo
     @Component
     protected WagonDownload wagonDownload;
 
+    @Override
     protected void execute( Wagon wagon )
-        throws WagonException, IOException
+        throws WagonException
     {
         if ( this.wagonDownload.exists( wagon, resource ) )
         {

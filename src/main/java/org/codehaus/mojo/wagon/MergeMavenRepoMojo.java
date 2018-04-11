@@ -38,6 +38,7 @@ public class MergeMavenRepoMojo
     @Component
     private MavenRepoMerger mavenRepoMerger;
 
+    @Override
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {

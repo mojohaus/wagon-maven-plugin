@@ -85,6 +85,7 @@ public class UploadMojo
     @Component
     protected WagonUpload wagonUpload;
 
+    @Override
     protected void execute( Wagon wagon )
         throws WagonException, IOException
     {

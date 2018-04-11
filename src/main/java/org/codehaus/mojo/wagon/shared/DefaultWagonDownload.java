@@ -20,7 +20,6 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
@@ -34,6 +33,7 @@ public class DefaultWagonDownload
     implements WagonDownload
 {
 
+    @Override
     public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException
     {
@@ -56,6 +56,7 @@ public class DefaultWagonDownload
         return dirScan.getFilesIncluded();
     }
 
+    @Override
     public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException
     {
@@ -69,9 +70,9 @@ public class DefaultWagonDownload
             return;
         }
 
-        for ( Iterator iterator = fileList.iterator(); iterator.hasNext(); )
+        for ( Object aFileList : fileList )
         {
-            String remoteFile = (String) iterator.next();
+            String remoteFile = (String) aFileList;
 
             File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
 
@@ -86,6 +87,7 @@ public class DefaultWagonDownload
         }
     }
 
+    @Override
     public boolean exists( Wagon wagon, String resource )
         throws WagonException
     {

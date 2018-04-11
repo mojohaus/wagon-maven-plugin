@@ -46,6 +46,7 @@ public abstract class AbstractSingleWagonMojo
     @Parameter( property = "wagon.serverId", defaultValue = "serverId")
     private String serverId;
 
+    @Override
     public void execute()
         throws MojoExecutionException
     {
@@ -61,15 +62,10 @@ public abstract class AbstractSingleWagonMojo
             wagon = createWagon( serverId, url );
             execute( wagon );
         }
-        catch ( WagonException e )
+        catch ( WagonException | IOException e )
         {
             throw new MojoExecutionException( "Error handling resource", e );
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error handling resource", e );
-        }
-        finally
+        } finally
         {
             try
             {

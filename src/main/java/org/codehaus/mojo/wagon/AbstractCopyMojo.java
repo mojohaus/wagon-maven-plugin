@@ -33,6 +33,7 @@ public abstract class AbstractCopyMojo
     protected abstract void copy( Wagon src, Wagon target )
         throws IOException, WagonException;
 
+    @Override
     public void execute()
         throws MojoExecutionException
     {

@@ -41,6 +41,7 @@ public class DownloadMojo
     @Parameter( property = "wagon.toDir", defaultValue = "${project.build.directory}/wagon-plugin")
     private File toDir;
 
+    @Override
     protected void execute( Wagon wagon )
         throws WagonException
     {

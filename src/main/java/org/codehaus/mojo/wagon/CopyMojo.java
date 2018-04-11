@@ -69,6 +69,7 @@ public class CopyMojo
     @Component
     private WagonCopy wagonCopy;
 
+    @Override
     protected void copy( Wagon srcWagon, Wagon targetWagon )
         throws IOException, WagonException
     {
