@@ -73,7 +73,7 @@
   <properties>
     <maven.api.version>3.2.5</maven.api.version>
     <mojo.java.target>1.5</mojo.java.target>
-    <wagon.api.version>2.11-SNAPSHOT</wagon.api.version>
+    <wagon.api.version>3.0.0</wagon.api.version>
     <scmpublish.content>${project.build.directory}/staging/wagon-maven-plugin</scmpublish.content>
 
     <takari-plugin-testing.version>2.9.0</takari-plugin-testing.version>

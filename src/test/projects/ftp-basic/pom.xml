@@ -9,6 +9,7 @@
 
   <properties>
     <downloadDirectory.base>${project.build.directory}/it</downloadDirectory.base>
+    <wagon.api.version>3.0.0</wagon.api.version>
   </properties>
 
   <build>
@@ -17,7 +18,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ftp</artifactId>
-        <version>2.11-SNAPSHOT</version>
+        <version>${wagon.api.version}</version>
       </extension>
     </extensions>
 
