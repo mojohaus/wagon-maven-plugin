@@ -22,9 +22,11 @@ package org.codehaus.mojo.wagon;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.wagon.CommandExecutor;
 import org.apache.maven.wagon.Streams;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.apache.maven.wagon.providers.ssh.jsch.AbstractJschWagon;
 import org.apache.maven.wagon.providers.ssh.jsch.ScpWagon;
 
 /**
@@ -63,7 +65,14 @@ public class SshExecMojo
             {
                 try
                 {
-                    Streams stream = ( (ScpWagon) wagon ).executeCommand( command, true, false );
+                    Streams stream;
+                    if ( wagon instanceof AbstractJschWagon )
+                    {
+                        stream = ( (AbstractJschWagon) wagon ).executeCommand( command, true, false );
+                    } else
+                    {
+                        stream = ( (CommandExecutor) wagon ).executeCommand( command, false );
+                    }
                     this.getLog().info( "sshexec: " + command + " ..." );
                     if ( displayCommandOutputs )
                     {
