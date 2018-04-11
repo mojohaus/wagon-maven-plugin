@@ -88,9 +88,10 @@ public abstract class AbstractSingleWagonMojo
     /**
      * Perform the necessary action. To be implemented in the child mojo.
      * 
-     * @param wagon
-     * @throws MojoExecutionException
-     * @throws WagonException
+     * @param wagon - wagon instance to use
+     * @throws MojoExecutionException if any execution error
+     * @throws WagonException if any wagon error
+     * @throws IOException if any io error
      */
     protected abstract void execute( Wagon wagon )
         throws MojoExecutionException, WagonException, IOException;

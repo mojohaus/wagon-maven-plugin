@@ -287,7 +287,7 @@ public class WagonDirectoryScanner
      * Scans the given directory for files and directories. Found files are placed in a collection, based on the
      * matching of includes, excludes, and the selectors. When a directory is found, it is scanned recursively.
      * 
-     * @throws WagonException
+     * @throws WagonException if any wagon error
      * @see #filesIncluded
      */
     private void scandir( String dir, String vpath )

@@ -54,15 +54,6 @@ public class DefaultWagonFactory
     ////////////////////////////////////////////////////////////////////
     private PlexusContainer container;
 
-    /**
-     * Convenient method to create a wagon
-     *
-     * @param url
-     * @param serverId
-     * @param settings
-     * @return
-     * @throws WagonException
-     */
     public Wagon create( String url, String serverId, Settings settings )
         throws WagonException
     {
@@ -96,13 +87,6 @@ public class DefaultWagonFactory
         return wagon;
     }
 
-    /**
-     * Configure the Wagon with the information from serverConfigurationMap ( which comes from settings.xml )
-     *
-     * @param repositoryId
-     * @param settings
-     * @throws TransferFailedException
-     */
     private Wagon createAndConfigureWagon( String repositoryId, Settings settings, Repository repository )
             throws WagonException
     {
@@ -211,14 +195,6 @@ public class DefaultWagonFactory
         return proxyInfo;
     }
 
-    /**
-     * Configure the Wagon with the information from serverConfigurationMap ( which comes from settings.xml )
-     *
-     * @param wagon
-     * @param repositoryId
-     * @param settings
-     * @throws TransferFailedException
-     */
     private Wagon configureWagon( Wagon wagon, String repositoryId, Settings settings )
         throws TransferFailedException
     {

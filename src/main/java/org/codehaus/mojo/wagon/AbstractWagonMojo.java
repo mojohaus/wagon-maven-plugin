@@ -10,7 +10,6 @@ import org.apache.maven.wagon.Wagon;
 import org.codehaus.mojo.wagon.shared.WagonFactory;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 import org.codehaus.mojo.wagon.shared.WagonUtils;
-import org.codehaus.plexus.PlexusContainer;
 
 /**
  * Provides base functionality for dealing with I/O using wagon.
@@ -36,21 +35,11 @@ public abstract class AbstractWagonMojo
 
     /**
      * When <code>true</code>, skip the execution.
-     *
-     * @parameter property="wagon.skip" default-value="false"
      */
     protected boolean skip = false;
 
     /////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Convenient method to create a wagon
-     *
-     * @param id
-     * @param url
-     * @return
-     * @throws MojoExecutionException
-     */
     protected Wagon createWagon( String id, String url )
         throws MojoExecutionException
     {

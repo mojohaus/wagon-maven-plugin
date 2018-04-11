@@ -36,11 +36,12 @@ public interface WagonCopy
      * created.
      * 
      * @param fromWagon - source Wagon
-     * @param fileset
+     * @param fileset - file set to copy
      * @param toWagon - target Wagon
      * @param optimize - locally compressed and remotely uncompress for scp only
-     * @param logger
-     * @throws WagonException
+     * @param logger - logger used
+     * @throws WagonException if any wagon error
+     * @throws IOException if any io error
      */
     void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger )
         throws WagonException, IOException;

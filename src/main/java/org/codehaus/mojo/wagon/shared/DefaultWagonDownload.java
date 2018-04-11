@@ -86,11 +86,6 @@ public class DefaultWagonDownload
         }
     }
 
-    /**
-     * @param wagon - a Wagon instance
-     * @param resource - Remote resource to check
-     * @throws WagonException
-     */
     public boolean exists( Wagon wagon, String resource )
         throws WagonException
     {

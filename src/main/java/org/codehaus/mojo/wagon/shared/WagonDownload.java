@@ -34,26 +34,27 @@ public interface WagonDownload
     /**
      * @param wagon - a Wagon instance
      * @param fileSet - Criteria to build the list
-     * @param logger
+     * @param logger - logger used
      * @return a list of files at the remote host relative to RemoteFileSet's directory
-     * @throws WagonException
+     * @throws WagonException if any wagon error
      */
     List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException;
 
     /**
      * @param wagon - a Wagon instance
-     * @param remoteFileSet -
-     * @param logger
-     * @throws WagonException
+     * @param remoteFileSet - Criteria to build the list
+     * @param logger - logger used
+     * @throws WagonException if any wagon error
      */
     public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
         throws WagonException;
 
     /**
      * @param wagon - a Wagon instance
-     * @param resource
-     * @throws WagonException
+     * @param resource - resource to test
+     * @throws WagonException if any wagon error
+     * @return {@code true} if found, {@code false} otherwise
      */
     public boolean exists( Wagon wagon, String resource )
         throws WagonException;
