@@ -19,20 +19,20 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>Maven Wagon plugin - Checkstyle report</title>
-    <link>http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin</link>
-    <description>Maven Wagon plugin - Checkstyle report</description>
+    <title>Wagon Maven Plugin - Checkstyle report</title>
+    <link>http://www.mojohaus.org/wagon-maven-plugin/</link>
+    <description>Wagon Maven Plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2008 - 2015 MojoHaus</copyright>
+    <copyright>&#169;2008 - 2018 MojoHaus</copyright>
     <item>
-      <title>File: 27,
-             Errors: 19,
-             Warnings: 81,
+      <title>File: 30,
+             Errors: 101,
+             Warnings: 32,
              Infos: 8
       </title>
-            <link>http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html</link>
+            <link>http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html</link>
       <description>
-        <p>Click <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -46,13 +46,27 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.AbstractSingleWagonMojo.java">org/codehaus/mojo/wagon/AbstractSingleWagonMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.UploadMojo.java">org/codehaus/mojo/wagon/UploadMojo.java</a>
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  5
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonUpload.java">org/codehaus/mojo/wagon/shared/WagonUpload.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
                 <td>
                   0
@@ -60,21 +74,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultMavenRepoMerger.java">org/codehaus/mojo/wagon/shared/DefaultMavenRepoMerger.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.CopyMojo.java">org/codehaus/mojo/wagon/CopyMojo.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  2
+                  0
                 </td>
                 <td>
-                  3
+                  6
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFileSet.java">org/codehaus/mojo/wagon/shared/WagonFileSet.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFileSet.java">org/codehaus/mojo/wagon/shared/WagonFileSet.java</a>
                 </td>
                 <td>
                   0
@@ -83,29 +97,26 @@ under the License.
                   14
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonDownload.java">org/codehaus/mojo/wagon/shared/DefaultWagonDownload.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractWagonMojo.java">org/codehaus/mojo/wagon/AbstractWagonMojo.java</a>
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
-                  4
+                  2
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.UploadMojo.java">org/codehaus/mojo/wagon/UploadMojo.java</a>
-                </td>
-                <td>
-                  0
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.ExistMojo.java">org/codehaus/mojo/wagon/ExistMojo.java</a>
                 </td>
                 <td>
                   1
@@ -113,94 +124,13 @@ under the License.
                 <td>
                   0
                 </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonCopy.java">org/codehaus/mojo/wagon/shared/DefaultWagonCopy.java</a>
-                </td>
-                <td>
-                  0
-                </td>
                 <td>
                   1
                 </td>
-                <td>
-                  0
-                </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.SelectorUtils.java">org/codehaus/mojo/wagon/shared/SelectorUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.UploadSingleMojo.java">org/codehaus/mojo/wagon/UploadSingleMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.AbstractWagonMojo.java">org/codehaus/mojo/wagon/AbstractWagonMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.AbstractWagonListMojo.java">org/codehaus/mojo/wagon/AbstractWagonListMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.CopyMojo.java">org/codehaus/mojo/wagon/CopyMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonDirectoryScanner.java">org/codehaus/mojo/wagon/shared/WagonDirectoryScanner.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonDirectoryScanner.java">org/codehaus/mojo/wagon/shared/WagonDirectoryScanner.java</a>
                 </td>
                 <td>
                   0
@@ -209,46 +139,32 @@ under the License.
                   8
                 </td>
                 <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.SshExecMojo.java">org/codehaus/mojo/wagon/SshExecMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonUpload.java">org/codehaus/mojo/wagon/shared/WagonUpload.java</a>
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
                   4
                 </td>
+              </tr>
+                          <tr>
                 <td>
-                  1
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.SshExecMojo.java">org/codehaus/mojo/wagon/SshExecMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonCopy.java">org/codehaus/mojo/wagon/shared/WagonCopy.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonDownload.java">org/codehaus/mojo/wagon/shared/WagonDownload.java</a>
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  4
+                  0
                 </td>
                 <td>
                   0
@@ -256,7 +172,10 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.AbstractCopyMojo.java">org/codehaus/mojo/wagon/AbstractCopyMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractSingleWagonMojo.java">org/codehaus/mojo/wagon/AbstractSingleWagonMojo.java</a>
+                </td>
+                <td>
+                  0
                 </td>
                 <td>
                   0
@@ -264,13 +183,122 @@ under the License.
                 <td>
                   2
                 </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.ListMojo.java">org/codehaus/mojo/wagon/ListMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.UpdateMaven3Mojo.java">org/codehaus/mojo/wagon/UpdateMaven3Mojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.SelectorUtils.java">org/codehaus/mojo/wagon/shared/SelectorUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.MergeMavenRepoMojo.java">org/codehaus/mojo/wagon/MergeMavenRepoMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
                 <td>
                   1
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.ListMojo.java">org/codehaus/mojo/wagon/ListMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonDownload.java">org/codehaus/mojo/wagon/shared/DefaultWagonDownload.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.HelpMojo.java">org/codehaus/mojo/wagon/HelpMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractDoubleWagonMojo.java">org/codehaus/mojo/wagon/AbstractDoubleWagonMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonCopy.java">org/codehaus/mojo/wagon/shared/WagonCopy.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractCopyMojo.java">org/codehaus/mojo/wagon/AbstractCopyMojo.java</a>
                 </td>
                 <td>
                   0
@@ -279,12 +307,57 @@ under the License.
                   1
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonDownload.java">org/codehaus/mojo/wagon/shared/WagonDownload.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFactory.java">org/codehaus/mojo/wagon/shared/WagonFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.MavenRepoMerger.java">org/codehaus/mojo/wagon/shared/MavenRepoMerger.java</a>
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonFactory.java">org/codehaus/mojo/wagon/shared/DefaultWagonFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultMavenRepoMerger.java">org/codehaus/mojo/wagon/shared/DefaultMavenRepoMerger.java</a>
+                </td>
+                <td>
+                  0
                 </td>
                 <td>
                   1
@@ -292,41 +365,24 @@ under the License.
                 <td>
                   7
                 </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonUtils.java">org/codehaus/mojo/wagon/shared/WagonUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
                 <td>
                   2
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.AbstractDoubleWagonMojo.java">org/codehaus/mojo/wagon/AbstractDoubleWagonMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.MavenRepoMerger.java">org/codehaus/mojo/wagon/shared/MavenRepoMerger.java</a>
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.DownloadMojo.java">org/codehaus/mojo/wagon/DownloadMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonUpload.java">org/codehaus/mojo/wagon/shared/DefaultWagonUpload.java</a>
                 </td>
                 <td>
                   0
@@ -335,26 +391,29 @@ under the License.
                   1
                 </td>
                 <td>
-                  0
+                  3
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.ExistMojo.java">org/codehaus/mojo/wagon/ExistMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.UploadSingleMojo.java">org/codehaus/mojo/wagon/UploadSingleMojo.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  0
+                  6
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonUpload.java">org/codehaus/mojo/wagon/shared/DefaultWagonUpload.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.DownloadMojo.java">org/codehaus/mojo/wagon/DownloadMojo.java</a>
+                </td>
+                <td>
+                  0
                 </td>
                 <td>
                   0
@@ -362,64 +421,47 @@ under the License.
                 <td>
                   2
                 </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.DownloadSingleMojo.java">org/codehaus/mojo/wagon/DownloadSingleMojo.java</a>
+                </td>
                 <td>
                   0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.MergeMavenRepoMojo.java">org/codehaus/mojo/wagon/MergeMavenRepoMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.DownloadSingleMojo.java">org/codehaus/mojo/wagon/DownloadSingleMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.UpdateMaven3Mojo.java">org/codehaus/mojo/wagon/UpdateMaven3Mojo.java</a>
-                </td>
-                <td>
-                  0
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractWagonListMojo.java">org/codehaus/mojo/wagon/AbstractWagonListMojo.java</a>
                 </td>
                 <td>
                   1
                 </td>
                 <td>
                   1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin/wagon-maven-plugin/checkstyle.html#org.codehaus.mojo.wagon.shared.WagonUtils.java">org/codehaus/mojo/wagon/shared/WagonUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
                 </td>
                 <td>
                   4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.DefaultWagonCopy.java">org/codehaus/mojo/wagon/shared/DefaultWagonCopy.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
               </tr>
                       </tbody>
