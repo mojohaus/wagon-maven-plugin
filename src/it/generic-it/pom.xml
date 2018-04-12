@@ -16,6 +16,9 @@
     downloadDirectory
   </description>
 
+  <properties>
+    <wagon.api.version>3.0.0</wagon.api.version>
+  </properties>
   <build>
 
     <defaultGoal>package</defaultGoal>
@@ -24,12 +27,12 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>2.10</version>
+        <version>${wagon.api.version}</version>
       </extension>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ftp</artifactId>
-        <version>2.10</version>
+          <version>${wagon.api.version}</version>
       </extension>
     </extensions>
 

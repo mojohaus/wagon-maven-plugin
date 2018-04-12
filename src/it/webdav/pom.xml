@@ -87,7 +87,6 @@
     <version>testing</version>
     <url.base>dav:https://dav.codehaus.org/snapshots.repository/mojo/</url.base>
     <downloadDirectory.base>${project.build.directory}/it/webdav</downloadDirectory.base>
-
   </properties>
 
 </project>

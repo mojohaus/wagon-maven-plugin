@@ -10,6 +10,17 @@
 
 <project xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+  <custom>
+    <fluidoSkin>
+      <gitHub>
+        <projectId>mojohaus/${this.artifactId}</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>gray</ribbonColor>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
+
   <body>
 
     <links>
@@ -24,7 +35,7 @@
 
     </menu>
     <menu name="Examples">
-      <item name="Comprehensive" href="https://svn.codehaus.org/mojo/trunk/mojo/wagon-maven-plugin/src/it" />
+      <item name="Comprehensive" href="https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it" />
     </menu>
   </body>
 </project>

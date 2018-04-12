@@ -87,7 +87,7 @@ Usage
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>2.8</version>
+        <version>${wagonApiVersion}</version>
       </extension>
     </extensions>
 
@@ -95,7 +95,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>upload-javadoc</id>
@@ -129,7 +129,7 @@ Usage
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
-        <version>2.8</version>
+        <version>${wagonApiVersion}</version>
       </extension>
     </extensions>
 
@@ -137,7 +137,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>download-test-data</id>
@@ -149,7 +149,7 @@ Usage
               <serverId>atlassian-public</serverId>
               <url>dav:https://maven.atlassian.com/public</url>
               <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
-              <toDir>${project.build.directory}/test-data</toDir>
+              <toDir>target/test-data</toDir>
             </configuration>
           </execution>
         </executions>
@@ -164,7 +164,7 @@ Usage
 * Configuration example to merge Maven repositories
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0:merge-maven-repos \
+  mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:merge-maven-repos \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/$LOGNAME/maven-repo
 +-----
@@ -173,7 +173,7 @@ Usage
 * Configuration example to copy files under one URL to another URL
 
 +-----
-  mvn org.codehaus.mojo:wagon-maven-plugin:1.0:copy \
+  mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:copy \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
 +-----
@@ -188,7 +188,7 @@ Usage
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
-        <version>2.8</version>
+          <version>${wagonApiVersion}</version>
       </extension>
     </extensions>
 
@@ -196,7 +196,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>execute-test-commands</id>
