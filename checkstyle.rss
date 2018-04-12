@@ -26,7 +26,7 @@ under the License.
     <copyright>&#169;2008 - 2018 MojoHaus</copyright>
     <item>
       <title>File: 30,
-             Errors: 101,
+             Errors: 103,
              Warnings: 32,
              Infos: 8
       </title>
@@ -74,20 +74,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.CopyMojo.java">org/codehaus/mojo/wagon/CopyMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFileSet.java">org/codehaus/mojo/wagon/shared/WagonFileSet.java</a>
                 </td>
                 <td>
@@ -98,6 +84,20 @@ under the License.
                 </td>
                 <td>
                   1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.CopyMojo.java">org/codehaus/mojo/wagon/CopyMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
                 </td>
               </tr>
                           <tr>
@@ -153,7 +153,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  8
+                  10
                 </td>
               </tr>
                           <tr>
