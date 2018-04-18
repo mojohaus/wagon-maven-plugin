@@ -51,7 +51,7 @@ public abstract class AbstractDoubleWagonMojo
      * settings.xml's server id of the target repository. This is used when wagon needs extra authentication
      * information.
      */
-    @Parameter( property = "wagon.", defaultValue = "target")
+    @Parameter( property = "wagon.targetId", defaultValue = "target")
     protected String targetId;
 
     /**
