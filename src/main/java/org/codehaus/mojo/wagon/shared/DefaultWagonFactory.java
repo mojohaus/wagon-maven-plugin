@@ -177,12 +177,14 @@ public class DefaultWagonFactory
      *
      * @return a proxyInfo object or null if no active proxy is define in the settings.xml
      */
-    private static ProxyInfo getProxyInfo( Settings settings )
+    private ProxyInfo getProxyInfo( Settings settings )
     {
         ProxyInfo proxyInfo = null;
         if ( settings != null && settings.getActiveProxy() != null )
         {
-            Proxy settingsProxy = settings.getActiveProxy();
+            SettingsDecryptionResult result =
+                    settingsDecrypter.decrypt( new DefaultSettingsDecryptionRequest( settings.getActiveProxy() ) );
+            Proxy settingsProxy = result.getProxy();
 
             proxyInfo = new ProxyInfo();
             proxyInfo.setHost( settingsProxy.getHost() );
