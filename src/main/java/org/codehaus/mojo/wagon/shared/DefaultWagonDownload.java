@@ -75,6 +75,7 @@ public class DefaultWagonDownload
             String remoteFile = (String) aFileList;
 
             File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
+            destination.getParentFile().mkdirs();
 
             if ( !StringUtils.isBlank( remoteFileSet.getDirectory() ) )
             {
