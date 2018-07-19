@@ -21,6 +21,7 @@ package org.codehaus.mojo.wagon.shared;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
@@ -51,6 +52,7 @@ public class DefaultWagonUpload
         FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
 
         String[] files = fileSetManager.getIncludedFiles( fileset );
+        Arrays.sort(files);
 
         String url = wagon.getRepository().getUrl() + "/";
 
