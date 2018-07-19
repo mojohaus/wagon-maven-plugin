@@ -35,13 +35,6 @@
         </configuration>
         <executions>
           <execution>
-            <id>ftp-list</id>
-            <phase>package</phase>
-            <goals>
-              <goal>list</goal>
-            </goals>
-          </execution>
-          <execution>
             <id>ftp-download-single-file</id>
             <phase>package</phase>
             <goals>
@@ -61,6 +54,16 @@
             <configuration>
               <toDir>${downloadDirectory.base}/single-dir</toDir>
               <includes>README,HEADER.html</includes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>ftp-list</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <includes>HEADER.html</includes>
             </configuration>
           </execution>
         </executions>

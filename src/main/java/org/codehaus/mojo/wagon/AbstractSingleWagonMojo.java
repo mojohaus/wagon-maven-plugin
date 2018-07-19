@@ -38,7 +38,7 @@ public abstract class AbstractSingleWagonMojo
      * URL to upload to or download from or list. Must exist and point to a directory.
      */
     @Parameter( property = "wagon.url", required = true )
-    private String url;
+    protected String url;
 
     /**
      * settings.xml's server id for the URL. This is used when wagon needs extra authentication information.
@@ -83,7 +83,7 @@ public abstract class AbstractSingleWagonMojo
 
     /**
      * Perform the necessary action. To be implemented in the child mojo.
-     * 
+     *
      * @param wagon - wagon instance to use
      * @throws MojoExecutionException if any execution error
      * @throws WagonException if any wagon error

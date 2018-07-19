@@ -24,6 +24,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 
@@ -35,9 +36,9 @@ public class DownloadSingleMojo
     extends AbstractSingleWagonMojo
 {
     /**
-     * Relative path to the URL
+     * Relative path to the base URL. When empty, assume base URL has the full path
      */
-    @Parameter( property = "wagon.fromFile", required = true)
+    @Parameter( property = "wagon.fromFile")
     private String fromFile;
 
     /**
@@ -91,4 +92,18 @@ public class DownloadSingleMojo
 
     }
 
+    @Override
+    public void execute()
+        throws MojoExecutionException
+    {
+        if ( StringUtils.isBlank( this.fromFile ) ) {
+
+            //recompute base url and fromFile
+            String [] tokens = StringUtils.split( this.url, "/\\" );
+            this.fromFile = tokens[tokens.length - 1];
+            this.url = url.substring( 0, url.length() - this.fromFile.length() - 1 );
+        }
+
+        super.execute();
+    }
 }

@@ -59,7 +59,17 @@
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
-
+          <execution>
+            <id>http-download-single-full-url-empty-fromFile</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.2/commons-dbutils-1.2-sources.jar</url>
+              <toDir>${downloadDirectory.base}</toDir>
+            </configuration>
+          </execution>
           <execution>
             <id>http-selective-download</id>
             <phase>package</phase>
