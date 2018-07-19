@@ -27,7 +27,6 @@ import org.apache.maven.wagon.Streams;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.providers.ssh.jsch.AbstractJschWagon;
-import org.apache.maven.wagon.providers.ssh.jsch.ScpWagon;
 
 /**
  * Executes a list of commands against a given server.

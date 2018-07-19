@@ -21,7 +21,6 @@ package org.codehaus.mojo.wagon.shared;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
@@ -36,7 +35,7 @@ public class WagonDirectoryScanner
 
     /**
      * Patterns which should be excluded by default.
-     * 
+     *
      * @see #addDefaultExcludes()
      */
     public static final String[] DEFAULTEXCLUDES = org.codehaus.plexus.util.DirectoryScanner.DEFAULTEXCLUDES;
@@ -74,7 +73,7 @@ public class WagonDirectoryScanner
      * <code>File.separatorChar</code>, so the separator used need not match <code>File.separatorChar</code>.
      * <p>
      * When a pattern ends with a '/' or '\', "**" is appended.
-     * 
+     *
      * @param includes A list of include patterns. May be <code>null</code>, indicating that all files should be
      *            included. If a non-<code>null</code> list is given, all elements must be non-<code>null</code>.
      */
@@ -104,7 +103,7 @@ public class WagonDirectoryScanner
      * Sets the list of exclude patterns to use. All '\' characters are replaced by '/'
      * <p>
      * When a pattern ends with a '/' or '\', "**" is appended.
-     * 
+     *
      * @param excludes A list of exclude patterns. May be <code>null</code>, indicating that no files should be
      *            excluded. If a non-<code>null</code> list is given, all elements must be non-<code>null</code>.
      */
@@ -132,7 +131,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches against at least one include pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against at least one include pattern, or <code>false</code>
      *         otherwise.
@@ -151,7 +150,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches against at least one exclude pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against at least one exclude pattern, or <code>false</code>
      *         otherwise.
@@ -170,7 +169,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a name matches the start of at least one include pattern.
-     * 
+     *
      * @param name The name to match. Must not be <code>null</code>.
      * @return <code>true</code> when the name matches against the start of at least one include pattern, or
      *         <code>false</code> otherwise.
@@ -192,7 +191,7 @@ public class WagonDirectoryScanner
      * <p>
      * This is not a general purpose test and should only be used if you can live with false positives. For example,
      * <code>pattern=**\a</code> and <code>str=b</code> will yield <code>true</code>.
-     * 
+     *
      * @param pattern The pattern to match against. Must not be <code>null</code>.
      * @param str The path to match, as a String. Must not be <code>null</code>.
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
@@ -205,7 +204,7 @@ public class WagonDirectoryScanner
 
     /**
      * Tests whether or not a given path matches a given pattern.
-     * 
+     *
      * @param pattern The pattern to match against. Must not be <code>null</code>.
      * @param str The path to match, as a String. Must not be <code>null</code>.
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
@@ -269,7 +268,7 @@ public class WagonDirectoryScanner
      * Jenkins, if nothing else, will return pathnames with * characters in them that lead to infinite recursion down
      * here. Given the impoverished API to the wagons, some ad-hoc filtration is called for. The filters in here are
      * just culled from strange stuff we see from Jenkins.
-     * 
+     *
      * @param fileName supposed file name
      * @return true if it seems like a bad idea.
      */
@@ -283,7 +282,7 @@ public class WagonDirectoryScanner
     /**
      * Scans the given directory for files and directories. Found files are placed in a collection, based on the
      * matching of includes, excludes, and the selectors. When a directory is found, it is scanned recursively.
-     * 
+     *
      * @throws WagonException if any wagon error
      * @see #filesIncluded
      */
