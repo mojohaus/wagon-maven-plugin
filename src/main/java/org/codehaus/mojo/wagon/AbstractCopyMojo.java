@@ -25,6 +25,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.WagonUtils;
 
 public abstract class AbstractCopyMojo
     extends AbstractDoubleWagonMojo
@@ -50,7 +51,7 @@ public abstract class AbstractCopyMojo
         try
         {
             srcWagon = createWagon( sourceId, source );
-            targetWagon = createWagon( targetId, target );
+            targetWagon = createTargetWagon();
             copy( srcWagon, targetWagon );
         }
         catch ( Exception e )
@@ -63,6 +64,20 @@ public abstract class AbstractCopyMojo
             disconnectWagon( targetWagon );
         }
 
+    }
+
+    protected Wagon createTargetWagon() throws MojoExecutionException {
+        Wagon targetWagon;
+        if ( target.contentEquals( "pom" ) )
+        {
+            targetWagon = WagonUtils.createDistributionManagementWagon( wagonFactory, project, settings );
+            getLog().info( "resolving -Dmaven.target=pom to url=" + targetWagon.getRepository().getUrl() );
+        }
+        else
+        {
+            targetWagon = createWagon( targetId, target );
+        }
+        return targetWagon;
     }
 
     private void disconnectWagon( Wagon wagon )
