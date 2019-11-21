@@ -73,9 +73,12 @@ public class DefaultWagonUpload
 
             File source = new File( fileset.getDirectory(), file );
 
-            logger.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
-
-            wagon.put( source, relativeDestPath );
+            if(!wagon.resourceExists(relativeDestPath)) {
+                logger.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
+                wagon.put(source, relativeDestPath);
+            }else{
+                logger.info( "Skipping upload " + source + " to " + url + relativeDestPath + " ... Destination already exist" );
+            }
         }
 
     }

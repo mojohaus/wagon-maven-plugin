@@ -84,7 +84,9 @@ public class DefaultWagonDownload
 
             logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
 
-            wagon.get( remoteFile, destination );
+            if(!destination.exists()) {
+                wagon.get(remoteFile, destination);
+            }
         }
     }
 

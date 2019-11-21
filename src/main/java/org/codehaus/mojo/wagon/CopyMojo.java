@@ -19,6 +19,7 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugins.annotations.Component;
@@ -61,6 +62,12 @@ public class CopyMojo
     private boolean caseSensitive = true;
 
     /**
+     * Local directory to store downloaded artifacts.
+     */
+    @Parameter( property = "wagon.downloadDirectory")
+    private File downloadDirectory;
+
+    /**
      * Remote path relative to target's url to copy files to.
      */
     @Parameter( property = "wagon.toDir")
@@ -74,7 +81,9 @@ public class CopyMojo
         throws IOException, WagonException
     {
         WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
-
+        if(downloadDirectory != null){
+            fileSet.setDownloadDirectory(downloadDirectory);
+        }
         wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
     }
 
