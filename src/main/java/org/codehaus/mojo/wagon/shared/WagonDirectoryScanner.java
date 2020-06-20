@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.StringUtils;
 public class WagonDirectoryScanner
 {
     private final static String[] NOT_DIRECTORIES = new String[] { ".jar", ".zip", ".md5", ".sha1", ".pom", ".xml",
-        ".war" };
+        ".war", ".sha256", ".sha512" };
 
     /**
      * Patterns which should be excluded by default.

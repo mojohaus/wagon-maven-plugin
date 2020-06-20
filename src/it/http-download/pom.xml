@@ -29,7 +29,7 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
+              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
             </configuration>
           </execution>
 
@@ -41,7 +41,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
+              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
               <fromFile>commons-dbutils-1.1-sources.jar</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
@@ -54,7 +54,7 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <url>http://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
+              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
               <includes>**</includes>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
