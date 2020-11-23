@@ -365,14 +365,18 @@ public class WagonDirectoryScanner
             return true;
         }
 
-        return canList(existedRemotePath + "/");
+        return canListPath( existedRemotePath + "/" );
     }
 
-    private boolean canList(String resourceName) {
-        try {
-            List<String> resources = wagon.getFileList(resourceName);
+    private boolean canListPath( String remotePath )
+    {
+        try
+        {
+            List resources = wagon.getFileList( remotePath );
             return resources != null && !resources.isEmpty();
-        } catch (WagonException e) {
+        }
+        catch ( WagonException e )
+        {
             return false;
         }
     }
