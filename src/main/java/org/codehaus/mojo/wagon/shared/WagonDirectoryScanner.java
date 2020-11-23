@@ -30,9 +30,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 public class WagonDirectoryScanner
 {
-    private final static String[] NOT_DIRECTORIES = new String[] { ".jar", ".zip", ".md5", ".sha1", ".pom", ".xml",
-        ".war" };
-
     /**
      * Patterns which should be excluded by default.
      *
@@ -362,22 +359,22 @@ public class WagonDirectoryScanner
         }
     }
 
-    private boolean isDirectory( String existedRemotePath )
-        throws WagonException
-    {
-        for ( String NOT_DIRECTORY : NOT_DIRECTORIES )
-        {
-            if ( existedRemotePath.endsWith( NOT_DIRECTORY ) )
-            {
-                return false;
-            }
-        }
+    private boolean isDirectory( String existedRemotePath ) {
         if ( existedRemotePath.endsWith( "/" ) )
         {
             return true;
         }
 
-        return wagon.resourceExists( existedRemotePath + "/" );
+        return canList(existedRemotePath + "/");
+    }
+
+    private boolean canList(String resourceName) {
+        try {
+            List<String> resources = wagon.getFileList(resourceName);
+            return resources != null && !resources.isEmpty();
+        } catch (WagonException e) {
+            return false;
+        }
     }
 
     // ///////////////////////////////////////////////////////////////////////////////
