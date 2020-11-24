@@ -31,7 +31,7 @@
         <configuration>
           <skip>false</skip>
           <serverId>anonymous.ftp</serverId>
-          <url>ftp://anonymous@localhost/test-classes/org/codehaus/mojo/wagon</url>
+          <url>ftp://anonymous@localhost:8221/test-classes/org/codehaus/mojo/wagon</url>
         </configuration>
         <executions>
           <execution>

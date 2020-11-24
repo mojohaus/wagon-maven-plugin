@@ -6,6 +6,7 @@ import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
+import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.After;
 import org.junit.Assert;
@@ -72,7 +73,11 @@ public class WagonMojoFtpBasicTest
         ConnectionConfigFactory connectionConfigFactory = new ConnectionConfigFactory();
         connectionConfigFactory.setAnonymousLoginEnabled( true );
 
-        serverFactory.setConnectionConfig(connectionConfigFactory.createConnectionConfig());
+        ListenerFactory factory = new ListenerFactory();
+        factory.setPort( 8221 );
+
+        serverFactory.setConnectionConfig( connectionConfigFactory.createConnectionConfig() );
+        serverFactory.addListener( "default", factory.createListener() );
 
         BaseUser user = new BaseUser();
         user.setName( "anonymous" );
