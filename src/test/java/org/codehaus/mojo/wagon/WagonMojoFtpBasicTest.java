@@ -2,7 +2,14 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
+import org.apache.ftpserver.ConnectionConfigFactory;
+import org.apache.ftpserver.FtpServer;
+import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.ftplet.FtpException;
+import org.apache.ftpserver.usermanager.impl.BaseUser;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,11 +30,25 @@ public class WagonMojoFtpBasicTest
     public final TestResources resources = new TestResources();
 
     public final MavenRuntime maven;
+    public final FtpServer ftpServer;
 
     public WagonMojoFtpBasicTest( MavenRuntimeBuilder builder )
         throws Exception
     {
+        this.ftpServer = createFtp();
         this.maven = builder.withCliOptions( "-B", "-e", "-s", "settings.xml" ).build();
+    }
+
+    @Before
+    public void setup() throws Exception  {
+        ftpServer.start();
+    }
+
+    @After
+    public void teardown() {
+        if (ftpServer != null && !ftpServer.isStopped()){
+            ftpServer.stop();
+        }
     }
 
     @Test
@@ -38,9 +59,26 @@ public class WagonMojoFtpBasicTest
         MavenExecution mavenExec = maven.forProject( projDir );
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/README" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/README" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/HEADER.html" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/WagonMojoFtpBasicTest.class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoFtpBasicTest.class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoHttpTest.class" ).exists() );
 
+    }
+
+    private FtpServer createFtp()
+        throws FtpException
+    {
+        FtpServerFactory serverFactory = new FtpServerFactory();
+        ConnectionConfigFactory connectionConfigFactory = new ConnectionConfigFactory();
+        connectionConfigFactory.setAnonymousLoginEnabled( true );
+
+        serverFactory.setConnectionConfig(connectionConfigFactory.createConnectionConfig());
+
+        BaseUser user = new BaseUser();
+        user.setName( "anonymous" );
+        user.setHomeDirectory( new File( "target" ).getAbsolutePath() );
+        serverFactory.getUserManager().save( user );
+
+        return serverFactory.createServer();
     }
 }

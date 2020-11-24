@@ -31,7 +31,7 @@
         <configuration>
           <skip>false</skip>
           <serverId>anonymous.ftp</serverId>
-          <url>ftp://ftp.ibiblio.org</url>
+          <url>ftp://anonymous@localhost/test-classes/org/codehaus/mojo/wagon</url>
         </configuration>
         <executions>
           <execution>
@@ -41,7 +41,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>pub/linux/devel/vc/README</fromFile>
+              <fromFile>WagonMojoFtpBasicTest.class</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -53,7 +53,7 @@
             </goals>
             <configuration>
               <toDir>${downloadDirectory.base}/single-dir</toDir>
-              <includes>README,HEADER.html</includes>
+              <includes>WagonMojoFtpBasicTest.class,WagonMojoHttpTest.class</includes>
             </configuration>
           </execution>
           <execution>
