@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>2.0.1</version>
   <packaging>maven-plugin</packaging>
   <name>Wagon Maven Plugin</name>
 
@@ -29,7 +29,7 @@
     <connection>scm:git:https://github.com/mojohaus/wagon-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/wagon-maven-plugin.git</developerConnection>
     <url>https://github.com/mojohaus/wagon-maven-plugin/</url>
-    <tag>HEAD</tag>
+    <tag>wagon-maven-plugin-2.0.1</tag>
   </scm>
 
   <issueManagement>
