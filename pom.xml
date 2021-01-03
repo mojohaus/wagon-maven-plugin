@@ -89,6 +89,7 @@
     <takari-plugin-testing.version>2.9.0</takari-plugin-testing.version>
     <takari-lifecycle-plugin.version>1.12.2</takari-lifecycle-plugin.version>
 
+    <ftpserver.version>1.1.1</ftpserver.version>
   </properties>
 
   <repositories>
@@ -238,7 +239,18 @@
       <type>pom</type>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.apache.ftpserver</groupId>
+      <artifactId>ftpserver-core</artifactId>
+      <version>${ftpserver.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
 
   <build>

@@ -4,7 +4,7 @@ install: true
 
 jdk:
 #  - openjdk7 (can't use it since some dependencies required java 8)
-  - oraclejdk8
+  - openjdk8
 
 script:
   - mvn clean verify -B -e -V
