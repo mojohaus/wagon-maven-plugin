@@ -23,10 +23,10 @@ under the License.
     <link>http://www.mojohaus.org/wagon-maven-plugin/</link>
     <description>Wagon Maven Plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2008 - 2018 MojoHaus</copyright>
+    <copyright>&#169;2008 - 2021 MojoHaus</copyright>
     <item>
-      <title>File: 30,
-             Errors: 103,
+      <title>File: 29,
+             Errors: 96,
              Warnings: 32,
              Infos: 8
       </title>
@@ -74,20 +74,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFileSet.java">org/codehaus/mojo/wagon/shared/WagonFileSet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.CopyMojo.java">org/codehaus/mojo/wagon/CopyMojo.java</a>
                 </td>
                 <td>
@@ -98,6 +84,20 @@ under the License.
                 </td>
                 <td>
                   6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFileSet.java">org/codehaus/mojo/wagon/shared/WagonFileSet.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+                <td>
+                  1
                 </td>
               </tr>
                           <tr>
@@ -139,7 +139,7 @@ under the License.
                   8
                 </td>
                 <td>
-                  4
+                  2
                 </td>
               </tr>
                           <tr>
@@ -153,7 +153,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  10
+                  9
                 </td>
               </tr>
                           <tr>
@@ -195,7 +195,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  2
                 </td>
               </tr>
                           <tr>
@@ -209,7 +209,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  8
+                  7
                 </td>
               </tr>
                           <tr>
@@ -252,20 +252,6 @@ under the License.
                 </td>
                 <td>
                   3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.HelpMojo.java">org/codehaus/mojo/wagon/HelpMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
               </tr>
                           <tr>
@@ -391,7 +377,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  3
+                  5
                 </td>
               </tr>
                           <tr>
@@ -405,7 +391,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  2
                 </td>
               </tr>
                           <tr>
@@ -433,7 +419,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  7
                 </td>
               </tr>
                           <tr>
