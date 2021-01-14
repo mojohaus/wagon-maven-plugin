@@ -26,7 +26,7 @@ Wagon Maven Plugin
     <div id="breadcrumbs">
       <div class="xleft">
         <span id="publishDate">Last Published: 2021-01-13</span>
-          &nbsp;| <span id="projectVersion">Version: 2.0.2-SNAPSHOT</span>
+          &nbsp;| <span id="projectVersion">Version: 2.0.2</span>
       </div>
       <div class="xright"><a href="http://maven.apache.org/wagon" class="externalLink" title="Wagon">Wagon</a>      </div>
       <div class="clear">
@@ -91,7 +91,7 @@ Wagon Maven Plugin
       &lt;plugin&gt;
         &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
         &lt;artifactId&gt;wagon-maven-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0.2-SNAPSHOT&lt;/version&gt;
+        &lt;version&gt;2.0.2&lt;/version&gt;
         &lt;executions&gt;
           &lt;execution&gt;
             &lt;id&gt;upload-javadoc&lt;/id&gt;
@@ -131,7 +131,7 @@ Wagon Maven Plugin
       &lt;plugin&gt;
         &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
         &lt;artifactId&gt;wagon-maven-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0.2-SNAPSHOT&lt;/version&gt;
+        &lt;version&gt;2.0.2&lt;/version&gt;
         &lt;executions&gt;
           &lt;execution&gt;
             &lt;id&gt;download-test-data&lt;/id&gt;
@@ -155,13 +155,13 @@ Wagon Maven Plugin
 <div class="section">
 <h3><a name="Configuration_example_to_merge_Maven_repositories"></a>Configuration example to merge Maven repositories</h3>
 <div class="source">
-<pre>  mvn org.codehaus.mojo:wagon-maven-plugin:2.0.2-SNAPSHOT:merge-maven-repos \
+<pre>  mvn org.codehaus.mojo:wagon-maven-plugin:2.0.2:merge-maven-repos \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/$LOGNAME/maven-repo</pre></div></div>
 <div class="section">
 <h3><a name="Configuration_example_to_copy_files_under_one_URL_to_another_URL"></a>Configuration example to copy files under one URL to another URL</h3>
 <div class="source">
-<pre>  mvn org.codehaus.mojo:wagon-maven-plugin:2.0.2-SNAPSHOT:copy \
+<pre>  mvn org.codehaus.mojo:wagon-maven-plugin:2.0.2:copy \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo</pre></div></div>
 <div class="section">
@@ -182,7 +182,7 @@ Wagon Maven Plugin
       &lt;plugin&gt;
         &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
         &lt;artifactId&gt;wagon-maven-plugin&lt;/artifactId&gt;
-        &lt;version&gt;2.0.2-SNAPSHOT&lt;/version&gt;
+        &lt;version&gt;2.0.2&lt;/version&gt;
         &lt;executions&gt;
           &lt;execution&gt;
             &lt;id&gt;execute-test-commands&lt;/id&gt;
