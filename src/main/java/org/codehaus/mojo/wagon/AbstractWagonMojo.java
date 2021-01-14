@@ -35,8 +35,9 @@ public abstract class AbstractWagonMojo
 
     /**
      * When <code>true</code>, skip the execution.
-     *
+     * @since 2.0.0
      */
+    @Parameter( property = "wagon.skip" )
     protected boolean skip = false;
 
     /////////////////////////////////////////////////////////////////////////
