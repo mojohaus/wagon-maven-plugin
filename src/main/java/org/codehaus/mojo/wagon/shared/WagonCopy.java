@@ -34,16 +34,16 @@ public interface WagonCopy
     /**
      * Transfer files between 2 Wagon URLs. If download directory is not given in the fileset a temporary one will be
      * created.
-     * 
+     *
      * @param fromWagon - source Wagon
      * @param fileset - file set to copy
      * @param toWagon - target Wagon
      * @param optimize - locally compressed and remotely uncompress for scp only
      * @param logger - logger used
+     * @param incremental - Only copy files that doesn't already exist in target Wagon
      * @throws WagonException if any wagon error
      * @throws IOException if any io error
      */
-    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger )
-        throws WagonException, IOException;
-
+    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger, boolean incremental )
+            throws WagonException, IOException;
 }

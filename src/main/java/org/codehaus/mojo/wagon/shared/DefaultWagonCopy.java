@@ -35,16 +35,16 @@ import org.codehaus.plexus.util.FileUtils;
  */
 @Component(role = WagonCopy.class, hint = "default")
 public class DefaultWagonCopy
-    implements WagonCopy
-{
+    implements WagonCopy {
     @Requirement
     private WagonDownload downloader;
 
     @Requirement
     private WagonUpload uploader;
 
+
     @Override
-    public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger )
+    public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger, boolean incremental )
         throws WagonException, IOException
     {
         if ( wagonFileSet == null )
@@ -64,13 +64,13 @@ public class DefaultWagonCopy
 
         try
         {
-            this.downloader.download( src, wagonFileSet, logger );
+            this.downloader.download( src, wagonFileSet, logger, incremental);
 
             FileSet localFileSet = new FileSet();
             localFileSet.setDirectory( wagonFileSet.getDownloadDirectory().getAbsolutePath() );
             localFileSet.setOutputDirectory( wagonFileSet.getOutputDirectory() );
 
-            this.uploader.upload( target, localFileSet, optimize, logger );
+            this.uploader.upload( target, localFileSet, optimize, logger, incremental );
         }
         finally
         {

@@ -85,6 +85,12 @@ public class UploadMojo
     @Component
     protected WagonUpload wagonUpload;
 
+    /**
+     * Download only files that doesn't exists in target directory.
+     */
+    @Parameter( property = "wagon.incremental")
+    private boolean incremental;
+
     @Override
     protected void execute( Wagon wagon )
         throws WagonException, IOException
@@ -109,7 +115,7 @@ public class UploadMojo
 
         fileSet.setOutputDirectory( toDir );
 
-        this.wagonUpload.upload( wagon, fileSet, optimize, this.getLog() );
+        this.wagonUpload.upload( wagon, fileSet, optimize, this.getLog(), incremental );
     }
 
 }
