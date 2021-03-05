@@ -36,6 +36,8 @@ public abstract class AbstractDoubleWagonMojo
 
     /**
      * The URL to the target repository.
+     * The special value "pom" can be used to resolve url from pom.xml distributionManagment
+     * (either repository.url or snapshotRepository.url for -SNAPSHOT version)
      */
     @Parameter( property = "wagon.target", required = true)
     protected String target;
