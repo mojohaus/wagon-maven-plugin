@@ -23,11 +23,11 @@ under the License.
     <link>http://www.mojohaus.org/wagon-maven-plugin/</link>
     <description>Wagon Maven Plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2008 - 2021 MojoHaus</copyright>
+    <copyright>&#169;2008 - 2022 MojoHaus</copyright>
     <item>
       <title>File: 29,
-             Errors: 96,
-             Warnings: 32,
+             Errors: 86,
+             Warnings: 1,
              Infos: 8
       </title>
             <link>http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html</link>
@@ -94,7 +94,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  14
+                  0
                 </td>
                 <td>
                   1
@@ -108,7 +108,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  2
+                  0
                 </td>
                 <td>
                   1
@@ -136,10 +136,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  8
+                  1
                 </td>
                 <td>
-                  2
+                  1
                 </td>
               </tr>
                           <tr>
@@ -223,20 +223,6 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.MergeMavenRepoMojo.java">org/codehaus/mojo/wagon/MergeMavenRepoMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
                   1
                 </td>
               </tr>
@@ -251,7 +237,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.MergeMavenRepoMojo.java">org/codehaus/mojo/wagon/MergeMavenRepoMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
               </tr>
                           <tr>
@@ -284,13 +284,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractCopyMojo.java">org/codehaus/mojo/wagon/AbstractCopyMojo.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFactory.java">org/codehaus/mojo/wagon/shared/WagonFactory.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   1
@@ -298,16 +298,16 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.shared.WagonFactory.java">org/codehaus/mojo/wagon/shared/WagonFactory.java</a>
+                  <a href="http://www.mojohaus.org/wagon-maven-plugin//checkstyle.html#org.codehaus.mojo.wagon.AbstractCopyMojo.java">org/codehaus/mojo/wagon/AbstractCopyMojo.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  2
+                  0
                 </td>
               </tr>
                           <tr>
@@ -318,10 +318,10 @@ under the License.
                   4
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
               </tr>
                           <tr>
@@ -332,10 +332,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  11
+                  10
                 </td>
               </tr>
                           <tr>
@@ -346,7 +346,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   7
@@ -360,10 +360,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  2
+                  1
                 </td>
               </tr>
                           <tr>
@@ -374,10 +374,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  5
+                  4
                 </td>
               </tr>
                           <tr>
@@ -430,7 +430,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
                   4
