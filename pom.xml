@@ -5,7 +5,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>60</version>
+    <version>65</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -90,6 +90,7 @@
     <takari-lifecycle-plugin.version>1.12.2</takari-lifecycle-plugin.version>
 
     <ftpserver.version>1.1.1</ftpserver.version>
+    <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
   </properties>
 
   <repositories>
