@@ -93,22 +93,6 @@
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>maven-snapshots</id>
-      <layout>default</layout>
-      <name>maven-snapshots</name>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <checksumPolicy>fail</checksumPolicy>
-        <enabled>true</enabled>
-      </snapshots>
-      <url>https://repository.apache.org/snapshots</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
