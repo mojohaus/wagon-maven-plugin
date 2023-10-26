@@ -25,7 +25,7 @@ import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )
-public class WagonMojoFtpBasicTest
+public class WagonMojoFtpBasicIT
 {
     @Rule
     public final TestResources resources = new TestResources();
@@ -33,7 +33,7 @@ public class WagonMojoFtpBasicTest
     public final MavenRuntime maven;
     public final FtpServer ftpServer;
 
-    public WagonMojoFtpBasicTest( MavenRuntimeBuilder builder )
+    public WagonMojoFtpBasicIT( MavenRuntimeBuilder builder )
         throws Exception
     {
         this.ftpServer = createFtp();
@@ -60,9 +60,9 @@ public class WagonMojoFtpBasicTest
         MavenExecution mavenExec = maven.forProject( projDir );
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/WagonMojoFtpBasicTest.class" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoFtpBasicTest.class" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoHttpTest.class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/" + this.getClass().getSimpleName() + ".class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/"+ this.getClass().getSimpleName() + ".class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/" + this.getClass().getSimpleName() + ".class" ).exists() );
 
     }
 

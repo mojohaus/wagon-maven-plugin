@@ -86,8 +86,8 @@
     <mojo.java.target>8</mojo.java.target>
     <wagon.api.version>3.0.0</wagon.api.version>
 
-    <takari-plugin-testing.version>2.9.0</takari-plugin-testing.version>
-    <takari-lifecycle-plugin.version>1.12.2</takari-lifecycle-plugin.version>
+    <takari-plugin-testing.version>2.9.2</takari-plugin-testing.version>
+    <takari-lifecycle-plugin.version>2.0.0</takari-lifecycle-plugin.version>
 
     <ftpserver.version>1.1.1</ftpserver.version>
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
@@ -293,6 +293,21 @@
             <phase>process-test-resources</phase>
             <goals>
               <goal>testProperties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
             </goals>
           </execution>
         </executions>

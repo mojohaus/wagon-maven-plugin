@@ -17,14 +17,14 @@ import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.6.3" } )
-public class Wagon334MojoHttpTest
+public class Wagon334MojoHttpIT
 {
     @Rule
     public final TestResources resources = new TestResources();
 
     public final MavenRuntime maven;
 
-    public Wagon334MojoHttpTest(MavenRuntimeBuilder builder )
+    public Wagon334MojoHttpIT(MavenRuntimeBuilder builder )
         throws Exception
     {
         this.maven = builder.withCliOptions( "-B" ).build();

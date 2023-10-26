@@ -2,7 +2,7 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,28 +17,30 @@ import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )
-public class WagonMojoSshTest
+public class WagonMojoHttpIT
 {
     @Rule
     public final TestResources resources = new TestResources();
 
     public final MavenRuntime maven;
 
-    public WagonMojoSshTest( MavenRuntimeBuilder builder )
+    public WagonMojoHttpIT( MavenRuntimeBuilder builder )
         throws Exception
     {
-        this.maven = builder.withCliOptions( "-B", "-e", "-s", "settings.xml" ).build();
+        this.maven = builder.withCliOptions( "-B" ).build();
     }
 
     @Test
-    @Ignore
-    public void testSsh()
+    public void testDownload()
         throws Exception
     {
-        File projDir = resources.getBasedir( "ssh-it" );
+        File projDir = resources.getBasedir( "http-download" );
         MavenExecution mavenExec = maven.forProject( projDir );
 
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
+
+        Assert.assertTrue( new File( result.getBasedir(),
+                        "target/it/http-download/1.1/commons-dbutils-1.1-sources.jar" ).exists() );
     }
 }

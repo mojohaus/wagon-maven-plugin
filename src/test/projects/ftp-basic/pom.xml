@@ -41,7 +41,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <fromFile>WagonMojoFtpBasicTest.class</fromFile>
+              <fromFile>WagonMojoFtpBasicIT.class</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -53,7 +53,7 @@
             </goals>
             <configuration>
               <toDir>${downloadDirectory.base}/single-dir</toDir>
-              <includes>WagonMojoFtpBasicTest.class,WagonMojoHttpTest.class</includes>
+              <includes>WagonMojoFtpBasicIT.class,WagonMojoHttpTest.class</includes>
             </configuration>
           </execution>
           <execution>
