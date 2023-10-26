@@ -36,20 +36,24 @@ import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component(role = WagonUpload.class, hint = "default")
 public class DefaultWagonUpload
     implements WagonUpload
 {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultWagonUpload.class);
+
     @Requirement
     private ArchiverManager archiverManager;
 
-    public void upload( Wagon wagon, FileSet fileset, Log logger )
+    public void upload( Wagon wagon, FileSet fileset )
         throws WagonException
     {
 
-        FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
+        FileSetManager fileSetManager = new FileSetManager( LOG, LOG.isDebugEnabled() );
 
         String[] files = fileSetManager.getIncludedFiles( fileset );
         Arrays.sort(files);
@@ -58,7 +62,7 @@ public class DefaultWagonUpload
 
         if ( files.length == 0 )
         {
-            logger.info( "Nothing to upload." );
+            LOG.info( "Nothing to upload." );
             return;
         }
 
@@ -73,7 +77,7 @@ public class DefaultWagonUpload
 
             File source = new File( fileset.getDirectory(), file );
 
-            logger.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
+            LOG.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
 
             wagon.put( source, relativeDestPath );
         }
@@ -81,12 +85,12 @@ public class DefaultWagonUpload
     }
 
     @Override
-    public void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
+    public void upload( Wagon wagon, FileSet fileset, boolean optimize )
         throws WagonException, IOException
     {
         if ( !optimize )
         {
-            upload( wagon, fileset, logger );
+            upload( wagon, fileset );
             return;
         }
 
@@ -96,23 +100,23 @@ public class DefaultWagonUpload
                 + " does not support optimize upload" );
         }
 
-        logger.info( "Uploading " + fileset );
+        LOG.info( "Uploading " + fileset );
 
         File zipFile;
         zipFile = File.createTempFile( "wagon", ".zip" );
 
         try
         {
-            FileSetManager fileSetManager = new FileSetManager( logger, logger.isDebugEnabled() );
+            FileSetManager fileSetManager = new FileSetManager( LOG, LOG.isDebugEnabled() );
             String[] files = fileSetManager.getIncludedFiles( fileset );
 
             if ( files.length == 0 )
             {
-                logger.info( "Nothing to upload." );
+                LOG.info( "Nothing to upload." );
                 return;
             }
 
-            logger.info( "Creating " + zipFile + " ..." );
+            LOG.info( "Creating " + zipFile + " ..." );
             createZip( files, zipFile, fileset.getDirectory() );
 
             String remoteFile = zipFile.getName();
@@ -122,7 +126,7 @@ public class DefaultWagonUpload
                 remoteFile = remoteDir + "/" + remoteFile;
             }
 
-            logger.info( "Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ..." );
+            LOG.info( "Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ..." );
             wagon.put( zipFile, remoteFile );
 
             // We use the super quiet option here as all the noise seems to kill/stall the connection
@@ -134,13 +138,13 @@ public class DefaultWagonUpload
 
             try
             {
-                logger.info( "Remote: " + command );
+                LOG.info( "Remote: " + command );
                 ( (CommandExecutor) wagon ).executeCommand( command );
             }
             finally
             {
                 command = "rm -f " + remoteFile;
-                logger.info( "Remote: " + command );
+                LOG.info( "Remote: " + command );
 
                 ( (CommandExecutor) wagon ).executeCommand( command );
             }

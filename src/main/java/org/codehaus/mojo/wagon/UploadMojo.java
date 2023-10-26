@@ -109,7 +109,7 @@ public class UploadMojo
 
         fileSet.setOutputDirectory( toDir );
 
-        this.wagonUpload.upload( wagon, fileSet, optimize, this.getLog() );
+        this.wagonUpload.upload( wagon, fileSet, optimize );
     }
 
 }

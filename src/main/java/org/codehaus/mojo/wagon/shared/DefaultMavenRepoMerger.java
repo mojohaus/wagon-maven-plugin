@@ -112,7 +112,7 @@ public class DefaultMavenRepoMerger
             FileSet tobeUploadedFileSet = new FileSet();
             tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
 
-            this.uploader.upload( target, tobeUploadedFileSet, optimize, logger );
+            this.uploader.upload( target, tobeUploadedFileSet, optimize );
 
         }
         finally
