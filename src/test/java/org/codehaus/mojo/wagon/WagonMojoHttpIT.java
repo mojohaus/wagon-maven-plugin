@@ -1,11 +1,6 @@
 package org.codehaus.mojo.wagon;
 
-import java.io.File;
-
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static java.util.Objects.requireNonNull;
 
 import io.takari.maven.testing.TestResources;
 import io.takari.maven.testing.executor.MavenExecution;
@@ -14,20 +9,36 @@ import io.takari.maven.testing.executor.MavenRuntime;
 import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
 import io.takari.maven.testing.executor.MavenVersions;
 import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )
-public class WagonMojoHttpIT
+public class WagonMojoHttpIT extends AbstractJettyIT
 {
     @Rule
     public final TestResources resources = new TestResources();
+    private final MavenRuntimeBuilder mavenBuilder;
 
-    public final MavenRuntime maven;
+    public MavenRuntime maven;
 
     public WagonMojoHttpIT( MavenRuntimeBuilder builder )
         throws Exception
     {
-        this.maven = builder.withCliOptions( "-B" ).build();
+        this.mavenBuilder = builder.withCliOptions( "-B" );
+    }
+
+    @Before
+    public void setPort() throws Exception {
+        this.maven = this.mavenBuilder.withCliOptions( "-Dserver.port=" + getServerPort() ).build();
     }
 
     @Test
@@ -41,6 +52,12 @@ public class WagonMojoHttpIT
         result.assertErrorFreeLog();
 
         Assert.assertTrue( new File( result.getBasedir(),
-                        "target/it/http-download/1.1/commons-dbutils-1.1-sources.jar" ).exists() );
+                        "target/it/http-download/1.1/commons-dbutils-1.1-sources.txt" ).exists() );
+    }
+
+    @Override
+    protected Path getDirectoryToServe() throws IOException {
+        return resources.getBasedir("http-download").toPath()
+            .resolve("files");
     }
 }

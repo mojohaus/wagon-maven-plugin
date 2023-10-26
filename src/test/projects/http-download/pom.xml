@@ -10,6 +10,7 @@
   <properties>
     <downloadDirectory.base>${project.build.directory}/it/http-download</downloadDirectory.base>
     <wagon.api.version>3.0.0</wagon.api.version>
+    <server.port>8080</server.port>
   </properties>
 
   <build>
@@ -42,7 +43,7 @@
               <goal>list</goal>
             </goals>
             <configuration>
-              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils</url>
             </configuration>
           </execution>
 
@@ -54,8 +55,8 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.1</url>
-              <fromFile>commons-dbutils-1.1-sources.jar</fromFile>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils/1.1</url>
+              <fromFile>commons-dbutils-1.1-sources.txt</fromFile>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -66,7 +67,7 @@
               <goal>download-single</goal>
             </goals>
             <configuration>
-              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.2/commons-dbutils-1.2-sources.jar</url>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils/1.2/commons-dbutils-1.2-sources.txt</url>
               <toDir>${downloadDirectory.base}</toDir>
             </configuration>
           </execution>
@@ -77,7 +78,7 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils</url>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils</url>
               <includes>1.1/**</includes>
               <excludes>1.0/**, 1.2/**, 1.3/**, 1.4/**, 1.5/**, 1.6/**</excludes>
               <toDir>${downloadDirectory.base}</toDir>

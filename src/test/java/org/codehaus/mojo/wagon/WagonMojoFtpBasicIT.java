@@ -1,7 +1,13 @@
 package org.codehaus.mojo.wagon;
 
+import io.takari.maven.testing.TestResources;
+import io.takari.maven.testing.executor.MavenExecution;
+import io.takari.maven.testing.executor.MavenExecutionResult;
+import io.takari.maven.testing.executor.MavenRuntime;
+import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
+import io.takari.maven.testing.executor.MavenVersions;
+import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 import java.io.File;
-
 import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -14,14 +20,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import io.takari.maven.testing.TestResources;
-import io.takari.maven.testing.executor.MavenExecution;
-import io.takari.maven.testing.executor.MavenExecutionResult;
-import io.takari.maven.testing.executor.MavenRuntime;
-import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
-import io.takari.maven.testing.executor.MavenVersions;
-import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )

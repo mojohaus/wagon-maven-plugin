@@ -183,6 +183,12 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.7.9</version>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.9</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- needed to debug plugin under m2e -->
     <dependency>
@@ -209,6 +215,18 @@
           <artifactId>slf4j-api</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>9.4.51.v20230217</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <version>9.4.51.v20230217</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

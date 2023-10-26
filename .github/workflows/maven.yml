@@ -24,8 +24,8 @@ jobs:
     name: Verify
     uses: apache/maven-gh-actions-shared/.github/workflows/maven-verify.yml@v3
     with:
-      ff-goal: '-P run-its install'         # site use project version for reporting
-      verify-goal: '-P run-its install'     # should be the same as for first build
+      ff-goal: '-ntp -P run-its install'         # site use project version for reporting
+      verify-goal: '-ntp -P run-its install'     # should be the same as for first build
 
   deploy:
     name: Deploy
