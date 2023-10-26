@@ -1,6 +1,6 @@
 _extends: .github
 name-template: '$RESOLVED_VERSION'
-tag-template: 'wagon-maven-plugin-$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
 version-resolver:
   major:
     labels:
