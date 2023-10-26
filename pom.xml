@@ -84,7 +84,7 @@
   <properties>
     <maven.api.version>3.2.5</maven.api.version>
     <mojo.java.target>8</mojo.java.target>
-    <wagon.api.version>3.0.0</wagon.api.version>
+    <wagon.api.version>3.5.3</wagon.api.version>
 
     <takari-plugin-testing.version>2.9.0</takari-plugin-testing.version>
     <takari-lifecycle-plugin.version>1.12.2</takari-lifecycle-plugin.version>
