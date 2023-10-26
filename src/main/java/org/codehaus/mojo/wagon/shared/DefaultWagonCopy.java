@@ -70,7 +70,7 @@ public class DefaultWagonCopy
             localFileSet.setDirectory( wagonFileSet.getDownloadDirectory().getAbsolutePath() );
             localFileSet.setOutputDirectory( wagonFileSet.getOutputDirectory() );
 
-            this.uploader.upload( target, localFileSet, optimize, logger );
+            this.uploader.upload( target, localFileSet, optimize );
         }
         finally
         {

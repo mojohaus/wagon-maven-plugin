@@ -37,11 +37,10 @@ public interface WagonUpload
      * 
      * @param wagon - a Wagon instance
      * @param fileset file set to upload
-     * @param logger logger used
      * @param optimize locally compressed and uncompress at the remote site if scp is use
      * @throws WagonException if nay wagon exception
      * @throws IOException if any io exception
      */
-    void upload( Wagon wagon, FileSet fileset, boolean optimize, Log logger )
+    void upload( Wagon wagon, FileSet fileset, boolean optimize )
         throws WagonException, IOException;
 }
