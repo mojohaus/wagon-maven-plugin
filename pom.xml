@@ -223,7 +223,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.9</version>
+      <version>2.0.9</version>
     </dependency>
 
     <!-- needed to debug plugin under m2e -->
