@@ -288,7 +288,6 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7</version>
           <configuration>
             <attributes>
               <wagonApiVersion>${wagon.api.version}</wagonApiVersion>
