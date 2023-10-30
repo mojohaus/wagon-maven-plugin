@@ -93,7 +93,7 @@
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
 
     <!-- logging -->
-    <dependency.slf4j.version>1.7.9</dependency.slf4j.version>
+    <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
 
     <!-- Test dependencies -->
     <dependency.jetty.version>9.4.51.v20230217</dependency.jetty.version>
