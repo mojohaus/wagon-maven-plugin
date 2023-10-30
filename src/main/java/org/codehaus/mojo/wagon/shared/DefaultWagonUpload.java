@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.apache.maven.wagon.CommandExecutor;

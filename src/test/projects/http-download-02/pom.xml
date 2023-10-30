@@ -10,6 +10,7 @@
   <properties>
     <downloadDirectory.base>${project.build.directory}/it/http-download</downloadDirectory.base>
     <wagon.api.version>3.3.4</wagon.api.version>
+    <server.port>8080</server.port>
   </properties>
 
   <build>
@@ -40,7 +41,7 @@
               <goal>download</goal>
             </goals>
             <configuration>
-              <url>https://repo1.maven.org/maven2/commons-dbutils/commons-dbutils/1.2</url>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils/1.2</url>
               <includes>
                 commons-dbutils-1.2-bin.tar.gz.asc,
                 commons-dbutils-1.2-bin.tar.gz.asc.md5,

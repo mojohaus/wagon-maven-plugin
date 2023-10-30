@@ -1,7 +1,13 @@
 package org.codehaus.mojo.wagon;
 
+import io.takari.maven.testing.TestResources;
+import io.takari.maven.testing.executor.MavenExecution;
+import io.takari.maven.testing.executor.MavenExecutionResult;
+import io.takari.maven.testing.executor.MavenRuntime;
+import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
+import io.takari.maven.testing.executor.MavenVersions;
+import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 import java.io.File;
-
 import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -15,17 +21,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import io.takari.maven.testing.TestResources;
-import io.takari.maven.testing.executor.MavenExecution;
-import io.takari.maven.testing.executor.MavenExecutionResult;
-import io.takari.maven.testing.executor.MavenRuntime;
-import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
-import io.takari.maven.testing.executor.MavenVersions;
-import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-
 @RunWith( MavenJUnitTestRunner.class )
 @MavenVersions( { "3.2.5" } )
-public class WagonMojoFtpBasicTest
+public class WagonMojoFtpBasicIT
 {
     @Rule
     public final TestResources resources = new TestResources();
@@ -33,7 +31,7 @@ public class WagonMojoFtpBasicTest
     public final MavenRuntime maven;
     public final FtpServer ftpServer;
 
-    public WagonMojoFtpBasicTest( MavenRuntimeBuilder builder )
+    public WagonMojoFtpBasicIT( MavenRuntimeBuilder builder )
         throws Exception
     {
         this.ftpServer = createFtp();
@@ -60,9 +58,9 @@ public class WagonMojoFtpBasicTest
         MavenExecution mavenExec = maven.forProject( projDir );
         MavenExecutionResult result = mavenExec.execute( "clean", "verify" );
         result.assertErrorFreeLog();
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/WagonMojoFtpBasicTest.class" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoFtpBasicTest.class" ).exists() );
-        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/WagonMojoHttpTest.class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/" + this.getClass().getSimpleName() + ".class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/"+ this.getClass().getSimpleName() + ".class" ).exists() );
+        Assert.assertTrue( new File( result.getBasedir(), "target/it/single-dir/" + this.getClass().getSimpleName() + ".class" ).exists() );
 
     }
 

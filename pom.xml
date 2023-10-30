@@ -86,11 +86,18 @@
     <mojo.java.target>8</mojo.java.target>
     <wagon.api.version>3.0.0</wagon.api.version>
 
-    <takari-plugin-testing.version>2.9.0</takari-plugin-testing.version>
-    <takari-lifecycle-plugin.version>1.12.2</takari-lifecycle-plugin.version>
+    <!-- Test plugins -->
+    <takari-plugin-testing.version>2.9.2</takari-plugin-testing.version>
+    <takari-lifecycle-plugin.version>2.0.0</takari-lifecycle-plugin.version>
 
-    <ftpserver.version>1.1.1</ftpserver.version>
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
+
+    <!-- logging -->
+    <dependency.slf4j.version>1.7.9</dependency.slf4j.version>
+
+    <!-- Test dependencies -->
+    <dependency.jetty.version>9.4.51.v20230217</dependency.jetty.version>
+    <ftpserver.version>1.1.1</ftpserver.version>
   </properties>
 
   <dependencies>
@@ -181,7 +188,13 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.9</version>
+      <version>${dependency.slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${dependency.slf4j.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <!-- needed to debug plugin under m2e -->
@@ -210,12 +223,21 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${dependency.jetty.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <version>${dependency.jetty.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
-
-    <defaultGoal>install</defaultGoal>
-
     <pluginManagement>
       <plugins>
         <plugin>
@@ -293,6 +315,20 @@
             <phase>process-test-resources</phase>
             <goals>
               <goal>testProperties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
             </goals>
           </execution>
         </executions>
