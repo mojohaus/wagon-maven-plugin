@@ -41,6 +41,13 @@ public class DownloadMojo
     @Parameter( property = "wagon.toDir", defaultValue = "${project.build.directory}/wagon-plugin")
     private File toDir;
 
+
+    /**
+     * Download only files that doesn't exists in target directory.
+     */
+    @Parameter( property = "wagon.incremental")
+    private boolean incremental;
+
     @Override
     protected void execute( Wagon wagon )
         throws WagonException
@@ -48,7 +55,7 @@ public class DownloadMojo
         WagonFileSet fileSet = this.getWagonFileSet();
         fileSet.setDownloadDirectory( this.toDir );
 
-        this.wagonDownload.download( wagon, fileSet, this.getLog() );
+        this.wagonDownload.download( wagon, fileSet, this.getLog(), incremental );
     }
 
 }

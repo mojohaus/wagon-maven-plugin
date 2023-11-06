@@ -33,7 +33,20 @@ public interface WagonUpload
 
     /**
      * Upload a set of files via FileSet interface to a remote repository via Wagon
-     * 
+     *
+     * @param wagon - a Wagon instance
+     * @param fileset file set to upload
+     * @param optimize locally compressed and uncompress at the remote site if scp is use
+     * @param incremental Handle incremental upload. Incremental upload will only upload resources that doesn't exist
+     * @throws WagonException if nay wagon exception
+     * @throws IOException if any io exception
+     */
+    void upload( Wagon wagon, FileSet fileset, boolean optimize, boolean incremental )
+            throws WagonException, IOException;
+
+    /**
+     * Upload a set of files via FileSet interface to a remote repository via Wagon
+     *
      * @param wagon - a Wagon instance
      * @param fileset file set to upload
      * @param optimize locally compressed and uncompress at the remote site if scp is use

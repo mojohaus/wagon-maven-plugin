@@ -40,15 +40,26 @@ public interface WagonDownload
      */
     List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
         throws WagonException;
+    /**
+     * @param wagon - a Wagon instance
+     * @param remoteFileSet - Criteria to build the list
+     * @param logger - logger used
+     * @param incremental - download only files that doesn't already exist in destination
+     * @throws WagonException if any wagon error
+     */
+    void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger, boolean incremental )
+            throws WagonException;
 
     /**
      * @param wagon - a Wagon instance
      * @param remoteFileSet - Criteria to build the list
      * @param logger - logger used
+     *
      * @throws WagonException if any wagon error
      */
     void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
-        throws WagonException;
+            throws WagonException;
+
 
     /**
      * @param wagon - a Wagon instance
