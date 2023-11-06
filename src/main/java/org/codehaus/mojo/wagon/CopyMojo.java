@@ -34,38 +34,40 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 /**
  * Copy artifacts from one Wagon repository to another Wagon repository.
  */
-@Mojo(name = "copy", requiresProject = false)
-public class CopyMojo extends AbstractCopyMojo {
+@Mojo( name = "copy" , requiresProject = false)
+public class CopyMojo
+    extends AbstractCopyMojo
+{
     /**
      * Directory path relative to source's Wagon
      */
-    @Parameter(property = "wagon.fromDir")
-    private final String fromDir = "";
+    @Parameter( property = "wagon.fromDir")
+    private String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
      */
-    @Parameter(property = "wagon.includes", defaultValue = "*")
+    @Parameter( property = "wagon.includes", defaultValue = "*")
     private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files
      */
-    @Parameter(property = "wagon.excludes")
+    @Parameter( property = "wagon.excludes")
     private String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan.
      */
-    @Parameter(property = "wagon.caseSensitive")
-    private final boolean caseSensitive = true;
+    @Parameter( property = "wagon.caseSensitive")
+    private boolean caseSensitive = true;
 
     /**
      * Local directory to store downloaded artifacts. This directory is needed in order to use continuation type ONLY_MISSING during the download from source Wagin.
      * If not provided, the artifacts are downloaded to a temporary directory
      * If not provided, the continuation type ONLY_MISSING will only work during the upload to target
      */
-    @Parameter(property = "wagon.downloadDirectory")
+    @Parameter( property = "wagon.downloadDirectory" )
     private File downloadDirectory;
 
     /**
@@ -74,21 +76,25 @@ public class CopyMojo extends AbstractCopyMojo {
      * downloadDirectory and copy files that do not exist in target Wagon
      * When continuation type is NONE, copy all files
      */
-    @Parameter(property = "wagon.continuationType")
+    @Parameter( property = "wagon.continuationType" )
     private ContinuationType continuationType = ContinuationType.NONE;
 
     /**
      * Remote path relative to target's url to copy files to.
      */
-    @Parameter(property = "wagon.toDir")
-    private final String toDir = "";
+    @Parameter( property = "wagon.toDir" )
+    private String toDir = "";
 
-    @Component private WagonCopy wagonCopy;
+    @Component
+    private WagonCopy wagonCopy;
 
     @Override
-    protected void copy(Wagon srcWagon, Wagon targetWagon) throws IOException, WagonException {
-        WagonFileSet fileSet = this.getWagonFileSet(fromDir, includes, excludes, caseSensitive, toDir);
-        if (downloadDirectory != null) {
+    protected void copy( Wagon srcWagon, Wagon targetWagon )
+        throws IOException, WagonException
+    {
+        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
+        if ( downloadDirectory != null )
+        {
             fileSet.setDownloadDirectory(downloadDirectory);
         }
         wagonCopy.copy(srcWagon, fileSet, targetWagon, optimize, this.getLog(), continuationType);

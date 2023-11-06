@@ -44,7 +44,9 @@ public interface WagonDownload
      * @param wagon - a Wagon instance
      * @param remoteFileSet - Criteria to build the list
      * @param logger - logger used
-     * @param continuationType - download only files that doesn't already exist in destination
+     * @param continuationType - continuation type.
+     *                        When ONLY_MISSING, download only files that do not already exist in destination
+     *                        When continuation type is NONE, download all files
      * @throws WagonException if any wagon error
      */
     void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger, ContinuationType continuationType )
