@@ -64,13 +64,13 @@ public class DefaultWagonCopy
 
         try
         {
-            this.downloader.download( src, wagonFileSet, logger, continuationType);
+            this.downloader.download( src, wagonFileSet, logger, continuationType );
 
             FileSet localFileSet = new FileSet();
             localFileSet.setDirectory( wagonFileSet.getDownloadDirectory().getAbsolutePath() );
             localFileSet.setOutputDirectory( wagonFileSet.getOutputDirectory() );
 
-            this.uploader.upload( target, localFileSet, optimize, continuationType);
+            this.uploader.upload( target, localFileSet, optimize, continuationType );
         }
         finally
         {
