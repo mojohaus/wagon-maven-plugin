@@ -25,6 +25,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.ContinuationType;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
@@ -43,10 +44,12 @@ public class DownloadMojo
 
 
     /**
-     * Download only files that doesn't exists in target directory.
+     * Configure the continuation type
+     * When continuation type is ONLY_MISSING, download file from source Wagon that do not exist in toDir directory
+     * When continuation type is NONE, download all files
      */
-    @Parameter( property = "wagon.incremental")
-    private boolean incremental;
+    @Parameter( property = "wagon.continuationType")
+    private ContinuationType continuationType = ContinuationType.NONE;
 
     @Override
     protected void execute( Wagon wagon )
@@ -55,7 +58,7 @@ public class DownloadMojo
         WagonFileSet fileSet = this.getWagonFileSet();
         fileSet.setDownloadDirectory( this.toDir );
 
-        this.wagonDownload.download( wagon, fileSet, this.getLog(), incremental );
+        this.wagonDownload.download( wagon, fileSet, this.getLog(), continuationType );
     }
 
 }

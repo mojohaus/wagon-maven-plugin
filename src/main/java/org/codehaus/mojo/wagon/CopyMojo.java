@@ -27,73 +27,71 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.ContinuationType;
 import org.codehaus.mojo.wagon.shared.WagonCopy;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
 /**
  * Copy artifacts from one Wagon repository to another Wagon repository.
  */
-@Mojo( name = "copy" , requiresProject = false)
-public class CopyMojo
-    extends AbstractCopyMojo
-{
+@Mojo(name = "copy", requiresProject = false)
+public class CopyMojo extends AbstractCopyMojo {
     /**
      * Directory path relative to source's Wagon
      */
-    @Parameter( property = "wagon.fromDir")
-    private String fromDir = "";
+    @Parameter(property = "wagon.fromDir")
+    private final String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
      */
-    @Parameter( property = "wagon.includes", defaultValue = "*")
+    @Parameter(property = "wagon.includes", defaultValue = "*")
     private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files
      */
-    @Parameter( property = "wagon.excludes")
+    @Parameter(property = "wagon.excludes")
     private String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan.
      */
-    @Parameter( property = "wagon.caseSensitive")
-    private boolean caseSensitive = true;
+    @Parameter(property = "wagon.caseSensitive")
+    private final boolean caseSensitive = true;
 
     /**
-     * Local directory to store downloaded artifacts.
+     * Local directory to store downloaded artifacts. This directory is needed in order to use continuation type ONLY_MISSING during the download from source Wagin.
+     * If not provided, the artifacts are downloaded to a temporary directory
+     * If not provided, the continuation type ONLY_MISSING will only work during the upload to target
      */
-    @Parameter( property = "wagon.downloadDirectory")
+    @Parameter(property = "wagon.downloadDirectory")
     private File downloadDirectory;
 
-
     /**
-     * Download files that doesn't exist in local directory.
-     * Upload files that are not yet in target.
+     * Configure the continuation type.
+     * When continuation type is ONLY_MISSING, download file from source Wagon that do not               exist in
+     * downloadDirectory and copy files that do not exist in target Wagon
+     * When continuation type is NONE, copy all files
      */
-    @Parameter( property = "wagon.incremental")
-    private boolean incremental;
+    @Parameter(property = "wagon.continuationType")
+    private ContinuationType continuationType = ContinuationType.NONE;
 
     /**
      * Remote path relative to target's url to copy files to.
      */
-    @Parameter( property = "wagon.toDir")
-    private String toDir = "";
+    @Parameter(property = "wagon.toDir")
+    private final String toDir = "";
 
-    @Component
-    private WagonCopy wagonCopy;
+    @Component private WagonCopy wagonCopy;
 
     @Override
-    protected void copy( Wagon srcWagon, Wagon targetWagon )
-        throws IOException, WagonException
-    {
-        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
-        if( downloadDirectory != null )
-        {
+    protected void copy(Wagon srcWagon, Wagon targetWagon) throws IOException, WagonException {
+        WagonFileSet fileSet = this.getWagonFileSet(fromDir, includes, excludes, caseSensitive, toDir);
+        if (downloadDirectory != null) {
             fileSet.setDownloadDirectory(downloadDirectory);
         }
-        wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog(), incremental );
+        wagonCopy.copy(srcWagon, fileSet, targetWagon, optimize, this.getLog(), continuationType);
     }
 
 }

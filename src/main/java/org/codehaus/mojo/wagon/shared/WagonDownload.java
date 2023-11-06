@@ -44,10 +44,10 @@ public interface WagonDownload
      * @param wagon - a Wagon instance
      * @param remoteFileSet - Criteria to build the list
      * @param logger - logger used
-     * @param incremental - download only files that doesn't already exist in destination
+     * @param continuationType - download only files that doesn't already exist in destination
      * @throws WagonException if any wagon error
      */
-    void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger, boolean incremental )
+    void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger, ContinuationType continuationType )
             throws WagonException;
 
     /**
@@ -59,6 +59,7 @@ public interface WagonDownload
      */
     void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
             throws WagonException;
+
 
 
     /**

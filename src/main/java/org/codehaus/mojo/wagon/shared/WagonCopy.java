@@ -40,10 +40,13 @@ public interface WagonCopy
      * @param toWagon - target Wagon
      * @param optimize - locally compressed and remotely uncompress for scp only
      * @param logger - logger used
-     * @param incremental - Only copy files that doesn't already exist in target Wagon
+     * @param continuationType - continuation type.
+     *        When continuation type is ONLY_MISSING, download file from source Wagon that do not
+     *        exist in downloadDirectory and copy files that do not exist in target Wagon
+     *        When continuation type is NONE, copy all files
      * @throws WagonException if any wagon error
      * @throws IOException if any io error
      */
-    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger, boolean incremental )
+    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger, ContinuationType continuationType )
             throws WagonException, IOException;
 }

@@ -48,7 +48,7 @@ public class DefaultWagonUpload
     @Requirement
     private ArchiverManager archiverManager;
 
-    public void uploadBasic(Wagon wagon, FileSet fileset, boolean incremental)
+    public void uploadBasic(Wagon wagon, FileSet fileset, ContinuationType continuationType)
         throws WagonException
     {
 
@@ -76,13 +76,13 @@ public class DefaultWagonUpload
 
             File source = new File( fileset.getDirectory(), file );
 
-            if ( !incremental || !wagon.resourceExists(relativeDestPath) )
+            if ( continuationType.equals(ContinuationType.ONLY_MISSING) && wagon.resourceExists(relativeDestPath) )
+            {
+                LOG.info("Skipping upload " + source + " to " + url + relativeDestPath + " ... Destination already exist");
+            } else
             {
                 LOG.info("Uploading " + source + " to " + url + relativeDestPath + " ...");
                 wagon.put(source, relativeDestPath);
-            } else
-            {
-                LOG.info("Skipping upload " + source + " to " + url + relativeDestPath + " ... Destination already exist");
             }
         }
 
@@ -92,16 +92,16 @@ public class DefaultWagonUpload
     public void upload( Wagon wagon, FileSet fileset, boolean optimize )
         throws WagonException, IOException
     {
-        upload(wagon, fileset, optimize, false);
+        upload(wagon, fileset, optimize, ContinuationType.NONE);
     }
 
     @Override
-    public void upload( Wagon wagon, FileSet fileset, boolean optimize, boolean incremental )
+    public void upload( Wagon wagon, FileSet fileset, boolean optimize, ContinuationType continuationType)
         throws WagonException, IOException
     {
         if (!optimize)
         {
-            uploadBasic( wagon, fileset, incremental );
+            uploadBasic( wagon, fileset, continuationType);
             return;
         }
 
