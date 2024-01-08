@@ -5,7 +5,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>77</version>
+    <version>78</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
