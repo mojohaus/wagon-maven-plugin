@@ -87,7 +87,7 @@
     <wagon.api.version>3.4.0</wagon.api.version>
 
     <!-- Test plugins -->
-    <takari-plugin-testing.version>2.9.2</takari-plugin-testing.version>
+    <takari-plugin-testing.version>3.0.1</takari-plugin-testing.version>
     <takari-lifecycle-plugin.version>2.1.2</takari-lifecycle-plugin.version>
 
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
