@@ -19,6 +19,7 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugins.annotations.Component;
@@ -26,6 +27,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.ContinuationType;
 import org.codehaus.mojo.wagon.shared.WagonCopy;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
 
@@ -61,9 +63,25 @@ public class CopyMojo
     private boolean caseSensitive = true;
 
     /**
+     * Local directory to store downloaded artifacts. This directory is needed in order to use continuation type ONLY_MISSING during the download from source Wagon.
+     * If not provided, the artifacts are downloaded to a temporary directory and the continuation type ONLY_MISSING will only work during the upload to target Wagon
+     */
+    @Parameter( property = "wagon.downloadDirectory" )
+    private File downloadDirectory;
+
+    /**
+     * Configure the continuation type.
+     * When continuation type is ONLY_MISSING, download file from source Wagon that do not exist in
+     * downloadDirectory and copy files that do not exist in target Wagon
+     * When continuation type is NONE, copy all files
+     */
+    @Parameter( property = "wagon.continuationType" )
+    private ContinuationType continuationType = ContinuationType.NONE;
+
+    /**
      * Remote path relative to target's url to copy files to.
      */
-    @Parameter( property = "wagon.toDir")
+    @Parameter( property = "wagon.toDir" )
     private String toDir = "";
 
     @Component
@@ -74,8 +92,11 @@ public class CopyMojo
         throws IOException, WagonException
     {
         WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
-
-        wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
+        if ( downloadDirectory != null )
+        {
+            fileSet.setDownloadDirectory(downloadDirectory);
+        }
+        wagonCopy.copy(srcWagon, fileSet, targetWagon, optimize, this.getLog(), continuationType);
     }
 
 }

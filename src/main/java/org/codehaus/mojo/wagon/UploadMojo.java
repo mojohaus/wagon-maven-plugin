@@ -29,6 +29,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
+import org.codehaus.mojo.wagon.shared.ContinuationType;
 import org.codehaus.mojo.wagon.shared.WagonUpload;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -85,6 +86,14 @@ public class UploadMojo
     @Component
     protected WagonUpload wagonUpload;
 
+    /**
+     * Configure the continuation type
+     * When continuation type is ONLY_MISSING, upload files that do not exist in target Wagon
+     * When continuation type is NONE, upload all files
+     */
+    @Parameter( property = "wagon.continuationType" )
+    private ContinuationType continuationType = ContinuationType.NONE;
+
     @Override
     protected void execute( Wagon wagon )
         throws WagonException, IOException
@@ -109,7 +118,7 @@ public class UploadMojo
 
         fileSet.setOutputDirectory( toDir );
 
-        this.wagonUpload.upload( wagon, fileSet, optimize );
+        this.wagonUpload.upload( wagon, fileSet, optimize, continuationType );
     }
 
 }

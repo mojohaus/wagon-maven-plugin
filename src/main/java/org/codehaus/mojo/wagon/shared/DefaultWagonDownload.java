@@ -57,7 +57,7 @@ public class DefaultWagonDownload
     }
 
     @Override
-    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
+    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger, ContinuationType continuationType )
         throws WagonException
     {
         List fileList = this.getFileList( wagon, remoteFileSet, logger );
@@ -82,10 +82,23 @@ public class DefaultWagonDownload
                 remoteFile = remoteFileSet.getDirectory() + "/" + remoteFile;
             }
 
-            logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
-
-            wagon.get( remoteFile, destination );
+            if( continuationType.equals(ContinuationType.ONLY_MISSING) && destination.exists())
+            {
+                logger.info( "Skipping download " + url + remoteFile + " to " + destination + " ...Destination already exist" );
+            }
+            else
+            {
+                logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
+                wagon.get(remoteFile, destination);
+            }
         }
+    }
+
+    @Override
+    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger)
+        throws WagonException
+    {
+        download(wagon, remoteFileSet, logger, ContinuationType.NONE);
     }
 
     @Override
