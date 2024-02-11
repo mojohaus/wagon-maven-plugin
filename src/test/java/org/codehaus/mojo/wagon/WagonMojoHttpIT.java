@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith( MavenJUnitTestRunner.class )
-@MavenVersions( { "3.2.5" } )
+@MavenVersions( { "3.6.3" } )
 public class WagonMojoHttpIT extends AbstractJettyIT
 {
     @Rule

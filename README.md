@@ -9,7 +9,7 @@ This is the [wagon-maven-plugin](http://www.mojohaus.org/wagon-maven-plugin/).
 
 ## Maintained versions
 
-Wagen Maven Plugin requires Maven 3.2.5+ and JDK 1.8+
+Wagen Maven Plugin requires Maven 3.6.3+ and JDK 8+
 
 However, we maintain the latest Plugin version with the latest Maven.
 
