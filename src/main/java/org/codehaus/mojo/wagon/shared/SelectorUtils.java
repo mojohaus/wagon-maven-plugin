@@ -19,8 +19,9 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 /**
  * A copy of plexus-util's SelectorUtils to deal with unix file separator only.
@@ -61,8 +62,8 @@ public final class SelectorUtils {
             return false;
         }
 
-        Vector patDirs = tokenizePath(pattern);
-        Vector strDirs = tokenizePath(str);
+        List<String> patDirs = tokenizePath(pattern);
+        List<String> strDirs = tokenizePath(str);
 
         int patIdxStart = 0;
         int patIdxEnd = patDirs.size() - 1;
@@ -71,11 +72,11 @@ public final class SelectorUtils {
 
         // up to first '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
-            String patDir = (String) patDirs.elementAt(patIdxStart);
+            String patDir = patDirs.get(patIdxStart);
             if (patDir.equals("**")) {
                 break;
             }
-            if (!match(patDir, (String) strDirs.elementAt(strIdxStart), isCaseSensitive)) {
+            if (!match(patDir, strDirs.get(strIdxStart), isCaseSensitive)) {
                 return false;
             }
             patIdxStart++;
@@ -123,8 +124,8 @@ public final class SelectorUtils {
             return false;
         }
 
-        Vector patDirs = tokenizePath(pattern);
-        Vector strDirs = tokenizePath(str);
+        List<String> patDirs = tokenizePath(pattern);
+        List<String> strDirs = tokenizePath(str);
 
         int patIdxStart = 0;
         int patIdxEnd = patDirs.size() - 1;
@@ -133,11 +134,11 @@ public final class SelectorUtils {
 
         // up to first '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
-            String patDir = (String) patDirs.elementAt(patIdxStart);
+            String patDir = patDirs.get(patIdxStart);
             if (patDir.equals("**")) {
                 break;
             }
-            if (!match(patDir, (String) strDirs.elementAt(strIdxStart), isCaseSensitive)) {
+            if (!match(patDir, strDirs.get(strIdxStart), isCaseSensitive)) {
                 return false;
             }
             patIdxStart++;
@@ -146,7 +147,7 @@ public final class SelectorUtils {
         if (strIdxStart > strIdxEnd) {
             // String is exhausted
             for (int i = patIdxStart; i <= patIdxEnd; i++) {
-                if (!patDirs.elementAt(i).equals("**")) {
+                if (!patDirs.get(i).equals("**")) {
                     return false;
                 }
             }
@@ -160,11 +161,11 @@ public final class SelectorUtils {
 
         // up to last '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
-            String patDir = (String) patDirs.elementAt(patIdxEnd);
+            String patDir = patDirs.get(patIdxEnd);
             if (patDir.equals("**")) {
                 break;
             }
-            if (!match(patDir, (String) strDirs.elementAt(strIdxEnd), isCaseSensitive)) {
+            if (!match(patDir, strDirs.get(strIdxEnd), isCaseSensitive)) {
                 return false;
             }
             patIdxEnd--;
@@ -173,7 +174,7 @@ public final class SelectorUtils {
         if (strIdxStart > strIdxEnd) {
             // String is exhausted
             for (int i = patIdxStart; i <= patIdxEnd; i++) {
-                if (!patDirs.elementAt(i).equals("**")) {
+                if (!patDirs.get(i).equals("**")) {
                     return false;
                 }
             }
@@ -183,7 +184,7 @@ public final class SelectorUtils {
         while (patIdxStart != patIdxEnd && strIdxStart <= strIdxEnd) {
             int patIdxTmp = -1;
             for (int i = patIdxStart + 1; i <= patIdxEnd; i++) {
-                if (patDirs.elementAt(i).equals("**")) {
+                if (patDirs.get(i).equals("**")) {
                     patIdxTmp = i;
                     break;
                 }
@@ -201,8 +202,8 @@ public final class SelectorUtils {
             strLoop:
             for (int i = 0; i <= strLength - patLength; i++) {
                 for (int j = 0; j < patLength; j++) {
-                    String subPat = (String) patDirs.elementAt(patIdxStart + j + 1);
-                    String subStr = (String) strDirs.elementAt(strIdxStart + i + j);
+                    String subPat = patDirs.get(patIdxStart + j + 1);
+                    String subStr = strDirs.get(strIdxStart + i + j);
                     if (!match(subPat, subStr, isCaseSensitive)) {
                         continue strLoop;
                     }
@@ -221,7 +222,7 @@ public final class SelectorUtils {
         }
 
         for (int i = patIdxStart; i <= patIdxEnd; i++) {
-            if (!patDirs.elementAt(i).equals("**")) {
+            if (!patDirs.get(i).equals("**")) {
                 return false;
             }
         }
@@ -385,10 +386,8 @@ public final class SelectorUtils {
         }
         if (!isCaseSensitive) {
             // NOTE: Try both upper case and lower case as done by String.equalsIgnoreCase()
-            if (Character.toUpperCase(c1) == Character.toUpperCase(c2)
-                    || Character.toLowerCase(c1) == Character.toLowerCase(c2)) {
-                return true;
-            }
+            return Character.toUpperCase(c1) == Character.toUpperCase(c2)
+                    || Character.toLowerCase(c1) == Character.toLowerCase(c2);
         }
         return false;
     }
@@ -399,11 +398,11 @@ public final class SelectorUtils {
      * @param path Path to tokenize. Must not be <code>null</code>.
      * @return a Vector of path elements from the tokenized path
      */
-    public static Vector tokenizePath(String path) {
-        Vector ret = new Vector();
+    public static List<String> tokenizePath(String path) {
+        List<String> ret = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(path, "/");
         while (st.hasMoreTokens()) {
-            ret.addElement(st.nextToken());
+            ret.add(st.nextToken());
         }
         return ret;
     }

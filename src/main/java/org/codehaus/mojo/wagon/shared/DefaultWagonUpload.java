@@ -69,7 +69,7 @@ public class DefaultWagonUpload implements WagonUpload {
 
             File source = new File(fileset.getDirectory(), file);
 
-            LOG.info("Uploading " + source + " to " + url + relativeDestPath + " ...");
+            LOG.info("Uploading {} to {}{} ...", source, url, relativeDestPath);
 
             wagon.put(source, relativeDestPath);
         }
@@ -87,11 +87,9 @@ public class DefaultWagonUpload implements WagonUpload {
                     "Wagon " + wagon.getRepository().getProtocol() + " does not support optimize upload");
         }
 
-        LOG.info("Uploading " + fileset);
+        LOG.info("Uploading {}", fileset);
 
-        File zipFile;
-        zipFile = File.createTempFile("wagon", ".zip");
-
+        File zipFile = File.createTempFile("wagon", ".zip");
         try {
             FileSetManager fileSetManager = new FileSetManager(LOG, LOG.isDebugEnabled());
             String[] files = fileSetManager.getIncludedFiles(fileset);
@@ -101,7 +99,7 @@ public class DefaultWagonUpload implements WagonUpload {
                 return;
             }
 
-            LOG.info("Creating " + zipFile + " ...");
+            LOG.info("Creating {} ...", zipFile);
             createZip(files, zipFile, fileset.getDirectory());
 
             String remoteFile = zipFile.getName();
@@ -110,7 +108,7 @@ public class DefaultWagonUpload implements WagonUpload {
                 remoteFile = remoteDir + "/" + remoteFile;
             }
 
-            LOG.info("Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ...");
+            LOG.info("Uploading {} to {}/{} ...", zipFile, wagon.getRepository().getUrl(), remoteFile);
             wagon.put(zipFile, remoteFile);
 
             // We use the super quiet option here as all the noise seems to kill/stall the connection
@@ -120,11 +118,11 @@ public class DefaultWagonUpload implements WagonUpload {
             }
 
             try {
-                LOG.info("Remote: " + command);
+                LOG.info("Remote: {}", command);
                 ((CommandExecutor) wagon).executeCommand(command);
             } finally {
                 command = "rm -f " + remoteFile;
-                LOG.info("Remote: " + command);
+                LOG.info("Remote: {}", command);
 
                 ((CommandExecutor) wagon).executeCommand(command);
             }

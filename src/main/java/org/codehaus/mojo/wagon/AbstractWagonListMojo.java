@@ -19,7 +19,8 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import org.apache.maven.plugins.annotations.Component;
+import javax.inject.Inject;
+
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 import org.codehaus.mojo.wagon.shared.WagonFileSet;
@@ -53,7 +54,7 @@ public abstract class AbstractWagonListMojo extends AbstractSingleWagonMojo {
     @Parameter(property = "wagon.caseSensitive", defaultValue = "true")
     protected boolean caseSensitive = true;
 
-    @Component
+    @Inject
     protected WagonDownload wagonDownload;
 
     protected WagonFileSet getWagonFileSet() {

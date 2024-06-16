@@ -19,7 +19,8 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
-import org.apache.maven.plugins.annotations.Component;
+import javax.inject.Inject;
+
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
@@ -37,7 +38,7 @@ public class ExistMojo extends AbstractSingleWagonMojo {
     @Parameter(property = "wagon.resource")
     private String resource = "";
 
-    @Component
+    @Inject
     protected WagonDownload wagonDownload;
 
     @Override

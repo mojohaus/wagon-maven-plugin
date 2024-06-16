@@ -19,11 +19,12 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
@@ -80,7 +81,7 @@ public class UploadMojo extends AbstractSingleWagonMojo {
     @Parameter(property = "wagon.optimize", defaultValue = "false")
     private boolean optimize = false;
 
-    @Component
+    @Inject
     protected WagonUpload wagonUpload;
 
     @Override

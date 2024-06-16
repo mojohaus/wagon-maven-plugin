@@ -19,9 +19,10 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.wagon.Wagon;
@@ -64,7 +65,7 @@ public class CopyMojo extends AbstractCopyMojo {
     @Parameter(property = "wagon.toDir")
     private String toDir = "";
 
-    @Component
+    @Inject
     private WagonCopy wagonCopy;
 
     @Override

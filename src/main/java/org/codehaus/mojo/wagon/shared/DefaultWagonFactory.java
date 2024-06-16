@@ -186,7 +186,7 @@ public class DefaultWagonFactory implements WagonFactory, Contextualizable {
         return wagon;
     }
 
-    private Wagon configureWagon(Wagon wagon, String repositoryId, Server server) throws TransferFailedException {
+    private void configureWagon(Wagon wagon, String repositoryId, Server server) throws TransferFailedException {
         final PlexusConfiguration plexusConf = new XmlPlexusConfiguration((Xpp3Dom) server.getConfiguration());
         try {
             if (!(componentConfigurator instanceof BasicComponentConfigurator)) {
@@ -196,9 +196,8 @@ public class DefaultWagonFactory implements WagonFactory, Contextualizable {
                     wagon, plexusConf, (ClassRealm) this.getClass().getClassLoader());
         } catch (ComponentConfigurationException e) {
             throw new TransferFailedException(
-                    "While configuring wagon for \'" + repositoryId + "\': Unable to apply wagon configuration.", e);
+                    "While configuring wagon for '" + repositoryId + "': Unable to apply wagon configuration.", e);
         }
-        return wagon;
     }
 
     public AuthenticationInfo getAuthenticationInfo(String id, Settings settings) {
