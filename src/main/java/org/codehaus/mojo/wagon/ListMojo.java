@@ -9,21 +9,16 @@ import org.apache.maven.wagon.WagonException;
 /**
  * Lists the content of the specified directory (remotePath) under a specified repository (url).
  */
-@Mojo( name = "list" , requiresProject = false)
-public class ListMojo
-    extends AbstractWagonListMojo
-{
+@Mojo(name = "list", requiresProject = false)
+public class ListMojo extends AbstractWagonListMojo {
 
     @Override
-    protected void execute( Wagon wagon )
-        throws WagonException
-    {
-        List files = wagonDownload.getFileList( wagon, this.getWagonFileSet(), this.getLog() );
+    protected void execute(Wagon wagon) throws WagonException {
+        List files = wagonDownload.getFileList(wagon, this.getWagonFileSet(), this.getLog());
 
-        for ( Object file1 : files )
-        {
+        for (Object file1 : files) {
             String file = (String) file1;
-            getLog().info( "\t" + file );
+            getLog().info("\t" + file);
         }
     }
 }

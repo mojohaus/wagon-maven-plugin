@@ -1,5 +1,7 @@
 package org.codehaus.mojo.wagon.shared;
 
+import java.util.List;
+
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -18,9 +20,9 @@ import org.apache.maven.wagon.repository.RepositoryPermissions;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
-import org.codehaus.plexus.component.configurator.BasicComponentConfigurator;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
+import org.codehaus.plexus.component.configurator.BasicComponentConfigurator;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 import org.codehaus.plexus.component.configurator.ComponentConfigurator;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
@@ -34,13 +36,10 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 @Component(role = WagonFactory.class, hint = "default")
-public class DefaultWagonFactory
-    implements WagonFactory, Contextualizable
-{
+public class DefaultWagonFactory implements WagonFactory, Contextualizable {
 
-    private final Logger logger = LoggerFactory.getLogger( this.getClass() );
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Requirement
     private SettingsDecrypter settingsDecrypter;
@@ -55,62 +54,49 @@ public class DefaultWagonFactory
     private PlexusContainer container;
 
     @Override
-    public Wagon create( String url, String serverId, Settings settings )
-        throws WagonException
-    {
-        final Repository repository = new Repository( serverId, url == null ? "" : url );
-        repository.setPermissions( getPermissions( serverId, settings ) );
+    public Wagon create(String url, String serverId, Settings settings) throws WagonException {
+        final Repository repository = new Repository(serverId, url == null ? "" : url);
+        repository.setPermissions(getPermissions(serverId, settings));
         Wagon wagon;
-        if ( url == null )
-        {
-            wagon = createAndConfigureWagon( serverId, settings, repository );
-        }
-        else
-        {
-            wagon = getWagon( repository.getProtocol() );
+        if (url == null) {
+            wagon = createAndConfigureWagon(serverId, settings, repository);
+        } else {
+            wagon = getWagon(repository.getProtocol());
 
-            configureWagon( wagon, serverId, settings );
+            configureWagon(wagon, serverId, settings);
         }
 
-
-
-        if ( logger.isDebugEnabled() )
-        {
+        if (logger.isDebugEnabled()) {
             Debug debug = new Debug();
-            wagon.addSessionListener( debug );
-            wagon.addTransferListener( debug );
+            wagon.addSessionListener(debug);
+            wagon.addTransferListener(debug);
         }
 
-        AuthenticationInfo authInfo = getAuthenticationInfo( serverId, settings );
-        ProxyInfo proxyInfo = getProxyInfo( settings );
-        wagon.connect( repository, authInfo, proxyInfo );
+        AuthenticationInfo authInfo = getAuthenticationInfo(serverId, settings);
+        ProxyInfo proxyInfo = getProxyInfo(settings);
+        wagon.connect(repository, authInfo, proxyInfo);
 
         return wagon;
     }
 
-    private Wagon createAndConfigureWagon( String repositoryId, Settings settings, Repository repository )
-            throws WagonException
-    {
+    private Wagon createAndConfigureWagon(String repositoryId, Settings settings, Repository repository)
+            throws WagonException {
         Wagon wagon = null;
-        for ( Server server : settings.getServers() )
-        {
+        for (Server server : settings.getServers()) {
             String id = server.getId();
 
-            if ( id != null && id.equals( repositoryId ) )
-            {
+            if (id != null && id.equals(repositoryId)) {
                 Xpp3Dom configuration = (Xpp3Dom) server.getConfiguration();
-                String url = configuration == null ? null : configuration.getAttribute( "url" );
-                if ( StringUtils.isBlank( url ) )
-                {
-                    throw new NullPointerException( "url cannot be null" );
+                String url = configuration == null ? null : configuration.getAttribute("url");
+                if (StringUtils.isBlank(url)) {
+                    throw new NullPointerException("url cannot be null");
                 }
-                repository.setUrl( url );
+                repository.setUrl(url);
 
-                wagon = getWagon( repository.getProtocol() );
-                configureWagon( wagon, repositoryId, server );
+                wagon = getWagon(repository.getProtocol());
+                configureWagon(wagon, repositoryId, server);
 
                 break;
-
             }
         }
 
@@ -120,37 +106,28 @@ public class DefaultWagonFactory
     ///////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    private Wagon getWagon( String protocol )
-        throws UnsupportedProtocolException
-    {
-        if ( protocol == null )
-        {
-            throw new UnsupportedProtocolException( "Unspecified protocol" );
+    private Wagon getWagon(String protocol) throws UnsupportedProtocolException {
+        if (protocol == null) {
+            throw new UnsupportedProtocolException("Unspecified protocol");
         }
 
-        try
-        {
-            return container.lookup( Wagon.class, protocol.toLowerCase( java.util.Locale.ENGLISH ) );
-        }
-        catch ( ComponentLookupException e )
-        {
-            throw new UnsupportedProtocolException( "Cannot find wagon which supports the requested protocol: "
-                + protocol, e );
+        try {
+            return container.lookup(Wagon.class, protocol.toLowerCase(java.util.Locale.ENGLISH));
+        } catch (ComponentLookupException e) {
+            throw new UnsupportedProtocolException(
+                    "Cannot find wagon which supports the requested protocol: " + protocol, e);
         }
     }
 
-    private static RepositoryPermissions getPermissions( String id, Settings settings )
-    {
+    private static RepositoryPermissions getPermissions(String id, Settings settings) {
         // May not have an id
-        if ( StringUtils.isBlank( id ) )
-        {
+        if (StringUtils.isBlank(id)) {
             return null;
         }
 
         // May not be a server matching that id
-        Server server = settings.getServer( id );
-        if ( server == null )
-        {
+        Server server = settings.getServer(id);
+        if (server == null) {
             return null;
         }
 
@@ -159,15 +136,14 @@ public class DefaultWagonFactory
         String dirPerms = server.getDirectoryPermissions();
 
         // Check to see if custom permissions were supplied
-        if ( StringUtils.isBlank( filePerms ) && StringUtils.isBlank( dirPerms ) )
-        {
+        if (StringUtils.isBlank(filePerms) && StringUtils.isBlank(dirPerms)) {
             return null;
         }
 
         // There are custom permissions specified in settings.xml for this server
         RepositoryPermissions permissions = new RepositoryPermissions();
-        permissions.setFileMode( filePerms );
-        permissions.setDirectoryMode( dirPerms );
+        permissions.setFileMode(filePerms);
+        permissions.setDirectoryMode(dirPerms);
         return permissions;
     }
 
@@ -177,91 +153,73 @@ public class DefaultWagonFactory
      *
      * @return a proxyInfo object or null if no active proxy is define in the settings.xml
      */
-    private ProxyInfo getProxyInfo( Settings settings )
-    {
+    private ProxyInfo getProxyInfo(Settings settings) {
         ProxyInfo proxyInfo = null;
-        if ( settings != null && settings.getActiveProxy() != null )
-        {
+        if (settings != null && settings.getActiveProxy() != null) {
             SettingsDecryptionResult result =
-                    settingsDecrypter.decrypt( new DefaultSettingsDecryptionRequest( settings.getActiveProxy() ) );
+                    settingsDecrypter.decrypt(new DefaultSettingsDecryptionRequest(settings.getActiveProxy()));
             Proxy settingsProxy = result.getProxy();
 
             proxyInfo = new ProxyInfo();
-            proxyInfo.setHost( settingsProxy.getHost() );
-            proxyInfo.setType( settingsProxy.getProtocol() );
-            proxyInfo.setPort( settingsProxy.getPort() );
-            proxyInfo.setNonProxyHosts( settingsProxy.getNonProxyHosts() );
-            proxyInfo.setUserName( settingsProxy.getUsername() );
-            proxyInfo.setPassword( settingsProxy.getPassword() );
+            proxyInfo.setHost(settingsProxy.getHost());
+            proxyInfo.setType(settingsProxy.getProtocol());
+            proxyInfo.setPort(settingsProxy.getPort());
+            proxyInfo.setNonProxyHosts(settingsProxy.getNonProxyHosts());
+            proxyInfo.setUserName(settingsProxy.getUsername());
+            proxyInfo.setPassword(settingsProxy.getPassword());
         }
 
         return proxyInfo;
     }
 
-    private Wagon configureWagon( Wagon wagon, String repositoryId, Settings settings )
-        throws TransferFailedException
-    {
-        for ( Server server : settings.getServers() )
-        {
+    private Wagon configureWagon(Wagon wagon, String repositoryId, Settings settings) throws TransferFailedException {
+        for (Server server : settings.getServers()) {
             String id = server.getId();
 
-            if ( id != null && id.equals( repositoryId ) && ( server.getConfiguration() != null ) )
-            {
+            if (id != null && id.equals(repositoryId) && (server.getConfiguration() != null)) {
 
-                configureWagon( wagon, repositoryId, server);
+                configureWagon(wagon, repositoryId, server);
                 break;
-
             }
         }
 
         return wagon;
     }
 
-    private Wagon configureWagon( Wagon wagon, String repositoryId, Server server)
-            throws TransferFailedException
-    {
-        final PlexusConfiguration plexusConf =
-                new XmlPlexusConfiguration( (Xpp3Dom) server.getConfiguration() );
-        try
-        {
-            if ( !( componentConfigurator instanceof BasicComponentConfigurator ) ) {
+    private Wagon configureWagon(Wagon wagon, String repositoryId, Server server) throws TransferFailedException {
+        final PlexusConfiguration plexusConf = new XmlPlexusConfiguration((Xpp3Dom) server.getConfiguration());
+        try {
+            if (!(componentConfigurator instanceof BasicComponentConfigurator)) {
                 componentConfigurator = new BasicComponentConfigurator();
             }
-            componentConfigurator.configureComponent( wagon, plexusConf,
-                    (ClassRealm) this.getClass().getClassLoader() );
-        }
-        catch ( ComponentConfigurationException e )
-        {
-            throw new TransferFailedException( "While configuring wagon for \'" + repositoryId
-                    + "\': Unable to apply wagon configuration.", e );
+            componentConfigurator.configureComponent(
+                    wagon, plexusConf, (ClassRealm) this.getClass().getClassLoader());
+        } catch (ComponentConfigurationException e) {
+            throw new TransferFailedException(
+                    "While configuring wagon for \'" + repositoryId + "\': Unable to apply wagon configuration.", e);
         }
         return wagon;
     }
 
-    public AuthenticationInfo getAuthenticationInfo( String id, Settings settings )
-    {
+    public AuthenticationInfo getAuthenticationInfo(String id, Settings settings) {
         List<Server> servers = settings.getServers();
 
-        if ( servers != null )
-        {
-            for ( Server server : servers )
-            {
-                if ( id.equalsIgnoreCase( server.getId() ) )
-                {
+        if (servers != null) {
+            for (Server server : servers) {
+                if (id.equalsIgnoreCase(server.getId())) {
                     SettingsDecryptionResult result =
-                        settingsDecrypter.decrypt( new DefaultSettingsDecryptionRequest( server ) );
+                            settingsDecrypter.decrypt(new DefaultSettingsDecryptionRequest(server));
                     server = result.getServer();
 
                     AuthenticationInfo authInfo = new AuthenticationInfo();
-                    authInfo.setUserName( server.getUsername() );
-                    authInfo.setPassword( server.getPassword() );
-                    authInfo.setPrivateKey( server.getPrivateKey() );
-                    authInfo.setPassphrase( server.getPassphrase() );
+                    authInfo.setUserName(server.getUsername());
+                    authInfo.setPassword(server.getPassword());
+                    authInfo.setPrivateKey(server.getPrivateKey());
+                    authInfo.setPassphrase(server.getPassphrase());
 
                     return authInfo;
                 }
             }
-
         }
 
         // empty one to prevent NPE
@@ -269,10 +227,7 @@ public class DefaultWagonFactory
     }
 
     @Override
-    public void contextualize( Context context )
-        throws ContextException
-    {
-        container = (PlexusContainer) context.get( PlexusConstants.PLEXUS_KEY );
+    public void contextualize(Context context) throws ContextException {
+        container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
     }
-
 }

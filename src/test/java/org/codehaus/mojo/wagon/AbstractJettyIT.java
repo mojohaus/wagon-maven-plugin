@@ -2,6 +2,7 @@ package org.codehaus.mojo.wagon;
 
 import java.io.IOException;
 import java.nio.file.Path;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -29,13 +30,12 @@ public abstract class AbstractJettyIT {
         resource_handler.setResourceBase(getDirectoryToServe().toString());
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { resource_handler, new DefaultHandler() });
+        handlers.setHandlers(new Handler[] {resource_handler, new DefaultHandler()});
         server.setHandler(handlers);
 
         server.start();
         this.port = connector.getLocalPort();
     }
-
 
     @After
     public void tearDown() throws Exception {
@@ -47,5 +47,4 @@ public abstract class AbstractJettyIT {
     }
 
     protected abstract Path getDirectoryToServe() throws IOException;
-
 }

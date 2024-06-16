@@ -30,41 +30,34 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * Upload a single file with option to change name
  */
-@Mojo( name = "upload-single" , requiresProject = false )
-public class UploadSingleMojo
-    extends AbstractSingleWagonMojo
-{
+@Mojo(name = "upload-single", requiresProject = false)
+public class UploadSingleMojo extends AbstractSingleWagonMojo {
     /**
      * Path to a local file to be uploaded.
      */
-    @Parameter( property = "wagon.fromFile", required = true)
+    @Parameter(property = "wagon.fromFile", required = true)
     private File fromFile;
 
     /**
      * Relative path to the URL. When blank, default to fromFile's file name.
      */
-    @Parameter( property = "wagon.toFile")
+    @Parameter(property = "wagon.toFile")
     private String toFile;
 
     @Override
-    protected void execute( Wagon wagon )
-        throws WagonException
-    {
-        if ( this.skip )
-        {
-            this.getLog().info( "Skip execution." );
+    protected void execute(Wagon wagon) throws WagonException {
+        if (this.skip) {
+            this.getLog().info("Skip execution.");
             return;
         }
 
-        if ( StringUtils.isBlank( toFile ) )
-        {
+        if (StringUtils.isBlank(toFile)) {
             toFile = fromFile.getName();
         }
 
-        this.getLog().info( "Uploading: " + fromFile + " " + wagon.getRepository().getUrl() + "/" + toFile );
+        this.getLog()
+                .info("Uploading: " + fromFile + " " + wagon.getRepository().getUrl() + "/" + toFile);
 
-        wagon.put( fromFile, toFile );
-
+        wagon.put(fromFile, toFile);
     }
-
 }

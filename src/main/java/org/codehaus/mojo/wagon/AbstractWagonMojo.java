@@ -14,9 +14,7 @@ import org.codehaus.mojo.wagon.shared.WagonUtils;
 /**
  * Provides base functionality for dealing with I/O using wagon.
  */
-public abstract class AbstractWagonMojo
-    extends AbstractMojo
-{
+public abstract class AbstractWagonMojo extends AbstractMojo {
 
     @Component
     protected WagonFactory wagonFactory;
@@ -24,41 +22,34 @@ public abstract class AbstractWagonMojo
     /**
      * The current user system settings for use in Maven.
      */
-    @Parameter( defaultValue = "${settings}", readonly = true )
+    @Parameter(defaultValue = "${settings}", readonly = true)
     protected Settings settings;
 
     /**
      * Internal Maven's project.
      */
-    @Parameter( defaultValue = "${project}", readonly = true )
+    @Parameter(defaultValue = "${project}", readonly = true)
     protected MavenProject project;
 
     /**
      * When <code>true</code>, skip the execution.
      * @since 2.0.0
      */
-    @Parameter( property = "wagon.skip" )
+    @Parameter(property = "wagon.skip")
     protected boolean skip = false;
 
     /////////////////////////////////////////////////////////////////////////
 
-    protected Wagon createWagon( String id, String url )
-        throws MojoExecutionException
-    {
-        try
-        {
-            return wagonFactory.create( url, id, settings );
+    protected Wagon createWagon(String id, String url) throws MojoExecutionException {
+        try {
+            return wagonFactory.create(url, id, settings);
+        } catch (Exception e) {
+            throw new MojoExecutionException("Unable to create a Wagon instance for " + url, e);
         }
-        catch ( Exception e )
-        {
-            throw new MojoExecutionException( "Unable to create a Wagon instance for " + url, e );
-        }
-
     }
 
-    protected WagonFileSet getWagonFileSet( String fromDir, String includes, String excludes, boolean caseSensitive,
-                                            String toDir )
-    {
-        return WagonUtils.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
+    protected WagonFileSet getWagonFileSet(
+            String fromDir, String includes, String excludes, boolean caseSensitive, String toDir) {
+        return WagonUtils.getWagonFileSet(fromDir, includes, excludes, caseSensitive, toDir);
     }
 }

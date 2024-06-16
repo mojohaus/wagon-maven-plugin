@@ -25,8 +25,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
-public interface MavenRepoMerger
-{
+public interface MavenRepoMerger {
 
     String IN_PROCESS_MARKER = ".rip";
 
@@ -36,6 +35,5 @@ public interface MavenRepoMerger
 
     String MAVEN_METADATA = "maven-metadata.xml";
 
-    void merge( Wagon fromWagon, Wagon toWagon, boolean optimize, Log logger )
-        throws WagonException, IOException;
+    void merge(Wagon fromWagon, Wagon toWagon, boolean optimize, Log logger) throws WagonException, IOException;
 }

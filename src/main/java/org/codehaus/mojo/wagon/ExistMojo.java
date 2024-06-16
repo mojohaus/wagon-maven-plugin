@@ -29,31 +29,23 @@ import org.codehaus.mojo.wagon.shared.WagonDownload;
 /**
  * Check for the existing of remote resource.
  */
-@Mojo( name = "exist" )
-public class ExistMojo
-    extends AbstractSingleWagonMojo
-{
+@Mojo(name = "exist")
+public class ExistMojo extends AbstractSingleWagonMojo {
     /**
      * relative path to a remote resource.
      */
-    @Parameter( property = "wagon.resource")
+    @Parameter(property = "wagon.resource")
     private String resource = "";
 
     @Component
     protected WagonDownload wagonDownload;
 
     @Override
-    protected void execute( Wagon wagon )
-        throws WagonException
-    {
-        if ( this.wagonDownload.exists( wagon, resource ) )
-        {
-            this.getLog().info( resource + " exists. " );
-        }
-        else
-        {
-            this.getLog().info( resource + " does not exists. " );
+    protected void execute(Wagon wagon) throws WagonException {
+        if (this.wagonDownload.exists(wagon, resource)) {
+            this.getLog().info(resource + " exists. ");
+        } else {
+            this.getLog().info(resource + " does not exists. ");
         }
     }
-
 }

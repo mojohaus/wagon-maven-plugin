@@ -28,13 +28,12 @@ import org.apache.maven.wagon.WagonException;
 /**
  *
  */
-public interface WagonCopy
-{
+public interface WagonCopy {
 
     /**
      * Transfer files between 2 Wagon URLs. If download directory is not given in the fileset a temporary one will be
      * created.
-     * 
+     *
      * @param fromWagon - source Wagon
      * @param fileset - file set to copy
      * @param toWagon - target Wagon
@@ -43,7 +42,6 @@ public interface WagonCopy
      * @throws WagonException if any wagon error
      * @throws IOException if any io error
      */
-    void copy( Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger )
-        throws WagonException, IOException;
-
+    void copy(Wagon fromWagon, WagonFileSet fileset, Wagon toWagon, boolean optimize, Log logger)
+            throws WagonException, IOException;
 }

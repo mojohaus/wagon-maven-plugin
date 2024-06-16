@@ -35,81 +35,74 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * Upload multiple sets of files.
  */
-@Mojo( name = "upload" )
-public class UploadMojo
-    extends AbstractSingleWagonMojo
-{
+@Mojo(name = "upload")
+public class UploadMojo extends AbstractSingleWagonMojo {
     /**
      * Local directory to upload to wagon's "url/toDir".
      */
-    @Parameter( property = "wagon.fromDir", defaultValue = "${project.basedir}")
+    @Parameter(property = "wagon.fromDir", defaultValue = "${project.basedir}")
     private File fromDir;
 
     /**
      * Comma separate list of Ant's excludes to scan for local files.
      */
-    @Parameter( property = "wagon.excludes")
+    @Parameter(property = "wagon.excludes")
     private String excludes;
 
     /**
      * Comma separate list of Ant's includes to scan for local files.
      */
-    @Parameter( property = "wagon.includes")
+    @Parameter(property = "wagon.includes")
     private String includes;
 
     /**
      * Follow local symbolic link if possible.
      */
-    @Parameter( property = "wagon.followSymLink", defaultValue = "false")
+    @Parameter(property = "wagon.followSymLink", defaultValue = "false")
     private boolean followSymLink = false;
 
     /**
      * Use default exclude sets.
      */
-    @Parameter( property = "wagon.useDefaultExcludes", defaultValue = "true")
+    @Parameter(property = "wagon.useDefaultExcludes", defaultValue = "true")
     private boolean useDefaultExcludes = true;
 
     /**
      * Remote path relative to Wagon's url to upload local files to.
      */
-    @Parameter( property = "wagon.toDir")
+    @Parameter(property = "wagon.toDir")
     private String toDir = "";
 
     /**
      * Optimize the upload by locally compressed all files in one bundle, upload the bundle, and finally remote
      * uncompress the bundle.
      */
-    @Parameter( property = "wagon.optimize", defaultValue = "false")
+    @Parameter(property = "wagon.optimize", defaultValue = "false")
     private boolean optimize = false;
 
     @Component
     protected WagonUpload wagonUpload;
 
     @Override
-    protected void execute( Wagon wagon )
-        throws WagonException, IOException
-    {
+    protected void execute(Wagon wagon) throws WagonException, IOException {
         FileSet fileSet = new FileSet();
 
-        fileSet.setDirectory( this.fromDir.getAbsolutePath() );
+        fileSet.setDirectory(this.fromDir.getAbsolutePath());
 
-        if ( !StringUtils.isBlank( includes ) )
-        {
-            fileSet.setIncludes( Arrays.asList( StringUtils.split( this.includes, "," ) ) );
+        if (!StringUtils.isBlank(includes)) {
+            fileSet.setIncludes(Arrays.asList(StringUtils.split(this.includes, ",")));
         }
 
-        if ( !StringUtils.isBlank( excludes ) )
-        {
-            fileSet.setExcludes( Arrays.asList( StringUtils.split( this.excludes, "," ) ) );
+        if (!StringUtils.isBlank(excludes)) {
+            fileSet.setExcludes(Arrays.asList(StringUtils.split(this.excludes, ",")));
         }
 
-        fileSet.setFollowSymlinks( this.followSymLink );
+        fileSet.setFollowSymlinks(this.followSymLink);
 
-        fileSet.setUseDefaultExcludes( this.useDefaultExcludes );
+        fileSet.setUseDefaultExcludes(this.useDefaultExcludes);
 
-        fileSet.setOutputDirectory( toDir );
+        fileSet.setOutputDirectory(toDir);
 
-        this.wagonUpload.upload( wagon, fileSet, optimize );
+        this.wagonUpload.upload(wagon, fileSet, optimize);
     }
-
 }

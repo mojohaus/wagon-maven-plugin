@@ -49,9 +49,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead.
  */
 @Component(role = MavenRepoMerger.class, hint = "default")
-public class DefaultMavenRepoMerger
-    implements MavenRepoMerger
-{
+public class DefaultMavenRepoMerger implements MavenRepoMerger {
     @Requirement
     private WagonDownload downloader;
 
@@ -59,106 +57,89 @@ public class DefaultMavenRepoMerger
     private WagonUpload uploader;
 
     @Override
-    public void merge( Wagon src, Wagon target, boolean optimize, Log logger )
-        throws WagonException, IOException
-    {
+    public void merge(Wagon src, Wagon target, boolean optimize, Log logger) throws WagonException, IOException {
 
         // copy src to a local dir
-        File downloadSrcDir = createTempDirectory( "wagon-maven-plugin" );
+        File downloadSrcDir = createTempDirectory("wagon-maven-plugin");
 
         WagonFileSet srcFileSet = new WagonFileSet();
-        srcFileSet.setDownloadDirectory( downloadSrcDir );
+        srcFileSet.setDownloadDirectory(downloadSrcDir);
         // ignore archiva/nexus .index at root dir
-        String[] excludes = { ".*/**", "archetype-catalog.xml*" };
-        srcFileSet.setExcludes( excludes );
+        String[] excludes = {".*/**", "archetype-catalog.xml*"};
+        srcFileSet.setExcludes(excludes);
 
-        try
-        {
-            downloader.download( src, srcFileSet, logger );
+        try {
+            downloader.download(src, srcFileSet, logger);
 
             // merge metadata
             DirectoryScanner scanner = new DirectoryScanner();
-            scanner.setBasedir( downloadSrcDir );
-            String[] includes = { "**/" + MAVEN_METADATA };
-            scanner.setIncludes( includes );
+            scanner.setBasedir(downloadSrcDir);
+            String[] includes = {"**/" + MAVEN_METADATA};
+            scanner.setIncludes(includes);
             scanner.scan();
             String[] files = scanner.getIncludedFiles();
 
-            for ( String file : files )
-            {
-                File srcMetadaFile = new File( downloadSrcDir, file + IN_PROCESS_MARKER );
+            for (String file : files) {
+                File srcMetadaFile = new File(downloadSrcDir, file + IN_PROCESS_MARKER);
 
-                try
-                {
-                    target.get( file.replace( '\\', '/' ), srcMetadaFile );
-                } catch ( ResourceDoesNotExistException e )
-                {
+                try {
+                    target.get(file.replace('\\', '/'), srcMetadaFile);
+                } catch (ResourceDoesNotExistException e) {
                     // We don't have an equivalent on the targetRepositoryUrl side because we have something
                     // new on the sourceRepositoryUrl side so just skip the metadata merging.
                     continue;
                 }
 
-                try
-                {
-                    mergeMetadata( srcMetadaFile, logger );
-                } catch ( XmlPullParserException e )
-                {
-                    throw new IOException( "Metadata file is corrupt " + file + " Reason: " + e.getMessage() );
+                try {
+                    mergeMetadata(srcMetadaFile, logger);
+                } catch (XmlPullParserException e) {
+                    throw new IOException("Metadata file is corrupt " + file + " Reason: " + e.getMessage());
                 }
-
             }
 
             // upload to target
             FileSet tobeUploadedFileSet = new FileSet();
-            tobeUploadedFileSet.setDirectory( downloadSrcDir.getAbsolutePath() );
+            tobeUploadedFileSet.setDirectory(downloadSrcDir.getAbsolutePath());
 
-            this.uploader.upload( target, tobeUploadedFileSet, optimize );
+            this.uploader.upload(target, tobeUploadedFileSet, optimize);
 
+        } finally {
+            FileUtils.deleteDirectory(downloadSrcDir);
         }
-        finally
-        {
-            FileUtils.deleteDirectory( downloadSrcDir );
-        }
-
     }
 
-    private void mergeMetadata( File existingMetadata, Log logger )
-        throws IOException, XmlPullParserException
-    {
+    private void mergeMetadata(File existingMetadata, Log logger) throws IOException, XmlPullParserException {
 
         Writer stagedMetadataWriter = null;
         Reader existingMetadataReader = null;
         Reader stagedMetadataReader = null;
         File stagedMetadataFile;
 
-        try
-        {
+        try {
             MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
             MetadataXpp3Writer xppWriter = new MetadataXpp3Writer();
 
             // Existing Metadata in target stage
-            existingMetadataReader = new FileReader( existingMetadata );
-            Metadata existing = xppReader.read( existingMetadataReader );
+            existingMetadataReader = new FileReader(existingMetadata);
+            Metadata existing = xppReader.read(existingMetadataReader);
 
             // Staged Metadata
-            stagedMetadataFile = new File( existingMetadata.getParentFile(), MAVEN_METADATA );
-            stagedMetadataReader = new FileReader( stagedMetadataFile );
-            Metadata staged = xppReader.read( stagedMetadataReader );
+            stagedMetadataFile = new File(existingMetadata.getParentFile(), MAVEN_METADATA);
+            stagedMetadataReader = new FileReader(stagedMetadataFile);
+            Metadata staged = xppReader.read(stagedMetadataReader);
 
             // Merge and write back to staged metadata to replace the remote one
-            existing.merge( staged );
+            existing.merge(staged);
 
-            stagedMetadataWriter = new FileWriter( stagedMetadataFile );
-            xppWriter.write( stagedMetadataWriter, existing );
+            stagedMetadataWriter = new FileWriter(stagedMetadataFile);
+            xppWriter.write(stagedMetadataWriter, existing);
 
-            logger.info( "Merging metadata file: " + stagedMetadataFile );
+            logger.info("Merging metadata file: " + stagedMetadataFile);
 
-        }
-        finally
-        {
-            IOUtil.close( stagedMetadataWriter );
-            IOUtil.close( stagedMetadataReader );
-            IOUtil.close( existingMetadataReader );
+        } finally {
+            IOUtil.close(stagedMetadataWriter);
+            IOUtil.close(stagedMetadataReader);
+            IOUtil.close(existingMetadataReader);
 
             existingMetadata.delete();
         }
@@ -166,64 +147,52 @@ public class DefaultMavenRepoMerger
         // Mark all metadata as in-process and regenerate the checksums as they will be different
         // after the merger
 
-        try
-        {
-            File newMd5 = new File( stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".md5" );
-            FileUtils.fileWrite( newMd5.getAbsolutePath(), checksum( stagedMetadataFile, MD5 ) );
+        try {
+            File newMd5 = new File(stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".md5");
+            FileUtils.fileWrite(newMd5.getAbsolutePath(), checksum(stagedMetadataFile, MD5));
 
-            File newSha1 = new File( stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".sha1" );
-            FileUtils.fileWrite( newSha1.getAbsolutePath(), checksum( stagedMetadataFile, SHA1 ) );
-        }
-        catch ( NoSuchAlgorithmException e )
-        {
-            throw new RuntimeException( e );
+            File newSha1 = new File(stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".sha1");
+            FileUtils.fileWrite(newSha1.getAbsolutePath(), checksum(stagedMetadataFile, SHA1));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
 
         // We have the new merged copy so we're good
 
     }
 
-    private String checksum( File file, String type )
-        throws IOException, NoSuchAlgorithmException
-    {
-        MessageDigest md5 = MessageDigest.getInstance( type );
+    private String checksum(File file, String type) throws IOException, NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance(type);
 
-        InputStream is = new FileInputStream( file );
+        InputStream is = new FileInputStream(file);
 
         byte[] buf = new byte[8192];
 
         int i;
 
-        while ( ( i = is.read( buf ) ) > 0 )
-        {
-            md5.update( buf, 0, i );
+        while ((i = is.read(buf)) > 0) {
+            md5.update(buf, 0, i);
         }
 
-        IOUtil.close( is );
+        IOUtil.close(is);
 
-        return encode( md5.digest() );
+        return encode(md5.digest());
     }
 
-    private String encode( byte[] binaryData )
-    {
-        if ( binaryData.length != 16 && binaryData.length != 20 )
-        {
+    private String encode(byte[] binaryData) {
+        if (binaryData.length != 16 && binaryData.length != 20) {
             int bitLength = binaryData.length * 8;
-            throw new IllegalArgumentException( "Unrecognised length for binary data: " + bitLength + " bits" );
+            throw new IllegalArgumentException("Unrecognised length for binary data: " + bitLength + " bits");
         }
 
         String retValue = "";
 
-        for ( byte aBinaryData : binaryData )
-        {
-            String t = Integer.toHexString( aBinaryData & 0xff );
+        for (byte aBinaryData : binaryData) {
+            String t = Integer.toHexString(aBinaryData & 0xff);
 
-            if ( t.length() == 1 )
-            {
-                retValue += ( "0" + t );
-            }
-            else
-            {
+            if (t.length() == 1) {
+                retValue += ("0" + t);
+            } else {
                 retValue += t;
             }
         }
@@ -231,24 +200,19 @@ public class DefaultMavenRepoMerger
         return retValue.trim();
     }
 
-    public static File createTempDirectory( String prefix )
-        throws IOException
-    {
+    public static File createTempDirectory(String prefix) throws IOException {
         final File temp;
 
-        temp = File.createTempFile( prefix, Long.toString( System.nanoTime() ) );
+        temp = File.createTempFile(prefix, Long.toString(System.nanoTime()));
 
-        if ( !( temp.delete() ) )
-        {
-            throw new IOException( "Could not delete temp file: " + temp.getAbsolutePath() );
+        if (!(temp.delete())) {
+            throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
         }
 
-        if ( !( temp.mkdir() ) )
-        {
-            throw new IOException( "Could not create temp directory: " + temp.getAbsolutePath() );
+        if (!(temp.mkdir())) {
+            throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
         }
 
-        return ( temp );
+        return (temp);
     }
-
 }

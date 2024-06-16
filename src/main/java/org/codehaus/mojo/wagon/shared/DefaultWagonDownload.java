@@ -29,25 +29,20 @@ import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.util.StringUtils;
 
 @Component(role = WagonDownload.class, hint = "default")
-public class DefaultWagonDownload
-    implements WagonDownload
-{
+public class DefaultWagonDownload implements WagonDownload {
 
     @Override
-    public List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
-        throws WagonException
-    {
-        logger.info( "Scanning remote file system: " + wagon.getRepository().getUrl() + " ..." );
+    public List getFileList(Wagon wagon, WagonFileSet fileSet, Log logger) throws WagonException {
+        logger.info("Scanning remote file system: " + wagon.getRepository().getUrl() + " ...");
 
         WagonDirectoryScanner dirScan = new WagonDirectoryScanner();
-        dirScan.setLogger( logger );
-        dirScan.setWagon( wagon );
-        dirScan.setExcludes( fileSet.getExcludes() );
-        dirScan.setIncludes( fileSet.getIncludes() );
-        dirScan.setCaseSensitive( fileSet.isCaseSensitive() );
-        dirScan.setDirectory( fileSet.getDirectory() );
-        if ( fileSet.isUseDefaultExcludes() )
-        {
+        dirScan.setLogger(logger);
+        dirScan.setWagon(wagon);
+        dirScan.setExcludes(fileSet.getExcludes());
+        dirScan.setIncludes(fileSet.getIncludes());
+        dirScan.setCaseSensitive(fileSet.isCaseSensitive());
+        dirScan.setDirectory(fileSet.getDirectory());
+        if (fileSet.isUseDefaultExcludes()) {
             dirScan.addDefaultExcludes();
         }
 
@@ -57,42 +52,34 @@ public class DefaultWagonDownload
     }
 
     @Override
-    public void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
-        throws WagonException
-    {
-        List fileList = this.getFileList( wagon, remoteFileSet, logger );
+    public void download(Wagon wagon, WagonFileSet remoteFileSet, Log logger) throws WagonException {
+        List fileList = this.getFileList(wagon, remoteFileSet, logger);
 
         String url = wagon.getRepository().getUrl() + "/";
 
-        if ( fileList.size() == 0 )
-        {
-            logger.info( "Nothing to download." );
+        if (fileList.size() == 0) {
+            logger.info("Nothing to download.");
             return;
         }
 
-        for ( Object aFileList : fileList )
-        {
+        for (Object aFileList : fileList) {
             String remoteFile = (String) aFileList;
 
-            File destination = new File( remoteFileSet.getDownloadDirectory() + "/" + remoteFile );
+            File destination = new File(remoteFileSet.getDownloadDirectory() + "/" + remoteFile);
             destination.getParentFile().mkdirs();
 
-            if ( !StringUtils.isBlank( remoteFileSet.getDirectory() ) )
-            {
+            if (!StringUtils.isBlank(remoteFileSet.getDirectory())) {
                 remoteFile = remoteFileSet.getDirectory() + "/" + remoteFile;
             }
 
-            logger.info( "Downloading " + url + remoteFile + " to " + destination + " ..." );
+            logger.info("Downloading " + url + remoteFile + " to " + destination + " ...");
 
-            wagon.get( remoteFile, destination );
+            wagon.get(remoteFile, destination);
         }
     }
 
     @Override
-    public boolean exists( Wagon wagon, String resource )
-        throws WagonException
-    {
-        return wagon.resourceExists( resource );
+    public boolean exists(Wagon wagon, String resource) throws WagonException {
+        return wagon.resourceExists(resource);
     }
-
 }

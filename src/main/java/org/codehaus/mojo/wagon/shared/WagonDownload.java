@@ -28,8 +28,7 @@ import org.apache.maven.wagon.WagonException;
 /**
  *
  */
-public interface WagonDownload
-{
+public interface WagonDownload {
 
     /**
      * @param wagon - a Wagon instance
@@ -38,8 +37,7 @@ public interface WagonDownload
      * @return a list of files at the remote host relative to RemoteFileSet's directory
      * @throws WagonException if any wagon error
      */
-    List getFileList( Wagon wagon, WagonFileSet fileSet, Log logger )
-        throws WagonException;
+    List getFileList(Wagon wagon, WagonFileSet fileSet, Log logger) throws WagonException;
 
     /**
      * @param wagon - a Wagon instance
@@ -47,8 +45,7 @@ public interface WagonDownload
      * @param logger - logger used
      * @throws WagonException if any wagon error
      */
-    void download( Wagon wagon, WagonFileSet remoteFileSet, Log logger )
-        throws WagonException;
+    void download(Wagon wagon, WagonFileSet remoteFileSet, Log logger) throws WagonException;
 
     /**
      * @param wagon - a Wagon instance
@@ -56,7 +53,5 @@ public interface WagonDownload
      * @throws WagonException if any wagon error
      * @return {@code true} if found, {@code false} otherwise
      */
-    boolean exists( Wagon wagon, String resource )
-        throws WagonException;
-
+    boolean exists(Wagon wagon, String resource) throws WagonException;
 }

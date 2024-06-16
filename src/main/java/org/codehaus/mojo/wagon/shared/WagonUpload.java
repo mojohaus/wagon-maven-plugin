@@ -28,18 +28,16 @@ import org.apache.maven.wagon.WagonException;
 /**
  *
  */
-public interface WagonUpload
-{
+public interface WagonUpload {
 
     /**
      * Upload a set of files via FileSet interface to a remote repository via Wagon
-     * 
+     *
      * @param wagon - a Wagon instance
      * @param fileset file set to upload
      * @param optimize locally compressed and uncompress at the remote site if scp is use
      * @throws WagonException if nay wagon exception
      * @throws IOException if any io exception
      */
-    void upload( Wagon wagon, FileSet fileset, boolean optimize )
-        throws WagonException, IOException;
+    void upload(Wagon wagon, FileSet fileset, boolean optimize) throws WagonException, IOException;
 }

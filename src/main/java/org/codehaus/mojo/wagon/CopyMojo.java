@@ -32,50 +32,45 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 /**
  * Copy artifacts from one Wagon repository to another Wagon repository.
  */
-@Mojo( name = "copy" , requiresProject = false)
-public class CopyMojo
-    extends AbstractCopyMojo
-{
+@Mojo(name = "copy", requiresProject = false)
+public class CopyMojo extends AbstractCopyMojo {
     /**
      * Directory path relative to source's Wagon
      */
-    @Parameter( property = "wagon.fromDir")
+    @Parameter(property = "wagon.fromDir")
     private String fromDir = "";
 
     /**
      * Comma separated list of Ant's includes to scan for remote files
      */
-    @Parameter( property = "wagon.includes", defaultValue = "*")
+    @Parameter(property = "wagon.includes", defaultValue = "*")
     private String includes;
 
     /**
      * Comma separated list of Ant's excludes to scan for remote files
      */
-    @Parameter( property = "wagon.excludes")
+    @Parameter(property = "wagon.excludes")
     private String excludes;
 
     /**
      * Whether to consider remote path case sensitivity during scan.
      */
-    @Parameter( property = "wagon.caseSensitive")
+    @Parameter(property = "wagon.caseSensitive")
     private boolean caseSensitive = true;
 
     /**
      * Remote path relative to target's url to copy files to.
      */
-    @Parameter( property = "wagon.toDir")
+    @Parameter(property = "wagon.toDir")
     private String toDir = "";
 
     @Component
     private WagonCopy wagonCopy;
 
     @Override
-    protected void copy( Wagon srcWagon, Wagon targetWagon )
-        throws IOException, WagonException
-    {
-        WagonFileSet fileSet = this.getWagonFileSet( fromDir, includes, excludes, caseSensitive, toDir );
+    protected void copy(Wagon srcWagon, Wagon targetWagon) throws IOException, WagonException {
+        WagonFileSet fileSet = this.getWagonFileSet(fromDir, includes, excludes, caseSensitive, toDir);
 
-        wagonCopy.copy( srcWagon, fileSet, targetWagon, optimize, this.getLog() );
+        wagonCopy.copy(srcWagon, fileSet, targetWagon, optimize, this.getLog());
     }
-
 }
