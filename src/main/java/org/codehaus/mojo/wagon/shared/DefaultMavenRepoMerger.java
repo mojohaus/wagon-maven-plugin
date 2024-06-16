@@ -20,13 +20,13 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -163,19 +163,13 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
 
     private String checksum(File file, String type) throws IOException, NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance(type);
-
-        InputStream is = new FileInputStream(file);
-
-        byte[] buf = new byte[8192];
-
-        int i;
-
-        while ((i = is.read(buf)) > 0) {
-            md5.update(buf, 0, i);
+        try (InputStream is = Files.newInputStream(file.toPath())) {
+            byte[] buf = new byte[8192];
+            int i;
+            while ((i = is.read(buf)) > 0) {
+                md5.update(buf, 0, i);
+            }
         }
-
-        IOUtil.close(is);
-
         return encode(md5.digest());
     }
 
@@ -185,34 +179,27 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
             throw new IllegalArgumentException("Unrecognised length for binary data: " + bitLength + " bits");
         }
 
-        String retValue = "";
-
+        StringBuilder retValue = new StringBuilder();
         for (byte aBinaryData : binaryData) {
             String t = Integer.toHexString(aBinaryData & 0xff);
-
             if (t.length() == 1) {
-                retValue += ("0" + t);
+                retValue.append("0").append(t);
             } else {
-                retValue += t;
+                retValue.append(t);
             }
         }
 
-        return retValue.trim();
+        return retValue.toString().trim();
     }
 
     public static File createTempDirectory(String prefix) throws IOException {
-        final File temp;
-
-        temp = File.createTempFile(prefix, Long.toString(System.nanoTime()));
-
-        if (!(temp.delete())) {
+        File temp = File.createTempFile(prefix, Long.toString(System.nanoTime()));
+        if (!temp.delete()) {
             throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
         }
-
-        if (!(temp.mkdir())) {
+        if (!temp.mkdir()) {
             throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
         }
-
-        return (temp);
+        return temp;
     }
 }

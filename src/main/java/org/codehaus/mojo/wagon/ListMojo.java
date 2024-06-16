@@ -14,10 +14,8 @@ public class ListMojo extends AbstractWagonListMojo {
 
     @Override
     protected void execute(Wagon wagon) throws WagonException {
-        List files = wagonDownload.getFileList(wagon, this.getWagonFileSet(), this.getLog());
-
-        for (Object file1 : files) {
-            String file = (String) file1;
+        List<String> files = wagonDownload.getFileList(wagon, this.getWagonFileSet(), this.getLog());
+        for (String file : files) {
             getLog().info("\t" + file);
         }
     }
