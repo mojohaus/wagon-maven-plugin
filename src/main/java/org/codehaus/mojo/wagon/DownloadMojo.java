@@ -30,25 +30,20 @@ import org.codehaus.mojo.wagon.shared.WagonFileSet;
 /**
  * Transfers a set of files from a remote URL to a specified local directory.
  */
-@Mojo( name = "download" , requiresProject = false)
-public class DownloadMojo
-    extends AbstractWagonListMojo
-{
+@Mojo(name = "download", requiresProject = false)
+public class DownloadMojo extends AbstractWagonListMojo {
 
     /**
      * Local directory to download the remote resource ( tree ) to.
      */
-    @Parameter( property = "wagon.toDir", defaultValue = "${project.build.directory}/wagon-plugin")
+    @Parameter(property = "wagon.toDir", defaultValue = "${project.build.directory}/wagon-plugin")
     private File toDir;
 
     @Override
-    protected void execute( Wagon wagon )
-        throws WagonException
-    {
+    protected void execute(Wagon wagon) throws WagonException {
         WagonFileSet fileSet = this.getWagonFileSet();
-        fileSet.setDownloadDirectory( this.toDir );
+        fileSet.setDownloadDirectory(this.toDir);
 
-        this.wagonDownload.download( wagon, fileSet, this.getLog() );
+        this.wagonDownload.download(wagon, fileSet, this.getLog());
     }
-
 }

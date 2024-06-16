@@ -28,8 +28,7 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-public class WagonDirectoryScanner
-{
+public class WagonDirectoryScanner {
     /**
      * Patterns which should be excluded by default.
      *
@@ -74,21 +73,15 @@ public class WagonDirectoryScanner
      * @param includes A list of include patterns. May be <code>null</code>, indicating that all files should be
      *            included. If a non-<code>null</code> list is given, all elements must be non-<code>null</code>.
      */
-    public void setIncludes( String[] includes )
-    {
-        if ( includes == null )
-        {
+    public void setIncludes(String[] includes) {
+        if (includes == null) {
             this.includes = null;
-        }
-        else
-        {
+        } else {
             this.includes = new String[includes.length];
-            for ( int i = 0; i < includes.length; i++ )
-            {
+            for (int i = 0; i < includes.length; i++) {
                 String pattern = includes[i].trim();
 
-                if ( pattern.endsWith( "/" ) )
-                {
+                if (pattern.endsWith("/")) {
                     pattern += "**";
                 }
                 this.includes[i] = pattern;
@@ -104,21 +97,15 @@ public class WagonDirectoryScanner
      * @param excludes A list of exclude patterns. May be <code>null</code>, indicating that no files should be
      *            excluded. If a non-<code>null</code> list is given, all elements must be non-<code>null</code>.
      */
-    public void setExcludes( String[] excludes )
-    {
-        if ( excludes == null )
-        {
+    public void setExcludes(String[] excludes) {
+        if (excludes == null) {
             this.excludes = null;
-        }
-        else
-        {
+        } else {
             this.excludes = new String[excludes.length];
-            for ( int i = 0; i < excludes.length; i++ )
-            {
+            for (int i = 0; i < excludes.length; i++) {
                 String pattern = excludes[i].trim();
 
-                if ( pattern.endsWith( "/" ) )
-                {
+                if (pattern.endsWith("/")) {
                     pattern += "**";
                 }
                 this.excludes[i] = pattern;
@@ -133,12 +120,9 @@ public class WagonDirectoryScanner
      * @return <code>true</code> when the name matches against at least one include pattern, or <code>false</code>
      *         otherwise.
      */
-    private boolean isIncluded( String name )
-    {
-        for ( String include : includes )
-        {
-            if ( matchPath( include, name, isCaseSensitive ) )
-            {
+    private boolean isIncluded(String name) {
+        for (String include : includes) {
+            if (matchPath(include, name, isCaseSensitive)) {
                 return true;
             }
         }
@@ -152,12 +136,9 @@ public class WagonDirectoryScanner
      * @return <code>true</code> when the name matches against at least one exclude pattern, or <code>false</code>
      *         otherwise.
      */
-    protected boolean isExcluded( String name )
-    {
-        for ( String exclude : excludes )
-        {
-            if ( matchPath( exclude, name, isCaseSensitive ) )
-            {
+    protected boolean isExcluded(String name) {
+        for (String exclude : excludes) {
+            if (matchPath(exclude, name, isCaseSensitive)) {
                 return true;
             }
         }
@@ -171,12 +152,9 @@ public class WagonDirectoryScanner
      * @return <code>true</code> when the name matches against the start of at least one include pattern, or
      *         <code>false</code> otherwise.
      */
-    protected boolean couldHoldIncluded( String name )
-    {
-        for ( String include : includes )
-        {
-            if ( matchPatternStart( include, name, isCaseSensitive ) )
-            {
+    protected boolean couldHoldIncluded(String name) {
+        for (String include : includes) {
+            if (matchPatternStart(include, name, isCaseSensitive)) {
                 return true;
             }
         }
@@ -194,9 +172,8 @@ public class WagonDirectoryScanner
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
      * @return whether or not a given path matches the start of a given pattern up to the first "**".
      */
-    protected static boolean matchPatternStart( String pattern, String str, boolean isCaseSensitive )
-    {
-        return SelectorUtils.matchPatternStart( pattern, str, isCaseSensitive );
+    protected static boolean matchPatternStart(String pattern, String str, boolean isCaseSensitive) {
+        return SelectorUtils.matchPatternStart(pattern, str, isCaseSensitive);
     }
 
     /**
@@ -207,57 +184,47 @@ public class WagonDirectoryScanner
      * @param isCaseSensitive Whether or not matching should be performed case sensitively.
      * @return <code>true</code> if the pattern matches against the string, or <code>false</code> otherwise.
      */
-    private static boolean matchPath( String pattern, String str, boolean isCaseSensitive )
-    {
-        return SelectorUtils.matchPath( pattern, str, isCaseSensitive );
+    private static boolean matchPath(String pattern, String str, boolean isCaseSensitive) {
+        return SelectorUtils.matchPath(pattern, str, isCaseSensitive);
     }
 
-    public void scan()
-        throws WagonException
-    {
-        if ( wagon == null )
-        {
-            throw new IllegalStateException( "No wagon set" );
+    public void scan() throws WagonException {
+        if (wagon == null) {
+            throw new IllegalStateException("No wagon set");
         }
 
-        if ( StringUtils.isBlank( directory ) )
-        {
+        if (StringUtils.isBlank(directory)) {
             directory = "";
         }
 
-        if ( includes == null )
-        {
+        if (includes == null) {
             // No includes supplied, so set it to 'matches all'
             includes = new String[1];
             includes[0] = "**";
         }
 
-        if ( excludes == null )
-        {
+        if (excludes == null) {
             excludes = new String[0];
         }
 
         filesIncluded = new ArrayList();
 
-        scandir( directory, "" );
+        scandir(directory, "");
 
-        Collections.sort( filesIncluded );
-
+        Collections.sort(filesIncluded);
     }
 
     /**
      * Adds default exclusions to the current exclusions set.
      */
-    public void addDefaultExcludes()
-    {
+    public void addDefaultExcludes() {
         int excludesLength = excludes == null ? 0 : excludes.length;
         String[] newExcludes;
         newExcludes = new String[excludesLength + DEFAULTEXCLUDES.length];
-        if ( excludesLength > 0 )
-        {
-            System.arraycopy( excludes, 0, newExcludes, 0, excludesLength );
+        if (excludesLength > 0) {
+            System.arraycopy(excludes, 0, newExcludes, 0, excludesLength);
         }
-        System.arraycopy( DEFAULTEXCLUDES, 0, newExcludes, excludesLength, DEFAULTEXCLUDES.length );
+        System.arraycopy(DEFAULTEXCLUDES, 0, newExcludes, excludesLength, DEFAULTEXCLUDES.length);
         excludes = newExcludes;
     }
 
@@ -269,10 +236,8 @@ public class WagonDirectoryScanner
      * @param fileName supposed file name
      * @return true if it seems like a bad idea.
      */
-    private boolean isRidiculousFile( String fileName )
-    {
-        return fileName.endsWith( "." ) || fileName.contains( "*" ) || fileName.startsWith( "?" )
-            || fileName.startsWith( "#" );
+    private boolean isRidiculousFile(String fileName) {
+        return fileName.endsWith(".") || fileName.contains("*") || fileName.startsWith("?") || fileName.startsWith("#");
     }
 
     // //////////////////////////////////////////////////////////////////////////////////
@@ -283,133 +248,100 @@ public class WagonDirectoryScanner
      * @throws WagonException if any wagon error
      * @see #filesIncluded
      */
-    private void scandir( String dir, String vpath )
-        throws WagonException
-    {
-        logger.debug( "scandir: dir: " + dir + " vpath: " + vpath );
-        List files = wagon.getFileList( dir );
+    private void scandir(String dir, String vpath) throws WagonException {
+        logger.debug("scandir: dir: " + dir + " vpath: " + vpath);
+        List files = wagon.getFileList(dir);
 
-        for ( Object file1 : files )
-        {
+        for (Object file1 : files) {
             String fileName = (String) file1;
 
-            if ( isRidiculousFile( fileName ) ) // including ".."
+            if (isRidiculousFile(fileName)) // including ".."
             {
                 continue;
             }
 
             String file = fileName;
 
-            if ( !StringUtils.isBlank( dir ) )
-            {
-                if ( dir.endsWith( "/" ) )
-                {
+            if (!StringUtils.isBlank(dir)) {
+                if (dir.endsWith("/")) {
                     file = dir + fileName;
-                }
-                else
-                {
+                } else {
                     file = dir + "/" + fileName;
                 }
             }
 
             String name = vpath + fileName;
 
-            if ( this.isDirectory( file ) )
-            {
+            if (this.isDirectory(file)) {
 
-                if ( !name.endsWith( "/" ) )
-                {
+                if (!name.endsWith("/")) {
                     name += "/";
                 }
 
-                if ( isIncluded( name ) )
-                {
-                    if ( !isExcluded( name ) )
-                    {
-                        scandir( file, name );
-                    }
-                    else
-                    {
-                        if ( couldHoldIncluded( name ) )
-                        {
-                            scandir( file, name );
+                if (isIncluded(name)) {
+                    if (!isExcluded(name)) {
+                        scandir(file, name);
+                    } else {
+                        if (couldHoldIncluded(name)) {
+                            scandir(file, name);
                         }
                     }
-                }
-                else
-                {
-                    if ( couldHoldIncluded( name ) )
-                    {
-                        scandir( file, name );
+                } else {
+                    if (couldHoldIncluded(name)) {
+                        scandir(file, name);
                     }
                 }
 
-            }
-            else
-            {
+            } else {
 
-                if ( isIncluded( name ) )
-                {
-                    if ( !isExcluded( name ) )
-                    {
-                        filesIncluded.add( name );
+                if (isIncluded(name)) {
+                    if (!isExcluded(name)) {
+                        filesIncluded.add(name);
                     }
                 }
             }
         }
     }
 
-    private boolean isDirectory( String existedRemotePath ) {
-        if ( existedRemotePath.endsWith( "/" ) )
-        {
+    private boolean isDirectory(String existedRemotePath) {
+        if (existedRemotePath.endsWith("/")) {
             return true;
         }
 
-        return canListPath( existedRemotePath + "/" );
+        return canListPath(existedRemotePath + "/");
     }
 
-    private boolean canListPath( String remotePath )
-    {
-        try
-        {
-            List resources = wagon.getFileList( remotePath );
+    private boolean canListPath(String remotePath) {
+        try {
+            List resources = wagon.getFileList(remotePath);
             return resources != null && !resources.isEmpty();
-        }
-        catch ( WagonException e )
-        {
+        } catch (WagonException e) {
             return false;
         }
     }
 
     // ///////////////////////////////////////////////////////////////////////////////
-    public List getFilesIncluded()
-    {
+    public List getFilesIncluded() {
         return filesIncluded;
     }
 
-    public void setWagon( Wagon wagon )
-    {
+    public void setWagon(Wagon wagon) {
         this.wagon = wagon;
     }
 
-    public void setCaseSensitive( boolean isCaseSensitive )
-    {
+    public void setCaseSensitive(boolean isCaseSensitive) {
         this.isCaseSensitive = isCaseSensitive;
     }
 
-    public void setDirectory( String basePath )
-    {
+    public void setDirectory(String basePath) {
         this.directory = basePath;
     }
 
-    public Log getLogger()
-    {
+    public Log getLogger() {
         return logger;
     }
 
-    public void setLogger( Log logger )
-    {
+    public void setLogger(Log logger) {
         this.logger = logger;
     }
-
 }

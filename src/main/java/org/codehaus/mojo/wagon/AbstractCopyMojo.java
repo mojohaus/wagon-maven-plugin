@@ -26,58 +26,40 @@ import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 
-public abstract class AbstractCopyMojo
-    extends AbstractDoubleWagonMojo
-{
+public abstract class AbstractCopyMojo extends AbstractDoubleWagonMojo {
 
-    protected abstract void copy( Wagon src, Wagon target )
-        throws IOException, WagonException;
+    protected abstract void copy(Wagon src, Wagon target) throws IOException, WagonException;
 
     @Override
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
 
-        if ( this.skip )
-        {
-            this.getLog().info( "Skip execution." );
+        if (this.skip) {
+            this.getLog().info("Skip execution.");
             return;
         }
 
         Wagon srcWagon = null;
         Wagon targetWagon = null;
 
-        try
-        {
-            srcWagon = createWagon( sourceId, source );
-            targetWagon = createWagon( targetId, target );
-            copy( srcWagon, targetWagon );
+        try {
+            srcWagon = createWagon(sourceId, source);
+            targetWagon = createWagon(targetId, target);
+            copy(srcWagon, targetWagon);
+        } catch (Exception e) {
+            throw new MojoExecutionException("Error during performing repository copy", e);
+        } finally {
+            disconnectWagon(srcWagon);
+            disconnectWagon(targetWagon);
         }
-        catch ( Exception e )
-        {
-            throw new MojoExecutionException( "Error during performing repository copy", e );
-        }
-        finally
-        {
-            disconnectWagon( srcWagon );
-            disconnectWagon( targetWagon );
-        }
-
     }
 
-    private void disconnectWagon( Wagon wagon )
-    {
-        try
-        {
-            if ( wagon != null )
-            {
+    private void disconnectWagon(Wagon wagon) {
+        try {
+            if (wagon != null) {
                 wagon.disconnect();
             }
-        }
-        catch ( ConnectionException e )
-        {
-            getLog().debug( "Error disconnecting wagon - ignored", e );
+        } catch (ConnectionException e) {
+            getLog().debug("Error disconnecting wagon - ignored", e);
         }
     }
-
 }

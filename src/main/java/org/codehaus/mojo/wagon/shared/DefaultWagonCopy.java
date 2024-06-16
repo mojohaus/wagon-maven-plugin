@@ -34,9 +34,7 @@ import org.codehaus.plexus.util.FileUtils;
  * Copy a set of file from a wagon repo to another wagon repo.
  */
 @Component(role = WagonCopy.class, hint = "default")
-public class DefaultWagonCopy
-    implements WagonCopy
-{
+public class DefaultWagonCopy implements WagonCopy {
     @Requirement
     private WagonDownload downloader;
 
@@ -44,41 +42,33 @@ public class DefaultWagonCopy
     private WagonUpload uploader;
 
     @Override
-    public void copy( Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger )
-        throws WagonException, IOException
-    {
-        if ( wagonFileSet == null )
-        {
+    public void copy(Wagon src, WagonFileSet wagonFileSet, Wagon target, boolean optimize, Log logger)
+            throws WagonException, IOException {
+        if (wagonFileSet == null) {
             wagonFileSet = new WagonFileSet();
         }
 
         boolean removeDownloadDir = false;
 
-        if ( wagonFileSet.getDownloadDirectory() == null )
-        {
-            File downloadSrcDir = File.createTempFile( "wagon", "wagon" );
+        if (wagonFileSet.getDownloadDirectory() == null) {
+            File downloadSrcDir = File.createTempFile("wagon", "wagon");
             downloadSrcDir.delete();
-            wagonFileSet.setDownloadDirectory( downloadSrcDir );
+            wagonFileSet.setDownloadDirectory(downloadSrcDir);
             removeDownloadDir = true;
         }
 
-        try
-        {
-            this.downloader.download( src, wagonFileSet, logger );
+        try {
+            this.downloader.download(src, wagonFileSet, logger);
 
             FileSet localFileSet = new FileSet();
-            localFileSet.setDirectory( wagonFileSet.getDownloadDirectory().getAbsolutePath() );
-            localFileSet.setOutputDirectory( wagonFileSet.getOutputDirectory() );
+            localFileSet.setDirectory(wagonFileSet.getDownloadDirectory().getAbsolutePath());
+            localFileSet.setOutputDirectory(wagonFileSet.getOutputDirectory());
 
-            this.uploader.upload( target, localFileSet, optimize );
-        }
-        finally
-        {
-            if ( removeDownloadDir )
-            {
-                FileUtils.deleteDirectory( wagonFileSet.getDownloadDirectory() );
+            this.uploader.upload(target, localFileSet, optimize);
+        } finally {
+            if (removeDownloadDir) {
+                FileUtils.deleteDirectory(wagonFileSet.getDownloadDirectory());
             }
         }
-
     }
 }

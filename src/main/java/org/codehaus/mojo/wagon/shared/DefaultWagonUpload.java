@@ -39,138 +39,110 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component(role = WagonUpload.class, hint = "default")
-public class DefaultWagonUpload
-    implements WagonUpload
-{
+public class DefaultWagonUpload implements WagonUpload {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultWagonUpload.class);
 
     @Requirement
     private ArchiverManager archiverManager;
 
-    public void upload( Wagon wagon, FileSet fileset )
-        throws WagonException
-    {
+    public void upload(Wagon wagon, FileSet fileset) throws WagonException {
 
-        FileSetManager fileSetManager = new FileSetManager( LOG, LOG.isDebugEnabled() );
+        FileSetManager fileSetManager = new FileSetManager(LOG, LOG.isDebugEnabled());
 
-        String[] files = fileSetManager.getIncludedFiles( fileset );
+        String[] files = fileSetManager.getIncludedFiles(fileset);
         Arrays.sort(files);
 
         String url = wagon.getRepository().getUrl() + "/";
 
-        if ( files.length == 0 )
-        {
-            LOG.info( "Nothing to upload." );
+        if (files.length == 0) {
+            LOG.info("Nothing to upload.");
             return;
         }
 
-        for ( String file : files )
-        {
-            String relativeDestPath = StringUtils.replace( file, "\\", "/" );
+        for (String file : files) {
+            String relativeDestPath = StringUtils.replace(file, "\\", "/");
 
-            if ( !StringUtils.isBlank( fileset.getOutputDirectory() ) )
-            {
+            if (!StringUtils.isBlank(fileset.getOutputDirectory())) {
                 relativeDestPath = fileset.getOutputDirectory() + "/" + relativeDestPath;
             }
 
-            File source = new File( fileset.getDirectory(), file );
+            File source = new File(fileset.getDirectory(), file);
 
-            LOG.info( "Uploading " + source + " to " + url + relativeDestPath + " ..." );
+            LOG.info("Uploading " + source + " to " + url + relativeDestPath + " ...");
 
-            wagon.put( source, relativeDestPath );
+            wagon.put(source, relativeDestPath);
         }
-
     }
 
     @Override
-    public void upload( Wagon wagon, FileSet fileset, boolean optimize )
-        throws WagonException, IOException
-    {
-        if ( !optimize )
-        {
-            upload( wagon, fileset );
+    public void upload(Wagon wagon, FileSet fileset, boolean optimize) throws WagonException, IOException {
+        if (!optimize) {
+            upload(wagon, fileset);
             return;
         }
 
-        if ( !( wagon instanceof CommandExecutor ) )
-        {
-            throw new UnsupportedProtocolException( "Wagon " + wagon.getRepository().getProtocol()
-                + " does not support optimize upload" );
+        if (!(wagon instanceof CommandExecutor)) {
+            throw new UnsupportedProtocolException(
+                    "Wagon " + wagon.getRepository().getProtocol() + " does not support optimize upload");
         }
 
-        LOG.info( "Uploading " + fileset );
+        LOG.info("Uploading " + fileset);
 
         File zipFile;
-        zipFile = File.createTempFile( "wagon", ".zip" );
+        zipFile = File.createTempFile("wagon", ".zip");
 
-        try
-        {
-            FileSetManager fileSetManager = new FileSetManager( LOG, LOG.isDebugEnabled() );
-            String[] files = fileSetManager.getIncludedFiles( fileset );
+        try {
+            FileSetManager fileSetManager = new FileSetManager(LOG, LOG.isDebugEnabled());
+            String[] files = fileSetManager.getIncludedFiles(fileset);
 
-            if ( files.length == 0 )
-            {
-                LOG.info( "Nothing to upload." );
+            if (files.length == 0) {
+                LOG.info("Nothing to upload.");
                 return;
             }
 
-            LOG.info( "Creating " + zipFile + " ..." );
-            createZip( files, zipFile, fileset.getDirectory() );
+            LOG.info("Creating " + zipFile + " ...");
+            createZip(files, zipFile, fileset.getDirectory());
 
             String remoteFile = zipFile.getName();
             String remoteDir = fileset.getOutputDirectory();
-            if ( !StringUtils.isBlank( remoteDir ) )
-            {
+            if (!StringUtils.isBlank(remoteDir)) {
                 remoteFile = remoteDir + "/" + remoteFile;
             }
 
-            LOG.info( "Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ..." );
-            wagon.put( zipFile, remoteFile );
+            LOG.info("Uploading " + zipFile + " to " + wagon.getRepository().getUrl() + "/" + remoteFile + " ...");
+            wagon.put(zipFile, remoteFile);
 
             // We use the super quiet option here as all the noise seems to kill/stall the connection
             String command = "unzip -o -qq -d " + remoteDir + " " + remoteFile;
-            if ( StringUtils.isBlank( remoteDir ) )
-            {
+            if (StringUtils.isBlank(remoteDir)) {
                 command = "unzip -o -qq " + remoteFile;
             }
 
-            try
-            {
-                LOG.info( "Remote: " + command );
-                ( (CommandExecutor) wagon ).executeCommand( command );
-            }
-            finally
-            {
+            try {
+                LOG.info("Remote: " + command);
+                ((CommandExecutor) wagon).executeCommand(command);
+            } finally {
                 command = "rm -f " + remoteFile;
-                LOG.info( "Remote: " + command );
+                LOG.info("Remote: " + command);
 
-                ( (CommandExecutor) wagon ).executeCommand( command );
+                ((CommandExecutor) wagon).executeCommand(command);
             }
 
-        }
-        finally
-        {
+        } finally {
             zipFile.delete();
         }
-
     }
 
-    private void createZip( String[] files, File zipFile, String basedir )
-        throws IOException
-    {
-        try
-        {
-            ZipArchiver archiver = (ZipArchiver) this.archiverManager.getArchiver( zipFile );
-            archiver.setDestFile( zipFile );
-            for ( String file : files )
-            {
-                archiver.addFile( new File( basedir, file ), file );
+    private void createZip(String[] files, File zipFile, String basedir) throws IOException {
+        try {
+            ZipArchiver archiver = (ZipArchiver) this.archiverManager.getArchiver(zipFile);
+            archiver.setDestFile(zipFile);
+            for (String file : files) {
+                archiver.addFile(new File(basedir, file), file);
             }
             archiver.createArchive();
-        }
-        catch ( NoSuchArchiverException e )
-        {
+        } catch (NoSuchArchiverException e) {
             // should never happen
         }
     }

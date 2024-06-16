@@ -31,10 +31,8 @@ import org.apache.maven.wagon.providers.ssh.jsch.AbstractJschWagon;
 /**
  * Executes a list of commands against a given server.
  */
-@Mojo( name = "sshexec")
-public class SshExecMojo
-    extends AbstractSingleWagonMojo
-{
+@Mojo(name = "sshexec")
+public class SshExecMojo extends AbstractSingleWagonMojo {
 
     /**
      * The commands that we will execute.
@@ -55,41 +53,28 @@ public class SshExecMojo
     private boolean displayCommandOutputs = true;
 
     @Override
-    protected void execute( final Wagon wagon )
-        throws MojoExecutionException
-    {
-        if ( commands != null )
-        {
-            for ( String command : commands )
-            {
-                try
-                {
+    protected void execute(final Wagon wagon) throws MojoExecutionException {
+        if (commands != null) {
+            for (String command : commands) {
+                try {
                     Streams stream;
-                    if ( wagon instanceof AbstractJschWagon )
-                    {
-                        stream = ( (AbstractJschWagon) wagon ).executeCommand( command, true, false );
-                    } else
-                    {
-                        stream = ( (CommandExecutor) wagon ).executeCommand( command, false );
+                    if (wagon instanceof AbstractJschWagon) {
+                        stream = ((AbstractJschWagon) wagon).executeCommand(command, true, false);
+                    } else {
+                        stream = ((CommandExecutor) wagon).executeCommand(command, false);
                     }
-                    this.getLog().info( "sshexec: " + command + " ..." );
-                    if ( displayCommandOutputs )
-                    {
-                        System.out.println( stream.getOut() );
-                        System.out.println( stream.getErr() );
+                    this.getLog().info("sshexec: " + command + " ...");
+                    if (displayCommandOutputs) {
+                        System.out.println(stream.getOut());
+                        System.out.println(stream.getErr());
                     }
-                } catch ( final WagonException e )
-                {
-                    if ( this.failOnError )
-                    {
-                        throw new MojoExecutionException( "Unable to execute remote command", e );
-                    }
-                    else
-                    {
-                        this.getLog().warn( e );
+                } catch (final WagonException e) {
+                    if (this.failOnError) {
+                        throw new MojoExecutionException("Unable to execute remote command", e);
+                    } else {
+                        this.getLog().warn(e);
                     }
                 }
-
             }
         }
     }

@@ -6,7 +6,6 @@ This is the [wagon-maven-plugin](http://www.mojohaus.org/wagon-maven-plugin/).
 [![Apache License 2](https://img.shields.io/badge/wagon-Apache_v2-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 [![GitHub CI](https://github.com/mojohaus/wagon-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/mojohaus/wagon-maven-plugin/actions/workflows/maven.yml)
 
-
 ## Maintained versions
 
 Wagen Maven Plugin requires Maven 3.6.3+ and JDK 8+
@@ -81,3 +80,4 @@ cd target/checkout
 ../mvnw site
 ../mvnw scm-publish:publish-scm
 ```
+

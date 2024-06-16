@@ -25,12 +25,10 @@ import java.util.Arrays;
 /**
  * Wagon configuration to scan for a set of remote files.
  */
-public class WagonFileSet
-{
+public class WagonFileSet {
     /**
      * Path after the url, this is where the scan starts
      */
-
     private String directory = "";
 
     /**
@@ -65,53 +63,43 @@ public class WagonFileSet
 
     // ////////////////////////////////////////////////////////////////////////////////////
 
-    public String getDirectory()
-    {
+    public String getDirectory() {
         return directory;
     }
 
-    public void setDirectory( String remotePath )
-    {
+    public void setDirectory(String remotePath) {
         this.directory = remotePath;
     }
 
-    public File getDownloadDirectory()
-    {
+    public File getDownloadDirectory() {
         return downloadDirectory;
     }
 
-    public void setDownloadDirectory( File downloadDirectory )
-    {
+    public void setDownloadDirectory(File downloadDirectory) {
         this.downloadDirectory = downloadDirectory;
     }
 
-    public String[] getExcludes()
-    {
+    public String[] getExcludes() {
         return excludes;
     }
 
-    public void setExcludes( String[] excludes )
-    {
+    public void setExcludes(String[] excludes) {
         this.excludes = excludes;
     }
 
-    public String[] getIncludes()
-    {
+    public String[] getIncludes() {
         return includes;
     }
 
-    public void setIncludes( String[] includes )
-    {
+    public void setIncludes(String[] includes) {
         this.includes = includes;
     }
 
-    public boolean isCaseSensitive()
-    {
+    public boolean isCaseSensitive() {
         return caseSensitive;
     }
 
-    public void setCaseSensitive( boolean caseSensitive )
-    {
+    public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
     }
 
@@ -119,35 +107,30 @@ public class WagonFileSet
      * Retrieves the included and excluded files from this file-set's directory. Specifically,
      * <code>"file-set: <I>[directory]</I> (included:
      * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
-     * 
+     *
      * @return The included and excluded files from this file-set's directory. Specifically,
      *         <code>"file-set: <I>[directory]</I> (included:
      * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
      * @see java.lang.Object#toString()
      */
-    public String toString()
-    {
-        return "file-set: " + getDirectory() + " (included: " + Arrays.toString( getIncludes() ) + ", excluded: " + Arrays.toString( getExcludes() ) + ")";
+    public String toString() {
+        return "file-set: " + getDirectory() + " (included: " + Arrays.toString(getIncludes()) + ", excluded: "
+                + Arrays.toString(getExcludes()) + ")";
     }
 
-    public boolean isUseDefaultExcludes()
-    {
+    public boolean isUseDefaultExcludes() {
         return useDefaultExcludes;
     }
 
-    public void setUseDefaultExcludes( boolean useDefaultExcludes )
-    {
+    public void setUseDefaultExcludes(boolean useDefaultExcludes) {
         this.useDefaultExcludes = useDefaultExcludes;
     }
 
-    public String getOutputDirectory()
-    {
+    public String getOutputDirectory() {
         return outputDirectory;
     }
 
-    public void setOutputDirectory( String outputDirectory )
-    {
+    public void setOutputDirectory(String outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
-
 }

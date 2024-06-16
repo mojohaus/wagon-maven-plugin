@@ -19,6 +19,8 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -26,82 +28,69 @@ import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-
 /**
  * Download a single file.
  */
-@Mojo( name = "download-single", requiresProject = false)
-public class DownloadSingleMojo
-    extends AbstractSingleWagonMojo
-{
+@Mojo(name = "download-single", requiresProject = false)
+public class DownloadSingleMojo extends AbstractSingleWagonMojo {
     /**
      * Relative path to the base URL. When empty, assume base URL has the full path
      */
-    @Parameter( property = "wagon.fromFile")
+    @Parameter(property = "wagon.fromFile")
     private String fromFile;
 
     /**
      * Directory to download the remote file to.
      */
-    @Parameter( property = "wagon.toDir")
+    @Parameter(property = "wagon.toDir")
     private File toDir;
 
     /**
      * File to download the remote file to. Use this option to rename the file after download. When toDir is present,
      * this argument is ignored.
      */
-    @Parameter( property = "wagon.toFile")
+    @Parameter(property = "wagon.toFile")
     private File toFile;
 
     /**
      * Skip download if local file already exists.
      */
-    @Parameter( property = "wagon.skipIfExists")
+    @Parameter(property = "wagon.skipIfExists")
     private boolean skipIfExists;
 
     @Override
-    protected void execute( Wagon wagon )
-        throws MojoExecutionException, WagonException
-    {
+    protected void execute(Wagon wagon) throws MojoExecutionException, WagonException {
 
-        if ( this.skip )
-        {
-            this.getLog().info( "Skip execution." );
+        if (this.skip) {
+            this.getLog().info("Skip execution.");
             return;
         }
 
-        if ( toDir != null )
-        {
-            toFile = new File( toDir, new File( fromFile ).getName() );
+        if (toDir != null) {
+            toFile = new File(toDir, new File(fromFile).getName());
         }
 
-        if ( toFile == null )
-        {
-            throw new MojoExecutionException( "Either toDir or toFile is required" );
+        if (toFile == null) {
+            throw new MojoExecutionException("Either toDir or toFile is required");
         }
 
-        if ( skipIfExists && toFile.exists() )
-        {
-            getLog().info("Skip execution - file " + toFile + " already exists." );
+        if (skipIfExists && toFile.exists()) {
+            getLog().info("Skip execution - file " + toFile + " already exists.");
             return;
         }
-        this.getLog().info( "Downloading: " + wagon.getRepository().getUrl() + "/" + fromFile + " to " + toFile );
+        this.getLog().info("Downloading: " + wagon.getRepository().getUrl() + "/" + fromFile + " to " + toFile);
 
-        wagon.get( fromFile, toFile );
-
+        wagon.get(fromFile, toFile);
     }
 
     @Override
-    public void execute()
-        throws MojoExecutionException
-    {
-        if ( StringUtils.isBlank( this.fromFile ) ) {
+    public void execute() throws MojoExecutionException {
+        if (StringUtils.isBlank(this.fromFile)) {
 
-            //recompute base url and fromFile
-            String [] tokens = StringUtils.split( this.url, "/\\" );
+            // recompute base url and fromFile
+            String[] tokens = StringUtils.split(this.url, "/\\");
             this.fromFile = tokens[tokens.length - 1];
-            this.url = url.substring( 0, url.length() - this.fromFile.length() - 1 );
+            this.url = url.substring(0, url.length() - this.fromFile.length() - 1);
         }
 
         super.execute();

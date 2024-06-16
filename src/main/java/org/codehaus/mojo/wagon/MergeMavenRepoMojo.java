@@ -30,19 +30,14 @@ import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
 /**
  * Merge artifacts from one Maven repository to another Maven repository.
  */
-@Mojo( name = "merge-maven-repos" , requiresProject = false)
-public class MergeMavenRepoMojo
-    extends AbstractCopyMojo
-{
+@Mojo(name = "merge-maven-repos", requiresProject = false)
+public class MergeMavenRepoMojo extends AbstractCopyMojo {
 
     @Component
     private MavenRepoMerger mavenRepoMerger;
 
     @Override
-    protected void copy( Wagon srcWagon, Wagon targetWagon )
-        throws IOException, WagonException
-    {
-        mavenRepoMerger.merge( srcWagon, targetWagon, optimize, this.getLog() );
+    protected void copy(Wagon srcWagon, Wagon targetWagon) throws IOException, WagonException {
+        mavenRepoMerger.merge(srcWagon, targetWagon, optimize, this.getLog());
     }
-
 }
