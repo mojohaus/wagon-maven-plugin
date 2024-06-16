@@ -60,7 +60,7 @@ public class WagonDirectoryScanner {
     /**
      * The files which matched at least one include and at least one exclude and relative to directory
      */
-    private List filesIncluded = new ArrayList();
+    private List<String> filesIncluded = new ArrayList<>();
 
     private Log logger;
 
@@ -207,7 +207,7 @@ public class WagonDirectoryScanner {
             excludes = new String[0];
         }
 
-        filesIncluded = new ArrayList();
+        filesIncluded = new ArrayList<>();
 
         scandir(directory, "");
 
@@ -250,11 +250,7 @@ public class WagonDirectoryScanner {
      */
     private void scandir(String dir, String vpath) throws WagonException {
         logger.debug("scandir: dir: " + dir + " vpath: " + vpath);
-        List files = wagon.getFileList(dir);
-
-        for (Object file1 : files) {
-            String fileName = (String) file1;
-
+        for (String fileName : wagon.getFileList(dir)) {
             if (isRidiculousFile(fileName)) // including ".."
             {
                 continue;
@@ -313,7 +309,7 @@ public class WagonDirectoryScanner {
 
     private boolean canListPath(String remotePath) {
         try {
-            List resources = wagon.getFileList(remotePath);
+            List<String> resources = wagon.getFileList(remotePath);
             return resources != null && !resources.isEmpty();
         } catch (WagonException e) {
             return false;
@@ -321,7 +317,7 @@ public class WagonDirectoryScanner {
     }
 
     // ///////////////////////////////////////////////////////////////////////////////
-    public List getFilesIncluded() {
+    public List<String> getFilesIncluded() {
         return filesIncluded;
     }
 

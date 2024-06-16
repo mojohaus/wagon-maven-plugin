@@ -19,9 +19,10 @@ package org.codehaus.mojo.wagon;
  * under the License.
  */
 
+import javax.inject.Inject;
+
 import java.io.IOException;
 
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
@@ -33,7 +34,7 @@ import org.codehaus.mojo.wagon.shared.MavenRepoMerger;
 @Mojo(name = "merge-maven-repos", requiresProject = false)
 public class MergeMavenRepoMojo extends AbstractCopyMojo {
 
-    @Component
+    @Inject
     private MavenRepoMerger mavenRepoMerger;
 
     @Override

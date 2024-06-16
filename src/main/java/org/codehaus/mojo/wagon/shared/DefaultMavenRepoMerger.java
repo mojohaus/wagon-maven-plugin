@@ -20,13 +20,12 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.io.Writer;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -42,7 +41,6 @@ import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
@@ -109,38 +107,27 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
     }
 
     private void mergeMetadata(File existingMetadata, Log logger) throws IOException, XmlPullParserException {
+        File stagedMetadataFile = new File(existingMetadata.getParentFile(), MAVEN_METADATA);
 
-        Writer stagedMetadataWriter = null;
-        Reader existingMetadataReader = null;
-        Reader stagedMetadataReader = null;
-        File stagedMetadataFile;
-
-        try {
-            MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
-            MetadataXpp3Writer xppWriter = new MetadataXpp3Writer();
-
+        try (Reader existingMetadataReader = new FileReader(existingMetadata);
+                FileWriter stagedMetadataWriter = new FileWriter(stagedMetadataFile);
+                FileReader reader = new FileReader(stagedMetadataFile); ) {
             // Existing Metadata in target stage
-            existingMetadataReader = new FileReader(existingMetadata);
+            MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
             Metadata existing = xppReader.read(existingMetadataReader);
 
             // Staged Metadata
-            stagedMetadataFile = new File(existingMetadata.getParentFile(), MAVEN_METADATA);
-            stagedMetadataReader = new FileReader(stagedMetadataFile);
-            Metadata staged = xppReader.read(stagedMetadataReader);
+            Metadata staged = xppReader.read(reader);
 
             // Merge and write back to staged metadata to replace the remote one
             existing.merge(staged);
 
-            stagedMetadataWriter = new FileWriter(stagedMetadataFile);
-            xppWriter.write(stagedMetadataWriter, existing);
+            MetadataXpp3Writer metadataXpp3Writer = new MetadataXpp3Writer();
+            metadataXpp3Writer.write(stagedMetadataWriter, existing);
 
             logger.info("Merging metadata file: " + stagedMetadataFile);
 
         } finally {
-            IOUtil.close(stagedMetadataWriter);
-            IOUtil.close(stagedMetadataReader);
-            IOUtil.close(existingMetadataReader);
-
             existingMetadata.delete();
         }
 
@@ -163,19 +150,13 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
 
     private String checksum(File file, String type) throws IOException, NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance(type);
-
-        InputStream is = new FileInputStream(file);
-
-        byte[] buf = new byte[8192];
-
-        int i;
-
-        while ((i = is.read(buf)) > 0) {
-            md5.update(buf, 0, i);
+        try (InputStream is = Files.newInputStream(file.toPath())) {
+            byte[] buf = new byte[8192];
+            int i;
+            while ((i = is.read(buf)) > 0) {
+                md5.update(buf, 0, i);
+            }
         }
-
-        IOUtil.close(is);
-
         return encode(md5.digest());
     }
 
@@ -185,34 +166,27 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
             throw new IllegalArgumentException("Unrecognised length for binary data: " + bitLength + " bits");
         }
 
-        String retValue = "";
-
+        StringBuilder retValue = new StringBuilder();
         for (byte aBinaryData : binaryData) {
             String t = Integer.toHexString(aBinaryData & 0xff);
-
             if (t.length() == 1) {
-                retValue += ("0" + t);
+                retValue.append("0").append(t);
             } else {
-                retValue += t;
+                retValue.append(t);
             }
         }
 
-        return retValue.trim();
+        return retValue.toString().trim();
     }
 
     public static File createTempDirectory(String prefix) throws IOException {
-        final File temp;
-
-        temp = File.createTempFile(prefix, Long.toString(System.nanoTime()));
-
-        if (!(temp.delete())) {
+        File temp = File.createTempFile(prefix, Long.toString(System.nanoTime()));
+        if (!temp.delete()) {
             throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
         }
-
-        if (!(temp.mkdir())) {
+        if (!temp.mkdir()) {
             throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
         }
-
-        return (temp);
+        return temp;
     }
 }

@@ -1,8 +1,9 @@
 package org.codehaus.mojo.wagon;
 
+import javax.inject.Inject;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
@@ -16,7 +17,7 @@ import org.codehaus.mojo.wagon.shared.WagonUtils;
  */
 public abstract class AbstractWagonMojo extends AbstractMojo {
 
-    @Component
+    @Inject
     protected WagonFactory wagonFactory;
 
     /**
