@@ -27,8 +27,8 @@ jobs:
       ff-goal: '-ntp -P run-its verify'         # site use project version for reporting
       verify-goal: '-ntp -P run-its verify'     # should be the same as for first build
 
-  deploy:
-    name: Deploy
-    needs: build
-    uses: mojohaus/.github/.github/workflows/maven-deploy.yml@master
-    secrets: inherit
+#  deploy:
+#    name: Deploy
+#    needs: build
+#    uses: mojohaus/.github/.github/workflows/maven-deploy.yml@master
+#    secrets: inherit
