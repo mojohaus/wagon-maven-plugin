@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>mojo-parent</artifactId>
-    <version>92</version>
+    <version>91</version>
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
@@ -117,35 +117,35 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
-      <version>${maven.api.version}</version>
+      <version>3.6.3</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>${maven.api.version}</version>
+      <version>3.6.3</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>${maven.api.version}</version>
+      <version>3.9.4</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-settings</artifactId>
-      <version>${maven.api.version}</version>
+      <version>3.6.3</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-repository-metadata</artifactId>
-      <version>${maven.api.version}</version>
+      <version>3.6.3</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -158,14 +158,14 @@
     <dependency>
       <groupId>org.apache.maven.wagon</groupId>
       <artifactId>wagon-provider-api</artifactId>
-      <version>${wagon.api.version}</version>
+      <version>3.4.0</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven.wagon</groupId>
       <artifactId>wagon-ssh</artifactId>
-      <version>${wagon.api.version}</version>
+      <version>3.4.0</version>
     </dependency>
 
     <dependency>
@@ -192,12 +192,12 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${dependency.slf4j.version}</version>
+      <version>1.7.36</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${dependency.slf4j.version}</version>
+      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
 
@@ -205,20 +205,20 @@
     <dependency>
       <groupId>io.takari.maven.plugins</groupId>
       <artifactId>takari-plugin-testing</artifactId>
-      <version>${takari-plugin-testing.version}</version>
+      <version>2.9.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.takari.maven.plugins</groupId>
       <artifactId>takari-plugin-integration-testing</artifactId>
-      <version>${takari-plugin-testing.version}</version>
+      <version>2.9.2</version>
       <type>pom</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.ftpserver</groupId>
       <artifactId>ftpserver-core</artifactId>
-      <version>${ftpserver.version}</version>
+      <version>1.2.1</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -230,13 +230,13 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
-      <version>${dependency.jetty.version}</version>
+      <version>9.4.57.v20241219</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-http</artifactId>
-      <version>${dependency.jetty.version}</version>
+      <version>9.4.52.v20230823</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
