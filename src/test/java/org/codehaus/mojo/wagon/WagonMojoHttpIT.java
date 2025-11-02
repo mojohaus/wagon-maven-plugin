@@ -11,11 +11,12 @@ import io.takari.maven.testing.executor.MavenRuntime;
 import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
 import io.takari.maven.testing.executor.MavenVersions;
 import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(MavenJUnitTestRunner.class)
 @MavenVersions({"3.6.3"})
@@ -31,22 +32,22 @@ public class WagonMojoHttpIT extends AbstractJettyIT {
         this.mavenBuilder = builder.withCliOptions("-B");
     }
 
-    @Before
-    public void setPort() throws Exception {
+    @BeforeEach
+    void setPort() throws Exception {
         this.maven = this.mavenBuilder
                 .withCliOptions("-Dserver.port=" + getServerPort())
                 .build();
     }
 
     @Test
-    public void testDownload() throws Exception {
+    void download() throws Exception {
         File projDir = resources.getBasedir("http-download");
         MavenExecution mavenExec = maven.forProject(projDir);
 
         MavenExecutionResult result = mavenExec.execute("clean", "verify");
         result.assertErrorFreeLog();
 
-        Assert.assertTrue(
+        assertTrue(
                 new File(result.getBasedir(), "target/it/http-download/1.1/commons-dbutils-1.1-sources.txt").exists());
     }
 

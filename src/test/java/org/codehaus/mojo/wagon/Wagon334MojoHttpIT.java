@@ -11,11 +11,12 @@ import io.takari.maven.testing.executor.MavenRuntime;
 import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
 import io.takari.maven.testing.executor.MavenVersions;
 import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(MavenJUnitTestRunner.class)
 @MavenVersions({"3.6.3"})
@@ -30,15 +31,15 @@ public class Wagon334MojoHttpIT extends AbstractJettyIT {
         this.mavenBuilder = builder.withCliOptions("-B");
     }
 
-    @Before
-    public void setPort() throws Exception {
+    @BeforeEach
+    void setPort() throws Exception {
         this.maven = this.mavenBuilder
                 .withCliOptions("-Dserver.port=" + getServerPort())
                 .build();
     }
 
     @Test
-    public void testDownload() throws Exception {
+    void download() throws Exception {
         // issue: https://github.com/mojohaus/wagon-maven-plugin/issues/39
         File projDir = resources.getBasedir("http-download-02");
         MavenExecution mavenExec = maven.forProject(projDir);
@@ -47,9 +48,9 @@ public class Wagon334MojoHttpIT extends AbstractJettyIT {
         result.assertErrorFreeLog();
 
         File downloadDir = new File(result.getBasedir(), "target/it/http-download/");
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc").exists());
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.md5").exists());
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.sha1").exists());
+        assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc").exists());
+        assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.md5").exists());
+        assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.sha1").exists());
     }
 
     @Override

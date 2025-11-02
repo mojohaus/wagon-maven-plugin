@@ -9,9 +9,9 @@ import io.takari.maven.testing.executor.MavenRuntime;
 import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
 import io.takari.maven.testing.executor.MavenVersions;
 import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(MavenJUnitTestRunner.class)
@@ -27,8 +27,8 @@ public class WagonMojoSshIT {
     }
 
     @Test
-    @Ignore
-    public void testSsh() throws Exception {
+    @Disabled
+    void ssh() throws Exception {
         File projDir = resources.getBasedir("ssh-it");
         MavenExecution mavenExec = maven.forProject(projDir);
 

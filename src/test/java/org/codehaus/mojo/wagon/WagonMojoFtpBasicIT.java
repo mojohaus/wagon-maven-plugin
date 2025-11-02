@@ -15,12 +15,13 @@ import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(MavenJUnitTestRunner.class)
 @MavenVersions({"3.6.3"})
@@ -36,31 +37,31 @@ public class WagonMojoFtpBasicIT {
         this.maven = builder.withCliOptions("-B", "-e", "-s", "settings.xml").build();
     }
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    void setup() throws Exception {
         ftpServer.start();
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         if (ftpServer != null && !ftpServer.isStopped()) {
             ftpServer.stop();
         }
     }
 
     @Test
-    public void testFtpBasic() throws Exception {
+    void ftpBasic() throws Exception {
         File projDir = resources.getBasedir("ftp-basic");
         MavenExecution mavenExec = maven.forProject(projDir);
         MavenExecutionResult result = mavenExec.execute("clean", "verify");
         result.assertErrorFreeLog();
-        Assert.assertTrue(
+        assertTrue(
                 new File(result.getBasedir(), "target/it/" + this.getClass().getSimpleName() + ".class").exists());
-        Assert.assertTrue(new File(
+        assertTrue(new File(
                         result.getBasedir(),
                         "target/it/single-dir/" + this.getClass().getSimpleName() + ".class")
                 .exists());
-        Assert.assertTrue(new File(
+        assertTrue(new File(
                         result.getBasedir(),
                         "target/it/single-dir/" + this.getClass().getSimpleName() + ".class")
                 .exists());
