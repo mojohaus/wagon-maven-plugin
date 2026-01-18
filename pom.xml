@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0</version>
   <packaging>maven-plugin</packaging>
   <name>Wagon Maven Plugin</name>
 
@@ -66,7 +66,7 @@
   <scm>
     <connection>scm:git:https://github.com/mojohaus/wagon-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/wagon-maven-plugin.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>wagon-maven-plugin-3.0.0</tag>
     <url>https://github.com/mojohaus/wagon-maven-plugin/</url>
   </scm>
 
@@ -87,7 +87,7 @@
     <takari-plugin-testing.version>2.9.2</takari-plugin-testing.version>
     <takari-lifecycle-plugin.version>2.1.2</takari-lifecycle-plugin.version>
 
-    <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-01-18T20:55:37Z</project.build.outputTimestamp>
 
     <!-- logging -->
     <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
