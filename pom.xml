@@ -81,7 +81,7 @@
 
   <properties>
     <maven.api.version>3.6.3</maven.api.version>
-    <wagon.api.version>3.4.0</wagon.api.version>
+    <wagon.api.version>3.5.3</wagon.api.version>
 
     <!-- Test plugins -->
     <takari-plugin-testing.version>2.9.2</takari-plugin-testing.version>
