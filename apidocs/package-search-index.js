@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.codehaus.mojo.wagon"},{"l":"org.codehaus.mojo.wagon_maven_plugin"},{"l":"org.codehaus.mojo.wagon.shared"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"org.codehaus.mojo.wagon"},{"l":"org.codehaus.mojo.wagon_maven_plugin"},{"l":"org.codehaus.mojo.wagon.shared"}];updateSearchResults();
