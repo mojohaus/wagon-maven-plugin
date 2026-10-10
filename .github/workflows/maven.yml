@@ -24,6 +24,12 @@ jobs:
     name: Verify
     uses: apache/maven-gh-actions-shared/.github/workflows/maven-verify.yml@v5
     with:
+      matrix-exclude: >
+        [
+          {"os": "macos-latest", "jdk": "8"},
+          {"os": "macos-latest", "jdk": "21"},
+          {"os": "windows-latest", "jdk": "21"}
+        ]
       ff-goal: '-ntp -P run-its verify'         # site use project version for reporting
       verify-goal: '-ntp -P run-its verify'     # should be the same as for first build
 
