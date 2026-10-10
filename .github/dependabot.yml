@@ -3,7 +3,10 @@ updates:
 - package-ecosystem: maven
   directory: "/"
   schedule:
-    interval: daily
+    interval: monthly
+  groups:
+    maven:
+      update-types: ["minor", "patch"]
   ignore:
     # Maven wrapper: stay on the Maven 3 line, no 4.x (including 4.0.0 pre-releases)
     - dependency-name: org.apache.maven:apache-maven
@@ -17,4 +20,7 @@ updates:
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
-    interval: daily
+    interval: monthly
+  groups:
+    github-actions:
+      patterns: ["*"]
