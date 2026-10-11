@@ -60,7 +60,7 @@
   </developers>
 
   <prerequisites>
-    <maven>3.6.3</maven>
+    <maven>3.9.0</maven>
   </prerequisites>
 
   <scm>
@@ -80,7 +80,8 @@
   </ciManagement>
 
   <properties>
-    <maven.api.version>3.6.3</maven.api.version>
+    <mavenVersion>3.9.16</mavenVersion>
+    <maven.api.version>${mavenVersion}</maven.api.version>
     <wagon.api.version>3.5.3</wagon.api.version>
 
     <!-- Test plugins -->
