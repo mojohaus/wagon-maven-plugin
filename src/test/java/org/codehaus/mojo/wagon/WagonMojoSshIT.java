@@ -2,33 +2,26 @@ package org.codehaus.mojo.wagon;
 
 import java.io.File;
 
-import io.takari.maven.testing.TestResources;
+import io.takari.maven.testing.TestResources5;
 import io.takari.maven.testing.executor.MavenExecution;
 import io.takari.maven.testing.executor.MavenExecutionResult;
 import io.takari.maven.testing.executor.MavenRuntime;
 import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
 import io.takari.maven.testing.executor.MavenVersions;
-import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import io.takari.maven.testing.executor.junit.MavenPluginTest;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-@RunWith(MavenJUnitTestRunner.class)
 @MavenVersions({"3.9.16"})
-public class WagonMojoSshIT {
-    @Rule
-    public final TestResources resources = new TestResources();
+class WagonMojoSshIT {
+    @RegisterExtension
+    final TestResources5 resources = new TestResources5();
 
-    public final MavenRuntime maven;
-
-    public WagonMojoSshIT(MavenRuntimeBuilder builder) throws Exception {
-        this.maven = builder.withCliOptions("-B", "-e", "-s", "settings.xml").build();
-    }
-
-    @Test
-    @Ignore
-    public void testSsh() throws Exception {
+    @MavenPluginTest
+    @Disabled
+    void testSsh(MavenRuntimeBuilder builder) throws Exception {
+        MavenRuntime maven =
+                builder.withCliOptions("-B", "-e", "-s", "settings.xml").build();
         File projDir = resources.getBasedir("ssh-it");
         MavenExecution mavenExec = maven.forProject(projDir);
 

@@ -9,16 +9,16 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
-public abstract class AbstractJettyIT {
+abstract class AbstractJettyIT {
 
     private Server server;
     private int port;
 
-    @Before
-    public void runJetty() throws Exception {
+    @BeforeEach
+    void runJetty() throws Exception {
         server = new Server();
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(0);
@@ -37,8 +37,8 @@ public abstract class AbstractJettyIT {
         this.port = connector.getLocalPort();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         server.stop();
     }
 
