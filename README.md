@@ -8,7 +8,7 @@ This is the [wagon-maven-plugin](http://www.mojohaus.org/wagon-maven-plugin/).
 
 ## Maintained versions
 
-Wagen Maven Plugin requires Maven 3.6.3+ and JDK 8+
+Wagen Maven Plugin requires Maven 3.9.0+ and JDK 8+
 
 However, we maintain the latest Plugin version with the latest Maven.
 
@@ -16,6 +16,8 @@ We execute tests against different operating systems and JDKs
 by [GitHub Actions](https://github.com/mojohaus/wagon-maven-plugin/actions/workflows/maven.yml?query=branch%3Amaster)
 
 ## Contributing
+
+See [AGENTS.md](AGENTS.md) for build, test and pull request conventions.
 
 ### Creating Issues
 
