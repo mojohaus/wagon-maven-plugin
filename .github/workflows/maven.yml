@@ -31,8 +31,8 @@ jobs:
           {"os": "macos-latest", "jdk": "21"},
           {"os": "windows-latest", "jdk": "21"}
         ]
-      ff-goal: '-ntp -P run-its verify'         # site use project version for reporting
-      verify-goal: '-ntp -P run-its verify'     # should be the same as for first build
+      ff-goal: '-ntp verify'         # site use project version for reporting
+      verify-goal: '-ntp verify'     # should be the same as for first build
 
 #  deploy:
 #    name: Deploy
