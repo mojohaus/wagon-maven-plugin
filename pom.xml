@@ -81,7 +81,6 @@
 
   <properties>
     <mavenVersion>3.9.16</mavenVersion>
-    <maven.api.version>${mavenVersion}</maven.api.version>
     <wagon.api.version>3.5.3</wagon.api.version>
 
     <!-- Test plugins -->
@@ -116,35 +115,35 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
-      <version>${maven.api.version}</version>
+      <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>${maven.api.version}</version>
+      <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>${maven.api.version}</version>
+      <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-settings</artifactId>
-      <version>${maven.api.version}</version>
+      <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-repository-metadata</artifactId>
-      <version>${maven.api.version}</version>
+      <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
