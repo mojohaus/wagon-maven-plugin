@@ -1,6 +1,5 @@
 package org.codehaus.mojo.wagon;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.eclipse.jetty.server.Handler;
@@ -9,15 +8,15 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
-public abstract class AbstractJettyIT {
-
+public abstract class AbstractJettyIT extends AbstractMavenIT {
     private Server server;
+
     private int port;
 
-    @Before
+    @BeforeEach
     public void runJetty() throws Exception {
         server = new Server();
         ServerConnector connector = new ServerConnector(server);
@@ -37,7 +36,7 @@ public abstract class AbstractJettyIT {
         this.port = connector.getLocalPort();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         server.stop();
     }
@@ -46,5 +45,5 @@ public abstract class AbstractJettyIT {
         return this.port;
     }
 
-    protected abstract Path getDirectoryToServe() throws IOException;
+    protected abstract Path getDirectoryToServe();
 }

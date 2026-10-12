@@ -1,59 +1,29 @@
 package org.codehaus.mojo.wagon;
 
-import java.io.File;
-import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-import io.takari.maven.testing.TestResources;
-import io.takari.maven.testing.executor.MavenExecution;
-import io.takari.maven.testing.executor.MavenExecutionResult;
-import io.takari.maven.testing.executor.MavenRuntime;
-import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
-import io.takari.maven.testing.executor.MavenVersions;
-import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 
-@RunWith(MavenJUnitTestRunner.class)
-@MavenVersions({"3.9.16"})
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class Wagon334MojoHttpIT extends AbstractJettyIT {
-    @Rule
-    public final TestResources resources = new TestResources();
-
-    private final MavenRuntimeBuilder mavenBuilder;
-    public MavenRuntime maven;
-
-    public Wagon334MojoHttpIT(MavenRuntimeBuilder builder) {
-        this.mavenBuilder = builder.withCliOptions("-B");
-    }
-
-    @Before
-    public void setPort() throws Exception {
-        this.maven = this.mavenBuilder
-                .withCliOptions("-Dserver.port=" + getServerPort())
-                .build();
-    }
 
     @Test
     public void testDownload() throws Exception {
         // issue: https://github.com/mojohaus/wagon-maven-plugin/issues/39
-        File projDir = resources.getBasedir("http-download-02");
-        MavenExecution mavenExec = maven.forProject(projDir);
+        Path projDir = prepareProject("http-download-02");
 
-        MavenExecutionResult result = mavenExec.execute("clean", "verify");
-        result.assertErrorFreeLog();
+        executeErrorFree(projDir, "-Dserver.port=" + getServerPort(), "clean", "verify");
 
-        File downloadDir = new File(result.getBasedir(), "target/it/http-download/");
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc").exists());
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.md5").exists());
-        Assert.assertTrue(new File(downloadDir, "commons-dbutils-1.2-bin.tar.gz.asc.sha1").exists());
+        Path downloadDir = projDir.resolve("target/it/http-download/");
+        assertTrue(Files.exists(downloadDir.resolve("commons-dbutils-1.2-bin.tar.gz.asc")));
+        assertTrue(Files.exists(downloadDir.resolve("commons-dbutils-1.2-bin.tar.gz.asc.md5")));
+        assertTrue(Files.exists(downloadDir.resolve("commons-dbutils-1.2-bin.tar.gz.asc.sha1")));
     }
 
     @Override
-    protected Path getDirectoryToServe() throws IOException {
-        return resources.getBasedir("http-download-02").toPath().resolve("files");
+    protected Path getDirectoryToServe() {
+        return projectSource("http-download-02").resolve("files");
     }
 }

@@ -85,8 +85,7 @@
     <wagon.api.version>3.5.3</wagon.api.version>
 
     <!-- Test plugins -->
-    <takari-plugin-testing.version>3.0.0</takari-plugin-testing.version>
-    <takari-lifecycle-plugin.version>2.1.2</takari-lifecycle-plugin.version>
+    <maven-executor.version>1.0.0</maven-executor.version>
 
     <project.build.outputTimestamp>2026-09-11T20:10:02Z</project.build.outputTimestamp>
 
@@ -206,18 +205,15 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- needed to debug plugin under m2e -->
     <dependency>
-      <groupId>io.takari.maven.plugins</groupId>
-      <artifactId>takari-plugin-testing</artifactId>
-      <version>${takari-plugin-testing.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.takari.maven.plugins</groupId>
-      <artifactId>takari-plugin-integration-testing</artifactId>
-      <version>${takari-plugin-testing.version}</version>
-      <type>pom</type>
+      <groupId>org.apache.maven.executor</groupId>
+      <artifactId>maven-executor</artifactId>
+      <version>${maven-executor.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -288,17 +284,18 @@
       </plugin>
 
       <plugin>
-        <groupId>io.takari.maven.plugins</groupId>
-        <artifactId>takari-lifecycle-plugin</artifactId>
-        <version>${takari-lifecycle-plugin.version}</version>
-        <extensions>true</extensions>
+        <!-- installs the plugin under test into the local repository the integration tests build with -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
         <executions>
           <execution>
-            <id>testProperties</id>
+            <id>install-for-its</id>
             <goals>
-              <goal>testProperties</goal>
+              <goal>install</goal>
             </goals>
-            <phase>process-test-resources</phase>
+            <configuration>
+              <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -306,6 +303,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <!-- the integration tests fork the Maven installation that runs this build -->
+            <maven.home>${maven.home}</maven.home>
+            <it.localRepository>${project.build.directory}/local-repo</it.localRepository>
+            <it.pluginVersion>${project.version}</it.pluginVersion>
+          </systemPropertyVariables>
+        </configuration>
         <executions>
           <execution>
             <id>integration-test</id>

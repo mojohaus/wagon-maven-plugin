@@ -1,47 +1,32 @@
 package org.codehaus.mojo.wagon;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import io.takari.maven.testing.TestResources;
-import io.takari.maven.testing.executor.MavenExecution;
-import io.takari.maven.testing.executor.MavenExecutionResult;
-import io.takari.maven.testing.executor.MavenRuntime;
-import io.takari.maven.testing.executor.MavenRuntime.MavenRuntimeBuilder;
-import io.takari.maven.testing.executor.MavenVersions;
-import io.takari.maven.testing.executor.junit.MavenJUnitTestRunner;
 import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-@RunWith(MavenJUnitTestRunner.class)
-@MavenVersions({"3.9.16"})
-public class WagonMojoFtpBasicIT {
-    @Rule
-    public final TestResources resources = new TestResources();
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    public final MavenRuntime maven;
-    public final FtpServer ftpServer;
+public class WagonMojoFtpBasicIT extends AbstractMavenIT {
 
-    public WagonMojoFtpBasicIT(MavenRuntimeBuilder builder) throws Exception {
-        this.ftpServer = createFtp();
-        this.maven = builder.withCliOptions("-B", "-e", "-s", "settings.xml").build();
-    }
+    private FtpServer ftpServer;
 
-    @Before
+    @BeforeEach
     public void setup() throws Exception {
+        ftpServer = createFtp();
         ftpServer.start();
     }
 
-    @After
+    @AfterEach
     public void teardown() {
         if (ftpServer != null && !ftpServer.isStopped()) {
             ftpServer.stop();
@@ -50,24 +35,18 @@ public class WagonMojoFtpBasicIT {
 
     @Test
     public void testFtpBasic() throws Exception {
-        File projDir = resources.getBasedir("ftp-basic");
-        MavenExecution mavenExec = maven.forProject(projDir);
-        MavenExecutionResult result = mavenExec.execute("clean", "verify");
-        result.assertErrorFreeLog();
-        Assert.assertTrue(
-                new File(result.getBasedir(), "target/it/" + this.getClass().getSimpleName() + ".class").exists());
-        Assert.assertTrue(new File(
-                        result.getBasedir(),
-                        "target/it/single-dir/" + this.getClass().getSimpleName() + ".class")
-                .exists());
-        Assert.assertTrue(new File(
-                        result.getBasedir(),
-                        "target/it/single-dir/" + this.getClass().getSimpleName() + ".class")
-                .exists());
+        Path projDir = prepareProject("ftp-basic");
+
+        executeErrorFree(projDir, "-e", "-s", "settings.xml", "clean", "verify");
+
+        String downloaded = getClass().getSimpleName() + ".class";
+        assertTrue(Files.exists(projDir.resolve("target/it/" + downloaded)));
+        assertTrue(Files.exists(projDir.resolve("target/it/single-dir/" + downloaded)));
     }
 
     private FtpServer createFtp() throws FtpException {
         FtpServerFactory serverFactory = new FtpServerFactory();
+
         ConnectionConfigFactory connectionConfigFactory = new ConnectionConfigFactory();
         connectionConfigFactory.setAnonymousLoginEnabled(true);
 
@@ -77,6 +56,7 @@ public class WagonMojoFtpBasicIT {
         serverFactory.setConnectionConfig(connectionConfigFactory.createConnectionConfig());
         serverFactory.addListener("default", factory.createListener());
 
+        // the test project downloads this test's own class file from target/test-classes
         BaseUser user = new BaseUser();
         user.setName("anonymous");
         user.setHomeDirectory(new File("target").getAbsolutePath());
