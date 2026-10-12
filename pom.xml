@@ -93,7 +93,6 @@
     <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
 
     <!-- Test dependencies -->
-    <dependency.jetty.version>9.4.58.v20250814</dependency.jetty.version>
     <ftpserver.version>1.2.1</ftpserver.version>
     <!-- Doxia 2 -->
     <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
@@ -227,18 +226,6 @@
           <artifactId>slf4j-api</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${dependency.jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-http</artifactId>
-      <version>${dependency.jetty.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

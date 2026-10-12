@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
-public class WagonMojoHttpSettingsIT extends AbstractJettyIT {
+public class WagonMojoHttpSettingsIT extends AbstractHttpServerIT {
 
     @Test
     public void testDownload() throws Exception {
