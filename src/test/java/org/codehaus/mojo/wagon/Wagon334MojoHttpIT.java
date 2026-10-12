@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Wagon334MojoHttpIT extends AbstractJettyIT {
+public class Wagon334MojoHttpIT extends AbstractHttpServerIT {
 
     @Test
     public void testDownload() throws Exception {
