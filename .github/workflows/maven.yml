@@ -24,8 +24,9 @@ jobs:
     name: Verify
     uses: mojohaus/.github/.github/workflows/maven-verify.yml@master
     with:
-      ff-goal: '-ntp verify'         # site use project version for reporting
-      verify-goal: '-ntp verify'     # should be the same as for first build
+      # no run-its profile here; Maven 4 fails on a requested profile that does not exist
+      ff-goal: 'verify'
+      verify-goal: 'verify'
 
 #  deploy:
 #    name: Deploy
