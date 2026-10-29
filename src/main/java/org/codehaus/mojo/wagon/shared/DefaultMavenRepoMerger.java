@@ -19,6 +19,10 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -37,8 +41,6 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -46,12 +48,13 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 /**
  * A copy of stage's plugin RepositoryCopier but use WagonUpload and WagonDownload instead.
  */
-@Component(role = MavenRepoMerger.class, hint = "default")
+@Named("default")
+@Singleton
 public class DefaultMavenRepoMerger implements MavenRepoMerger {
-    @Requirement
+    @Inject
     private WagonDownload downloader;
 
-    @Requirement
+    @Inject
     private WagonUpload uploader;
 
     @Override

@@ -1,5 +1,9 @@
 package org.codehaus.mojo.wagon.shared;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.util.List;
 
 import org.apache.maven.settings.Proxy;
@@ -17,40 +21,38 @@ import org.apache.maven.wagon.observers.Debug;
 import org.apache.maven.wagon.proxy.ProxyInfo;
 import org.apache.maven.wagon.repository.Repository;
 import org.apache.maven.wagon.repository.RepositoryPermissions;
-import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
-import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.component.configurator.BasicComponentConfigurator;
 import org.codehaus.plexus.component.configurator.ComponentConfigurationException;
 import org.codehaus.plexus.component.configurator.ComponentConfigurator;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.configuration.xml.XmlPlexusConfiguration;
-import org.codehaus.plexus.context.Context;
-import org.codehaus.plexus.context.ContextException;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(role = WagonFactory.class, hint = "default")
-public class DefaultWagonFactory implements WagonFactory, Contextualizable {
+@Named("default")
+@Singleton
+public class DefaultWagonFactory implements WagonFactory {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Requirement
+    @Inject
     private SettingsDecrypter settingsDecrypter;
 
-    @Requirement(hint = "basic")
+    @Inject
+    @Named("basic")
     private ComponentConfigurator componentConfigurator;
 
-    @Requirement(hint = "map-oriented")
+    @Inject
+    @Named("map-oriented")
     private ComponentConfigurator mapComponentConfigurator;
 
     ////////////////////////////////////////////////////////////////////
+    @Inject
     private PlexusContainer container;
 
     @Override
@@ -223,10 +225,5 @@ public class DefaultWagonFactory implements WagonFactory, Contextualizable {
 
         // empty one to prevent NPE
         return new AuthenticationInfo();
-    }
-
-    @Override
-    public void contextualize(Context context) throws ContextException {
-        container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
     }
 }

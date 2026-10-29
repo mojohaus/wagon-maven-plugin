@@ -19,16 +19,19 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.util.StringUtils;
 
-@Component(role = WagonDownload.class, hint = "default")
+@Named("default")
+@Singleton
 public class DefaultWagonDownload implements WagonDownload {
 
     @Override
