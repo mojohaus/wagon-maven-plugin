@@ -19,6 +19,10 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -26,19 +30,18 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Copy a set of file from a wagon repo to another wagon repo.
  */
-@Component(role = WagonCopy.class, hint = "default")
+@Named("default")
+@Singleton
 public class DefaultWagonCopy implements WagonCopy {
-    @Requirement
+    @Inject
     private WagonDownload downloader;
 
-    @Requirement
+    @Inject
     private WagonUpload uploader;
 
     @Override

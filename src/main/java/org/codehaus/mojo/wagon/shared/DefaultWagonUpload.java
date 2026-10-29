@@ -19,6 +19,10 @@ package org.codehaus.mojo.wagon.shared;
  * under the License.
  */
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,18 +36,17 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.archiver.manager.NoSuchArchiverException;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
-import org.codehaus.plexus.component.annotations.Component;
-import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(role = WagonUpload.class, hint = "default")
+@Named("default")
+@Singleton
 public class DefaultWagonUpload implements WagonUpload {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultWagonUpload.class);
 
-    @Requirement
+    @Inject
     private ArchiverManager archiverManager;
 
     public void upload(Wagon wagon, FileSet fileset) throws WagonException {
