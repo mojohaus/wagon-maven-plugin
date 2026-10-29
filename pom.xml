@@ -99,6 +99,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- test-only transitive of ftpserver-core; 2.2.4 has known deserialization advisories -->
+      <dependency>
+        <groupId>org.apache.mina</groupId>
+        <artifactId>mina-core</artifactId>
+        <version>2.2.10</version>
+      </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
