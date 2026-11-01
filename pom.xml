@@ -80,7 +80,7 @@
   </ciManagement>
 
   <properties>
-    <sisuVersion>1.0.0</sisuVersion>
+    <sisuVersion>1.1.1</sisuVersion>
     <mavenVersion>3.9.16</mavenVersion>
     <wagon.api.version>3.5.3</wagon.api.version>
 
@@ -205,7 +205,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>4.14.0</version>
+      <version>4.15.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
