@@ -80,6 +80,7 @@
   </ciManagement>
 
   <properties>
+    <sisuVersion>1.0.0</sisuVersion>
     <mavenVersion>3.9.16</mavenVersion>
     <wagon.api.version>3.5.3</wagon.api.version>
 
@@ -175,7 +176,14 @@
     <dependency>
       <groupId>org.eclipse.sisu</groupId>
       <artifactId>org.eclipse.sisu.plexus</artifactId>
-      <version>1.0.0</version>
+      <version>${sisuVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <!-- keep in step with org.eclipse.sisu.plexus, which calls into it -->
+      <groupId>org.eclipse.sisu</groupId>
+      <artifactId>org.eclipse.sisu.inject</artifactId>
+      <version>${sisuVersion}</version>
       <scope>provided</scope>
     </dependency>
 
