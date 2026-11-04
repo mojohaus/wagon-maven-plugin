@@ -15,14 +15,6 @@
 
   <build>
 
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-http</artifactId>
-        <version>${wagon.api.version}</version>
-      </extension>
-    </extensions>
-
     <defaultGoal>package</defaultGoal>
 
     <finalName>${project.artifactId}</finalName>
@@ -31,6 +23,14 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
         <version>${it-plugin.version}</version>
+        <dependencies>
+          <!-- replaces the wagon-http the plugin brings; the newer one cannot list a directory -->
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-http</artifactId>
+            <version>${wagon.api.version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
           <serverId>central</serverId>
         </configuration>
