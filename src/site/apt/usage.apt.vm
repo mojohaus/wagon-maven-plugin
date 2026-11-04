@@ -47,9 +47,13 @@ Usage
     <<<scp:>>> or <<<ftp:>>>, still need the provider as a build extension.
 
   * The bundled wagon-http cannot list remote directories, so <list> and a <download> that has to scan the remote
-    directory do not work over <<<http(s):>>> with it. To use them, declare a wagon-http version that can list
-    (for example 3.3.4) as a dependency of the plugin; it replaces the bundled one. A wagon-http build extension is
-    not used for these URLs any more, because the plugin's own provider takes precedence.
+    directory do not work over <<<http(s):>>> with it. Since wagon-http 3.5.0 an HTTP server is no longer
+    treated as a directory tree, because HTTP has no directory semantics
+    ({{{https://issues.apache.org/jira/browse/WAGON-618} WAGON-618}}). For these goals, prefer a protocol that can list:
+    <<<dav:http(s)://>>> with the <wagon-webdav-jackrabbit> provider when the server speaks WebDAV, or <<<sftp:>>>,
+    <<<scp:>>>, <<<ftp:>>> or <<<file:>>>. Only as a last resort, declare a wagon-http up to 3.4.3 (for example
+    3.3.4) as a dependency of the plugin; it replaces the bundled one and still parses HTML directory listings.
+    A wagon-http build extension is not used for these URLs, because the plugin's own provider takes precedence.
 
   * Since ftp wagon provider is not part of your maven distribution, you will need to copy
 
@@ -63,7 +67,9 @@ Usage
 
     to your $MAVEN_HOME/lib directory.
 
-  * <list> and <download> goals do not work with wagon-webdav provider types.
+  * <list> and <download> work over <<<dav:http(s)://>>> with the <wagon-webdav-jackrabbit> provider
+    (<<<org.apache.maven.wagon:wagon-webdav-jackrabbit>>>), declared as a build extension or as a dependency of the
+    plugin. They did not work with the older Slide based <wagon-webdav> provider.
 
   * <list> and <download> goals are very slow since it needs to scan the remote file system.
     So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile
@@ -133,7 +139,7 @@ Usage
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
         <version>${wagonApiVersion}</version>
       </extension>
     </extensions>
