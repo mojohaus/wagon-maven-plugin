@@ -187,6 +187,17 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- Maven may stop bundling the file and HTTP providers; keep them in the plugin realm -->
+    <dependency>
+      <groupId>org.apache.maven.wagon</groupId>
+      <artifactId>wagon-file</artifactId>
+      <version>${wagon.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.wagon</groupId>
+      <artifactId>wagon-http</artifactId>
+      <version>${wagon.api.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.maven.wagon</groupId>
       <artifactId>wagon-ssh</artifactId>
