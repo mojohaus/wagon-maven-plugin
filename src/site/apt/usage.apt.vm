@@ -42,9 +42,14 @@ Usage
 
   The following contains a list of known limitations:
 
-  * This plugin uses the wagon providers ( http, webdav, etc) that come with Maven distribution,
-    so it is crucial to use with Maven 2.2+ since Wagon is much more stable than the ones that comes with Maven 2.0.x.
-    Due to this reason, do not add Wagon dependencies to your plugin execution since they are ignored.
+  * This plugin brings its own wagon providers for <<<file:>>> and <<<http(s):>>> URLs (wagon-file and wagon-http),
+    so it does not depend on the providers a Maven distribution ships. Other protocols, such as <<<dav:>>>,
+    <<<scp:>>> or <<<ftp:>>>, still need the provider as a build extension.
+
+  * The bundled wagon-http cannot list remote directories, so <list> and a <download> that has to scan the remote
+    directory do not work over <<<http(s):>>> with it. To use them, declare a wagon-http version that can list
+    (for example 3.3.4) as a dependency of the plugin; it replaces the bundled one. A wagon-http build extension is
+    not used for these URLs any more, because the plugin's own provider takes precedence.
 
   * Since ftp wagon provider is not part of your maven distribution, you will need to copy
 
