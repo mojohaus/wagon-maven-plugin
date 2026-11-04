@@ -42,9 +42,9 @@ Usage
 
   The following contains a list of known limitations:
 
-  * This plugin brings its own wagon providers for <<<file:>>> and <<<http(s):>>> URLs (wagon-file and wagon-http),
-    so it does not depend on the providers a Maven distribution ships. Other protocols, such as <<<dav:>>>,
-    <<<scp:>>> or <<<ftp:>>>, still need the provider as a build extension.
+  * This plugin brings its own wagon providers for <<<file:>>>, <<<http(s):>>>, <<<scp:>>> and <<<sftp:>>> URLs
+    (wagon-file, wagon-http and wagon-ssh), so it does not depend on the providers a Maven distribution ships.
+    Other protocols, such as <<<dav:>>> or <<<ftp:>>>, still need the provider as a build extension.
 
   * The bundled wagon-http cannot list remote directories, so <list> and a <download> that has to scan the remote
     directory do not work over <<<http(s):>>> with it. Since wagon-http 3.5.0 an HTTP server is no longer
@@ -191,18 +191,13 @@ Usage
 
 * Configuration example to execute commands
 
+  The <sshexec> goal runs commands over the <<<scp:>>> or <<<sftp:>>> provider this plugin brings, so it needs no
+  build extension.
+
 -----
 <project>
   [...]
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-          <version>${wagonApiVersion}</version>
-      </extension>
-    </extensions>
-
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
