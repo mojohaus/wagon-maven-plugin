@@ -20,7 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Serves {@link #getDirectoryToServe()} over HTTP with the JDK's built-in server: files as they are, and directories as
- * an HTML list of links, which is what wagon-http parses for the {@code list} and {@code download} goals.
+ * an HTML list of links, which is what a wagon-http that can list parses for the {@code list} and {@code download}
+ * goals. It also answers the {@code PROPFIND} requests of a WebDAV client ({@code dav:http://} URLs) with a minimal
+ * {@code multistatus} response.
  */
 public abstract class AbstractHttpServerIT extends AbstractMavenIT {
     private HttpServer server;
@@ -55,6 +57,10 @@ public abstract class AbstractHttpServerIT extends AbstractMavenIT {
         Path path = root.resolve(requested.substring(1)).normalize();
         if (!path.startsWith(root) || !Files.exists(path)) {
             exchange.sendResponseHeaders(404, -1);
+            return;
+        }
+        if ("PROPFIND".equals(exchange.getRequestMethod())) {
+            propfind(path, requested, exchange);
             return;
         }
         if (Files.isDirectory(path) && !requested.endsWith("/")) {
@@ -98,5 +104,50 @@ public abstract class AbstractHttpServerIT extends AbstractMavenIT {
         try (OutputStream out = exchange.getResponseBody()) {
             out.write(body);
         }
+    }
+
+    /**
+     * Answers a PROPFIND like a real WebDAV server: the resource first, then with {@code Depth: 1} its children, a
+     * directory with {@code <collection/>} and a file with an empty {@code resourcetype}. As WsgiDAV does, it ignores a
+     * trailing slash on a file.
+     */
+    private static void propfind(Path path, String requested, HttpExchange exchange) throws IOException {
+        byte[] buffer = new byte[1024];
+        while (exchange.getRequestBody().read(buffer) >= 0) {
+            // drain the request
+        }
+
+        StringBuilder xml =
+                new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<D:multistatus xmlns:D=\"DAV:\">\n");
+        appendResponse(xml, path, requested);
+        if (Files.isDirectory(path) && !"0".equals(exchange.getRequestHeaders().getFirst("Depth"))) {
+            String base = requested.endsWith("/") ? requested : requested + "/";
+            try (Stream<Path> children = Files.list(path)) {
+                for (Path child : children.sorted().collect(Collectors.toList())) {
+                    appendResponse(xml, child, base + child.getFileName());
+                }
+            }
+        }
+        byte[] body = xml.append("</D:multistatus>\n").toString().getBytes(StandardCharsets.UTF_8);
+
+        exchange.getResponseHeaders().set("Content-Type", "application/xml; charset=utf-8");
+        exchange.sendResponseHeaders(207, body.length);
+        try (OutputStream out = exchange.getResponseBody()) {
+            out.write(body);
+        }
+    }
+
+    private static void appendResponse(StringBuilder xml, Path path, String href) {
+        boolean directory = Files.isDirectory(path);
+        if (directory && !href.endsWith("/")) {
+            href += "/";
+        }
+        xml.append("<D:response><D:href>")
+                .append(href)
+                .append("</D:href><D:propstat><D:prop><D:displayname>")
+                .append(path.getFileName())
+                .append("</D:displayname><D:resourcetype>")
+                .append(directory ? "<D:collection/>" : "")
+                .append("</D:resourcetype></D:prop><D:status>HTTP/1.1 200 OK</D:status></D:propstat></D:response>\n");
     }
 }
