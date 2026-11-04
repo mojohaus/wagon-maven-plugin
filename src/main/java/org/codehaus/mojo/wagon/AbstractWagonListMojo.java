@@ -37,7 +37,13 @@ public abstract class AbstractWagonListMojo extends AbstractSingleWagonMojo {
     protected String fromDir = "";
 
     /**
-     * Comma separated list of Ant's includes to scan for remote files
+     * Comma separated list of Ant's includes to scan for remote files.
+     * <p>
+     * The {@code download} goal does not scan the remote file system when every include is an exact path relative to
+     * {@code fromDir}, such as {@code 1.1/a.jar,1.1/a.pom}: it fetches those files directly, which also works over
+     * plain HTTP, where a directory cannot be listed. An exact path has no {@code *} or {@code ?} and does not end
+     * with a slash. {@code excludes} still apply, and a file that does not exist is skipped with a warning, as a scan
+     * would not have reported it. The {@code list} goal always scans.
      */
     @Parameter(property = "wagon.includes", defaultValue = "*")
     protected String includes;

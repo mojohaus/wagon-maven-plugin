@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo.it</groupId>
+  <artifactId>wagon-maven-plugin.it</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <properties>
+    <downloadDirectory.base>${project.build.directory}/it/http-download-exact</downloadDirectory.base>
+    <server.port>8080</server.port>
+  </properties>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <plugins>
+      <!-- no wagon extension or plugin dependency: the wagon-http of the Maven installation cannot list a directory -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>${it-plugin.version}</version>
+        <executions>
+
+          <execution>
+            <id>download-exact-paths</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils</url>
+              <includes>1.1/commons-dbutils-1.1-sources.txt, 1.2/commons-dbutils-1.2-sources.txt, 1.3/missing.txt</includes>
+              <toDir>${downloadDirectory.base}/from-root</toDir>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>download-exact-path-below-fromDir</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <url>http://localhost:${server.port}/maven2/commons-dbutils</url>
+              <fromDir>commons-dbutils/1.1</fromDir>
+              <includes>common-dbutils-1.1.pom.asc,commons-dbutils-1.1-sources.txt</includes>
+              <excludes>**/*.asc</excludes>
+              <toDir>${downloadDirectory.base}/from-dir</toDir>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
