@@ -313,6 +313,11 @@ public class WagonDirectoryScanner {
             return resources != null && !resources.isEmpty();
         } catch (WagonException e) {
             return false;
+        } catch (RuntimeException e) {
+            // wagon-webdav-jackrabbit fails with a NullPointerException when a server answers a PROPFIND
+            // on "file/" with an empty resourcetype, which is how a file looks like
+            logger.debug("cannot list " + remotePath + ": " + e);
+            return false;
         }
     }
 

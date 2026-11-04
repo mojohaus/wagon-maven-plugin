@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.mojo.it</groupId>
+  <artifactId>wagon-maven-plugin.it</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <properties>
+    <downloadDirectory.base>${project.build.directory}/it/webdav-list</downloadDirectory.base>
+    <server.port>8080</server.port>
+  </properties>
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <extensions>
+      <!-- a plain HTTP wagon cannot list a directory, WebDAV can -->
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>3.5.3</version>
+      </extension>
+    </extensions>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <version>${it-plugin.version}</version>
+        <executions>
+
+          <execution>
+            <id>dav-list</id>
+            <phase>package</phase>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <configuration>
+              <url>dav:http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils</url>
+              <includes>**</includes>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>dav-selective-download</id>
+            <phase>package</phase>
+            <goals>
+              <goal>download</goal>
+            </goals>
+            <configuration>
+              <url>dav:http://localhost:${server.port}/maven2/commons-dbutils/commons-dbutils</url>
+              <includes>1.1/**</includes>
+              <toDir>${downloadDirectory.base}</toDir>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
