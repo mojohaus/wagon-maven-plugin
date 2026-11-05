@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.StringUtils;
@@ -250,7 +251,18 @@ public class WagonDirectoryScanner {
      */
     private void scandir(String dir, String vpath) throws WagonException {
         logger.debug("scandir: dir: " + dir + " vpath: " + vpath);
-        for (String fileName : wagon.getFileList(dir)) {
+        List<String> fileNames;
+        try {
+            fileNames = wagon.getFileList(dir);
+        } catch (UnsupportedOperationException e) {
+            throw new TransferFailedException(
+                    "The " + wagon.getRepository().getProtocol() + ": provider cannot list remote directories, "
+                            + "which the list goal and a download with include patterns need. Use a protocol that "
+                            + "can list, such as dav:, sftp:, ftp: or file:, see "
+                            + "https://www.mojohaus.org/wagon-maven-plugin/usage.html",
+                    e);
+        }
+        for (String fileName : fileNames) {
             if (isRidiculousFile(fileName)) // including ".."
             {
                 continue;
@@ -313,9 +325,9 @@ public class WagonDirectoryScanner {
             return resources != null && !resources.isEmpty();
         } catch (WagonException e) {
             return false;
-        } catch (RuntimeException e) {
+        } catch (NullPointerException e) {
             // wagon-webdav-jackrabbit fails with a NullPointerException when a server answers a PROPFIND
-            // on "file/" with an empty resourcetype, which is how a file looks like
+            // on "file/" with an empty resourcetype, which is how a file looks
             logger.debug("cannot list " + remotePath + ": " + e);
             return false;
         }

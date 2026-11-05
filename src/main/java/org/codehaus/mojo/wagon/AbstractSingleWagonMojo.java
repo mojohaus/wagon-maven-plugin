@@ -56,7 +56,7 @@ public abstract class AbstractSingleWagonMojo extends AbstractWagonMojo {
             wagon = createWagon(serverId, url);
             execute(wagon);
         } catch (WagonException | IOException e) {
-            throw new MojoExecutionException("Error handling resource", e);
+            throw new MojoExecutionException("Error handling resource: " + e.getMessage(), e);
         } finally {
             try {
                 if (wagon != null) {
