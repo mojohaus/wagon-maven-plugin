@@ -43,7 +43,8 @@ public abstract class AbstractWagonListMojo extends AbstractSingleWagonMojo {
      * {@code fromDir}, such as {@code 1.1/a.jar,1.1/a.pom}: it fetches those files directly, which also works over
      * plain HTTP, where a directory cannot be listed. An exact path has no {@code *} or {@code ?} and does not end
      * with a slash. {@code excludes} still apply, and a file that does not exist is skipped with a warning, as a scan
-     * would not have reported it. The {@code list} goal always scans.
+     * would not have reported it. An exact path is fetched as a file, so name files, not directories: over HTTP a
+     * directory path would be saved as whatever page the server returns for it. The {@code list} goal always scans.
      */
     @Parameter(property = "wagon.includes", defaultValue = "*")
     protected String includes;
