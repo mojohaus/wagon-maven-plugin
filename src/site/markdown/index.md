@@ -1,63 +1,47 @@
- ------
- Introduction
- ------
- ------
- 2015-09-01
- ------
+title: Introduction
+date: 2015-09-01
 
-~~ Licensed to the Apache Software Foundation (ASF) under one
-~~ or more contributor license agreements.  See the NOTICE file
-~~ distributed with this work for additional information
-~~ regarding copyright ownership.  The ASF licenses this file
-~~ to you under the Apache License, Version 2.0 (the
-~~ "License"); you may not use this file except in compliance
-~~ with the License.  You may obtain a copy of the License at
-~~
-~~   http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing,
-~~ software distributed under the License is distributed on an
-~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-~~ KIND, either express or implied.  See the License for the
-~~ specific language governing permissions and limitations
-~~ under the License.
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/guides/mini/guide-apt-format.html
+http://www.apache.org/licenses/LICENSE-2.0
 
-Overview
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 
-  Use this plugin to view and transfer resources between repositories using Maven Wagon.
+# Overview
 
+Use this plugin to view and transfer resources between repositories using Maven Wagon.
 
-* Goals Overview
+## Goals Overview
 
-  The Wagon Maven Plugin has the following goals.
+The Wagon Maven Plugin has the following goals.
 
-  * {{{./upload-single-mojo.html}wagon:upload-single}} uploads the specified file to a remote location.
+* [`wagon:upload-single`](./upload-single-mojo.html) uploads the specified file to a remote location.
+* [`wagon:upload`](./upload-mojo.html) uploads the specified set of files to a remote location.
+* [`wagon:download-single`](./download-single-mojo.html) downloads the specified file from a remote location.
+* [`wagon:download`](./download-mojo.html) downloads the specified set of files from a remote location.
+* [`wagon:list`](./list-mojo.html) lists the content of a specified location in a remote repository.
+* [`wagon:copy`](./copy-mojo.html) copies a set of files under a Wagon repository to another.
+* [`wagon:merge-maven-repos`](./merge-maven-repos-mojo.html) merges , including metadata, a Maven repository to another.
+* [`wagon:sshexec`](./sshexec-mojo.html) Executes a set of commands at remote SSH host.
 
-  * {{{./upload-mojo.html}wagon:upload}} uploads the specified set of files to a remote location.
+## Usage
 
-  * {{{./download-single-mojo.html}wagon:download-single}} downloads the specified file from a remote location.
+Instructions on the basic usage of the Wagon Maven Plugin can be found [here](./usage.html).
 
-  * {{{./download-mojo.html}wagon:download}} downloads the specified set of files from a remote location.
+## Examples
 
-  * {{{./list-mojo.html}wagon:list}} lists the content of a specified location in a remote repository.
+* Live examples are available in [Git](https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it)
 
-  * {{{./copy-mojo.html}wagon:copy}} copies a set of files under a Wagon repository to another.
-
-  * {{{./merge-maven-repos-mojo.html}wagon:merge-maven-repos}} merges , including metadata, a Maven repository to another.
-
-  * {{{./sshexec-mojo.html}wagon:sshexec}} Executes a set of commands at remote SSH host.
-
-
-  []
-
-* Usage
-
-  Instructions on the basic usage of the Wagon Maven Plugin can be found {{{./usage.html}here}}.
-
-
-* Examples
-
-   *  Live examples are available in {{{https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it}Git}}

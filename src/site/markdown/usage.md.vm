@@ -1,95 +1,78 @@
- ------
- Usage
- ------
- ------
- 2015-09-01
- ------
+title: Usage
+date: 2015-09-01
 
-~~ Licensed to the Apache Software Foundation (ASF) under one
-~~ or more contributor license agreements.  See the NOTICE file
-~~ distributed with this work for additional information
-~~ regarding copyright ownership.  The ASF licenses this file
-~~ to you under the Apache License, Version 2.0 (the
-~~ "License"); you may not use this file except in compliance
-~~ with the License.  You may obtain a copy of the License at
-~~
-~~   http://www.apache.org/licenses/LICENSE-2.0
-~~
-~~ Unless required by applicable law or agreed to in writing,
-~~ software distributed under the License is distributed on an
-~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-~~ KIND, either express or implied.  See the License for the
-~~ specific language governing permissions and limitations
-~~ under the License.
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
-~~ NOTE: For help with the syntax of this file, see:
-~~ http://maven.apache.org/guides/mini/guide-apt-format.html
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 
 Usage
+=====
 
-  The Maven Wagon Plugin, as the name implies, allows you to use various functions of a Maven wagon.
-  It allows you to upload resources from your build to a remote location using wagon.
-  It allows you to download resources from a repository using wagon.
-  It allows to list the content of a repository using wagon.
-  Finally, by combining the upload and download capabilities, it can merge a Maven repository to
-  another in a generic way.
+The Maven Wagon Plugin, as the name implies, allows you to use various functions of a Maven wagon.
+It allows you to upload resources from your build to a remote location using wagon.
+It allows you to download resources from a repository using wagon.
+It allows to list the content of a repository using wagon.
+Finally, by combining the upload and download capabilities, it can merge a Maven repository to
+another in a generic way.
 
-  The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
+The configuration are similar to FileSet in maven-assembly-plugin, maven-scm-plugin, etc.
 
-  However, due to some differences in term of provider implementation, not all goals are
-  working as expected. In general, a good way to see a particular wagon implementation
-  would work with this plugin is to run <wagon:list> goal against its URL.
+However, due to some differences in term of provider implementation, not all goals are
+working as expected. In general, a good way to see a particular wagon implementation
+would work with this plugin is to run *wagon:list* goal against its URL.
 
-  The following contains a list of known limitations:
+The following contains a list of known limitations:
 
-  * This plugin brings its own wagon providers for <<<file:>>>, <<<http(s):>>>, <<<scp:>>> and <<<sftp:>>> URLs
-    (wagon-file, wagon-http and wagon-ssh), so it does not depend on the providers a Maven distribution ships.
-    Other protocols, such as <<<dav:>>> or <<<ftp:>>>, still need the provider as a build extension.
+* This plugin brings its own wagon providers for `file:`, `http(s):`, `scp:` and `sftp:` URLs
+  (wagon-file, wagon-http and wagon-ssh), so it does not depend on the providers a Maven distribution ships.
+  Other protocols, such as `dav:` or `ftp:`, still need the provider as a build extension.
+* The bundled wagon-http cannot list remote directories, so *list* and a *download* that has to scan the remote
+  directory do not work over `http(s):` with it. Since wagon-http 3.5.0 an HTTP server is no longer
+  treated as a directory tree, because HTTP has no directory semantics
+  ([WAGON-618](https://issues.apache.org/jira/browse/WAGON-618)). For these goals, prefer a protocol that can list:
+  `dav:http(s)://` with the *wagon-webdav-jackrabbit* provider when the server speaks WebDAV, or `sftp:`,
+  `scp:`, `ftp:` or `file:`. Only as a last resort, declare a wagon-http up to 3.4.3 (for example
+  3.3.4) as a dependency of the plugin; it replaces the bundled one and still parses HTML directory listings.
+  A wagon-http build extension is not used for these URLs, because the plugin's own provider takes precedence.
+* Since ftp wagon provider is not part of your maven distribution, you will need to copy
+  * wagon-ftp-beta-6.jar
+  * oro-2.0.8.jar
+  * commons-net-1.4.1.jar
 
-  * The bundled wagon-http cannot list remote directories, so <list> and a <download> that has to scan the remote
-    directory do not work over <<<http(s):>>> with it. Since wagon-http 3.5.0 an HTTP server is no longer
-    treated as a directory tree, because HTTP has no directory semantics
-    ({{{https://issues.apache.org/jira/browse/WAGON-618} WAGON-618}}). For these goals, prefer a protocol that can list:
-    <<<dav:http(s)://>>> with the <wagon-webdav-jackrabbit> provider when the server speaks WebDAV, or <<<sftp:>>>,
-    <<<scp:>>>, <<<ftp:>>> or <<<file:>>>. Only as a last resort, declare a wagon-http up to 3.4.3 (for example
-    3.3.4) as a dependency of the plugin; it replaces the bundled one and still parses HTML directory listings.
-    A wagon-http build extension is not used for these URLs, because the plugin's own provider takes precedence.
+  to your `$MAVEN_HOME/lib` directory.
+* *list* and *download* work over `dav:http(s)://` with the *wagon-webdav-jackrabbit* provider
+  (`org.apache.maven.wagon:wagon-webdav-jackrabbit`), declared as a build extension or as a dependency of the
+  plugin. They did not work with the older Slide based *wagon-webdav* provider.
+* *list* and *download* goals are very slow since it needs to scan the remote file system.
+  So use *includes* and *excludes* wisely to limit the search. For example: includes=\*\*/somefile
+  scans the entire remote source tree.
+* **This plugin does not work with Maven 3.0.x and 3.1.x out of the box** due to missing the following libraries in
+  it distribution: commons-io-2.x, common-lang-2.x, and jsoup-1.x. You can invoke wagon:update-maven-3
+  to add the missing files to `$MAVEN_HOME/lib`.
+  See [WAGON-407](https://jira.codehaus.org/browse/WAGON-407) for details
 
-  * Since ftp wagon provider is not part of your maven distribution, you will need to copy
+The following contains a couple of usage examples.
+Live examples are available in [Git](https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it)
 
-    * wagon-ftp-beta-6.jar
+Configuration example to upload
+-------------------------------
 
-    * oro-2.0.8.jar
-
-    * commons-net-1.4.1.jar
-
-    []
-
-    to your $MAVEN_HOME/lib directory.
-
-  * <list> and <download> work over <<<dav:http(s)://>>> with the <wagon-webdav-jackrabbit> provider
-    (<<<org.apache.maven.wagon:wagon-webdav-jackrabbit>>>), declared as a build extension or as a dependency of the
-    plugin. They did not work with the older Slide based <wagon-webdav> provider.
-
-  * <list> and <download> goals are very slow since it needs to scan the remote file system.
-    So use <includes> and <excludes> wisely to limit the search. For example: includes=**/somefile
-    scans the entire remote source tree.
-
-  * <<This plugin does not work with Maven 3.0.x and 3.1.x out of the box>> due to missing the following libraries in
-    it distribution:  commons-io-2.x, common-lang-2.x, and jsoup-1.x. You can invoke wagon:update-maven-3
-    to add the missing files to $MAVEN_HOME/lib.
-    See {{{https://jira.codehaus.org/browse/WAGON-407} WAGON-407}} for details
-
-  []
-
-
-  The following contains a couple of usage examples.
-  Live examples are available in {{{https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it}Git}}
-
-
-* Configuration example to upload
-
-+-----
+```xml
 <project>
   [...]
   <build>
@@ -128,11 +111,12 @@ Usage
   </build>
   [...]
 </project>
-+-----
+```
 
-* Configuration example to download
+Configuration example to download
+---------------------------------
 
-+-----
+```xml
 <project>
   [...]
   <build>
@@ -169,32 +153,33 @@ Usage
   </build>
   [...]
 </project>
-+-----
+```
 
+Configuration example to merge Maven repositories
+-------------------------------------------------
 
-* Configuration example to merge Maven repositories
-
-+-----
+```sh
   mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:merge-maven-repos \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/$LOGNAME/maven-repo
-+-----
+```
 
+Configuration example to copy files under one URL to another URL
+----------------------------------------------------------------
 
-* Configuration example to copy files under one URL to another URL
-
-+-----
+```sh
   mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:copy \
      -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
      -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
-+-----
+```
 
-* Configuration example to execute commands
+Configuration example to execute commands
+-----------------------------------------
 
-  The <sshexec> goal runs commands over the <<<scp:>>> or <<<sftp:>>> provider this plugin brings, so it needs no
-  build extension.
+The *sshexec* goal runs commands over the `scp:` or `sftp:` provider this plugin brings, so it needs no
+build extension.
 
------
+```xml
 <project>
   [...]
   <build>
@@ -227,4 +212,4 @@ Usage
   </build>
   [...]
 </project>
------
+```
