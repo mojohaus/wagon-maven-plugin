@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>wagon-maven-plugin</artifactId>
-  <version>3.2.0</version>
+  <version>3.2.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>Wagon Maven Plugin</name>
 
@@ -66,7 +66,7 @@
   <scm>
     <connection>scm:git:https://github.com/mojohaus/wagon-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/wagon-maven-plugin.git</developerConnection>
-    <tag>3.2.0</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/mojohaus/wagon-maven-plugin/</url>
   </scm>
 
@@ -87,7 +87,7 @@
     <!-- Test plugins -->
     <maven-executor.version>1.0.0</maven-executor.version>
 
-    <project.build.outputTimestamp>2026-11-06T10:36:19Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-11-06T10:37:18Z</project.build.outputTimestamp>
 
     <!-- logging -->
     <dependency.slf4j.version>1.7.36</dependency.slf4j.version>
