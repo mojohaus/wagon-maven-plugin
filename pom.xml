@@ -339,6 +339,8 @@
             <!-- the integration tests fork the Maven installation that runs this build -->
             <maven.home>${maven.home}</maven.home>
             <it.localRepository>${project.build.directory}/local-repo</it.localRepository>
+            <!-- read-only: the forked builds reuse what the main build resolved, which CI caches -->
+            <it.localRepositoryTail>${settings.localRepository}</it.localRepositoryTail>
             <it.pluginVersion>${project.version}</it.pluginVersion>
           </systemPropertyVariables>
         </configuration>
