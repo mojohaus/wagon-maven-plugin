@@ -82,6 +82,13 @@ abstract class AbstractMavenIT {
         List<String> args = new ArrayList<>();
         args.add("-B");
         args.add("-Dmaven.repo.local=" + System.getProperty("it.localRepository"));
+        // read what the main build resolved, and its prefix file, instead of downloading them again;
+        // what the forked build installs still goes to it.localRepository
+        String tail = System.getProperty("it.localRepositoryTail");
+        if (tail != null && !tail.isEmpty()) {
+            args.add("-Dmaven.repo.local.tail=" + tail);
+            args.add("-Daether.remoteRepositoryFilter.prefixes.basedir=" + Paths.get(tail, ".meta"));
+        }
         args.add("-Dit-plugin.version=" + System.getProperty("it.pluginVersion"));
         args.addAll(Arrays.asList(arguments));
 
