@@ -109,12 +109,12 @@
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-xml</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -216,7 +216,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
-      <version>4.15.0</version>
+      <version>4.16.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
