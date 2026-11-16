@@ -73,7 +73,7 @@ public final class SelectorUtils {
         // up to first '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
             String patDir = patDirs.get(patIdxStart);
-            if (patDir.equals("**")) {
+            if ("**".equals(patDir)) {
                 break;
             }
             if (!match(patDir, strDirs.get(strIdxStart), isCaseSensitive)) {
@@ -135,7 +135,7 @@ public final class SelectorUtils {
         // up to first '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
             String patDir = patDirs.get(patIdxStart);
-            if (patDir.equals("**")) {
+            if ("**".equals(patDir)) {
                 break;
             }
             if (!match(patDir, strDirs.get(strIdxStart), isCaseSensitive)) {
@@ -147,7 +147,7 @@ public final class SelectorUtils {
         if (strIdxStart > strIdxEnd) {
             // String is exhausted
             for (int i = patIdxStart; i <= patIdxEnd; i++) {
-                if (!patDirs.get(i).equals("**")) {
+                if (!"**".equals(patDirs.get(i))) {
                     return false;
                 }
             }
@@ -162,7 +162,7 @@ public final class SelectorUtils {
         // up to last '**'
         while (patIdxStart <= patIdxEnd && strIdxStart <= strIdxEnd) {
             String patDir = patDirs.get(patIdxEnd);
-            if (patDir.equals("**")) {
+            if ("**".equals(patDir)) {
                 break;
             }
             if (!match(patDir, strDirs.get(strIdxEnd), isCaseSensitive)) {
@@ -174,7 +174,7 @@ public final class SelectorUtils {
         if (strIdxStart > strIdxEnd) {
             // String is exhausted
             for (int i = patIdxStart; i <= patIdxEnd; i++) {
-                if (!patDirs.get(i).equals("**")) {
+                if (!"**".equals(patDirs.get(i))) {
                     return false;
                 }
             }
@@ -184,7 +184,7 @@ public final class SelectorUtils {
         while (patIdxStart != patIdxEnd && strIdxStart <= strIdxEnd) {
             int patIdxTmp = -1;
             for (int i = patIdxStart + 1; i <= patIdxEnd; i++) {
-                if (patDirs.get(i).equals("**")) {
+                if ("**".equals(patDirs.get(i))) {
                     patIdxTmp = i;
                     break;
                 }
@@ -196,8 +196,8 @@ public final class SelectorUtils {
             }
             // Find the pattern between padIdxStart & padIdxTmp in str between
             // strIdxStart & strIdxEnd
-            int patLength = (patIdxTmp - patIdxStart - 1);
-            int strLength = (strIdxEnd - strIdxStart + 1);
+            int patLength = patIdxTmp - patIdxStart - 1;
+            int strLength = strIdxEnd - strIdxStart + 1;
             int foundIdx = -1;
             strLoop:
             for (int i = 0; i <= strLength - patLength; i++) {
@@ -222,7 +222,7 @@ public final class SelectorUtils {
         }
 
         for (int i = patIdxStart; i <= patIdxEnd; i++) {
-            if (!patDirs.get(i).equals("**")) {
+            if (!"**".equals(patDirs.get(i))) {
                 return false;
             }
         }
@@ -343,8 +343,8 @@ public final class SelectorUtils {
             }
             // Find the pattern between padIdxStart & padIdxTmp in str between
             // strIdxStart & strIdxEnd
-            int patLength = (patIdxTmp - patIdxStart - 1);
-            int strLength = (strIdxEnd - strIdxStart + 1);
+            int patLength = patIdxTmp - patIdxStart - 1;
+            int strLength = strIdxEnd - strIdxStart + 1;
             int foundIdx = -1;
             strLoop:
             for (int i = 0; i <= strLength - patLength; i++) {

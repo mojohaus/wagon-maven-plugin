@@ -37,7 +37,7 @@ public abstract class AbstractWagonMojo extends AbstractMojo {
      * @since 2.0.0
      */
     @Parameter(property = "wagon.skip")
-    protected boolean skip = false;
+    protected boolean skip;
 
     /////////////////////////////////////////////////////////////////////////
 
