@@ -64,7 +64,7 @@ public class DefaultWagonUpload implements WagonUpload {
         }
 
         for (String file : files) {
-            String relativeDestPath = StringUtils.replace(file, "\\", "/");
+            String relativeDestPath = file == null || file.isEmpty() ? file : file.replace("\\", "/");
 
             if (!StringUtils.isBlank(fileset.getOutputDirectory())) {
                 relativeDestPath = fileset.getOutputDirectory() + "/" + relativeDestPath;
