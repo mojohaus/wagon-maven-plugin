@@ -60,7 +60,7 @@ public class UploadMojo extends AbstractSingleWagonMojo {
      * Follow local symbolic link if possible.
      */
     @Parameter(property = "wagon.followSymLink", defaultValue = "false")
-    private boolean followSymLink = false;
+    private boolean followSymLink;
 
     /**
      * Use default exclude sets.
@@ -79,7 +79,7 @@ public class UploadMojo extends AbstractSingleWagonMojo {
      * uncompress the bundle.
      */
     @Parameter(property = "wagon.optimize", defaultValue = "false")
-    private boolean optimize = false;
+    private boolean optimize;
 
     @Inject
     protected WagonUpload wagonUpload;

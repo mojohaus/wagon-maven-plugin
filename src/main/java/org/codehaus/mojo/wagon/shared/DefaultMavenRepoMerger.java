@@ -114,7 +114,7 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
 
         try (Reader existingMetadataReader = new FileReader(existingMetadata);
                 FileWriter stagedMetadataWriter = new FileWriter(stagedMetadataFile);
-                FileReader reader = new FileReader(stagedMetadataFile); ) {
+                FileReader reader = new FileReader(stagedMetadataFile)) {
             // Existing Metadata in target stage
             MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
             Metadata existing = xppReader.read(existingMetadataReader);

@@ -57,5 +57,5 @@ public abstract class AbstractDoubleWagonMojo extends AbstractWagonMojo {
      * uncompress the bundle. This only works with SCP's URL
      */
     @Parameter(property = "wagon.optimize", defaultValue = "false")
-    protected boolean optimize = false;
+    protected boolean optimize;
 }

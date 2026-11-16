@@ -173,7 +173,7 @@ public class DefaultWagonDownload implements WagonDownload {
             return false;
         }
         for (String segment : include.split("/", -1)) {
-            if (segment.isEmpty() || segment.equals(".") || segment.equals("..")) {
+            if (segment.isEmpty() || ".".equals(segment) || "..".equals(segment)) {
                 return false;
             }
         }
