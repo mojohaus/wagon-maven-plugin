@@ -143,7 +143,7 @@ public class DefaultWagonDownload implements WagonDownload {
                 files.add(path);
             }
         }
-        files.sort(null);
+        Collections.sort(files);
 
         logger.info("Every include is an exact path, not scanning the remote file system.");
         return files;
