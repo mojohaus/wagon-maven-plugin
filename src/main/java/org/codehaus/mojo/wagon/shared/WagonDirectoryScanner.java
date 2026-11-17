@@ -20,7 +20,6 @@ package org.codehaus.mojo.wagon.shared;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.plugin.logging.Log;
@@ -211,7 +210,7 @@ public class WagonDirectoryScanner {
 
         scandir(directory, "");
 
-        Collections.sort(filesIncluded);
+        filesIncluded.sort(null);
     }
 
     /**
