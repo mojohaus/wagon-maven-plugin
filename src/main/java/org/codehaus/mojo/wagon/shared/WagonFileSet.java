@@ -113,6 +113,7 @@ public class WagonFileSet {
      * <I>[included files]</I>, excluded: <I>[excluded files]</I>)"</code>
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         return "file-set: " + getDirectory() + " (included: " + Arrays.toString(getIncludes()) + ", excluded: "
                 + Arrays.toString(getExcludes()) + ")";
