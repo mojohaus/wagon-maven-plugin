@@ -1,14 +1,14 @@
 # MojoHaus Wagon Maven Plugin
 
-This is the [wagon-maven-plugin](http://www.mojohaus.org/wagon-maven-plugin/).
+This is the [wagon-maven-plugin](https://www.mojohaus.org/wagon-maven-plugin/).
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.codehaus.mojo/wagon-maven-plugin.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo%22%20a%3A%wagon-maven-plugin%22)
-[![Apache License 2](https://img.shields.io/badge/wagon-Apache_v2-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+[![Maven Central](https://img.shields.io/maven-central/v/org.codehaus.mojo/wagon-maven-plugin.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.codehaus.mojo/wagon-maven-plugin)
+[![Apache License 2](https://img.shields.io/badge/wagon-Apache_v2-yellow.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![GitHub CI](https://github.com/mojohaus/wagon-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/mojohaus/wagon-maven-plugin/actions/workflows/maven.yml)
 
 ## Maintained versions
 
-Wagen Maven Plugin requires Maven 3.9.0+ and JDK 8+
+Wagon Maven Plugin requires Maven 3.9.0+ and JDK 8+
 
 However, we maintain the latest Plugin version with the latest Maven.
 
@@ -36,14 +36,14 @@ If you have a full working example or a log file this is also helpful.
 You should of course describe only a single issue in a single ticket and not
 mixing up several things into a single issue.
 
-Please always check your issue with the latest Plugin and tha latest Maven version.
+Please always check your issue with the latest Plugin and the latest Maven version.
 
 ### Creating a Pull Request
 
 Before you start working on more complicated change, new feature
 it is good practice to create an issue in
 the [ticket system](https://github.com/mojohaus/wagon-maven-plugin/issues)
-or send an emil to [development list](https://www.mojohaus.org/wagon-maven-plugin/mailing-lists.html)
+or send an email to [development list](https://www.mojohaus.org/wagon-maven-plugin/mailing-lists.html)
 and describe what the problem is or what kind of feature you would like to add.
 Wait a few days for feedback from other contributors.
 Afterwards you can create an appropriate pull request.
