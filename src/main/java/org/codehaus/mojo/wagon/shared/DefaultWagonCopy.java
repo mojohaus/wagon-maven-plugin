@@ -30,7 +30,6 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
-import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Copy a set of file from a wagon repo to another wagon repo.
@@ -70,7 +69,8 @@ public class DefaultWagonCopy implements WagonCopy {
             this.uploader.upload(target, localFileSet, optimize);
         } finally {
             if (removeDownloadDir) {
-                FileUtils.deleteDirectory(wagonFileSet.getDownloadDirectory());
+                DefaultMavenRepoMerger.deleteDirectory(
+                        wagonFileSet.getDownloadDirectory().toPath());
             }
         }
     }
