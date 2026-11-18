@@ -29,7 +29,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -42,7 +47,6 @@ import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.Wagon;
 import org.apache.maven.wagon.WagonException;
 import org.codehaus.plexus.util.DirectoryScanner;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
@@ -105,7 +109,7 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
             this.uploader.upload(target, tobeUploadedFileSet, optimize);
 
         } finally {
-            FileUtils.deleteDirectory(downloadSrcDir);
+            DefaultMavenRepoMerger.deleteDirectory(downloadSrcDir.toPath());
         }
     }
 
@@ -139,10 +143,10 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
 
         try {
             File newMd5 = new File(stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".md5");
-            FileUtils.fileWrite(newMd5.getAbsolutePath(), checksum(stagedMetadataFile, MD5));
+            Files.write(newMd5.toPath(), checksum(stagedMetadataFile, MD5).getBytes(StandardCharsets.UTF_8));
 
             File newSha1 = new File(stagedMetadataFile.getParentFile(), MAVEN_METADATA + ".sha1");
-            FileUtils.fileWrite(newSha1.getAbsolutePath(), checksum(stagedMetadataFile, SHA1));
+            Files.write(newSha1.toPath(), checksum(stagedMetadataFile, SHA1).getBytes(StandardCharsets.UTF_8));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -191,5 +195,45 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
             throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
         }
         return temp;
+    }
+
+    static void deleteDirectory(final Path directory) throws IOException {
+        if (!Files.exists(directory)) {
+            return;
+        }
+        final IOException[] failure = new IOException[1];
+        Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                try {
+                    Files.delete(file);
+                } catch (IOException e) {
+                    failure[0] = e;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                failure[0] = exc;
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                if (exc != null) {
+                    failure[0] = exc;
+                }
+                try {
+                    Files.delete(dir);
+                } catch (IOException e) {
+                    failure[0] = e;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        if (failure[0] != null) {
+            throw failure[0];
+        }
     }
 }
