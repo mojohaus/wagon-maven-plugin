@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -116,24 +117,26 @@ public class DefaultMavenRepoMerger implements MavenRepoMerger {
     private void mergeMetadata(File existingMetadata, Log logger) throws IOException, XmlPullParserException {
         File stagedMetadataFile = new File(existingMetadata.getParentFile(), MAVEN_METADATA);
 
-        try (Reader existingMetadataReader = new FileReader(existingMetadata);
-                FileWriter stagedMetadataWriter = new FileWriter(stagedMetadataFile);
-                FileReader reader = new FileReader(stagedMetadataFile)) {
-            // Existing Metadata in target stage
+        try {
             MetadataXpp3Reader xppReader = new MetadataXpp3Reader();
-            Metadata existing = xppReader.read(existingMetadataReader);
+            Metadata existing;
+            Metadata staged;
 
-            // Staged Metadata
-            Metadata staged = xppReader.read(reader);
+            // Read both files before opening the writer: constructing FileWriter truncates the
+            // staged file, which would leave the second read with no data at all.
+            try (Reader existingMetadataReader = new FileReader(existingMetadata);
+                    Reader stagedMetadataReader = new FileReader(stagedMetadataFile)) {
+                existing = xppReader.read(existingMetadataReader);
+                staged = xppReader.read(stagedMetadataReader);
+            }
 
-            // Merge and write back to staged metadata to replace the remote one
             existing.merge(staged);
 
-            MetadataXpp3Writer metadataXpp3Writer = new MetadataXpp3Writer();
-            metadataXpp3Writer.write(stagedMetadataWriter, existing);
+            try (Writer stagedMetadataWriter = new FileWriter(stagedMetadataFile)) {
+                new MetadataXpp3Writer().write(stagedMetadataWriter, existing);
+            }
 
             logger.info("Merging metadata file: " + stagedMetadataFile);
-
         } finally {
             existingMetadata.delete();
         }
