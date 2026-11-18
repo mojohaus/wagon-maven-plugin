@@ -10,7 +10,7 @@ what the code and the POMs do not make obvious.
   `Abstract*Mojo` base classes; the work is done by the components in `shared`
   (`DefaultWagonDownload`, `DefaultWagonUpload`, `DefaultWagonCopy`, `DefaultMavenRepoMerger`),
   which are exposed through `WagonFactory`.
-- The site is built from `src/site` (`apt` pages and the FAQ in `fml`).
+- The site is built from `src/site/markdown`.
 - `src/it` is a set of example projects for manual runs, described in `src/it/readme.txt`. No
   build runs them.
 
@@ -26,8 +26,10 @@ what the code and the POMs do not make obvious.
 
 ## Tests
 
-- There are no unit tests. The tests are the `*IT` classes in `src/test/java`, JUnit 5 tests that
-  maven-failsafe-plugin runs in `integration-test`, so `mvn verify` runs them.
+- There are two JUnit 5 unit test classes in `src/test/java`, `DefaultMavenRepoMergerTest` and
+  `DefaultWagonDownloadTest`, which maven-surefire-plugin runs in `test`. The rest are the `*IT`
+  classes, JUnit 5 tests that maven-failsafe-plugin runs in `integration-test`, so `mvn verify`
+  runs them all.
 - Each IT builds a project from `src/test/projects/<name>` with maven-executor. `AbstractMavenIT`
   copies the project to `target/it-projects/<test class>/<name>`, forks the Maven installation
   that runs the outer build (the `maven.home` property from the failsafe configuration), passes the
@@ -36,7 +38,7 @@ what the code and the POMs do not make obvious.
   installs the plugin into `target/local-repo` before that, and the forked builds use it as their
   local repository.
 - The HTTP tests (`WagonMojoHttpIT`, `WagonMojoHttpSettingsIT`, `Wagon334MojoHttpIT`) extend
-  `AbstractJettyIT`, which serves a `files` directory of the test project from an embedded Jetty
+  `AbstractHttpServerIT`, which serves a `files` directory of the test project from an embedded Jetty
   on a free `localhost` port and passes it as `-Dserver.port`. The FTP test starts an embedded Apache
   FtpServer, which `ftp-basic` reaches at `ftp://anonymous@localhost:8221`. `WagonMojoSshIT` is `@Disabled`.
 - Run a subset:
@@ -54,9 +56,9 @@ what the code and the POMs do not make obvious.
 
 ## Continuous integration and pull requests
 
-- `.github/workflows/maven.yml` calls the shared `maven-verify.yml@v5` workflow from
-  `apache/maven-gh-actions-shared`. Branches in this repository build under the push event, so look
-  at the push run for a pull request from a same-repository branch.
+- `.github/workflows/maven.yml` calls the shared `maven-verify.yml` workflow in `mojohaus/.github`.
+  Branches in this repository build under the push event, so look at the push run for a pull
+  request from a same-repository branch.
 - Pull requests are squash- or rebase-merged; merge commits are disabled. Release Drafter builds
   the release notes from the titles and labels, so the title should describe the change for a
   user.
