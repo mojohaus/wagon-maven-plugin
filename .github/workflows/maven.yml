@@ -23,9 +23,3 @@ jobs:
   build:
     name: Verify
     uses: mojohaus/.github/.github/workflows/maven-verify.yml@master
-
-#  deploy:
-#    name: Deploy
-#    needs: build
-#    uses: mojohaus/.github/.github/workflows/maven-deploy.yml@master
-#    secrets: inherit
