@@ -33,9 +33,10 @@ The Wagon Maven Plugin has the following goals.
 * [`wagon:download-single`](./download-single-mojo.html) downloads the specified file from a remote location.
 * [`wagon:download`](./download-mojo.html) downloads the specified set of files from a remote location.
 * [`wagon:list`](./list-mojo.html) lists the content of a specified location in a remote repository.
+* [`wagon:exist`](./exist-mojo.html) checks whether a resource exists in a remote repository.
 * [`wagon:copy`](./copy-mojo.html) copies a set of files under a Wagon repository to another.
-* [`wagon:merge-maven-repos`](./merge-maven-repos-mojo.html) merges , including metadata, a Maven repository to another.
-* [`wagon:sshexec`](./sshexec-mojo.html) Executes a set of commands at remote SSH host.
+* [`wagon:merge-maven-repos`](./merge-maven-repos-mojo.html) merges a Maven repository, including its metadata, into another.
+* [`wagon:sshexec`](./sshexec-mojo.html) executes a set of commands on a remote SSH host.
 
 ## Usage
 
