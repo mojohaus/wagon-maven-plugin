@@ -28,12 +28,12 @@ import org.apache.maven.wagon.WagonException;
 import org.codehaus.mojo.wagon.shared.WagonDownload;
 
 /**
- * Check for the existing of remote resource.
+ * Checks whether a remote resource exists and logs the result. The build does not fail when the resource is missing.
  */
 @Mojo(name = "exist")
 public class ExistMojo extends AbstractSingleWagonMojo {
     /**
-     * relative path to a remote resource.
+     * Path of the remote resource, relative to the {@code url}.
      */
     @Parameter(property = "wagon.resource")
     private String resource = "";

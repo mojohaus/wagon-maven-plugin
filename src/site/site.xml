@@ -14,7 +14,7 @@
   <body>
 
     <links>
-      <item name="Wagon" href="http://maven.apache.org/wagon" />
+      <item name="Wagon" href="https://maven.apache.org/wagon" />
     </links>
 
     <menu name="Overview">

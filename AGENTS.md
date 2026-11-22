@@ -10,7 +10,7 @@ what the code and the POMs do not make obvious.
   `Abstract*Mojo` base classes; the work is done by the components in `shared`
   (`DefaultWagonDownload`, `DefaultWagonUpload`, `DefaultWagonCopy`, `DefaultMavenRepoMerger`),
   which are exposed through `WagonFactory`.
-- The site is built from `src/site/markdown`.
+- The site is built from `src/site/markdown`; the goal pages come from the Javadoc of the mojos.
 - `src/it` is a set of example projects for manual runs, described in `src/it/readme.txt`. No
   build runs them.
 
@@ -20,9 +20,9 @@ what the code and the POMs do not make obvious.
   `mvn spotless:apply` after editing the README or this file.
 - The parent, `mojo-parent`, sets `maven.compiler.release` to 8, so main code must use the Java 8
   API.
-- The plugin compiles against Maven 3.9.16 (`mavenVersion`) and declares a literal
-  `<prerequisites><maven>3.9.0</maven>`; keep the two apart, so raising `mavenVersion` does not
-  raise the prerequisite.
+- The plugin compiles against the Maven 3.9.x line (`mavenVersion`) and declares a literal
+  `<prerequisites><maven>`; keep the two apart, so raising `mavenVersion` does not raise the
+  prerequisite.
 
 ## Tests
 
@@ -37,9 +37,10 @@ what the code and the POMs do not make obvious.
   on a non-zero exit code or any `[ERROR]` line. The `install` goal of maven-invoker-plugin
   installs the plugin into `target/local-repo` before that, and the forked builds use it as their
   local repository.
-- The HTTP tests (`WagonMojoHttpIT`, `WagonMojoHttpSettingsIT`, `Wagon334MojoHttpIT`) extend
-  `AbstractHttpServerIT`, which serves a `files` directory of the test project from an embedded Jetty
-  on a free `localhost` port and passes it as `-Dserver.port`. The FTP test starts an embedded Apache
+- The HTTP and WebDAV tests (`WagonMojoHttpIT`, `WagonMojoHttpSettingsIT`, `Wagon334MojoHttpIT`,
+  `WagonMojoHttpExactIT`, `WagonMojoWebDavIT`) extend `AbstractHttpServerIT`, which serves a directory
+  of the test project with the JDK's built-in HTTP server on a free `localhost` port; the tests pass
+  the port as `-Dserver.port`. The FTP test starts an embedded Apache
   FtpServer, which `ftp-basic` reaches at `ftp://anonymous@localhost:8221`. `WagonMojoSshIT` is `@Disabled`.
 - Run a subset:
 
@@ -62,4 +63,24 @@ what the code and the POMs do not make obvious.
 - Pull requests are squash- or rebase-merged; merge commits are disabled. Release Drafter builds
   the release notes from the titles and labels, so the title should describe the change for a
   user.
+
+## Documentation updates
+
+A change that users or contributors can notice ships with the documentation it affects, in the
+same pull request. A refactor with no visible effect needs none.
+
+- The goal pages are generated from the Javadoc of the mojos: describe each `@Parameter` with its
+  default, its `property` name and, for a new one, `@since`. Keep the class Javadoc of a mojo
+  accurate, because it is the goal's description in `plugin-info.html`.
+- `src/site/markdown/index.md` lists every goal and links the goal pages; add a new goal there.
+- `src/site/markdown/usage.md` holds the known limitations of the wagon providers and one example
+  per goal. Add an example for a new goal or parameter that needs more than its description.
+- `src/site/markdown/faq.md` answers recurring questions. Keep the `src/site/site.xml` menu in
+  sync when a page is added, and never rename a published page or change a heading: both are URLs
+  that readers link to.
+- Write site pages as plain Markdown, and show the plugin without a version, or with
+  `<version><!-- latest release --></version>` where a version is needed, and never a snapshot
+  version. A page that needs Velocity (`#set`, `#parse`, `$h2`) would be named `.md.vm`.
+- `README.md` states what the plugin does and its Maven and JDK floor; update it when those
+  change. Update this file when a change adds a convention, build gate or fixture.
 

@@ -10,7 +10,7 @@ to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
@@ -49,22 +49,12 @@ The following contains a list of known limitations:
   `scp:`, `ftp:` or `file:`. Only as a last resort, declare a wagon-http up to 3.4.3 (for example
   3.3.4) as a dependency of the plugin; it replaces the bundled one and still parses HTML directory listings.
   A wagon-http build extension is not used for these URLs, because the plugin's own provider takes precedence.
-* Since ftp wagon provider is not part of your maven distribution, you will need to copy
-  * wagon-ftp-beta-6.jar
-  * oro-2.0.8.jar
-  * commons-net-1.4.1.jar
-
-  to your `$MAVEN_HOME/lib` directory.
 * *list* and *download* work over `dav:http(s)://` with the *wagon-webdav-jackrabbit* provider
   (`org.apache.maven.wagon:wagon-webdav-jackrabbit`), declared as a build extension or as a dependency of the
   plugin. They did not work with the older Slide based *wagon-webdav* provider.
 * *list* and *download* goals are very slow since it needs to scan the remote file system.
   So use *includes* and *excludes* wisely to limit the search. For example: includes=\*\*/somefile
   scans the entire remote source tree.
-* **This plugin does not work with Maven 3.0.x and 3.1.x out of the box** due to missing the following libraries in
-  it distribution: commons-io-2.x, common-lang-2.x, and jsoup-1.x. You can invoke wagon:update-maven-3
-  to add the missing files to `$MAVEN_HOME/lib`.
-  See [WAGON-407](https://jira.codehaus.org/browse/WAGON-407) for details
 
 The following contains a couple of usage examples.
 Live examples are available in [Git](https://github.com/mojohaus/wagon-maven-plugin/tree/master/src/it)
@@ -81,7 +71,7 @@ Configuration example to upload
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>${wagonApiVersion}</version>
+        <version><!-- latest release --></version>
       </extension>
     </extensions>
 
@@ -89,7 +79,6 @@ Configuration example to upload
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>upload-javadoc</id>
@@ -124,7 +113,6 @@ Configuration example to download
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>${wagonApiVersion}</version>
       </extension>
     </extensions>
 
@@ -132,7 +120,6 @@ Configuration example to download
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>download-test-data</id>
@@ -143,7 +130,7 @@ Configuration example to download
             <configuration>
               <serverId>atlassian-public</serverId>
               <url>dav:https://maven.atlassian.com/public</url>
-              <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${pom.version}</fromDir>
+              <fromDir>com/atlassian/jira/plugins/jira-plugin-test-resources/${project.version}</fromDir>
               <toDir>target/test-data</toDir>
             </configuration>
           </execution>
@@ -155,22 +142,47 @@ Configuration example to download
 </project>
 ```
 
+Configuration example to download known files without listing the directory
+---------------------------------------------------------------------------
+
+When every entry of `includes` is an exact path relative to `fromDir`, with no `*` or `?` and no trailing slash,
+the *download* goal fetches those files directly and does not scan the remote directory. This works over plain
+`http(s):` URLs, where a directory cannot be listed. A file that does not exist is skipped with a warning.
+
+```sh
+mvn wagon:download -Dwagon.url=https://repo.maven.apache.org/maven2 \
+   -Dwagon.fromDir=org/apache/maven/plugins/maven-clean-plugin/3.2.0 \
+   -Dwagon.includes=maven-clean-plugin-3.2.0.pom,maven-clean-plugin-3.2.0.jar \
+   -Dwagon.toDir=target/downloads
+```
+
+Configuration example to check that a resource exists
+-----------------------------------------------------
+
+The *exist* goal logs whether a resource exists below the URL. It reports the result and does not fail the build
+when the resource is missing. It needs a project, so run it in a directory with a `pom.xml`.
+
+```sh
+mvn wagon:exist -Dwagon.url=https://repo.maven.apache.org/maven2 \
+   -Dwagon.resource=org/apache/maven/plugins/maven-clean-plugin/3.2.0/maven-clean-plugin-3.2.0.pom
+```
+
 Configuration example to merge Maven repositories
 -------------------------------------------------
 
 ```sh
-  mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:merge-maven-repos \
-     -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
-     -Dwagon.target=scp://localhost/$LOGNAME/maven-repo
+mvn wagon:merge-maven-repos \
+   -Dwagon.source=https://repo.example.com/staging-repo \
+   -Dwagon.target=scp://localhost/$LOGNAME/maven-repo
 ```
 
 Configuration example to copy files under one URL to another URL
 ----------------------------------------------------------------
 
 ```sh
-  mvn org.codehaus.mojo:wagon-maven-plugin:${project.version}:copy \
-     -Dwagon.source=http://people.apache.org/~olamy/staging-repo \
-     -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
+mvn wagon:copy \
+   -Dwagon.source=https://repo.example.com/staging-repo \
+   -Dwagon.target=scp://localhost/home/$LOGNAME/maven-repo
 ```
 
 Configuration example to execute commands
@@ -187,7 +199,6 @@ build extension.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>execute-test-commands</id>
@@ -213,3 +224,4 @@ build extension.
   [...]
 </project>
 ```
+
