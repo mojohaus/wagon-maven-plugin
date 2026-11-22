@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,11 +28,15 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class AbstractHttpServerIT extends AbstractMavenIT {
     private HttpServer server;
 
+    /** The {@code Authorization} header of each request received, in order; {@code null} where it was absent. */
+    protected final List<String> authorizationHeaders = new CopyOnWriteArrayList<>();
+
     @BeforeEach
     public void startServer() throws IOException {
         Path root = getDirectoryToServe().toAbsolutePath().normalize();
         server = HttpServer.create(new InetSocketAddress(0), 0);
         server.createContext("/", exchange -> {
+            authorizationHeaders.add(exchange.getRequestHeaders().getFirst("Authorization"));
             try {
                 serve(root, exchange);
             } finally {
