@@ -41,7 +41,9 @@ what the code and the POMs do not make obvious.
   `WagonMojoHttpExactIT`, `WagonMojoWebDavIT`) extend `AbstractHttpServerIT`, which serves a directory
   of the test project with the JDK's built-in HTTP server on a free `localhost` port; the tests pass
   the port as `-Dserver.port`. The FTP test starts an embedded Apache
-  FtpServer, which `ftp-basic` reaches at `ftp://anonymous@localhost:8221`. `WagonMojoSshIT` is `@Disabled`.
+  FtpServer, which `ftp-basic` reaches at `ftp://anonymous@localhost:8221`.
+  `WagonMojoHttpSettingsIT` also checks, through `AbstractHttpServerIT#authorizationHeaders`, that the
+  `usePreemptive` setting from `settings.xml` reaches the request.
 - Run a subset:
 
   ```shell
