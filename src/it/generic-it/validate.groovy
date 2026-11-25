@@ -1,1 +1,1 @@
-assert new File(basedir, 'target/it/scp-download/pom.xml').exists();
+assert new File(basedir, 'target/it/scp-download/pom.xml').exists()
